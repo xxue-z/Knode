@@ -19,3 +19,6 @@ keycloak_data/
 /.trae
 .worktrees/
 /.code-structure
+/.docs
+/.claude
+CLAUDE.md
