@@ -6,9 +6,23 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **知维（Knode）** 是一款以手机为核心的个人知识管理 Flutter 应用，融合 Wiki 文档管理、AI 智能问答（RAG）、智能题库与测验、手机端微服务四大能力。
 
+## ① 角色分工
+- **Claude（我）—— 架构师/项目经理**：需求分析、架构设计、任务拆分、代码审核、Git管理。**绝不亲自写代码**，所有编码任务委派给Codex。
+- **Codex —— 主力开发**：负责所有服务端、客户端代码、数据库、单元测试。
+
+## ② 任务委派机制
+向Codex下达任务时，使用以下标准格式：
+`codex-plugin-cc插件让codex执行 "根据以下要求生成代码：[清晰的指令，如：创建文件 lib/models/document.dart，实现Document数据模型，字段包括...]"`
+所有Codex返回的代码，必须经过我的审查后才能合并。
+
+## ③ Git 规范
+- 分支策略：`feature/<task-name>`
+- 提交信息：`<类型>：<描述>`，类型: feat/fix/docs/refactor/chore
+- 禁止：force push、修改已push历史
+
 ## 技术栈
 
-- **框架**: Flutter 3.x（跨平台）
+- **框架**: Flutter 3.x（跨平台）主要开发Android，预留IOS
 - **本地数据库**: SQLite（sqflite）
 - **向量数据库**: sqlite-vec，用于本地 RAG 语义检索（可选）
 - **AI 抽象层**: 可插拔 AIProvider 接口
