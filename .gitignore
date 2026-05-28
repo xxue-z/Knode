@@ -1,0 +1,21 @@
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+logs/
+
+# Database
+*.db
+*.sqlite3
+
+# Keycloak
+keycloak_data/
+/.claude/settings.local.json
+/.traces
+/.trae
+.worktrees/
+/.code-structure
