@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'archive_dialog.dart';
 
 /// Chat page skeleton for P2 implementation.
 ///
@@ -9,6 +10,139 @@ import 'package:flutter/material.dart';
 /// and a functional text/voice input field.
 class ChatPage extends StatelessWidget {
   const ChatPage({super.key});
+
+  void _showConversationMenu(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (_) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: const Icon(Icons.history),
+              title: const Text('历史会话'),
+              onTap: () {
+                Navigator.pop(context);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('历史会话功能开发中')),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.archive_outlined),
+              title: const Text('归档为笔记'),
+              onTap: () {
+                Navigator.pop(context);
+                showDialog(
+                  context: context,
+                  builder: (_) => const ArchiveDialog(
+                    conversationId: 0,
+                    conversationTitle: '当前会话',
+                    messages: [],
+                  ),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.delete_outline),
+              title: const Text('清空对话'),
+              onTap: () {
+                Navigator.pop(context);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('清空对话功能开发中')),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _showAttachmentPicker(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (_) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: const Icon(Icons.image_outlined),
+              title: const Text('图片'),
+              onTap: () {
+                Navigator.pop(context);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('图片选择功能开发中')),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.insert_drive_file_outlined),
+              title: const Text('文档'),
+              onTap: () {
+                Navigator.pop(context);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('文档选择功能开发中')),
+                );
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.link),
+              title: const Text('链接'),
+              onTap: () {
+                Navigator.pop(context);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('链接粘贴功能开发中')),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _startVoiceInput(BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('语音输入功能需在真机上使用')),
+    );
+  }
+
+  void _showMessageInput(BuildContext context) {
+    final controller = TextEditingController();
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('发送消息'),
+        content: TextField(
+          controller: controller,
+          autofocus: true,
+          maxLines: 4,
+          decoration: const InputDecoration(
+            hintText: '输入消息...',
+            border: OutlineInputBorder(),
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('取消'),
+          ),
+          FilledButton(
+            onPressed: () {
+              Navigator.pop(ctx);
+              if (controller.text.isNotEmpty) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('消息发送功能需连接 AIProvider')),
+                );
+              }
+            },
+            child: const Text('发送'),
+          ),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,9 +158,7 @@ class ChatPage extends StatelessWidget {
             actions: [
               IconButton(
                 icon: const Icon(Icons.more_vert),
-                onPressed: () {
-                  // TODO(P2): Show conversation settings / history menu.
-                },
+                onPressed: () => _showConversationMenu(context),
               ),
             ],
           ),
@@ -109,9 +241,7 @@ class _InputBarPlaceholder extends StatelessWidget {
           children: [
             IconButton(
               icon: const Icon(Icons.add_circle_outline),
-              onPressed: () {
-                // TODO(P2): Attachment picker.
-              },
+              onPressed: () => _showAttachmentPicker(context),
               tooltip: '添加附件',
             ),
             const SizedBox(width: 8),
@@ -134,16 +264,12 @@ class _InputBarPlaceholder extends StatelessWidget {
             const SizedBox(width: 8),
             IconButton(
               icon: const Icon(Icons.mic_outlined),
-              onPressed: () {
-                // TODO(P2): Voice input via speech_to_text.
-              },
+              onPressed: () => _startVoiceInput(context),
               tooltip: '语音输入',
             ),
             IconButton(
               icon: const Icon(Icons.send_outlined),
-              onPressed: () {
-                // TODO(P2): Send message to AIProvider.
-              },
+              onPressed: () => _showMessageInput(context),
               tooltip: '发送',
             ),
           ],

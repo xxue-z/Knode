@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../settings/settings_page.dart';
 
 class PersonalDrawer extends StatelessWidget {
   const PersonalDrawer({super.key});
@@ -12,7 +13,7 @@ class PersonalDrawer extends StatelessWidget {
       child: SafeArea(
         child: Column(
           children: [
-            // ©¤©¤ Header ©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤
+            // ï¿½ï¿½ï¿½ï¿½ Header ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             DrawerHeader(
               decoration: BoxDecoration(
                 color: colorScheme.primaryContainer,
@@ -47,7 +48,7 @@ class PersonalDrawer extends StatelessWidget {
               ),
             ),
 
-            // ©¤©¤ Body (placeholder items) ©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤
+            // ï¿½ï¿½ï¿½ï¿½ Body (placeholder items) ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             Expanded(
               child: ListView(
                 padding: EdgeInsets.zero,
@@ -85,19 +86,14 @@ class PersonalDrawer extends StatelessWidget {
               ),
             ),
 
-            // ©¤©¤ Settings (fixed at bottom) ©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤
+            // ï¿½ï¿½ï¿½ï¿½ Settings (fixed at bottom) ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             const Divider(height: 1),
             ListTile(
               leading: const Icon(Icons.settings_rounded),
               title: const Text('Settings'),
               onTap: () {
                 Navigator.pop(context);
-                // TODO(P1): Navigate to settings page
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Settings page coming in P1'),
-                  ),
-                );
+                Navigator.push(context, MaterialPageRoute(builder: (_) => const SettingsPage()));
               },
             ),
           ],

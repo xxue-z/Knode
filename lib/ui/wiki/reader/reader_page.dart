@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../providers/document_provider.dart';
 import '../../../services/tts_service.dart';
+import '../../../providers/service_providers.dart';
 
 /// 沉浸式阅读页面。
 ///
@@ -118,7 +119,7 @@ class _ReaderPageState extends ConsumerState<ReaderPage> {
               ),
               onTap: () {
                 Navigator.pop(context);
-                // TODO: AI讲解功能
+                _explainWithAI(selectedText);
               },
             ),
             ListTile(
@@ -131,7 +132,7 @@ class _ReaderPageState extends ConsumerState<ReaderPage> {
               ),
               onTap: () {
                 Navigator.pop(context);
-                // TODO: 生成题目功能
+                _generateQuizFromText(selectedText);
               },
             ),
             ListTile(
@@ -153,6 +154,86 @@ class _ReaderPageState extends ConsumerState<ReaderPage> {
 
   String _truncate(String text, int max) {
     return text.length > max ? '${text.substring(0, max)}...' : text;
+  }
+
+  Future<void> _explainWithAI(String selectedText) async {
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('正在生成 AI 讲解...')),
+    );
+    try {
+      final aiProvider = ref.read(aiProviderRef);
+      final response = await aiProvider.generateAnswer(
+        query: '请用简洁的中文讲解以下内容：\n\n$selectedText',
+        contextDocs: [selectedText],
+        systemPrompt: '你是一位专业的知识讲解助手，请用通俗易懂的语言解释用户选中的内容。',
+      );
+      if (mounted) {
+        showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+            title: const Text('AI 讲解'),
+            content: SingleChildScrollView(child: Text(response.answer)),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(ctx),
+                child: const Text('关闭'),
+              ),
+            ],
+          ),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('AI 讲解失败: $e')),
+        );
+      }
+    }
+  }
+
+  Future<void> _generateQuizFromText(String selectedText) async {
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('正在生成题目...')),
+    );
+    try {
+      final aiProvider = ref.read(aiProviderRef);
+      final result = await aiProvider.generateQuiz(
+        content: selectedText,
+        minCount: 2,
+        maxCount: 5,
+      );
+      if (mounted) {
+        showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+            title: const Text('生成的题目'),
+            content: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: result.questions.asMap().entries.map((e) => Padding(
+                  padding: const EdgeInsets.only(bottom: 12),
+                  child: Text('${e.key + 1}. ${e.value.stem}'),
+                )).toList(),
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(ctx),
+                child: const Text('关闭'),
+              ),
+            ],
+          ),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('题目生成失败: $e')),
+        );
+      }
+    }
   }
 
   @override

@@ -64,8 +64,10 @@ class _BackupSettingsPageState extends ConsumerState<BackupSettingsPage> {
     setState(() => _isBacking = true);
     _configure();
     try {
-      // TODO: 从 settings 读取 dbPath 和 wikiRoot
-      await _backupService.backup(dbPath: 'knode.db', wikiRoot: 'wiki_root');
+      final s = ref.read(settingsProvider).valueOrNull ?? {};
+      final dbPath = s['db_path'] ?? 'knode.db';
+      final wikiRoot = s['wiki_root'] ?? 'wiki_root';
+      await _backupService.backup(dbPath: dbPath, wikiRoot: wikiRoot);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('备份完成'), backgroundColor: Colors.green),
@@ -98,7 +100,10 @@ class _BackupSettingsPageState extends ConsumerState<BackupSettingsPage> {
     setState(() => _isRestoring = true);
     _configure();
     try {
-      await _backupService.restore(dbPath: 'knode.db', wikiRoot: 'wiki_root');
+      final s = ref.read(settingsProvider).valueOrNull ?? {};
+      final dbPath = s['db_path'] ?? 'knode.db';
+      final wikiRoot = s['wiki_root'] ?? 'wiki_root';
+      await _backupService.restore(dbPath: dbPath, wikiRoot: wikiRoot);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('恢复完成'), backgroundColor: Colors.green),

@@ -19,6 +19,7 @@ class VectorStoreService {
 
   Future<void> deleteByDoc(int docId) async {
     await _db.delete('doc_vectors', where: 'doc_id = ?', whereArgs: [docId]);
+    await _db.delete('doc_chunks', where: 'doc_id = ?', whereArgs: [docId]);
   }
 
   Future<List<VectorSearchResult>> search(List<double> queryEmbedding, {int topK = 5}) async {

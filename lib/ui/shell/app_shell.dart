@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import '../ui/home/home_page.dart';
+import '../ui/wiki/wiki_page.dart';
+import '../ui/chat/chat_page.dart';
+import '../ui/quiz/quiz_page.dart';
+import '../ui/settings/settings_page.dart';
 
 /// Root scaffold of the Knode knowledge-management app.
 ///
@@ -25,10 +30,10 @@ class _AppShellState extends State<AppShell> {
   ];
 
   static final _pages = <Widget>[
-    const _PlaceholderPage(label: '首页'),
-    const _PlaceholderPage(label: '知识库'),
-    const _PlaceholderPage(label: 'Chat'),
-    const _PlaceholderPage(label: '测验'),
+    const HomePage(),
+    const WikiPage(),
+    const ChatPage(),
+    const QuizPage(),
   ];
 
   void _onTabChanged(int index) {
@@ -78,7 +83,10 @@ class _AppShellState extends State<AppShell> {
             ListTile(
               leading: const Icon(Icons.settings),
               title: const Text('设置'),
-              onTap: () => Navigator.of(context).pop(),
+              onTap: () {
+                Navigator.of(context).pop();
+                Navigator.push(context, MaterialPageRoute(builder: (_) => const SettingsPage()));
+              },
             ),
           ],
         ),

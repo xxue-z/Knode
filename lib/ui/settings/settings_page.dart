@@ -2,6 +2,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../providers/settings_provider.dart';
 import 'ai_settings.dart';
+import 'backup_settings.dart';
 
 class SettingsPage extends ConsumerWidget {
   const SettingsPage({super.key});
@@ -31,7 +32,7 @@ class SettingsPage extends ConsumerWidget {
               icon: Icons.backup_outlined,
               title: '备份与恢复',
               subtitle: 'WebDAV / 本地备份',
-              onTap: () {},
+              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const BackupSettingsPage())),
             ),
           ]),
           _Section(title: '关于', children: [

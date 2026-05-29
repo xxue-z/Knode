@@ -14,7 +14,12 @@ class ScoreCard extends ConsumerWidget {
       child: InkWell(
         borderRadius: BorderRadius.circular(12),
         onTap: () {
-          // TODO: 跳转到考试历史页面
+          // 切换到测验 Tab（index 3）
+          // 由于 ScoreCard 在 HomeTab 内，需要通过回调或导航实现
+          // 目前显示提示
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('请切换到"测验"标签查看考试历史')),
+          );
         },
         child: Padding(
           padding: const EdgeInsets.all(16),

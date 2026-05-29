@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../data/models/question.dart';
+import '../../wiki/reader/reader_page.dart';
 
 /// 成绩展示页面，显示总分、每题得分，可点击查看源文档。
 class ResultPage extends ConsumerWidget {
@@ -94,10 +95,20 @@ class ResultPage extends ConsumerWidget {
                         icon: const Icon(Icons.open_in_new),
                         tooltip: '查看源文档',
                         onPressed: () {
-                          // TODO: 跳转到源文档阅读页
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('源文档跳转功能开发中')),
-                          );
+                          // 解析第一个关联文档 ID
+                          final ids = q.sourceFileIds!.split(',').map(int.tryParse).whereType<int>().toList();
+                          if (ids.isNotEmpty) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => ReaderPage(docId: ids.first),
+                              ),
+                            );
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('无关联文档')),
+                            );
+                          }
                         },
                       )
                     : null,

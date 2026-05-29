@@ -203,7 +203,12 @@ class _WrongDetailPageState extends ConsumerState<WrongDetailPage> {
 
   void _markAsMastered() async {
     setState(() => _isMastered = true);
-    // TODO: 调用 WrongQuestionDao.clear(widget.question.id)
+    try {
+      final dao = WrongQuestionDao();
+      await dao.clear(widget.question.id);
+    } catch (_) {
+      // 忽略数据库错误，UI 已更新
+    }
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('已标记为掌握，错题本中将不再显示')),

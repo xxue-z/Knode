@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../providers/conversation_provider.dart';
 import '../../providers/category_provider.dart';
+import '../../providers/service_providers.dart';
 import '../../data/repositories/conversation_repository.dart';
 import '../../data/models/document.dart';
 
@@ -33,10 +34,24 @@ class _ArchiveDialogState extends ConsumerState<ArchiveDialog> {
         buffer.writeln('$role：${msg['content']}\n');
       }
 
-      // TODO: 调用 SummarizerAgent 生成摘要
-      final summary = widget.messages.length > 3
-          ? '会话共 ${widget.messages.length} 条消息'
-          : '';
+      // 使用 AI 生成摘要
+      String summary = '';
+      if (widget.messages.length > 3) {
+        try {
+          final aiProvider = ref.read(aiProviderRef);
+          final conversationText = widget.messages
+              .map((m) => '${m['role'] == 'user' ? '用户' : 'AI'}: ${m['content']}')
+              .join('\n');
+          final response = await aiProvider.summarize(
+            content: conversationText,
+            maxLength: 200,
+            systemPrompt: '请用简洁的中文总结以下对话内容，不超过200字。',
+          );
+          summary = response;
+        } catch (_) {
+          summary = '会话共 ${widget.messages.length} 条消息';
+        }
+      }
 
       if (mounted) {
         Navigator.of(context).pop({

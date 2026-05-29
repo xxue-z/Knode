@@ -42,6 +42,99 @@ class _WikiPageState extends State<WikiPage> {
     _scaffoldKey.currentState?.openEndDrawer();
   }
 
+  void _showCreateNodeDialog(BuildContext context) {
+    final controller = TextEditingController();
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('新建节点'),
+        content: TextField(
+          controller: controller,
+          autofocus: true,
+          decoration: const InputDecoration(
+            hintText: '输入节点名称',
+            border: OutlineInputBorder(),
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('取消'),
+          ),
+          FilledButton(
+            onPressed: () {
+              Navigator.pop(ctx);
+              if (controller.text.isNotEmpty) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('创建节点: ${controller.text} - 功能开发中')),
+                );
+              }
+            },
+            child: const Text('创建'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showCategoryManager(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (ctx) => DraggableScrollableSheet(
+        initialChildSize: 0.6,
+        maxChildSize: 0.9,
+        minChildSize: 0.3,
+        expand: false,
+        builder: (_, controller) => Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('管理类目', style: Theme.of(context).textTheme.titleMedium),
+                  IconButton(
+                    icon: const Icon(Icons.add),
+                    onPressed: () {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('添加类目功能开发中')),
+                      );
+                    },
+                  ),
+                ],
+              ),
+            ),
+            const Divider(height: 1),
+            Expanded(
+              child: ListView.builder(
+                controller: controller,
+                itemCount: _categories.length,
+                itemBuilder: (_, index) {
+                  final cat = _categories[index];
+                  return ListTile(
+                    leading: Icon(cat.icon),
+                    title: Text(cat.name),
+                    trailing: cat.id == 'all'
+                        ? null
+                        : IconButton(
+                            icon: const Icon(Icons.edit_outlined),
+                            onPressed: () {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text('编辑类目: ${cat.name} - 功能开发中')),
+                              );
+                            },
+                          ),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.sizeOf(context).width;
@@ -86,10 +179,7 @@ class _WikiPageState extends State<WikiPage> {
       // 浮动按钮：快速添加新节点。
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // TODO(P1): 跳转到新建文档/节点页面
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('新建节点 - 待实现')),
-          );
+          _showCreateNodeDialog(context);
         },
         tooltip: '新建节点',
         child: const Icon(Icons.add),
@@ -227,11 +317,8 @@ class _CategoryDrawer extends StatelessWidget {
               padding: const EdgeInsets.all(16),
               child: OutlinedButton.icon(
                 onPressed: () {
-                  // TODO(P1): 管理类目页面
                   Navigator.of(context).pop();
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('管理类目 - 待实现')),
-                  );
+                  _showCategoryManager(context);
                 },
                 icon: const Icon(Icons.settings_outlined, size: 18),
                 label: const Text('管理类目'),

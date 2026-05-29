@@ -185,6 +185,39 @@ class _QuizTypeCard extends StatelessWidget {
 
   final _QuizTypeData data;
 
+  void _navigateToExam(BuildContext context) {
+    // 根据测验类型确定 examType
+    String examType;
+    switch (data.label) {
+      case '每日一测':
+        examType = 'daily';
+        break;
+      case '随机速记':
+        examType = 'random';
+        break;
+      case '月考':
+        examType = 'monthly';
+        break;
+      case '季考':
+        examType = 'quarterly';
+        break;
+      case '年考':
+        examType = 'yearly';
+        break;
+      case '错题重练':
+        examType = 'review';
+        break;
+      default:
+        examType = 'random';
+    }
+
+    // TODO: 需要先通过 examProvider 创建考试，再导航到 ExamPage
+    // 目前显示提示，等 examProvider 完善后实现完整导航
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('${data.label}（$examType）- 功能开发中')),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
@@ -193,12 +226,7 @@ class _QuizTypeCard extends StatelessWidget {
     return Card(
       clipBehavior: Clip.antiAlias,
       child: InkWell(
-        onTap: () {
-          // TODO(P3): 导航到对应测验类型页面
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('${data.label} - 即将开放')),
-          );
-        },
+        onTap: () => _navigateToExam(context),
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Column(

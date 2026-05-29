@@ -42,9 +42,11 @@ class QuickCard extends ConsumerWidget {
 
   void _startQuickQuiz(BuildContext context, WidgetRef ref) {
     ref.read(quizProvider.notifier).startQuiz(count: 10);
-    // TODO: 跳转到 ExamPage
+    // 切换到测验 Tab 开始答题
+    // 由于 QuickCard 在 HomeTab 内，需要通过回调或导航实现
+    // 目前显示提示，等 ExamPage 与 QuizProvider 完整对接后实现
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('速记已开始，正在加载题目...')),
+      const SnackBar(content: Text('速记已开始，请切换到"测验"标签查看')),
     );
   }
 }
