@@ -8,6 +8,8 @@ class VectorStoreService {
   Future<void> createTable() async {
     await _db.execute('CREATE TABLE IF NOT EXISTS doc_vectors (id INTEGER PRIMARY KEY AUTOINCREMENT, doc_id INTEGER NOT NULL, chunk_index INTEGER DEFAULT 0, embedding TEXT NOT NULL)');
     await _db.execute('CREATE INDEX IF NOT EXISTS idx_doc_vectors_doc_id ON doc_vectors(doc_id)');
+    await _db.execute('CREATE TABLE IF NOT EXISTS doc_chunks (id INTEGER PRIMARY KEY AUTOINCREMENT, doc_id INTEGER NOT NULL, chunk_index INTEGER NOT NULL, text TEXT NOT NULL, tfidf_json TEXT, UNIQUE(doc_id, chunk_index))');
+    await _db.execute('CREATE INDEX IF NOT EXISTS idx_doc_chunks_doc_id ON doc_chunks(doc_id)');
   }
 
   Future<void> insert(int docId, int chunkIndex, List<double> embedding) async {
