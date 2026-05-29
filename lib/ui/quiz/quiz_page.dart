@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../providers/exam_provider.dart';
+import 'exam/exam_page.dart';
 
 /// 测验页面骨架
 ///
@@ -180,53 +183,74 @@ class _QuizGrid extends StatelessWidget {
   }
 }
 
-class _QuizTypeCard extends StatelessWidget {
+class _QuizTypeCard extends ConsumerWidget {
   const _QuizTypeCard({required this.data});
 
   final _QuizTypeData data;
 
-  void _navigateToExam(BuildContext context) {
-    // 根据测验类型确定 examType
-    String examType;
+  String _getExamType() {
     switch (data.label) {
       case '每日一测':
-        examType = 'daily';
-        break;
+        return 'daily';
       case '随机速记':
-        examType = 'random';
-        break;
+        return 'random';
       case '月考':
-        examType = 'monthly';
-        break;
+        return 'monthly';
       case '季考':
-        examType = 'quarterly';
-        break;
+        return 'quarterly';
       case '年考':
-        examType = 'yearly';
-        break;
+        return 'yearly';
       case '错题重练':
-        examType = 'review';
-        break;
+        return 'review';
       default:
-        examType = 'random';
+        return 'random';
     }
+  }
 
-    // TODO: 需要先通过 examProvider 创建考试，再导航到 ExamPage
-    // 目前显示提示，等 examProvider 完善后实现完整导航
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('${data.label}（$examType）- 功能开发中')),
-    );
+  Future<void> _navigateToExam(BuildContext context, WidgetRef ref) async {
+    final examType = _getExamType();
+
+    try {
+      // 通过 examProvider 创建考试记录
+      final exam = await ref.read(examListProvider.notifier).createExam(
+        examType: examType,
+        questionCount: 10,
+        title: data.label,
+      );
+
+      // 初始化答题会话
+      ref.read(examSessionProvider.notifier).startExam(
+        exam,
+        [], // 题目会在 ExamPage 内部加载
+      );
+
+      // 导航到答题页面
+      if (context.mounted) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => ExamPage(examId: exam.id),
+          ),
+        );
+      }
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('创建考试失败: $e')),
+        );
+      }
+    }
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
 
     return Card(
       clipBehavior: Clip.antiAlias,
       child: InkWell(
-        onTap: () => _navigateToExam(context),
+        onTap: () => _navigateToExam(context, ref),
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Column(
