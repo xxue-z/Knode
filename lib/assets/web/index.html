@@ -1,0 +1,27 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Knode</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<nav>
+  <h1>Knode</h1>
+  <div id="nav-links">
+    <a href="#" class="nav-item active" data-view="docs">文档</a>
+    <a href="#" class="nav-item" data-view="quiz">答题</a>
+    <a href="#" class="nav-item" data-view="upload">传输</a>
+    <a href="#" class="nav-item" data-view="ai">AI 问答</a>
+  </div>
+</nav>
+<main id="app">
+  <div id="view-docs" class="view active"><div id="doc-list" class="card-list"></div></div>
+  <div id="view-quiz" class="view"><div id="quiz-area"></div></div>
+  <div id="view-upload" class="view"><div id="upload-area" class="card"><h2>文件传输</h2><p>将文件拖拽到此处上传</p><input type="file" id="file-input" multiple><div id="upload-status"></div></div></div>
+  <div id="view-ai" class="view"><div id="chat-area"><div id="chat-messages"></div><div class="chat-input-row"><input type="text" id="ai-input" placeholder="输入问题..."><button id="ai-send">发送</button></div></div></div>
+</main>
+<script src="app.js"></script>
+</body>
+</html>
