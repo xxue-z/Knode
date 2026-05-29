@@ -1,8 +1,12 @@
-﻿import 'dart:convert';
+import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'ai_provider.dart';
 import '../data/models/intent_result.dart';
 
+/// AIProvider 的云端实现，通过 dio 调用兼容 OpenAI 格式的 API。
+///
+/// 每个方法接受可选的 [systemPrompt] 参数。如果由 Agent 通过 PromptManager 加载模板后传入，
+/// 则使用传入的提示词；否则使用方法内置的默认提示词。
 class CloudAIProvider implements AIProvider {
   final String baseUrl;
   final String apiKey;
@@ -32,17 +36,23 @@ class CloudAIProvider implements AIProvider {
   }
 
   @override
-  Future<AIResponse> generateAnswer({required String query, required List<String> contextDocs, List<Map<String, String>> history = const []}) async {
+  Future<AIResponse> generateAnswer({
+    required String query,
+    required List<String> contextDocs,
+    List<Map<String, String>> history = const [],
+    String? systemPrompt,
+  }) async {
     final contextStr = contextDocs.asMap().entries.map((e) => '[${e.key + 1}] ${e.value}').join('\n\n');
+    final defaultPrompt = '你是知识库问答助手。根据以下上下文回答问题，引用时标注[1][2]等角标。\n\n上下文:\n$contextStr';
     final msgs = <Map<String, String>>[
-      {'role': 'system', 'content': '你是知识库问答助手。根据以下上下文回答问题，引用时标注[1][2]等角标。\n\n上下文:\n$contextStr'},
+      {'role': 'system', 'content': systemPrompt ?? defaultPrompt},
       ...history.map((h) => {'role': h['role'] ?? 'user', 'content': h['content'] ?? ''}),
       {'role': 'user', 'content': query},
     ];
     final result = await _chat(msgs);
     final content = result['content'] as String? ?? '';
 
-    // 解析引用标记 [1][2] 等，提取引用的文档索引
+    // 解析引用标记 [1][2] 等
     final citationPattern = RegExp(r'\[(\d+)\]');
     final citationMatches = citationPattern.allMatches(content);
     final citationIndices = <int>{};
@@ -53,7 +63,6 @@ class CloudAIProvider implements AIProvider {
       }
     }
 
-    // 构建引用列表
     final citations = <CitationRef>[];
     for (final idx in citationIndices) {
       final docTitle = contextDocs[idx].split(' ').first;
@@ -64,9 +73,15 @@ class CloudAIProvider implements AIProvider {
   }
 
   @override
-  Future<QuizGenerationResult> generateQuiz({required String content, required int minCount, required int maxCount}) async {
+  Future<QuizGenerationResult> generateQuiz({
+    required String content,
+    required int minCount,
+    required int maxCount,
+    String? systemPrompt,
+  }) async {
+    final defaultPrompt = '你是出题专家。根据内容生成 $minCount-$maxCount 道题，返回 JSON 数组，每题含 type/stem/options/answer/explanation/difficulty 字段。';
     final msgs = [
-      {'role': 'system', 'content': '你是出题专家。根据内容生成 $minCount-$maxCount 道题，返回 JSON 数组，每题含 type/stem/options/answer/explanation/difficulty 字段。'},
+      {'role': 'system', 'content': systemPrompt ?? defaultPrompt},
       {'role': 'user', 'content': content},
     ];
     final result = await _chat(msgs);
@@ -80,10 +95,15 @@ class CloudAIProvider implements AIProvider {
   }
 
   @override
-  Future<IntentResult> analyzeIntent({required String text, List<String> existingFiles = const []}) async {
+  Future<IntentResult> analyzeIntent({
+    required String text,
+    List<String> existingFiles = const [],
+    String? systemPrompt,
+  }) async {
     final filesStr = existingFiles.join(', ');
+    final defaultPrompt = '分析用户意图，返回 JSON: {type, suggestedCategory, keywords}。type 为 quiz/search/chat/summarize。已有文件: $filesStr';
     final msgs = [
-      {'role': 'system', 'content': '分析用户意图，返回 JSON: {type, suggestedCategory, keywords}。type 为 quiz/search/chat/summarize。已有文件: $filesStr'},
+      {'role': 'system', 'content': systemPrompt ?? defaultPrompt},
       {'role': 'user', 'content': text},
     ];
     final result = await _chat(msgs);
@@ -96,9 +116,14 @@ class CloudAIProvider implements AIProvider {
   }
 
   @override
-  Future<String> summarize({required String content, int maxLength = 200}) async {
+  Future<String> summarize({
+    required String content,
+    int maxLength = 200,
+    String? systemPrompt,
+  }) async {
+    final defaultPrompt = '生成摘要，不超过 $maxLength 字，输出要点列表。';
     final msgs = [
-      {'role': 'system', 'content': '生成摘要，不超过 $maxLength 字，输出要点列表。'},
+      {'role': 'system', 'content': systemPrompt ?? defaultPrompt},
       {'role': 'user', 'content': content},
     ];
     final result = await _chat(msgs);
@@ -106,9 +131,15 @@ class CloudAIProvider implements AIProvider {
   }
 
   @override
-  Future<GradeResult> gradeAnswer({required String question, required String referenceAnswer, required String userAnswer}) async {
+  Future<GradeResult> gradeAnswer({
+    required String question,
+    required String referenceAnswer,
+    required String userAnswer,
+    String? systemPrompt,
+  }) async {
+    final defaultPrompt = '评分并反馈。返回 JSON: {score, feedback}，score 为 0-100 分。';
     final msgs = [
-      {'role': 'system', 'content': '评分并反馈。返回 JSON: {score, feedback}，score 为 0-100 分。'},
+      {'role': 'system', 'content': systemPrompt ?? defaultPrompt},
       {'role': 'user', 'content': '题目: $question\n参考答案: $referenceAnswer\n用户回答: $userAnswer'},
     ];
     final result = await _chat(msgs);

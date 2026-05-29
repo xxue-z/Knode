@@ -4,6 +4,8 @@ import 'ai_provider.dart';
 import '../data/models/intent_result.dart';
 
 /// AIProvider 的本地实现，使用 llama_cpp_dart 加载 .gguf 量化模型离线推理。
+///
+/// 每个方法接受可选的 [systemPrompt] 参数，由 Agent 通过 PromptManager 加载模板后传入。
 class LocalAIProvider implements AIProvider {
   LlamaContext? _context;
   String? _modelPath;
@@ -12,7 +14,6 @@ class LocalAIProvider implements AIProvider {
   bool get isLoaded => _isLoaded;
   String? get modelPath => _modelPath;
 
-  /// 加载本地模型文件。
   Future<void> loadModel(String path) async {
     _modelPath = path;
     try {
@@ -30,7 +31,6 @@ class LocalAIProvider implements AIProvider {
     }
   }
 
-  /// 调用 LLM 生成回答。
   Future<String> _prompt(String systemPrompt, String userPrompt) async {
     _ensureLoaded();
     final messages = [
@@ -45,16 +45,14 @@ class LocalAIProvider implements AIProvider {
     required String query,
     required List<String> contextDocs,
     List<Map<String, String>> history = const [],
+    String? systemPrompt,
   }) async {
     final contextStr = contextDocs.asMap().entries
         .map((e) => '[${e.key + 1}] ${e.value}')
         .join('\n\n');
-    final answer = await _prompt(
-      '你是知识库问答助手。根据上下文回答问题，引用标注[1][2]。上下文:\n$contextStr',
-      query,
-    );
+    final defaultPrompt = '你是知识库问答助手。根据上下文回答问题，引用标注[1][2]。上下文:\n$contextStr';
+    final answer = await _prompt(systemPrompt ?? defaultPrompt, query);
 
-    // 解析引用标记
     final citationPattern = RegExp(r'\[(\d+)\]');
     final citations = <CitationRef>[];
     for (final match in citationPattern.allMatches(answer)) {
@@ -76,13 +74,11 @@ class LocalAIProvider implements AIProvider {
     required String content,
     required int minCount,
     required int maxCount,
+    String? systemPrompt,
   }) async {
-    final answer = await _prompt(
-      '你是出题专家。根据内容生成 $minCount-$maxCount 道题，返回 JSON 数组，每题含 type/stem/options/answer/explanation/difficulty 字段。',
-      content,
-    );
+    final defaultPrompt = '你是出题专家。根据内容生成 $minCount-$maxCount 道题，返回 JSON 数组，每题含 type/stem/options/answer/explanation/difficulty 字段。';
+    final answer = await _prompt(systemPrompt ?? defaultPrompt, content);
     try {
-      // 提取 JSON 部分（可能包含前后文字）
       final jsonStart = answer.indexOf('[');
       final jsonEnd = answer.lastIndexOf(']');
       if (jsonStart == -1 || jsonEnd == -1) {
@@ -100,12 +96,11 @@ class LocalAIProvider implements AIProvider {
   Future<IntentResult> analyzeIntent({
     required String text,
     List<String> existingFiles = const [],
+    String? systemPrompt,
   }) async {
     final filesStr = existingFiles.join(', ');
-    final answer = await _prompt(
-      '分析用户意图，返回 JSON: {type, suggestedCategory, keywords}。已有文件: $filesStr',
-      text,
-    );
+    final defaultPrompt = '分析用户意图，返回 JSON: {type, suggestedCategory, keywords}。已有文件: $filesStr';
+    final answer = await _prompt(systemPrompt ?? defaultPrompt, text);
     try {
       final jsonStart = answer.indexOf('{');
       final jsonEnd = answer.lastIndexOf('}');
@@ -120,8 +115,9 @@ class LocalAIProvider implements AIProvider {
   }
 
   @override
-  Future<String> summarize({required String content, int maxLength = 200}) async {
-    return await _prompt('生成摘要，不超过 $maxLength 字，输出要点列表。', content);
+  Future<String> summarize({required String content, int maxLength = 200, String? systemPrompt}) async {
+    final defaultPrompt = '生成摘要，不超过 $maxLength 字，输出要点列表。';
+    return await _prompt(systemPrompt ?? defaultPrompt, content);
   }
 
   @override
@@ -129,9 +125,11 @@ class LocalAIProvider implements AIProvider {
     required String question,
     required String referenceAnswer,
     required String userAnswer,
+    String? systemPrompt,
   }) async {
+    final defaultPrompt = '评分并反馈。返回 JSON: {score, feedback}，score 为 0-100。';
     final answer = await _prompt(
-      '评分并反馈。返回 JSON: {score, feedback}，score 为 0-100。',
+      systemPrompt ?? defaultPrompt,
       '题目: $question\n参考答案: $referenceAnswer\n用户回答: $userAnswer',
     );
     try {
@@ -155,11 +153,9 @@ class LocalAIProvider implements AIProvider {
   Future<List<double>> generateEmbedding({required String text}) async {
     _ensureLoaded();
     try {
-      // llama.cpp 支持 embedding 生成
       final embedding = await _context!.embedding(text);
       return embedding.map((e) => e.toDouble()).toList();
     } catch (_) {
-      // 如果模型不支持 embedding，返回空
       return [];
     }
   }

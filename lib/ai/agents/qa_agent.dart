@@ -5,6 +5,7 @@ import 'search_agent.dart';
 
 /// 问答 Agent，封装 RAG 问答流程。
 ///
+/// 使用 PromptManager 加载 qa_with_rag.txt 模板，
 /// 当用户启用联网搜索且当前 Provider 为 CloudAIProvider 时，
 /// 先调用 SearchAgent 检索网络结果，再合并到 RAG 上下文中。
 class QaAgent {
@@ -25,24 +26,33 @@ class QaAgent {
 
   /// 回答用户问题。
   ///
-  /// [enableSearch] 为 true 且 SearchAgent 可用时，先联网搜索再结合 RAG 结果。
+  /// 1. 通过 PromptManager 加载 qa_with_rag 模板
+  /// 2. 如果启用联网搜索，先调用 SearchAgent
+  /// 3. 通过 RAG 流水线检索知识库并生成回答
   Future<AIResponse> ask({
     required String query,
     required int conversationId,
     bool enableSearch = false,
     List<Map<String, String>> history = const [],
   }) async {
+    // 加载问答模板
+    final template = await _promptManager.loadTemplate('qa_with_rag');
+    final systemPrompt = _promptManager.render(template, {
+      'conversation_history': history.map((h) => '${h["role"]}: ${h["content"]}').join('\n'),
+    });
+
     // 联网搜索（如果启用且可用）
     List<String> searchResults = [];
     if (enableSearch && _searchAgent != null && _searchAgent.isAvailable) {
       searchResults = await _searchAgent.search(query);
     }
 
-    // RAG 问答
+    // RAG 问答（传递模板化的 systemPrompt）
     final ragResponse = await _ragService.answer(
       query: query,
       conversationId: conversationId,
       history: history,
+      systemPrompt: systemPrompt,
     );
 
     // 如果有联网搜索结果，合并到上下文中重新生成
@@ -55,6 +65,7 @@ class QaAgent {
         query: query,
         contextDocs: mergedContext,
         history: history,
+        systemPrompt: systemPrompt,
       );
     }
 

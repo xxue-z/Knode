@@ -10,8 +10,8 @@ class IntentAgent {
 
   Future<IntentResult> analyze({required String text, List<String> existingFiles = const []}) async {
     final template = await _prompt.loadTemplate('intent_analyzer');
-    final rendered = _prompt.render(template, {'text': text, 'existing_files': existingFiles.join(', ')});
-    final response = await _ai.generateAnswer(query: rendered, contextDocs: []);
+    final systemPrompt = _prompt.render(template, {'existing_files': existingFiles.join(', ')});
+    final response = await _ai.generateAnswer(query: text, contextDocs: [], systemPrompt: systemPrompt);
     try {
       final json = jsonDecode(response.answer);
       return IntentResult(

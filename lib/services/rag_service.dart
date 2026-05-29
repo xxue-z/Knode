@@ -32,6 +32,7 @@ class RagService {
     required int conversationId,
     int topK = 5,
     List<Map<String, String>> history = const [],
+    String? systemPrompt,
   }) async {
     // 1. 向量化查询
     final queryEmb = await _embeddingService.embedText(query);
@@ -40,6 +41,7 @@ class RagService {
         query: query,
         contextDocs: [],
         history: history,
+        systemPrompt: systemPrompt,
       );
     }
 
@@ -52,7 +54,6 @@ class RagService {
       seenDocIds.add(r.docId);
       final doc = await _documentDao.getById(r.docId);
       if (doc != null && doc.contentText != null) {
-        // 带引用编号的上下文格式
         contextDocs.add('[${contextDocs.length + 1}] ${doc.title}\n${doc.contentText}');
       }
     }
@@ -62,6 +63,7 @@ class RagService {
       query: query,
       contextDocs: contextDocs,
       history: history,
+      systemPrompt: systemPrompt,
     );
   }
 

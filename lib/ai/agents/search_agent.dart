@@ -1,6 +1,6 @@
-import 'dart:convert';
 import '../ai_provider.dart';
 import '../cloud_ai_provider.dart';
+import '../prompt_manager.dart';
 
 /// 联网搜索 Agent，仅 CloudAIProvider 可用。
 ///
@@ -8,32 +8,32 @@ import '../cloud_ai_provider.dart';
 /// 将搜索结果合并到 RAG 上下文中。
 class SearchAgent {
   final AIProvider _aiProvider;
+  final PromptManager _promptManager;
 
-  SearchAgent({required AIProvider aiProvider}) : _aiProvider = aiProvider;
+  SearchAgent({
+    required AIProvider aiProvider,
+    required PromptManager promptManager,
+  })  : _aiProvider = aiProvider,
+        _promptManager = promptManager;
 
   /// 当前 Provider 是否支持联网搜索（仅云端可用）。
   bool get isAvailable => _aiProvider is CloudAIProvider;
 
   /// 执行联网搜索，返回搜索结果文本列表。
-  ///
-  /// 使用 CloudAIProvider 的 API 并启用 enable_search 参数，
-  /// 模型会自动联网搜索并整合结果到回答中。
   Future<List<String>> search(String query, {int topK = 5}) async {
     if (!isAvailable) return [];
 
     try {
       final cloudProvider = _aiProvider as CloudAIProvider;
+      final template = await _promptManager.loadTemplate('search_agent');
+      final systemPrompt = _promptManager.render(template, {});
 
-      // 通过 Dio 直接调用 API，启用 enable_search
       final resp = await cloudProvider.dio.post(
         '/v1/chat/completions',
         data: {
           'model': cloudProvider.model,
           'messages': [
-            {
-              'role': 'system',
-              'content': '你是一个联网搜索助手。请搜索最新信息并返回结果，每条结果包含标题和摘要。',
-            },
+            {'role': 'system', 'content': systemPrompt},
             {'role': 'user', 'content': query},
           ],
           'stream': false,
@@ -42,8 +42,6 @@ class SearchAgent {
       );
 
       final content = resp.data['choices'][0]['message']['content'] as String? ?? '';
-
-      // 解析搜索结果（按段落分割）
       final results = content
           .split(RegExp(r'\n{2,}'))
           .where((s) => s.trim().isNotEmpty)

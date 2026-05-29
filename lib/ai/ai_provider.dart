@@ -50,12 +50,15 @@ class GradeResult {
 }
 
 /// AIProvider 抽象接口。所有 AI 调用通过此接口。
+///
+/// 每个方法接受可选的 [systemPrompt] 参数，由 Agent 通过 PromptManager 加载模板后传入。
+/// 如果不传，实现类可使用默认提示词。
 abstract class AIProvider {
-  Future<AIResponse> generateAnswer({required String query, required List<String> contextDocs, List<Map<String, String>> history = const []});
-  Future<QuizGenerationResult> generateQuiz({required String content, required int minCount, required int maxCount});
-  Future<IntentResult> analyzeIntent({required String text, List<String> existingFiles = const []});
-  Future<String> summarize({required String content, int maxLength = 200});
-  Future<GradeResult> gradeAnswer({required String question, required String referenceAnswer, required String userAnswer});
+  Future<AIResponse> generateAnswer({required String query, required List<String> contextDocs, List<Map<String, String>> history = const [], String? systemPrompt});
+  Future<QuizGenerationResult> generateQuiz({required String content, required int minCount, required int maxCount, String? systemPrompt});
+  Future<IntentResult> analyzeIntent({required String text, List<String> existingFiles = const [], String? systemPrompt});
+  Future<String> summarize({required String content, int maxLength = 200, String? systemPrompt});
+  Future<GradeResult> gradeAnswer({required String question, required String referenceAnswer, required String userAnswer, String? systemPrompt});
   Future<List<double>> generateEmbedding({required String text});
   void dispose();
 }

@@ -16,8 +16,9 @@ class GraderAgent {
 
   Future<GraderResult> grade({required String question, required String referenceAnswer, required String userAnswer}) async {
     final template = await _prompt.loadTemplate('grader');
-    final rendered = _prompt.render(template, {'question': question, 'reference_answer': referenceAnswer, 'user_answer': userAnswer});
-    final response = await _ai.generateAnswer(query: rendered, contextDocs: []);
+    final systemPrompt = _prompt.render(template, {});
+    final userQuery = '题目: $question\n参考答案: $referenceAnswer\n用户回答: $userAnswer';
+    final response = await _ai.generateAnswer(query: userQuery, contextDocs: [], systemPrompt: systemPrompt);
     try {
       final json = jsonDecode(response.answer);
       return GraderResult(

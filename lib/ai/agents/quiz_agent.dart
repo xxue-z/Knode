@@ -11,8 +11,8 @@ class QuizAgent {
 
   Future<List<Question>> generateQuiz({required String content, required int minCount, required int maxCount}) async {
     final template = await _prompt.loadTemplate('quiz_generator');
-    final rendered = _prompt.render(template, {'content': content, 'min': minCount.toString(), 'max': maxCount.toString()});
-    final response = await _ai.generateAnswer(query: rendered, contextDocs: []);
+    final systemPrompt = _prompt.render(template, {'min': minCount.toString(), 'max': maxCount.toString()});
+    final response = await _ai.generateAnswer(query: content, contextDocs: [], systemPrompt: systemPrompt);
     try {
       final json = jsonDecode(response.answer);
       final questions = (json['questions'] as List?) ?? [];

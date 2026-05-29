@@ -10,8 +10,8 @@ class SummarizerAgent {
 
   Future<String> summarize({required String content, int maxLength = 200}) async {
     final template = await _promptManager.loadTemplate('summarizer');
-    final prompt = _promptManager.render(template, {'content': content, 'max_length': maxLength.toString()});
-    return _aiProvider.summarize(content: prompt, maxLength: maxLength);
+    final systemPrompt = _promptManager.render(template, {'max_length': maxLength.toString()});
+    return _aiProvider.summarize(content: content, maxLength: maxLength, systemPrompt: systemPrompt);
   }
 
   Future<String> archiveToNote({required String title, required List<Map<String, String>> messages}) async {
