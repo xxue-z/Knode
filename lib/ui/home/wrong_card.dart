@@ -1,0 +1,52 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../providers/quiz_provider.dart';
+import '../../data/dao/wrong_question_dao.dart';
+
+/// 首页最近错题卡片，显示错题总数，点击跳转错题本。
+class WrongCard extends ConsumerWidget {
+  const WrongCard({super.key, this.onTap});
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final repo = ref.read(questionRepositoryProvider);
+
+    return Card(
+      child: InkWell(
+        borderRadius: BorderRadius.circular(12),
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Row(
+            children: [
+              Icon(Icons.error_outline, color: Theme.of(context).colorScheme.error),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('错题本', style: Theme.of(context).textTheme.titleSmall),
+                    const SizedBox(height: 4),
+                    FutureBuilder<List>(
+                      future: repo.getWrongQuestions(limit: 100),
+                      builder: (ctx, snap) {
+                        if (!snap.hasData) return const Text('加载中...');
+                        final count = snap.data!.length;
+                        return Text(
+                          count > 0 ? '$count 道待复习' : '暂无错题',
+                          style: Theme.of(context).textTheme.bodySmall,
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              ),
+              const Icon(Icons.chevron_right),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
