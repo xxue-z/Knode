@@ -1,27 +1,62 @@
-﻿import 'dart:convert';
+import 'dart:convert';
 import 'package:shelf/shelf.dart' as shelf;
+import '../../../data/repositories/document_repository.dart';
+import '../../../data/dao/document_dao.dart';
 
+/// 文档 API Handler，提供文档列表和内容阅读接口。
 class DocHandler {
-  final dynamic _documentRepository;
-  DocHandler(this._documentRepository);
+  final DocumentDao _documentDao;
+  final DocumentRepository _documentRepository;
 
-  Future<Map<String, dynamic>> listDocs() async {
+  DocHandler({
+    required DocumentDao documentDao,
+    required DocumentRepository documentRepository,
+  })  : _documentDao = documentDao,
+        _documentRepository = documentRepository;
+
+  /// 获取文档列表，支持按类目过滤和分页。
+  Future<Map<String, dynamic>> listDocs({String? categoryId, int limit = 50}) async {
     try {
-      final docs = await _documentRepository.getByCategory(0);
-      return {'docs': docs.map((d) => {'id': d.id, 'title': d.title, 'updatedAt': d.updatedAt}).toList()};
+      final catId = categoryId != null ? int.tryParse(categoryId) : null;
+      final docs = catId != null
+          ? await _documentDao.getByCategory(catId)
+          : await _documentDao.getByCategory(0, includeDeleted: false);
+      return {
+        'docs': docs.take(limit).map((d) => {
+              'id': d.id,
+              'title': d.title,
+              'categoryId': d.categoryId,
+              'wordCount': d.wordCount,
+              'updatedAt': d.updatedAt,
+            }).toList(),
+      };
     } catch (e) {
-      return {'error': e.toString(), 'docs': []};
+      return {'error': '获取文档列表失败: $e', 'docs': []};
     }
   }
 
+  /// 获取单个文档详情（通过 ID 直接查询）。
   Future<Map<String, dynamic>> getDoc(String id) async {
     try {
-      final doc = await _documentRepository.getByCategory(0);
-      final found = doc.firstWhere((d) => d.id.toString() == id, orElse: () => null);
-      if (found == null) return {'error': 'Document not found'};
-      return {'id': found.id, 'title': found.title, 'contentText': found.contentText, 'wordCount': found.wordCount};
+      final docId = int.tryParse(id);
+      if (docId == null) return {'error': '无效的文档 ID'};
+
+      final doc = await _documentDao.getById(docId);
+      if (doc == null) return {'error': '文档不存在'};
+
+      return {
+        'id': doc.id,
+        'title': doc.title,
+        'contentText': doc.contentText,
+        'summary': doc.summary,
+        'wordCount': doc.wordCount,
+        'readingTime': doc.readingTime,
+        'categoryId': doc.categoryId,
+        'createdAt': doc.createdAt,
+        'updatedAt': doc.updatedAt,
+      };
     } catch (e) {
-      return {'error': e.toString()};
+      return {'error': '获取文档失败: $e'};
     }
   }
 }
