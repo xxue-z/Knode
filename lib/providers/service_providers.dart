@@ -2,13 +2,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:core/tokenizer/tokenizer.dart';
 import 'package:core/tokenizer/ngram_tokenizer.dart';
-import '../services/vector_store_service.dart';
-import '../services/tfidf_service.dart';
-import '../services/tfidf_search_service.dart';
-import '../services/text_chunker.dart';
-import '../services/hybrid_search_service.dart';
-import '../services/rag_service.dart';
-import '../services/embedding_fallback_service.dart';
+import 'package:core/services/vector_store_service.dart';
+import 'package:core/services/tfidf_service.dart';
+import 'package:core/services/tfidf_search_service.dart';
+import 'package:core/services/text_chunker.dart';
+import 'package:core/services/hybrid_search_service.dart';
+import 'package:core/services/rag_service.dart';
+import 'package:core/services/embedding_fallback_service.dart';
 import 'package:core/ai/ai_provider.dart';
 
 /// Tokenizer 实例。

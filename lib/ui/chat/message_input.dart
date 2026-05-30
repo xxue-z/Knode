@@ -1,6 +1,6 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../services/speech_service.dart';
+import 'package:core/services/speech_service.dart';
 
 class MessageInput extends ConsumerStatefulWidget {
   const MessageInput({super.key, this.onSend});

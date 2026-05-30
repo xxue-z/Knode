@@ -1,6 +1,6 @@
 import 'package:core/ai/ai_provider.dart';
 import 'package:core/ai/prompt_manager.dart';
-import '../../services/rag_service.dart';
+import 'package:core/services/rag_service.dart';
 import 'search_agent.dart';
 
 /// 问答 Agent，封装 RAG 问答流程。

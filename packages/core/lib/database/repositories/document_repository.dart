@@ -2,7 +2,7 @@
 import '../dao/reading_log_dao.dart';
 import '../../models/document.dart';
 import '../../models/reading_log.dart';
-import '../../../../lib/services/file_service.dart';
+import 'package:core/services/file_service.dart';
 import '../../../../lib/services/import_service.dart';
 
 /// 文档业务异常。
