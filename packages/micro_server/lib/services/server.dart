@@ -14,18 +14,17 @@ class UploadRequest {
 class MicroServer {
   HttpServer? _server;
   final int port;
-  final shelf.Pipeline Function(shelf.Pipeline) pipeline;
+  final shelf.Handler handler;
   final _uploadController = StreamController<UploadRequest>.broadcast();
   final Map<String, UploadRequest> _pendingUploads = {};
 
-  MicroServer({this.port = 8080, required this.pipeline});
+  MicroServer({this.port = 8080, required this.handler});
 
   bool get isRunning => _server != null;
   Stream<UploadRequest> get uploadRequests => _uploadController.stream;
 
   Future<void> start() async {
     if (_server != null) return;
-    final handler = pipeline(const shelf.Pipeline()).call;
     _server = await io.serve(handler, InternetAddress.loopbackIPv4, port);
   }
 

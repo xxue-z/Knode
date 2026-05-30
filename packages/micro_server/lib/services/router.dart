@@ -1,18 +1,19 @@
 import 'dart:convert';
 import 'package:shelf/shelf.dart' as shelf;
-import 'handlers/file_handler.dart';
-import 'handlers/doc_handler.dart';
-import 'handlers/quiz_handler.dart';
-import 'handlers/ai_handler.dart';
+import 'package:shelf_router/shelf_router.dart';
+import '../handlers/file_handler.dart';
+import '../handlers/doc_handler.dart';
+import '../handlers/quiz_handler.dart';
+import '../handlers/ai_handler.dart';
 
 /// 创建 REST API 路由，包含 CORS 中间件和静态资源路由。
-shelf.Router createRouter({
+Router createRouter({
   required FileHandler fileHandler,
   required DocHandler docHandler,
   required QuizHandler quizHandler,
   required AiHandler aiHandler,
 }) {
-  final router = shelf.Router();
+  final router = Router();
 
   // 文件 API
   router.get('/api/files', (shelf.Request req) async {

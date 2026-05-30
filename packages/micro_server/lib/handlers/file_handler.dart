@@ -1,7 +1,7 @@
 ﻿import 'dart:convert';
 import 'dart:io';
 import 'package:shelf/shelf.dart' as shelf;
-import '../server.dart';
+import '../services/server.dart';
 
 class FileHandler {
   final MicroServer _server;
