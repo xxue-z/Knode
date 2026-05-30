@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:file_picker/file_picker.dart';
 import '../../providers/model_provider.dart';
 import '../../providers/settings_provider.dart';
-import '../../core/utils/device_utils.dart';
+import 'package:core/utils/device_utils.dart';
 import 'model_card_widget.dart';
 
 /// 模型下载管理页面。

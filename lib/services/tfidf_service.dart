@@ -1,7 +1,7 @@
 import 'dart:math' as math;
 import 'package:sqflite/sqflite.dart';
 import '../data/database/app_database.dart';
-import '../core/tokenizer/tokenizer.dart';
+import 'package:core/tokenizer/tokenizer.dart';
 
 /// TF-IDF 计算与 doc_chunks 表存储服务。
 ///

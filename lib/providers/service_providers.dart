@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../core/tokenizer/tokenizer.dart';
-import '../core/tokenizer/ngram_tokenizer.dart';
+import 'package:core/tokenizer/tokenizer.dart';
+import 'package:core/tokenizer/ngram_tokenizer.dart';
 import '../services/vector_store_service.dart';
 import '../services/tfidf_service.dart';
 import '../services/tfidf_search_service.dart';

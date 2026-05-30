@@ -6,7 +6,7 @@ import '../../data/models/local_model.dart';
 import '../../providers/model_provider.dart';
 import '../../providers/settings_provider.dart';
 import '../../services/cloud_vendor_service.dart';
-import '../../core/utils/device_utils.dart';
+import 'package:core/utils/device_utils.dart';
 import 'model_card_widget.dart';
 import 'cloud_config_form.dart';
 

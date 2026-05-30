@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
-import '../core/utils/json_utils.dart';
+import 'package:core/utils/json_utils.dart';
 import '../data/models/local_model.dart';
 
 /// 远程模型仓库 JSON 拉取与本地缓存服务。

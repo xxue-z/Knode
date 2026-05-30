@@ -1,4 +1,4 @@
-﻿import '../core/tokenizer/tokenizer.dart';
+﻿import 'package:core/tokenizer/tokenizer.dart';
 import 'tfidf_service.dart' show TfidfService, ChunkData;
 
 /// TF-IDF 检索结果（与 HybridSearchService.SearchResult 兼容）。

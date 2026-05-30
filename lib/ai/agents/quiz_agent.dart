@@ -1,7 +1,7 @@
 ﻿import 'dart:convert';
 import '../ai_provider.dart';
 import '../prompt_manager.dart';
-import '../../core/utils/hash_utils.dart';
+import 'package:core/utils/hash_utils.dart';
 import '../../data/models/question.dart';
 
 class QuizAgent {
