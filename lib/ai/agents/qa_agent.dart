@@ -1,5 +1,5 @@
-import '../ai_provider.dart';
-import '../prompt_manager.dart';
+import 'package:core/ai/ai_provider.dart';
+import 'package:core/ai/prompt_manager.dart';
 import '../../services/rag_service.dart';
 import 'search_agent.dart';
 

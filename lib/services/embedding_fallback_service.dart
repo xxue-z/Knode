@@ -1,7 +1,7 @@
 ﻿import 'dart:async';
 import 'package:crypto/crypto.dart';
 import 'dart:convert';
-import '../ai/ai_provider.dart';
+import 'package:core/ai/ai_provider.dart';
 import 'package:core/database/app_database.dart';
 import 'package:sqflite/sqflite.dart';
 

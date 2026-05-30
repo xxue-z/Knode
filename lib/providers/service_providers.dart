@@ -9,7 +9,7 @@ import '../services/text_chunker.dart';
 import '../services/hybrid_search_service.dart';
 import '../services/rag_service.dart';
 import '../services/embedding_fallback_service.dart';
-import '../ai/ai_provider.dart';
+import 'package:core/ai/ai_provider.dart';
 
 /// Tokenizer 实例。
 final tokenizerProvider = Provider<Tokenizer>((ref) {

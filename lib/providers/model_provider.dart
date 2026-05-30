@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:core/models/local_model.dart';
 import '../services/model_repo_service.dart';
 import '../services/model_download_service.dart';
-import '../ai/local_ai_provider.dart';
+import 'package:core/ai/local_ai_provider.dart';
 import 'settings_provider.dart';
 
 /// ModelRepoService 实例。

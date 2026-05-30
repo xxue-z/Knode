@@ -1,5 +1,5 @@
-﻿import '../ai_provider.dart';
-import '../prompt_manager.dart';
+﻿import 'package:core/ai/ai_provider.dart';
+import 'package:core/ai/prompt_manager.dart';
 
 class SummarizerAgent {
   final AIProvider _aiProvider;

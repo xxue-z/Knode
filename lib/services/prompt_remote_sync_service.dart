@@ -1,6 +1,6 @@
 ﻿import 'dart:convert';
 import 'package:dio/dio.dart';
-import '../ai/prompt_manager.dart';
+import 'package:core/ai/prompt_manager.dart';
 import 'package:core/database/dao/settings_dao.dart';
 
 class PromptRemoteSyncService {

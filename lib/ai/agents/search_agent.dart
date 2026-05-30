@@ -1,6 +1,6 @@
-import '../ai_provider.dart';
-import '../cloud_ai_provider.dart';
-import '../prompt_manager.dart';
+import 'package:core/ai/ai_provider.dart';
+import 'package:core/ai/cloud_ai_provider.dart';
+import 'package:core/ai/prompt_manager.dart';
 
 /// 联网搜索 Agent，仅 CloudAIProvider 可用。
 ///

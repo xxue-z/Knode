@@ -1,4 +1,4 @@
-import '../ai/ai_provider.dart';
+import 'package:core/ai/ai_provider.dart';
 import 'hybrid_search_service.dart';
 
 /// RAG 流水线服务：混合检索 → 组装 Prompt → 生成回答 → 解析引用。

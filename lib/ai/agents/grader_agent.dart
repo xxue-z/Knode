@@ -1,6 +1,6 @@
 ﻿import 'dart:convert';
-import '../ai_provider.dart';
-import '../prompt_manager.dart';
+import 'package:core/ai/ai_provider.dart';
+import 'package:core/ai/prompt_manager.dart';
 
 class GraderResult {
   final double score;
