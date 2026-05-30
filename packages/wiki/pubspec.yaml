@@ -1,0 +1,28 @@
+name: wiki
+description: 知维 Wiki 包 - 文档管理、知识图谱
+publish_to: 'none'
+version: 0.1.0
+resolution: workspace
+
+environment:
+  sdk: '>=3.8.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  core:
+    path: ../core
+  flutter_riverpod: ^2.5.1
+  flutter_quill: ^11.0.0
+  vector_math: ^2.1.4
+  path: ^1.8.3
+  doc_text_extractor: ^2.1.0
+  file_picker: ^8.0.0
+  pdf: ^3.10.8
+  archive: ^4.0.7
+  share_plus: ^10.0.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0

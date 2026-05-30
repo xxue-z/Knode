@@ -1,0 +1,1217 @@
+{
+  "@@locale": "en",
+  "chat_ai_chat": "AI Chat",
+  "@chat_ai_chat": {
+    "description": "AI 对话"
+  },
+  "chat_answer": "Answer",
+  "@chat_answer": {
+    "description": "回答"
+  },
+  "chat_archive": "Archive",
+  "@chat_archive": {
+    "description": "归档"
+  },
+  "chat_cancel": "Cancel",
+  "@chat_cancel": {
+    "description": "取消"
+  },
+  "chat_chat": "Chat",
+  "@chat_chat": {
+    "description": "对话"
+  },
+  "chat_citation": "Citation",
+  "@chat_citation": {
+    "description": "引用"
+  },
+  "chat_clear_history": "Clear History",
+  "@chat_clear_history": {
+    "description": "清除历史"
+  },
+  "chat_confirm": "Confirm",
+  "@chat_confirm": {
+    "description": "确认"
+  },
+  "chat_copied": "Copied",
+  "@chat_copied": {
+    "description": "已复制"
+  },
+  "chat_copy": "Copy",
+  "@chat_copy": {
+    "description": "复制"
+  },
+  "chat_delete_conversation": "Delete Conversation",
+  "@chat_delete_conversation": {
+    "description": "删除对话"
+  },
+  "chat_error": "Error",
+  "@chat_error": {
+    "description": "错误"
+  },
+  "chat_export_chat": "Export Chat",
+  "@chat_export_chat": {
+    "description": "导出对话"
+  },
+  "chat_input_message": "Input message...",
+  "@chat_input_message": {
+    "description": "输入消息..."
+  },
+  "chat_intent_recognition": "Intent Recognition",
+  "@chat_intent_recognition": {
+    "description": "意图识别"
+  },
+  "chat_knowledge_base": "Knowledge Base",
+  "@chat_knowledge_base": {
+    "description": "知识库"
+  },
+  "chat_loading": "Loading...",
+  "@chat_loading": {
+    "description": "加载中..."
+  },
+  "chat_message": "Message",
+  "@chat_message": {
+    "description": "消息"
+  },
+  "chat_new_conversation": "New Conversation",
+  "@chat_new_conversation": {
+    "description": "新建对话"
+  },
+  "chat_no_conversations_yet": "No conversations yet",
+  "@chat_no_conversations_yet": {
+    "description": "暂无对话"
+  },
+  "chat_qa": "QA",
+  "@chat_qa": {
+    "description": "问答"
+  },
+  "chat_question": "Question",
+  "@chat_question": {
+    "description": "问题"
+  },
+  "chat_rag_search": "RAG Search",
+  "@chat_rag_search": {
+    "description": "RAG 搜索"
+  },
+  "chat_related_documents": "Related Documents",
+  "@chat_related_documents": {
+    "description": "相关文档"
+  },
+  "chat_retry": "Retry",
+  "@chat_retry": {
+    "description": "重试"
+  },
+  "chat_save": "Save",
+  "@chat_save": {
+    "description": "保存"
+  },
+  "chat_search": "Search",
+  "@chat_search": {
+    "description": "搜索"
+  },
+  "chat_send": "Send",
+  "@chat_send": {
+    "description": "发送"
+  },
+  "chat_sources": "Sources",
+  "@chat_sources": {
+    "description": "来源"
+  },
+  "chat_token_usage": "Token Usage",
+  "@chat_token_usage": {
+    "description": "Token 用量"
+  },
+  "core_answer": "Answer",
+  "@core_answer": {
+    "description": "答案"
+  },
+  "core_anthropic_embedding_not_supported": "Anthropic API does not support Embedding, please use OpenAI compatible interface",
+  "@core_anthropic_embedding_not_supported": {
+    "description": "Anthropic API 不支持 Embedding，请使用 OpenAI 兼容接口"
+  },
+  "core_api_rate_limited": "API rate limited, please try again later",
+  "@core_api_rate_limited": {
+    "description": "API 限流，请稍后重试"
+  },
+  "core_back": "Back",
+  "@core_back": {
+    "description": "返回"
+  },
+  "core_backup": "Backup",
+  "@core_backup": {
+    "description": "备份"
+  },
+  "core_cancel": "Cancel",
+  "@core_cancel": {
+    "description": "取消"
+  },
+  "core_category": "Category",
+  "@core_category": {
+    "description": "类目"
+  },
+  "core_confirm": "Confirm",
+  "@core_confirm": {
+    "description": "确认"
+  },
+  "core_conversation": "Conversation",
+  "@core_conversation": {
+    "description": "对话"
+  },
+  "core_daily_quiz": "Daily Quiz",
+  "@core_daily_quiz": {
+    "description": "每日一测"
+  },
+  "core_delete": "Delete",
+  "@core_delete": {
+    "description": "删除"
+  },
+  "core_document": "Document",
+  "@core_document": {
+    "description": "文档"
+  },
+  "core_download_failed": "Download failed",
+  "@core_download_failed": {
+    "description": "下载失败"
+  },
+  "core_edit": "Edit",
+  "@core_edit": {
+    "description": "编辑"
+  },
+  "core_embedding_generation_failed": "Embedding generation failed",
+  "@core_embedding_generation_failed": {
+    "description": "Embedding 生成失败"
+  },
+  "core_error": "Error",
+  "@core_error": {
+    "description": "错误"
+  },
+  "core_exam": "Exam",
+  "@core_exam": {
+    "description": "考试"
+  },
+  "core_feedback": "Feedback",
+  "@core_feedback": {
+    "description": "反馈"
+  },
+  "core_fill_in_the_blank": "Fill in the Blank",
+  "@core_fill_in_the_blank": {
+    "description": "填空题"
+  },
+  "core_grading_failed": "Grading failed",
+  "@core_grading_failed": {
+    "description": "评分失败"
+  },
+  "core_grading_result_parsing_failed": "Grading result parsing failed",
+  "@core_grading_result_parsing_failed": {
+    "description": "评分解析失败"
+  },
+  "core_invalid_api_id": "Invalid API Key",
+  "@core_invalid_api_id": {
+    "description": "API Key 无效"
+  },
+  "core_json_parse_failed": "JSON parse failed",
+  "@core_json_parse_failed": {
+    "description": "JSON 解析失败"
+  },
+  "core_knowledge_base": "Knowledge Base",
+  "@core_knowledge_base": {
+    "description": "知识库"
+  },
+  "core_loading": "Loading...",
+  "@core_loading": {
+    "description": "加载中..."
+  },
+  "core_loading_failed": "Loading failed",
+  "@core_loading_failed": {
+    "description": "加载失败"
+  },
+  "core_local_import": "Local import",
+  "@core_local_import": {
+    "description": "本地导入"
+  },
+  "core_local_model_loading_failed": "Local model loading failed",
+  "@core_local_model_loading_failed": {
+    "description": "本地模型加载失败"
+  },
+  "core_local_model_not_loaded": "Local model not loaded, please call loadModel() first",
+  "@core_local_model_not_loaded": {
+    "description": "本地模型未加载，请先调用 loadModel()"
+  },
+  "core_message": "Message",
+  "@core_message": {
+    "description": "消息"
+  },
+  "core_multiple_choice": "Multiple Choice",
+  "@core_multiple_choice": {
+    "description": "多选题"
+  },
+  "core_network_request_failed": "Network request failed",
+  "@core_network_request_failed": {
+    "description": "网络请求失败"
+  },
+  "core_new": "New",
+  "@core_new": {
+    "description": "新建"
+  },
+  "core_no": "No",
+  "@core_no": {
+    "description": "否"
+  },
+  "core_ok": "OK",
+  "@core_ok": {
+    "description": "确定"
+  },
+  "core_please_override_in_main_dart": "Please override in main.dart",
+  "@core_please_override_in_main_dart": {
+    "description": "请在 main.dart 中覆盖"
+  },
+  "core_profile": "Profile",
+  "@core_profile": {
+    "description": "个人中心"
+  },
+  "core_question": "Question",
+  "@core_question": {
+    "description": "题目"
+  },
+  "core_quiz": "Quiz",
+  "@core_quiz": {
+    "description": "测验"
+  },
+  "core_reading": "Reading",
+  "@core_reading": {
+    "description": "阅读"
+  },
+  "core_remote_sync_failed": "Remote sync failed",
+  "@core_remote_sync_failed": {
+    "description": "远程同步失败"
+  },
+  "core_remote_template_format_error": "Remote template format error",
+  "@core_remote_template_format_error": {
+    "description": "远程模板格式错误"
+  },
+  "core_request_failed": "Request failed",
+  "@core_request_failed": {
+    "description": "请求失败"
+  },
+  "core_restore": "Restore",
+  "@core_restore": {
+    "description": "恢复"
+  },
+  "core_retry": "Retry",
+  "@core_retry": {
+    "description": "重试"
+  },
+  "core_save": "Save",
+  "@core_save": {
+    "description": "保存"
+  },
+  "core_score": "Score",
+  "@core_score": {
+    "description": "分数"
+  },
+  "core_search": "Search",
+  "@core_search": {
+    "description": "搜索"
+  },
+  "core_send": "Send",
+  "@core_send": {
+    "description": "发送"
+  },
+  "core_service_unavailable": "Service temporarily unavailable, please try again later",
+  "@core_service_unavailable": {
+    "description": "服务暂时不可用，请稍后重试"
+  },
+  "core_settings": "Settings",
+  "@core_settings": {
+    "description": "设置"
+  },
+  "core_short_answer": "Short Answer",
+  "@core_short_answer": {
+    "description": "简答题"
+  },
+  "core_single_choice": "Single Choice",
+  "@core_single_choice": {
+    "description": "单选题"
+  },
+  "core_statistics": "Statistics",
+  "@core_statistics": {
+    "description": "统计"
+  },
+  "core_success": "Success",
+  "@core_success": {
+    "description": "成功"
+  },
+  "core_tap_to_start_answering": "Tap to start answering",
+  "@core_tap_to_start_answering": {
+    "description": "点击开始答题"
+  },
+  "core_today_quiz_ready": "Today's quiz is ready, tap to start",
+  "@core_today_quiz_ready": {
+    "description": "今日测验已准备好，点击开始答题"
+  },
+  "core_true_false": "True/False",
+  "@core_true_false": {
+    "description": "判断题"
+  },
+  "core_webdav_not_configured": "WebDAV not configured",
+  "@core_webdav_not_configured": {
+    "description": "WebDAV 未配置"
+  },
+  "core_yes": "Yes",
+  "@core_yes": {
+    "description": "是"
+  },
+  "knode_app_about": "About",
+  "@knode_app_about": {
+    "description": "关于"
+  },
+  "knode_app_ai_settings": "AI Settings",
+  "@knode_app_ai_settings": {
+    "description": "AI 设置"
+  },
+  "knode_app_app_shell": "App Shell",
+  "@knode_app_app_shell": {
+    "description": "应用外壳"
+  },
+  "knode_app_auto_backup": "Auto Backup",
+  "@knode_app_auto_backup": {
+    "description": "自动备份"
+  },
+  "knode_app_backup_settings": "Backup Settings",
+  "@knode_app_backup_settings": {
+    "description": "备份设置"
+  },
+  "knode_app_bottom_navigation": "Bottom Navigation",
+  "@knode_app_bottom_navigation": {
+    "description": "底部导航"
+  },
+  "knode_app_cancel": "Cancel",
+  "@knode_app_cancel": {
+    "description": "取消"
+  },
+  "knode_app_clear_cache": "Clear Cache",
+  "@knode_app_clear_cache": {
+    "description": "清除缓存"
+  },
+  "knode_app_cloud_config": "Cloud Config",
+  "@knode_app_cloud_config": {
+    "description": "云配置"
+  },
+  "knode_app_confirm": "Confirm",
+  "@knode_app_confirm": {
+    "description": "确认"
+  },
+  "knode_app_daily_card": "Daily Card",
+  "@knode_app_daily_card": {
+    "description": "每日卡片"
+  },
+  "knode_app_dark_mode": "Dark Mode",
+  "@knode_app_dark_mode": {
+    "description": "深色模式"
+  },
+  "knode_app_error": "Error",
+  "@knode_app_error": {
+    "description": "错误"
+  },
+  "knode_app_export_data": "Export Data",
+  "@knode_app_export_data": {
+    "description": "导出数据"
+  },
+  "knode_app_feedback": "Feedback",
+  "@knode_app_feedback": {
+    "description": "反馈"
+  },
+  "knode_app_font_size": "Font Size",
+  "@knode_app_font_size": {
+    "description": "字体大小"
+  },
+  "knode_app_home": "Home",
+  "@knode_app_home": {
+    "description": "首页"
+  },
+  "knode_app_import_data": "Import Data",
+  "@knode_app_import_data": {
+    "description": "导入数据"
+  },
+  "knode_app_language": "Language",
+  "@knode_app_language": {
+    "description": "语言"
+  },
+  "knode_app_license": "License",
+  "@knode_app_license": {
+    "description": "许可"
+  },
+  "knode_app_light_mode": "Light Mode",
+  "@knode_app_light_mode": {
+    "description": "浅色模式"
+  },
+  "knode_app_loading": "Loading...",
+  "@knode_app_loading": {
+    "description": "加载中..."
+  },
+  "knode_app_model_card": "Model Card",
+  "@knode_app_model_card": {
+    "description": "模型卡片"
+  },
+  "knode_app_model_download": "Model Download",
+  "@knode_app_model_download": {
+    "description": "模型下载"
+  },
+  "knode_app_notification": "Notification",
+  "@knode_app_notification": {
+    "description": "通知"
+  },
+  "knode_app_personal_drawer": "Personal Drawer",
+  "@knode_app_personal_drawer": {
+    "description": "个人抽屉"
+  },
+  "knode_app_privacy_policy": "Privacy Policy",
+  "@knode_app_privacy_policy": {
+    "description": "隐私政策"
+  },
+  "knode_app_profile": "Profile",
+  "@knode_app_profile": {
+    "description": "个人中心"
+  },
+  "knode_app_quick_card": "Quick Card",
+  "@knode_app_quick_card": {
+    "description": "快捷卡片"
+  },
+  "knode_app_rate_us": "Rate Us",
+  "@knode_app_rate_us": {
+    "description": "评价应用"
+  },
+  "knode_app_save": "Save",
+  "@knode_app_save": {
+    "description": "保存"
+  },
+  "knode_app_score_card": "Score Card",
+  "@knode_app_score_card": {
+    "description": "成绩卡片"
+  },
+  "knode_app_server_settings": "Server Settings",
+  "@knode_app_server_settings": {
+    "description": "服务设置"
+  },
+  "knode_app_settings": "Settings",
+  "@knode_app_settings": {
+    "description": "设置"
+  },
+  "knode_app_share": "Share",
+  "@knode_app_share": {
+    "description": "分享"
+  },
+  "knode_app_sound": "Sound",
+  "@knode_app_sound": {
+    "description": "声音"
+  },
+  "knode_app_storage_settings": "Storage Settings",
+  "@knode_app_storage_settings": {
+    "description": "存储设置"
+  },
+  "knode_app_storage_usage": "Storage Usage",
+  "@knode_app_storage_usage": {
+    "description": "存储用量"
+  },
+  "knode_app_success": "Success",
+  "@knode_app_success": {
+    "description": "成功"
+  },
+  "knode_app_system_default": "System Default",
+  "@knode_app_system_default": {
+    "description": "跟随系统"
+  },
+  "knode_app_theme": "Theme",
+  "@knode_app_theme": {
+    "description": "主题"
+  },
+  "knode_app_version": "Version",
+  "@knode_app_version": {
+    "description": "版本"
+  },
+  "knode_app_vibration": "Vibration",
+  "@knode_app_vibration": {
+    "description": "振动"
+  },
+  "knode_app_webdav": "WebDAV",
+  "@knode_app_webdav": {
+    "description": "WebDAV"
+  },
+  "knode_app_wrong_card": "Wrong Card",
+  "@knode_app_wrong_card": {
+    "description": "错题卡片"
+  },
+  "micro_server_answer_submission_failed": "Answer submission failed",
+  "@micro_server_answer_submission_failed": {
+    "description": "提交答案失败"
+  },
+  "micro_server_cors_preflight_request": "CORS preflight request",
+  "@micro_server_cors_preflight_request": {
+    "description": "CORS 预检请求"
+  },
+  "micro_server_document_does_not_exist": "Document does not exist",
+  "@micro_server_document_does_not_exist": {
+    "description": "文档不存在"
+  },
+  "micro_server_document_list_retrieval_failed": "Document list retrieval failed",
+  "@micro_server_document_list_retrieval_failed": {
+    "description": "获取文档列表失败"
+  },
+  "micro_server_document_retrieval_failed": "Document retrieval failed",
+  "@micro_server_document_retrieval_failed": {
+    "description": "获取文档失败"
+  },
+  "micro_server_download_failed": "Download failed",
+  "@micro_server_download_failed": {
+    "description": "下载失败"
+  },
+  "micro_server_file_list_retrieval_failed": "File list retrieval failed",
+  "@micro_server_file_list_retrieval_failed": {
+    "description": "获取文件列表失败"
+  },
+  "micro_server_file_not_found": "File not found",
+  "@micro_server_file_not_found": {
+    "description": "文件未找到"
+  },
+  "micro_server_internal_server_error": "Internal server error",
+  "@micro_server_internal_server_error": {
+    "description": "服务器内部错误"
+  },
+  "micro_server_invalid_document_id": "Invalid document ID",
+  "@micro_server_invalid_document_id": {
+    "description": "无效的文档 ID"
+  },
+  "micro_server_invalid_request": "Invalid request",
+  "@micro_server_invalid_request": {
+    "description": "无效请求"
+  },
+  "micro_server_missing_questionId": "Missing questionId",
+  "@micro_server_missing_questionId": {
+    "description": "缺少 questionId"
+  },
+  "micro_server_not_found": "Not found",
+  "@micro_server_not_found": {
+    "description": "未找到"
+  },
+  "micro_server_port": "Port",
+  "@micro_server_port": {
+    "description": "端口"
+  },
+  "micro_server_question_does_not_exist": "Question does not exist",
+  "@micro_server_question_does_not_exist": {
+    "description": "题目不存在"
+  },
+  "micro_server_question_retrieval_failed": "Question retrieval failed",
+  "@micro_server_question_retrieval_failed": {
+    "description": "获取题目失败"
+  },
+  "micro_server_request_body_empty": "Request body is empty",
+  "@micro_server_request_body_empty": {
+    "description": "请求体为空"
+  },
+  "micro_server_server_address": "Server address",
+  "@micro_server_server_address": {
+    "description": "服务器地址"
+  },
+  "micro_server_server_already_running": "Server is already running",
+  "@micro_server_server_already_running": {
+    "description": "服务器已在运行中"
+  },
+  "micro_server_server_not_running": "Server is not running",
+  "@micro_server_server_not_running": {
+    "description": "服务器未运行"
+  },
+  "micro_server_server_started_on_port": "Server started on port %d",
+  "@micro_server_server_started_on_port": {
+    "description": "服务器已在端口 %d 启动"
+  },
+  "micro_server_server_stopped": "Server stopped",
+  "@micro_server_server_stopped": {
+    "description": "服务器已停止"
+  },
+  "micro_server_starting_server": "Starting server...",
+  "@micro_server_starting_server": {
+    "description": "正在启动服务器..."
+  },
+  "micro_server_stopping_server": "Stopping server...",
+  "@micro_server_stopping_server": {
+    "description": "正在停止服务器..."
+  },
+  "micro_server_upload_confirmed": "Upload confirmed",
+  "@micro_server_upload_confirmed": {
+    "description": "上传已确认"
+  },
+  "micro_server_upload_failed": "Upload failed",
+  "@micro_server_upload_failed": {
+    "description": "上传失败"
+  },
+  "micro_server_upload_pending_confirmation": "Upload pending confirmation",
+  "@micro_server_upload_pending_confirmation": {
+    "description": "等待上传确认"
+  },
+  "micro_server_upload_rejected": "Upload rejected",
+  "@micro_server_upload_rejected": {
+    "description": "上传已拒绝"
+  },
+  "micro_server_waiting_for_device_confirmation": "Waiting for device confirmation",
+  "@micro_server_waiting_for_device_confirmation": {
+    "description": "等待手机端确认"
+  },
+  "quiz_accuracy": "Accuracy",
+  "@quiz_accuracy": {
+    "description": "正确率"
+  },
+  "quiz_ai_explanation": "AI Explanation",
+  "@quiz_ai_explanation": {
+    "description": "AI 讲解"
+  },
+  "quiz_all_knowledge_base": "All Knowledge Base",
+  "@quiz_all_knowledge_base": {
+    "description": "全部知识库"
+  },
+  "quiz_answer": "Answer",
+  "@quiz_answer": {
+    "description": "答案"
+  },
+  "quiz_completed": "Completed",
+  "@quiz_completed": {
+    "description": "已完成"
+  },
+  "quiz_confirm_submit": "Confirm Submit",
+  "@quiz_confirm_submit": {
+    "description": "确认交卷"
+  },
+  "quiz_congratulations_passed": "Congratulations, passed!",
+  "@quiz_congratulations_passed": {
+    "description": "恭喜通过！"
+  },
+  "quiz_consolidate_weak_knowledge_points": "Consolidate weak knowledge points",
+  "@quiz_consolidate_weak_knowledge_points": {
+    "description": "巩固薄弱知识点"
+  },
+  "quiz_continue_answering": "Continue Answering",
+  "@quiz_continue_answering": {
+    "description": "继续答题"
+  },
+  "quiz_correct": "Correct",
+  "@quiz_correct": {
+    "description": "正确"
+  },
+  "quiz_correct_answer": "Correct Answer",
+  "@quiz_correct_answer": {
+    "description": "正确答案"
+  },
+  "quiz_create_exam_failed": "Create Exam Failed",
+  "@quiz_create_exam_failed": {
+    "description": "创建考试失败"
+  },
+  "quiz_daily_quiz": "Daily Quiz",
+  "@quiz_daily_quiz": {
+    "description": "每日一测"
+  },
+  "quiz_daily_quiz_not_enabled": "Daily Quiz Not Enabled",
+  "@quiz_daily_quiz_not_enabled": {
+    "description": "每日一测未启用"
+  },
+  "quiz_daily_quiz_settings": "Daily Quiz Settings",
+  "@quiz_daily_quiz_settings": {
+    "description": "每日一测设置"
+  },
+  "quiz_daily_quiz_started": "Daily Quiz Started",
+  "@quiz_daily_quiz_started": {
+    "description": "每日一测已开始，请切换到\"测验\"标签查看"
+  },
+  "quiz_easy": "Easy",
+  "@quiz_easy": {
+    "description": "简单"
+  },
+  "quiz_enable_daily_quiz": "Enable Daily Quiz",
+  "@quiz_enable_daily_quiz": {
+    "description": "启用每日一测"
+  },
+  "quiz_exam": "Exam",
+  "@quiz_exam": {
+    "description": "考试"
+  },
+  "quiz_exam_generated": "Exam Generated",
+  "@quiz_exam_generated": {
+    "description": "考试已生成"
+  },
+  "quiz_exam_result": "Exam Result",
+  "@quiz_exam_result": {
+    "description": "测验结果"
+  },
+  "quiz_explanation": "Explanation",
+  "@quiz_explanation": {
+    "description": "解析"
+  },
+  "quiz_feedback": "Feedback",
+  "@quiz_feedback": {
+    "description": "反馈"
+  },
+  "quiz_fill_in_the_blank": "Fill in the Blank",
+  "@quiz_fill_in_the_blank": {
+    "description": "填空题"
+  },
+  "quiz_generate_quiz_questions_daily": "Generate quiz questions daily",
+  "@quiz_generate_quiz_questions_daily": {
+    "description": "每天定时生成测验题目"
+  },
+  "quiz_hard": "Hard",
+  "@quiz_hard": {
+    "description": "困难"
+  },
+  "quiz_keep_going": "Keep going!",
+  "@quiz_keep_going": {
+    "description": "继续加油！"
+  },
+  "quiz_load_failed": "Load failed",
+  "@quiz_load_failed": {
+    "description": "加载失败"
+  },
+  "quiz_loading": "Loading...",
+  "@quiz_loading": {
+    "description": "加载中..."
+  },
+  "quiz_mark_as_mastered": "Mark as Mastered",
+  "@quiz_mark_as_mastered": {
+    "description": "标记为已掌握"
+  },
+  "quiz_mastered": "Mastered",
+  "@quiz_mastered": {
+    "description": "已掌握"
+  },
+  "quiz_mastered_will_no_longer_appear": "Mastered, will no longer appear in wrong questions",
+  "@quiz_mastered_will_no_longer_appear": {
+    "description": "已标记为掌握，错题本中将不再显示"
+  },
+  "quiz_medium": "Medium",
+  "@quiz_medium": {
+    "description": "中等"
+  },
+  "quiz_monthly_comprehensive_quiz": "Monthly comprehensive quiz",
+  "@quiz_monthly_comprehensive_quiz": {
+    "description": "每月综合测验"
+  },
+  "quiz_monthly_exam": "Monthly Exam",
+  "@quiz_monthly_exam": {
+    "description": "月考"
+  },
+  "quiz_monthly_exam_2": "Monthly Exam",
+  "@quiz_monthly_exam_2": {
+    "description": "月度考试"
+  },
+  "quiz_multiple_choice": "Multiple Choice",
+  "@quiz_multiple_choice": {
+    "description": "多选题"
+  },
+  "quiz_next_question": "Next Question",
+  "@quiz_next_question": {
+    "description": "下一题"
+  },
+  "quiz_no_associated_document": "No Associated Document",
+  "@quiz_no_associated_document": {
+    "description": "无关联文档"
+  },
+  "quiz_no_exam_records": "No exam records",
+  "@quiz_no_exam_records": {
+    "description": "暂无考试记录"
+  },
+  "quiz_no_wrong_questions_keep_it_up": "No wrong questions, keep it up!",
+  "@quiz_no_wrong_questions_keep_it_up": {
+    "description": "暂无错题，继续保持！"
+  },
+  "quiz_please_override_in_main_dart": "Please override in main.dart",
+  "@quiz_please_override_in_main_dart": {
+    "description": "请在 main.dart 中覆盖"
+  },
+  "quiz_please_switch_to_quiz_tab": "Please switch to Quiz tab",
+  "@quiz_please_switch_to_quiz_tab": {
+    "description": "请切换到\"测验\"标签查看考试历史"
+  },
+  "quiz_practice": "Practice",
+  "@quiz_practice": {
+    "description": "开始练习"
+  },
+  "quiz_previous_question": "Previous Question",
+  "@quiz_previous_question": {
+    "description": "上一题"
+  },
+  "quiz_quarterly_comprehensive_quiz": "Quarterly comprehensive quiz",
+  "@quiz_quarterly_comprehensive_quiz": {
+    "description": "季度综合测验"
+  },
+  "quiz_quarterly_exam": "Quarterly Exam",
+  "@quiz_quarterly_exam": {
+    "description": "季考"
+  },
+  "quiz_quarterly_exam_2": "Quarterly Exam",
+  "@quiz_quarterly_exam_2": {
+    "description": "季度考试"
+  },
+  "quiz_question": "Question",
+  "@quiz_question": {
+    "description": "题目"
+  },
+  "quiz_question_count": "Question Count",
+  "@quiz_question_count": {
+    "description": "题目数量"
+  },
+  "quiz_question_scope": "Question Scope",
+  "@quiz_question_scope": {
+    "description": "出题范围"
+  },
+  "quiz_questions": "Questions",
+  "@quiz_questions": {
+    "description": "题"
+  },
+  "quiz_quick_quiz_started": "Quick Quiz Started",
+  "@quiz_quick_quiz_started": {
+    "description": "速记已开始，请切换到\"测验\"标签查看"
+  },
+  "quiz_quiz": "Quiz",
+  "@quiz_quiz": {
+    "description": "测验"
+  },
+  "quiz_quiz_types": "Quiz Types",
+  "@quiz_quiz_types": {
+    "description": "测验类型"
+  },
+  "quiz_random_quick_review": "Random quick review",
+  "@quiz_random_quick_review": {
+    "description": "随机抽取快速复习"
+  },
+  "quiz_random_quiz": "Random Quiz",
+  "@quiz_random_quiz": {
+    "description": "随机速记"
+  },
+  "quiz_ready_with_n_questions": "Ready, with N questions",
+  "@quiz_ready_with_n_questions": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    },
+    "description": "已准备好，共 {count} 题"
+  },
+  "quiz_recent_reading_documents": "Recent Reading Documents",
+  "@quiz_recent_reading_documents": {
+    "description": "最近阅读文档"
+  },
+  "quiz_reminder_time": "Reminder Time",
+  "@quiz_reminder_time": {
+    "description": "提醒时间"
+  },
+  "quiz_return": "Return",
+  "@quiz_return": {
+    "description": "返回"
+  },
+  "quiz_save_settings": "Save Settings",
+  "@quiz_save_settings": {
+    "description": "保存设置"
+  },
+  "quiz_score": "Score",
+  "@quiz_score": {
+    "description": "分数"
+  },
+  "quiz_settings_saved": "Settings Saved",
+  "@quiz_settings_saved": {
+    "description": "设置已保存"
+  },
+  "quiz_short_answer": "Short Answer",
+  "@quiz_short_answer": {
+    "description": "简答题"
+  },
+  "quiz_single_choice": "Single Choice",
+  "@quiz_single_choice": {
+    "description": "单选题"
+  },
+  "quiz_sort_by_difficulty": "Sort by Difficulty",
+  "@quiz_sort_by_difficulty": {
+    "description": "按难度"
+  },
+  "quiz_sort_by_wrong_count": "Sort by Wrong Count",
+  "@quiz_sort_by_wrong_count": {
+    "description": "按错误次数"
+  },
+  "quiz_specific_category": "Specific Category",
+  "@quiz_specific_category": {
+    "description": "指定类目"
+  },
+  "quiz_streak_days": "Streak Days",
+  "@quiz_streak_days": {
+    "description": "连续天数"
+  },
+  "quiz_submit_exam": "Submit Exam",
+  "@quiz_submit_exam": {
+    "description": "交卷"
+  },
+  "quiz_tap_to_start": "Tap to start",
+  "@quiz_tap_to_start": {
+    "description": "点击开始练习"
+  },
+  "quiz_ten_questions_per_day": "10 questions per day",
+  "@quiz_ten_questions_per_day": {
+    "description": "每天 10 道题"
+  },
+  "quiz_today_n_questions_tap_to_start": "Today N questions, tap to start",
+  "@quiz_today_n_questions_tap_to_start": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    },
+    "description": "今日 {count} 题，点击开始"
+  },
+  "quiz_true_false": "True/False",
+  "@quiz_true_false": {
+    "description": "判断题"
+  },
+  "quiz_unknown": "Unknown",
+  "@quiz_unknown": {
+    "description": "未知"
+  },
+  "quiz_view_source_document": "View Source Document",
+  "@quiz_view_source_document": {
+    "description": "查看源文档"
+  },
+  "quiz_wrong": "Wrong",
+  "@quiz_wrong": {
+    "description": "错误"
+  },
+  "quiz_wrong_question_detail": "Wrong Question Detail",
+  "@quiz_wrong_question_detail": {
+    "description": "错题详情"
+  },
+  "quiz_wrong_question_review": "Wrong Question Review",
+  "@quiz_wrong_question_review": {
+    "description": "错题重练"
+  },
+  "quiz_wrong_questions": "Wrong Questions",
+  "@quiz_wrong_questions": {
+    "description": "错题本"
+  },
+  "quiz_yearly_comprehensive_quiz": "Yearly comprehensive quiz",
+  "@quiz_yearly_comprehensive_quiz": {
+    "description": "年度综合测验"
+  },
+  "quiz_yearly_exam": "Yearly Exam",
+  "@quiz_yearly_exam": {
+    "description": "年考"
+  },
+  "quiz_yearly_exam_2": "Yearly Exam",
+  "@quiz_yearly_exam_2": {
+    "description": "年度考试"
+  },
+  "quiz_your_answer": "Your Answer",
+  "@quiz_your_answer": {
+    "description": "你的答案"
+  },
+  "wiki_add_category": "Add Category",
+  "@wiki_add_category": {
+    "description": "添加类目"
+  },
+  "wiki_add_citation": "Add Citation",
+  "@wiki_add_citation": {
+    "description": "添加引用"
+  },
+  "wiki_all_knowledge": "All Knowledge",
+  "@wiki_all_knowledge": {
+    "description": "全部知识"
+  },
+  "wiki_cancel": "Cancel",
+  "@wiki_cancel": {
+    "description": "取消"
+  },
+  "wiki_category": "Category",
+  "@wiki_category": {
+    "description": "类目"
+  },
+  "wiki_category_panel": "Category Panel",
+  "@wiki_category_panel": {
+    "description": "类目面板"
+  },
+  "wiki_category_tree": "Category Tree",
+  "@wiki_category_tree": {
+    "description": "类目树"
+  },
+  "wiki_citation": "Citation",
+  "@wiki_citation": {
+    "description": "引用"
+  },
+  "wiki_citation_popup": "Citation Popup",
+  "@wiki_citation_popup": {
+    "description": "引用弹窗"
+  },
+  "wiki_confirm": "Confirm",
+  "@wiki_confirm": {
+    "description": "确认"
+  },
+  "wiki_create_node": "Create Node",
+  "@wiki_create_node": {
+    "description": "创建节点"
+  },
+  "wiki_delete": "Delete",
+  "@wiki_delete": {
+    "description": "删除"
+  },
+  "wiki_delete_document": "Delete Document",
+  "@wiki_delete_document": {
+    "description": "删除文档"
+  },
+  "wiki_document": "Document",
+  "@wiki_document": {
+    "description": "文档"
+  },
+  "wiki_document_title": "Document Title",
+  "@wiki_document_title": {
+    "description": "文档标题"
+  },
+  "wiki_edit_category": "Edit Category",
+  "@wiki_edit_category": {
+    "description": "编辑类目"
+  },
+  "wiki_edit_document": "Edit Document",
+  "@wiki_edit_document": {
+    "description": "编辑文档"
+  },
+  "wiki_editor": "Editor",
+  "@wiki_editor": {
+    "description": "编辑器"
+  },
+  "wiki_error": "Error",
+  "@wiki_error": {
+    "description": "错误"
+  },
+  "wiki_export": "Export",
+  "@wiki_export": {
+    "description": "导出"
+  },
+  "wiki_export_document": "Export Document",
+  "@wiki_export_document": {
+    "description": "导出文档"
+  },
+  "wiki_graph_canvas": "Graph Canvas",
+  "@wiki_graph_canvas": {
+    "description": "图谱画布"
+  },
+  "wiki_graph_controller": "Graph Controller",
+  "@wiki_graph_controller": {
+    "description": "图谱控制器"
+  },
+  "wiki_graph_edge": "Graph Edge",
+  "@wiki_graph_edge": {
+    "description": "图谱边"
+  },
+  "wiki_graph_node": "Graph Node",
+  "@wiki_graph_node": {
+    "description": "图谱节点"
+  },
+  "wiki_ideas": "Ideas",
+  "@wiki_ideas": {
+    "description": "灵感"
+  },
+  "wiki_import": "Import",
+  "@wiki_import": {
+    "description": "导入"
+  },
+  "wiki_import_document": "Import Document",
+  "@wiki_import_document": {
+    "description": "导入文档"
+  },
+  "wiki_knowledge_graph": "Knowledge Graph",
+  "@wiki_knowledge_graph": {
+    "description": "知识图谱"
+  },
+  "wiki_knowledge_map": "Knowledge Map",
+  "@wiki_knowledge_map": {
+    "description": "知识地图"
+  },
+  "wiki_loading": "Loading...",
+  "@wiki_loading": {
+    "description": "加载中..."
+  },
+  "wiki_manage_categories": "Manage Categories",
+  "@wiki_manage_categories": {
+    "description": "管理类目"
+  },
+  "wiki_new_document": "New Document",
+  "@wiki_new_document": {
+    "description": "新建文档"
+  },
+  "wiki_no_documents": "No Documents",
+  "@wiki_no_documents": {
+    "description": "暂无文档"
+  },
+  "wiki_node_name": "Node Name",
+  "@wiki_node_name": {
+    "description": "节点名称"
+  },
+  "wiki_notes": "Notes",
+  "@wiki_notes": {
+    "description": "笔记"
+  },
+  "wiki_page": "Page",
+  "@wiki_page": {
+    "description": "页"
+  },
+  "wiki_pdf_export": "PDF Export",
+  "@wiki_pdf_export": {
+    "description": "PDF 导出"
+  },
+  "wiki_reader": "Reader",
+  "@wiki_reader": {
+    "description": "阅读器"
+  },
+  "wiki_reader_toolbar": "Reader Toolbar",
+  "@wiki_reader_toolbar": {
+    "description": "阅读器工具栏"
+  },
+  "wiki_save": "Save",
+  "@wiki_save": {
+    "description": "保存"
+  },
+  "wiki_search": "Search",
+  "@wiki_search": {
+    "description": "搜索"
+  },
+  "wiki_study_materials": "Study Materials",
+  "@wiki_study_materials": {
+    "description": "学习资料"
+  },
+  "wiki_summarize": "Summarize",
+  "@wiki_summarize": {
+    "description": "摘要"
+  },
+  "wiki_summarizer": "Summarizer",
+  "@wiki_summarizer": {
+    "description": "摘要生成器"
+  },
+  "wiki_summary": "Summary",
+  "@wiki_summary": {
+    "description": "摘要"
+  },
+  "wiki_text_to_speech": "Text to Speech",
+  "@wiki_text_to_speech": {
+    "description": "文字转语音"
+  },
+  "wiki_tts": "TTS",
+  "@wiki_tts": {
+    "description": "朗读"
+  },
+  "wiki_wiki": "Wiki",
+  "@wiki_wiki": {
+    "description": "知识库"
+  },
+  "wiki_work": "Work",
+  "@wiki_work": {
+    "description": "工作"
+  },
+  "wiki_zoom_in": "Zoom In",
+  "@wiki_zoom_in": {
+    "description": "放大"
+  },
+  "wiki_zoom_out": "Zoom Out",
+  "@wiki_zoom_out": {
+    "description": "缩小"
+  }
+}

@@ -1,0 +1,53 @@
+id,en,zh
+wiki,Wiki,知识库
+knowledge_graph,Knowledge Graph,知识图谱
+document,Document,文档
+category,Category,类目
+category_tree,Category Tree,类目树
+category_panel,Category Panel,类目面板
+manage_categories,Manage Categories,管理类目
+add_category,Add Category,添加类目
+edit_category,Edit Category,编辑类目
+create_node,Create Node,创建节点
+node_name,Node Name,节点名称
+reader,Reader,阅读器
+editor,Editor,编辑器
+new_document,New Document,新建文档
+edit_document,Edit Document,编辑文档
+delete_document,Delete Document,删除文档
+import,Import,导入
+export,Export,导出
+import_document,Import Document,导入文档
+export_document,Export Document,导出文档
+pdf_export,PDF Export,PDF 导出
+citation,Citation,引用
+citation_popup,Citation Popup,引用弹窗
+add_citation,Add Citation,添加引用
+graph_canvas,Graph Canvas,图谱画布
+graph_node,Graph Node,图谱节点
+graph_edge,Graph Edge,图谱边
+graph_controller,Graph Controller,图谱控制器
+knowledge_map,Knowledge Map,知识地图
+all_knowledge,All Knowledge,全部知识
+notes,Notes,笔记
+study_materials,Study Materials,学习资料
+work,Work,工作
+ideas,Ideas,灵感
+save,Save,保存
+cancel,Cancel,取消
+confirm,Confirm,确认
+delete,Delete,删除
+search,Search,搜索
+loading,Loading...,加载中...
+error,Error,错误
+no_documents,No Documents,暂无文档
+document_title,Document Title,文档标题
+reader_toolbar,Reader Toolbar,阅读器工具栏
+page,Page,页
+zoom_in,Zoom In,放大
+zoom_out,Zoom Out,缩小
+summarize,Summarize,摘要
+summary,Summary,摘要
+summarizer,Summarizer,摘要生成器
+tts,TTS,朗读
+text_to_speech,Text to Speech,文字转语音
