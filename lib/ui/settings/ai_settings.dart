@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:file_picker/file_picker.dart';
+import '../../data/models/cloud_vendor.dart';
+import '../../data/models/local_model.dart';
+import '../../providers/model_provider.dart';
 import '../../providers/settings_provider.dart';
+import '../../services/cloud_vendor_service.dart';
+import '../../core/utils/device_utils.dart';
+import 'model_card_widget.dart';
+import 'cloud_config_form.dart';
 
-/// AI 模型配置页面。
+/// AI 引擎主设置页面。
 ///
-/// 支持切换云端/本地模式，云端模式下可选择 OpenAI 或 Anthropic API 规范。
+/// SegmentedButton 切换「本地模型」和「云端 API」两个 Tab。
 class AiSettingsPage extends ConsumerStatefulWidget {
   const AiSettingsPage({super.key});
 
@@ -14,193 +22,307 @@ class AiSettingsPage extends ConsumerStatefulWidget {
 
 class _AiSettingsPageState extends ConsumerState<AiSettingsPage> {
   bool _isCloudMode = true;
-  String _apiSpec = 'openai'; // openai / anthropic
-  final _apiKeyController = TextEditingController();
-  final _baseUrlController = TextEditingController();
-  final _modelController = TextEditingController();
+  final _repoUrlController = TextEditingController();
+  final _cloudRepoUrlController = TextEditingController();
+  List<CloudVendor> _cloudVendors = [];
+  bool _isLoadingVendors = false;
+  int _availableMemory = 0;
 
-  // 预设配置
-  static const _presets = {
-    'openai': {
-      'baseUrl': 'https://api.openai.com',
-      'model': 'gpt-4o-mini',
-      'hint': '支持 OpenAI、DeepSeek、通义千问等兼容接口',
-    },
-    'anthropic': {
-      'baseUrl': 'https://api.anthropic.com',
-      'model': 'claude-sonnet-4-20250514',
-      'hint': 'Anthropic Claude 系列模型',
-    },
-  };
+  // 默认仓库地址
+  static const _defaultModelRepoUrl =
+      'https://cdn.jsdelivr.net/gh/xxue-z/Knode@master/.resource/models.json';
+  static const _defaultCloudRepoUrl =
+      'https://cdn.jsdelivr.net/gh/xxue-z/Knode@master/.resource/cloud_models.json';
 
   @override
   void initState() {
     super.initState();
+    _repoUrlController.text = _defaultModelRepoUrl;
+    _cloudRepoUrlController.text = _defaultCloudRepoUrl;
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final settings = ref.read(settingsProvider).valueOrNull ?? {};
-      setState(() {
-        _isCloudMode = (settings['ai_provider_type'] ?? 'cloud') == 'cloud';
-        _apiSpec = settings['ai_api_spec'] ?? 'openai';
-        _apiKeyController.text = settings['ai_api_key'] ?? '';
-        _baseUrlController.text = settings['ai_base_url'] ?? _presets[_apiSpec]!['baseUrl']!;
-        _modelController.text = settings['ai_model'] ?? _presets[_apiSpec]!['model']!;
-      });
+      _loadSettings();
+      _loadMemory();
     });
   }
 
-  void _onSpecChanged(String? spec) {
-    if (spec == null) return;
+  void _loadSettings() {
+    final settings = ref.read(settingsProvider).valueOrNull ?? {};
     setState(() {
-      _apiSpec = spec;
-      // 如果当前 URL 是另一个规范的默认值，自动切换
-      final otherSpec = spec == 'openai' ? 'anthropic' : 'openai';
-      if (_baseUrlController.text == _presets[otherSpec]!['baseUrl']) {
-        _baseUrlController.text = _presets[spec]!['baseUrl']!;
+      _isCloudMode = (settings['ai_type'] ?? 'cloud') == 'cloud';
+      if (settings['model_repo_url']?.isNotEmpty == true) {
+        _repoUrlController.text = settings['model_repo_url']!;
       }
-      if (_modelController.text == _presets[otherSpec]!['model']) {
-        _modelController.text = _presets[spec]!['model']!;
+      if (settings['cloud_vendor_repo_url']?.isNotEmpty == true) {
+        _cloudRepoUrlController.text = settings['cloud_vendor_repo_url']!;
       }
     });
+    // 加载云端厂商缓存
+    _loadCachedVendors();
   }
 
-  Future<void> _save() async {
-    final notifier = ref.read(settingsProvider.notifier);
-    await notifier.set('ai_provider_type', _isCloudMode ? 'cloud' : 'local');
-    await notifier.set('ai_api_spec', _apiSpec);
-    await notifier.set('ai_api_key', _apiKeyController.text);
-    await notifier.set('ai_base_url', _baseUrlController.text);
-    await notifier.set('ai_model', _modelController.text);
+  Future<void> _loadMemory() async {
+    final mem = await DeviceUtils.getAvailableMemory();
+    if (mounted) setState(() => _availableMemory = mem);
+  }
+
+  Future<void> _loadCachedVendors() async {
+    final service = CloudVendorService();
+    final vendors = await service.getCachedVendors();
+    if (mounted) setState(() => _cloudVendors = vendors);
+  }
+
+  Future<void> _fetchModels() async {
+    final url = _repoUrlController.text.trim();
+    if (url.isEmpty) return;
+
+    await ref.read(settingsProvider.notifier).set('model_repo_url', url);
+    await ref.read(modelListProvider.notifier).fetchFromRepo(url);
+
     if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('已保存')));
+      final state = ref.read(modelListProvider);
+      if (state.hasError) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('获取失败，使用已缓存数据: ${state.error}')),
+        );
+      }
     }
+  }
+
+  Future<void> _fetchCloudVendors() async {
+    final url = _cloudRepoUrlController.text.trim();
+    if (url.isEmpty) return;
+
+    setState(() => _isLoadingVendors = true);
+    try {
+      await ref.read(settingsProvider.notifier).set('cloud_vendor_repo_url', url);
+      final service = CloudVendorService();
+      final vendors = await service.fetchVendors(url);
+      if (mounted) setState(() => _cloudVendors = vendors);
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('获取失败，使用已缓存数据: $e')),
+        );
+      }
+    }
+    setState(() => _isLoadingVendors = false);
+  }
+
+  Future<void> _importLocalModel() async {
+    final result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['gguf'],
+    );
+    if (result == null || result.files.isEmpty) return;
+
+    final filePath = result.files.first.path;
+    if (filePath == null) return;
+
+    try {
+      await ref.read(modelListProvider.notifier).importLocalModel(filePath);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('导入成功'), backgroundColor: Colors.green),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('导入失败: $e'), backgroundColor: Colors.red),
+        );
+      }
+    }
+  }
+
+  Future<void> _onTypeChanged(bool isCloud) async {
+    setState(() => _isCloudMode = isCloud);
+    await ref.read(settingsProvider.notifier).set('ai_type', isCloud ? 'cloud' : 'local');
   }
 
   @override
   void dispose() {
-    _apiKeyController.dispose();
-    _baseUrlController.dispose();
-    _modelController.dispose();
+    _repoUrlController.dispose();
+    _cloudRepoUrlController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final preset = _presets[_apiSpec]!;
-
     return Scaffold(
-      appBar: AppBar(title: const Text('AI 模型配置'), centerTitle: true),
+      appBar: AppBar(title: const Text('AI 引擎'), centerTitle: true),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          // 云端/本地切换
-          SwitchListTile(
-            title: const Text('云端模式'),
-            subtitle: Text(_isCloudMode ? '使用云端 API' : '使用本地模型'),
-            value: _isCloudMode,
-            onChanged: (v) => setState(() => _isCloudMode = v),
+          // SegmentedButton 切换
+          SegmentedButton<bool>(
+            segments: const [
+              ButtonSegment(value: false, label: Text('本地模型'), icon: Icon(Icons.phone_android)),
+              ButtonSegment(value: true, label: Text('云端 API'), icon: Icon(Icons.cloud_outlined)),
+            ],
+            selected: {_isCloudMode},
+            onSelectionChanged: (s) => _onTypeChanged(s.first),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 20),
 
-          if (_isCloudMode) ...[
-            // API 规范选择
-            DropdownButtonFormField<String>(
-              value: _apiSpec,
-              decoration: const InputDecoration(
-                labelText: 'API 规范',
-                border: OutlineInputBorder(),
+          if (_isCloudMode) _buildCloudTab() else _buildLocalTab(),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildLocalTab() {
+    final modelsAsync = ref.watch(modelListProvider);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // 仓库地址输入框 + 获取按钮
+        Row(
+          children: [
+            Expanded(
+              child: TextField(
+                controller: _repoUrlController,
+                decoration: const InputDecoration(
+                  labelText: '模型仓库地址',
+                  border: OutlineInputBorder(),
+                  isDense: true,
+                ),
               ),
-              items: const [
-                DropdownMenuItem(value: 'openai', child: Text('OpenAI 兼容')),
-                DropdownMenuItem(value: 'anthropic', child: Text('Anthropic Claude')),
-              ],
-              onChanged: _onSpecChanged,
+            ),
+            const SizedBox(width: 8),
+            FilledButton(
+              onPressed: _fetchModels,
+              child: const Text('获取'),
+            ),
+          ],
+        ),
+        const SizedBox(height: 12),
+
+        // 导入本地模型按钮
+        SizedBox(
+          width: double.infinity,
+          child: OutlinedButton.icon(
+            onPressed: _importLocalModel,
+            icon: const Icon(Icons.file_upload_outlined),
+            label: const Text('导入本地模型'),
+          ),
+        ),
+        const SizedBox(height: 16),
+
+        // 设备内存信息
+        if (_availableMemory > 0)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 12),
+            child: Text(
+              '可用内存: ${_availableMemory} MB',
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+              ),
+            ),
+          ),
+
+        // 模型列表
+        modelsAsync.when(
+          data: (models) {
+            if (models.isEmpty) {
+              return _buildEmptyState();
+            }
+            return Column(
+              children: models.map((model) => Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: ModelCardWidget(
+                  model: model,
+                  onDownload: (mirrorKey) {
+                    ref.read(modelListProvider.notifier).startDownload(model, mirrorKey);
+                  },
+                  onCancel: () {
+                    ref.read(modelListProvider.notifier).cancelDownload();
+                  },
+                  onLoad: () {
+                    ref.read(modelListProvider.notifier).loadModel(model);
+                  },
+                  onDelete: () {
+                    ref.read(modelListProvider.notifier).deleteModel(model);
+                  },
+                  onRetry: () {
+                    // 重试：重新下载第一个可用镜像
+                    final key = model.downloadUrls.keys.firstOrNull;
+                    if (key != null) {
+                      ref.read(modelListProvider.notifier).startDownload(model, key);
+                    }
+                  },
+                ),
+              )).toList(),
+            );
+          },
+          loading: () => const Center(child: CircularProgressIndicator()),
+          error: (e, _) => Center(child: Text('加载失败: $e')),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildCloudTab() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // 云端仓库地址输入框 + 获取按钮
+        Row(
+          children: [
+            Expanded(
+              child: TextField(
+                controller: _cloudRepoUrlController,
+                decoration: const InputDecoration(
+                  labelText: '云模型仓库地址',
+                  border: OutlineInputBorder(),
+                  isDense: true,
+                ),
+              ),
+            ),
+            const SizedBox(width: 8),
+            FilledButton(
+              onPressed: _isLoadingVendors ? null : _fetchCloudVendors,
+              child: _isLoadingVendors
+                  ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2))
+                  : const Text('获取'),
+            ),
+          ],
+        ),
+        const SizedBox(height: 20),
+
+        // 云端配置表单
+        CloudConfigForm(vendors: _cloudVendors),
+      ],
+    );
+  }
+
+  Widget _buildEmptyState() {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 48),
+        child: Column(
+          children: [
+            Icon(
+              Icons.download_outlined,
+              size: 64,
+              color: Theme.of(context).colorScheme.onSurfaceVariant.withValues(alpha: 0.4),
+            ),
+            const SizedBox(height: 16),
+            Text(
+              '暂无模型',
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+              ),
             ),
             const SizedBox(height: 8),
             Text(
-              preset['hint']!,
+              '请获取仓库或导入本地文件',
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                  ),
-            ),
-            const SizedBox(height: 16),
-
-            // API Key
-            TextField(
-              controller: _apiKeyController,
-              obscureText: true,
-              decoration: InputDecoration(
-                labelText: 'API Key',
-                border: const OutlineInputBorder(),
-                hintText: _apiSpec == 'anthropic' ? 'sk-ant-api03-...' : 'sk-...',
-              ),
-            ),
-            const SizedBox(height: 12),
-
-            // Base URL
-            TextField(
-              controller: _baseUrlController,
-              decoration: InputDecoration(
-                labelText: 'Base URL',
-                border: const OutlineInputBorder(),
-                hintText: preset['baseUrl'],
-              ),
-            ),
-            const SizedBox(height: 12),
-
-            // Model
-            TextField(
-              controller: _modelController,
-              decoration: InputDecoration(
-                labelText: 'Model',
-                border: const OutlineInputBorder(),
-                hintText: preset['model'],
-              ),
-            ),
-            const SizedBox(height: 8),
-
-            // 预设快捷按钮
-            Wrap(
-              spacing: 8,
-              children: [
-                if (_apiSpec == 'openai') ...[
-                  ActionChip(
-                    label: const Text('DeepSeek'),
-                    onPressed: () {
-                      _baseUrlController.text = 'https://api.deepseek.com';
-                      _modelController.text = 'deepseek-chat';
-                    },
-                  ),
-                  ActionChip(
-                    label: const Text('通义千问'),
-                    onPressed: () {
-                      _baseUrlController.text = 'https://dashscope.aliyuncs.com/compatible-mode';
-                      _modelController.text = 'qwen-turbo';
-                    },
-                  ),
-                ],
-                if (_apiSpec == 'anthropic') ...[
-                  ActionChip(
-                    label: const Text('Claude Sonnet'),
-                    onPressed: () => _modelController.text = 'claude-sonnet-4-20250514',
-                  ),
-                  ActionChip(
-                    label: const Text('Claude Haiku'),
-                    onPressed: () => _modelController.text = 'claude-haiku-4-5-20251001',
-                  ),
-                ],
-              ],
-            ),
-          ] else ...[
-            const Card(
-              child: Padding(
-                padding: EdgeInsets.all(16),
-                child: Text('本地模型配置功能即将上线'),
+                color: Theme.of(context).colorScheme.onSurfaceVariant.withValues(alpha: 0.6),
               ),
             ),
           ],
-          const SizedBox(height: 24),
-          FilledButton(onPressed: _save, child: const Text('保存配置')),
-        ],
+        ),
       ),
     );
   }

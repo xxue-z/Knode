@@ -17,6 +17,11 @@ dependencies:
   pdf: ^3.10.8
   archive: ^4.0.7
   share_plus: ^9.0.0
+  dio: ^5.4.0
+  llama_cpp_dart: ^0.1.0
+  flutter_secure_storage: ^9.0.0
+  crypto: ^3.0.0
+  path_provider: ^2.1.0
 
 dev_dependencies:
   flutter_test:

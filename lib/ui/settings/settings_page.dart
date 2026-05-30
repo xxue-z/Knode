@@ -16,8 +16,8 @@ class SettingsPage extends ConsumerWidget {
           _Section(title: 'AI 设置', children: [
             _SettingsTile(
               icon: Icons.smart_toy_outlined,
-              title: 'AI 模型配置',
-              subtitle: '切换云端/本地模式，配置 API Key',
+              title: 'AI 引擎',
+              subtitle: '本地模型管理、云端 API 配置',
               onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const AiSettingsPage())),
             ),
           ]),

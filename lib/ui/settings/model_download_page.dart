@@ -1,185 +1,210 @@
-﻿import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../services/model_download_service.dart';
-import '../../core/utils/device_utils.dart';
+import 'package:file_picker/file_picker.dart';
+import '../../providers/model_provider.dart';
 import '../../providers/settings_provider.dart';
+import '../../core/utils/device_utils.dart';
+import 'model_card_widget.dart';
 
+/// 模型下载管理页面。
+///
+/// 使用 ModelCardWidget 替换原有 _ModelTile，增加仓库地址和导入功能。
 class ModelDownloadPage extends ConsumerStatefulWidget {
   const ModelDownloadPage({super.key});
+
   @override
   ConsumerState<ModelDownloadPage> createState() => _ModelDownloadPageState();
 }
 
 class _ModelDownloadPageState extends ConsumerState<ModelDownloadPage> {
-  final _service = ModelDownloadService('');
-  List<String> _downloaded = [];
+  final _repoUrlController = TextEditingController();
   int _availableMemory = 0;
   bool _isLoading = true;
-  DownloadProgress? _progress;
-  String? _downloadingName;
-  String? _activeModel;
-  StreamSubscription? _progressSub;
+
+  static const _defaultRepoUrl =
+      'https://cdn.jsdelivr.net/gh/xxue-z/Knode@master/.resource/models.json';
 
   @override
   void initState() {
     super.initState();
+    _repoUrlController.text = _defaultRepoUrl;
     _load();
   }
 
   Future<void> _load() async {
     _availableMemory = await DeviceUtils.getAvailableMemory();
-    _downloaded = await _service.getDownloadedModels();
     final settings = ref.read(settingsProvider).valueOrNull ?? {};
-    _activeModel = settings['local_model_name'];
+    if (settings['model_repo_url']?.isNotEmpty == true) {
+      _repoUrlController.text = settings['model_repo_url']!;
+    }
     setState(() => _isLoading = false);
+  }
+
+  Future<void> _fetchModels() async {
+    final url = _repoUrlController.text.trim();
+    if (url.isEmpty) return;
+    await ref.read(settingsProvider.notifier).set('model_repo_url', url);
+    await ref.read(modelListProvider.notifier).fetchFromRepo(url);
+  }
+
+  Future<void> _importLocalModel() async {
+    final result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['gguf'],
+    );
+    if (result == null || result.files.isEmpty) return;
+    final filePath = result.files.first.path;
+    if (filePath == null) return;
+
+    try {
+      await ref.read(modelListProvider.notifier).importLocalModel(filePath);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('导入成功'), backgroundColor: Colors.green),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('导入失败: $e'), backgroundColor: Colors.red),
+        );
+      }
+    }
   }
 
   @override
   void dispose() {
-    _progressSub?.cancel();
+    _repoUrlController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     if (_isLoading) return const Scaffold(body: Center(child: CircularProgressIndicator()));
-    final supported = ModelDownloadService.availableModels.where((m) => m.sizeMB <= _availableMemory * 0.6).toList();
-    final unsupported = ModelDownloadService.availableModels.where((m) => m.sizeMB > _availableMemory * 0.6).toList();
+
+    final modelsAsync = ref.watch(modelListProvider);
+
     return Scaffold(
       appBar: AppBar(title: const Text('模型管理'), centerTitle: true),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          Card(child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Text('可用内存: ${_availableMemory} MB'),
-          )),
+          // 设备内存信息
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                children: [
+                  const Icon(Icons.memory, size: 20),
+                  const SizedBox(width: 8),
+                  Text('可用内存: ${_availableMemory} MB'),
+                ],
+              ),
+            ),
+          ),
           const SizedBox(height: 16),
-          const Text('推荐模型', style: TextStyle(fontWeight: FontWeight.bold)),
-          const SizedBox(height: 8),
-          ...supported.map((m) => _ModelTile(
-            model: m,
-            isDownloaded: _downloaded.contains(m.name),
-            isDownloading: _downloadingName == m.name,
-            isActive: _activeModel == m.name,
-            progress: _progress,
-            onDownload: () => _download(m),
-            onDelete: () => _delete(m),
-            onUse: () => _useModel(m),
-          )),
-          if (unsupported.isNotEmpty) ...[
-            const SizedBox(height: 16),
-            const Text('不支持的模型（内存不足）', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey)),
-            const SizedBox(height: 8),
-            ...unsupported.map((m) => _ModelTile(model: m, isDownloaded: _downloaded.contains(m.name), unsupported: true)),
-          ],
+
+          // 仓库地址 + 获取
+          Row(
+            children: [
+              Expanded(
+                child: TextField(
+                  controller: _repoUrlController,
+                  decoration: const InputDecoration(
+                    labelText: '模型仓库地址',
+                    border: OutlineInputBorder(),
+                    isDense: true,
+                  ),
+                ),
+              ),
+              const SizedBox(width: 8),
+              FilledButton(
+                onPressed: _fetchModels,
+                child: const Text('获取'),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+
+          // 导入本地模型
+          SizedBox(
+            width: double.infinity,
+            child: OutlinedButton.icon(
+              onPressed: _importLocalModel,
+              icon: const Icon(Icons.file_upload_outlined),
+              label: const Text('导入本地模型'),
+            ),
+          ),
+          const SizedBox(height: 16),
+
+          // 模型列表
+          modelsAsync.when(
+            data: (models) {
+              if (models.isEmpty) {
+                return _buildEmptyState();
+              }
+              return Column(
+                children: models.map((model) => Padding(
+                  padding: const EdgeInsets.only(bottom: 8),
+                  child: ModelCardWidget(
+                    model: model,
+                    onDownload: (mirrorKey) {
+                      ref.read(modelListProvider.notifier).startDownload(model, mirrorKey);
+                    },
+                    onCancel: () {
+                      ref.read(modelListProvider.notifier).cancelDownload();
+                    },
+                    onLoad: () {
+                      ref.read(modelListProvider.notifier).loadModel(model);
+                    },
+                    onDelete: () {
+                      ref.read(modelListProvider.notifier).deleteModel(model);
+                    },
+                    onRetry: () {
+                      final key = model.downloadUrls.keys.firstOrNull;
+                      if (key != null) {
+                        ref.read(modelListProvider.notifier).startDownload(model, key);
+                      }
+                    },
+                  ),
+                )).toList(),
+              );
+            },
+            loading: () => const Center(child: CircularProgressIndicator()),
+            error: (e, _) => Center(child: Text('加载失败: $e')),
+          ),
         ],
       ),
     );
   }
 
-  Future<void> _download(ModelInfo model) async {
-    _progressSub?.cancel();
-    setState(() { _downloadingName = model.name; _progress = null; });
-    _progressSub = _service.downloadProgress.listen((p) {
-      if (mounted) setState(() => _progress = p);
-    });
-    try {
-      await _service.downloadModel(model.url, model.name);
-      _downloaded = await _service.getDownloadedModels();
-    } catch (e) {
-      if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('下载失败: $e')));
-    }
-    _progressSub?.cancel();
-    setState(() { _downloadingName = null; _progress = null; });
-  }
-
-  Future<void> _delete(ModelInfo model) async {
-    await _service.deleteModel(model.name);
-    _downloaded = await _service.getDownloadedModels();
-    if (_activeModel == model.name) {
-      await ref.read(settingsProvider.notifier).set('local_model_name', '');
-      _activeModel = null;
-    }
-    setState(() {});
-  }
-
-  Future<void> _useModel(ModelInfo model) async {
-    await ref.read(settingsProvider.notifier).set('local_model_name', model.name);
-    setState(() => _activeModel = model.name);
-    if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('已切换到 ${model.name}')),
-      );
-    }
-  }
-}
-
-class _ModelTile extends StatelessWidget {
-  final ModelInfo model;
-  final bool isDownloaded;
-  final bool isDownloading;
-  final bool isActive;
-  final bool unsupported;
-  final DownloadProgress? progress;
-  final VoidCallback? onDownload;
-  final VoidCallback? onDelete;
-  final VoidCallback? onUse;
-  const _ModelTile({
-    required this.model,
-    this.isDownloaded = false,
-    this.isDownloading = false,
-    this.isActive = false,
-    this.unsupported = false,
-    this.progress,
-    this.onDownload,
-    this.onDelete,
-    this.onUse,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-    return Card(
-      margin: const EdgeInsets.only(bottom: 8),
-      color: isActive ? colorScheme.primaryContainer.withValues(alpha: 0.3) : null,
-      child: ListTile(
-        title: Row(
+  Widget _buildEmptyState() {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 48),
+        child: Column(
           children: [
-            Expanded(child: Text(model.name)),
-            if (isActive)
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                decoration: BoxDecoration(
-                  color: colorScheme.primary,
-                  borderRadius: BorderRadius.circular(4),
-                ),
-                child: Text('使用中', style: TextStyle(fontSize: 10, color: colorScheme.onPrimary)),
+            Icon(
+              Icons.download_outlined,
+              size: 64,
+              color: Theme.of(context).colorScheme.onSurfaceVariant.withValues(alpha: 0.4),
+            ),
+            const SizedBox(height: 16),
+            Text(
+              '暂无模型',
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
               ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              '请获取仓库或导入本地文件',
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                color: Theme.of(context).colorScheme.onSurfaceVariant.withValues(alpha: 0.6),
+              ),
+            ),
           ],
         ),
-        subtitle: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(model.description),
-            Text('${model.sizeMB} MB', style: TextStyle(fontSize: 12, color: Colors.grey[600])),
-          ],
-        ),
-        trailing: unsupported
-            ? const Icon(Icons.block, color: Colors.grey)
-            : isDownloaded
-                ? Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      if (!isActive)
-                        TextButton(onPressed: onUse, child: const Text('使用')),
-                      IconButton(icon: const Icon(Icons.delete_outline), onPressed: onDelete),
-                    ],
-                  )
-                : isDownloading
-                    ? SizedBox(width: 40, height: 40, child: CircularProgressIndicator(value: progress?.percent))
-                    : FilledButton.tonal(onPressed: onDownload, child: const Text('下载')),
       ),
     );
   }
