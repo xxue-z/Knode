@@ -1,10 +1,13 @@
-﻿import 'quiz_agent.dart';
+﻿import 'package:quiz/agents/quiz_agent.dart';
+import 'package:quiz/gen/strings.dart';
 import 'package:core/database/repositories/exam_repository.dart';
 import 'package:core/database/repositories/question_repository.dart';
+
 import 'package:core/models/exam.dart';
-import 'package:core/models/question.dart';
-import 'notification_service.dart';
-import 'background_service.dart';
+import 'package:core/services/notification_service.dart';
+import 'package:core/services/background_service.dart';
+
+const _strings = L10nStringsMixin();
 
 /// 阶段考试预生成服务。
 ///
@@ -57,8 +60,8 @@ class PeriodicExamService {
     final examId = await _examRepo.createExam(exam);
 
     await _notificationService.showNotification(
-      title: '考试已生成',
-      body: '$title 已准备好，共 $actualCount 题',
+      title: _strings.quiz_exam_generated,
+      body: '$title ${_strings.quiz_ready_with_n_questions(count: actualCount.toString())}',
       id: examId,
     );
 
@@ -67,15 +70,15 @@ class PeriodicExamService {
 
   /// 创建月度考试。
   Future<Exam> createMonthlyExam() =>
-      createExam(examType: 'monthly', title: '月度考试');
+      createExam(examType: 'monthly', title: _strings.quiz_monthly_exam_2);
 
   /// 创建季度考试。
   Future<Exam> createQuarterlyExam() =>
-      createExam(examType: 'quarterly', title: '季度考试');
+      createExam(examType: 'quarterly', title: _strings.quiz_quarterly_exam_2);
 
   /// 创建年度考试。
   Future<Exam> createYearlyExam() =>
-      createExam(examType: 'yearly', title: '年度考试');
+      createExam(examType: 'yearly', title: _strings.quiz_yearly_exam_2);
 
   /// 注册阶段考试的定时任务。
   ///

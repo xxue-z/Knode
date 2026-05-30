@@ -1,7 +1,10 @@
 ﻿import 'dart:convert';
 import 'dart:io';
 import 'package:shelf/shelf.dart' as shelf;
+import '../gen/strings.dart';
 import '../services/server.dart';
+
+const _strings = L10nStringsMixin();
 
 class FileHandler {
   final MicroServer _server;
@@ -26,7 +29,7 @@ class FileHandler {
     final fileName = data['fileName'] as String;
     final fileSize = data['fileSize'] as int;
     final requestId = _server.addPendingUpload(fileName, fileSize);
-    return {'requestId': requestId, 'status': 'pending', 'message': '等待手机端确认'};
+    return {'requestId': requestId, 'status': 'pending', 'message': _strings.micro_server_waiting_for_device_confirmation};
   }
 
   Future<shelf.Response> download(String fileName) async {

@@ -27,21 +27,13 @@ keycloak_data/
 .packages
 build/
 *.iml
+pubspec.lock
 
 # Android
-android/.gradle/
-android/app/build/
-android/local.properties
-android/key.properties
-android/*.jks
+android/
 
 # iOS
-ios/Pods/
-ios/.symlinks/
-ios/Flutter/ephemeral/
-ios/Flutter/Generated.xcconfig
-ios/Runner/GeneratedPluginRegistrant.h
-ios/Runner/GeneratedPluginRegistrant.m
+ios/
 
 # Platform-specific
 *.apk

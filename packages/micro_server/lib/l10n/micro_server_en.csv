@@ -1,30 +1,30 @@
-en,zh
-"Server started on port %d","服务器已在端口 %d 启动"
-"Server stopped","服务器已停止"
-"Server is already running","服务器已在运行中"
-"Server is not running","服务器未运行"
-"Starting server...","正在启动服务器..."
-"Stopping server...","正在停止服务器..."
-"Port","端口"
-"Server address","服务器地址"
-"File not found","文件未找到"
-"Upload pending confirmation","等待上传确认"
-"Upload confirmed","上传已确认"
-"Upload rejected","上传已拒绝"
-"Upload failed","上传失败"
-"Download failed","下载失败"
-"Invalid request","无效请求"
-"Request body is empty","请求体为空"
-"Internal server error","服务器内部错误"
-"Not found","未找到"
-"File list retrieval failed","获取文件列表失败"
-"Document list retrieval failed","获取文档列表失败"
-"Document retrieval failed","获取文档失败"
-"Invalid document ID","无效的文档 ID"
-"Document does not exist","文档不存在"
-"Question retrieval failed","获取题目失败"
-"Answer submission failed","提交答案失败"
-"Missing questionId","缺少 questionId"
-"Question does not exist","题目不存在"
-"Waiting for device confirmation","等待手机端确认"
-"CORS preflight request","CORS 预检请求"
+id,en,zh
+server_started_on_port,Server started on port %d,服务器已在端口 %d 启动
+server_stopped,Server stopped,服务器已停止
+server_already_running,Server is already running,服务器已在运行中
+server_not_running,Server is not running,服务器未运行
+starting_server,Starting server...,正在启动服务器...
+stopping_server,Stopping server...,正在停止服务器...
+port,Port,端口
+server_address,Server address,服务器地址
+file_not_found,File not found,文件未找到
+upload_pending_confirmation,Upload pending confirmation,等待上传确认
+upload_confirmed,Upload confirmed,上传已确认
+upload_rejected,Upload rejected,上传已拒绝
+upload_failed,Upload failed,上传失败
+download_failed,Download failed,下载失败
+invalid_request,Invalid request,无效请求
+request_body_empty,Request body is empty,请求体为空
+internal_server_error,Internal server error,服务器内部错误
+not_found,Not found,未找到
+file_list_retrieval_failed,File list retrieval failed,获取文件列表失败
+document_list_retrieval_failed,Document list retrieval failed,获取文档列表失败
+document_retrieval_failed,Document retrieval failed,获取文档失败
+invalid_document_id,Invalid document ID,无效的文档 ID
+document_does_not_exist,Document does not exist,文档不存在
+question_retrieval_failed,Question retrieval failed,获取题目失败
+answer_submission_failed,Answer submission failed,提交答案失败
+missing_questionId,Missing questionId,缺少 questionId
+question_does_not_exist,Question does not exist,题目不存在
+waiting_for_device_confirmation,Waiting for device confirmation,等待手机端确认
+cors_preflight_request,CORS preflight request,CORS 预检请求

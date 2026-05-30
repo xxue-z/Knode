@@ -1,0 +1,32 @@
+﻿/// 知维 Wiki 模块 - 文档管理、知识图谱
+///
+/// 此文件作为 barrel export，导出 wiki 包的所有公共 API。
+library wiki;
+
+// ── Screens ──
+export 'screens/wiki_page.dart';
+export 'screens/editor_page.dart';
+export 'screens/quill_editor.dart';
+export 'screens/reader_page.dart';
+export 'screens/reader_toolbar.dart';
+export 'screens/citation_popup.dart';
+export 'screens/category_tree.dart';
+export 'screens/category_panel.dart';
+
+// ── Providers ──
+export 'providers/category_provider.dart';
+export 'providers/document_provider.dart';
+export 'providers/graph_provider.dart';
+
+// ── Widgets ──
+export 'widgets/graph_canvas.dart' hide GraphNode, GraphEdge, GraphController;
+export 'widgets/graph_controller.dart';
+export 'widgets/graph_edge.dart';
+export 'widgets/graph_node.dart';
+
+// ── Services ──
+export 'services/import_service.dart';
+export 'services/export_service.dart';
+
+// ── Agents ──
+export 'agents/summarizer_agent.dart';

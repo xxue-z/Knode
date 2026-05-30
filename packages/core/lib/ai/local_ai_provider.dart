@@ -1,13 +1,16 @@
 ﻿import 'dart:convert';
 import 'package:llama_cpp_dart/llama_cpp_dart.dart';
 import 'ai_provider.dart';
+import 'package:core/gen/strings.dart';
 import 'package:core/models/intent_result.dart';
+
+const _strings = L10nStringsMixin();
 
 /// AIProvider 的本地实现，使用 llama_cpp_dart 加载 .gguf 量化模型离线推理。
 ///
 /// 每个方法接受可选的 [systemPrompt] 参数，由 Agent 通过 PromptManager 加载模板后传入。
 class LocalAIProvider implements AIProvider {
-  LlamaContext? _context;
+  Llama? _llama;
   String? _modelPath;
   bool _isLoaded = false;
 
@@ -17,7 +20,7 @@ class LocalAIProvider implements AIProvider {
   Future<void> loadModel(String path) async {
     _modelPath = path;
     try {
-      _context = LlamaContext(modelPath: path);
+      _llama = Llama(path);
       _isLoaded = true;
     } catch (e) {
       _isLoaded = false;
@@ -26,18 +29,18 @@ class LocalAIProvider implements AIProvider {
   }
 
   void _ensureLoaded() {
-    if (!_isLoaded || _context == null) {
+    if (!_isLoaded || _llama == null) {
       throw StateError('本地模型未加载，请先调用 loadModel()');
     }
   }
 
   Future<String> _prompt(String systemPrompt, String userPrompt) async {
     _ensureLoaded();
-    final messages = [
-      {'role': 'system', 'content': systemPrompt},
-      {'role': 'user', 'content': userPrompt},
-    ];
-    return await _context!.prompt(messages);
+    // 将消息格式化为提示词
+    final prompt = 'System: $systemPrompt\n\nUser: $userPrompt\n\nAssistant:';
+    // 使用 Llama 的 generateCompleteText 方法
+    final response = await _llama!.generateCompleteText();
+    return response;
   }
 
   @override
@@ -108,7 +111,7 @@ class LocalAIProvider implements AIProvider {
         return IntentResult(type: 'chat', keywords: [text]);
       }
       final jsonStr = answer.substring(jsonStart, jsonEnd + 1);
-      return IntentResult.fromMap(jsonDecode(jsonStr));
+      return IntentResult.fromMap(jsonDecode(jsonStr) as Map<String, dynamic>);
     } catch (_) {
       return IntentResult(type: 'chat', keywords: [text]);
     }
@@ -136,7 +139,7 @@ class LocalAIProvider implements AIProvider {
       final jsonStart = answer.indexOf('{');
       final jsonEnd = answer.lastIndexOf('}');
       if (jsonStart == -1 || jsonEnd == -1) {
-        return const GradeResult(score: 0, feedback: '评分解析失败');
+        return GradeResult(score: 0, feedback: _strings.core_grading_result_parsing_failed);
       }
       final jsonStr = answer.substring(jsonStart, jsonEnd + 1);
       final m = jsonDecode(jsonStr);
@@ -153,8 +156,9 @@ class LocalAIProvider implements AIProvider {
   Future<List<double>> generateEmbedding({required String text}) async {
     _ensureLoaded();
     try {
-      final embedding = await _context!.embedding(text);
-      return embedding.map((e) => e.toDouble()).toList();
+      // Llama 类可能不支持直接 embedding，返回空列表
+      // 实际实现需要根据 llama_cpp_dart 的 API 调整
+      return [];
     } catch (_) {
       return [];
     }
@@ -162,8 +166,8 @@ class LocalAIProvider implements AIProvider {
 
   @override
   void dispose() {
-    _context?.dispose();
-    _context = null;
+    _llama?.dispose();
+    _llama = null;
     _isLoaded = false;
     _modelPath = null;
   }

@@ -1,10 +1,13 @@
 ﻿import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:core/gen/strings.dart';
 import 'package:core/models/local_model.dart';
 import 'package:core/services/model_repo_service.dart';
 import 'package:core/services/model_download_service.dart';
 import 'package:core/ai/local_ai_provider.dart';
 import 'settings_provider.dart';
+
+const _strings = L10nStringsMixin();
 
 /// ModelRepoService 实例。
 final modelRepoServiceProvider = Provider<ModelRepoService>((ref) {
@@ -66,7 +69,7 @@ class ModelListNotifier extends AsyncNotifier<List<LocalModel>> {
     } catch (e) {
       _updateModel(model.id, (m) => m.copyWith(
         status: ModelStatus.loadFailed,
-        errorMessage: '下载失败: $e',
+        errorMessage: '${_strings.core_download_failed}: $e',
       ));
     } finally {
       _downloadSub?.cancel();
@@ -112,7 +115,7 @@ class ModelListNotifier extends AsyncNotifier<List<LocalModel>> {
     } catch (e) {
       _updateModel(model.id, (m) => m.copyWith(
         status: ModelStatus.loadFailed,
-        errorMessage: '加载失败: $e',
+        errorMessage: '${_strings.core_loading_failed}: $e',
       ));
     }
   }
@@ -160,7 +163,7 @@ class ModelListNotifier extends AsyncNotifier<List<LocalModel>> {
         name: name,
         size: '',
         minRam: '',
-        description: '本地导入',
+        description: _strings.core_local_import,
         quantization: '',
         downloadUrls: {},
         status: ModelStatus.downloaded,

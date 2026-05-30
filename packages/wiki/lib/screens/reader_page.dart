@@ -1,10 +1,13 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:wiki/gen/strings.dart';
 
-import '../../../providers/document_provider.dart';
+import 'package:wiki/providers/document_provider.dart';
 import 'package:core/services/tts_service.dart';
 import 'package:core/providers/service_providers.dart';
+
+final _strings = const L10nStringsMixin();
 
 /// 沉浸式阅读页面。
 ///
@@ -72,7 +75,7 @@ class _ReaderPageState extends ConsumerState<ReaderPage> {
       setState(() => _isLoading = false);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('加载失败: $e')),
+          SnackBar(content: Text('${_strings.wiki_error}: $e')),
         );
       }
     }
@@ -273,9 +276,14 @@ class _ReaderPageState extends ConsumerState<ReaderPage> {
                     horizontal: 24,
                     vertical: 16,
                   ),
-                  child: SelectableText(
-                    _content,
+                  child: TextField(
                     controller: _textController,
+                    readOnly: true,
+                    maxLines: null,
+                    decoration: const InputDecoration(
+                      border: InputBorder.none,
+                      isCollapsed: true,
+                    ),
                     style: TextStyle(
                       fontSize: _fontSize,
                       height: _lineSpacing,
@@ -470,11 +478,10 @@ class _ReaderPageState extends ConsumerState<ReaderPage> {
                   ),
                 ),
               ),
+            ),
           ],
         ),
       ),
     );
   }
 }
-
-

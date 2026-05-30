@@ -1,6 +1,5 @@
 ﻿import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:core/models/exam.dart';
-import 'package:core/models/exam_answer.dart';
 import 'package:core/models/question.dart';
 import 'package:core/database/repositories/exam_repository.dart';
 

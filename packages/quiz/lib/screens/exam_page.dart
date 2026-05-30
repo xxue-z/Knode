@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:quiz/gen/strings.dart';
 import '../../../providers/exam_provider.dart';
+
 import 'question_card.dart';
 import 'timer_widget.dart';
 import 'result_page.dart';
+
+const _strings = L10nStringsMixin();
 
 /// 答题页面，使用 PageView 逐题展示，底部显示进度条和交卷按钮。
 class ExamPage extends ConsumerStatefulWidget {
@@ -80,7 +84,7 @@ class _ExamPageState extends ConsumerState<ExamPage> {
                 Expanded(
                   child: OutlinedButton(
                     onPressed: () => ref.read(examSessionProvider.notifier).previous(),
-                    child: const Text('上一题'),
+                    child: Text(_strings.quiz_previous_question),
                   ),
                 ),
               if (session.currentIndex > 0) const SizedBox(width: 12),
@@ -97,7 +101,7 @@ class _ExamPageState extends ConsumerState<ExamPage> {
                         }
                       : null,
                   child: Text(
-                    session.currentIndex == session.questions.length - 1 ? '交卷' : '下一题',
+                    session.currentIndex == session.questions.length - 1 ? _strings.quiz_submit_exam : _strings.quiz_next_question,
                   ),
                 ),
               ),
@@ -112,16 +116,16 @@ class _ExamPageState extends ConsumerState<ExamPage> {
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
-        title: const Text('确认交卷'),
+        title: Text(_strings.quiz_confirm_submit),
         content: Text('已答 ${ref.read(examSessionProvider).answeredCount}/${ref.read(examSessionProvider).questions.length} 题'),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(context), child: const Text('继续答题')),
+          TextButton(onPressed: () => Navigator.pop(context), child: Text(_strings.quiz_continue_answering)),
           FilledButton(
             onPressed: () {
               Navigator.pop(context);
               _finishExam();
             },
-            child: const Text('交卷'),
+            child: Text(_strings.quiz_submit_exam),
           ),
         ],
       ),

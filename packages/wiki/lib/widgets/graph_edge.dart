@@ -157,7 +157,7 @@ class GraphEdgePainter extends CustomPainter {
   }
 
   double _pathLength() {
-    if (_isStraight) return from.distanceTo(to);
+    if (_isStraight) return (to - from).distance;
     final cp = _controlPoints();
     const int segments = 16;
     double length = 0;

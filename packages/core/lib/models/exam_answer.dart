@@ -6,6 +6,8 @@
   final int? isCorrect;
   final double? score;
   final String? aiFeedback;
+  final String? feedback;
+  final String? createdAt;
 
   const ExamAnswer({
     required this.id,
@@ -15,6 +17,8 @@
     this.isCorrect,
     this.score,
     this.aiFeedback,
+    this.feedback,
+    this.createdAt,
   });
 
   factory ExamAnswer.fromMap(Map<String, dynamic> map) {
@@ -26,6 +30,8 @@
       isCorrect: map['isCorrect'] as int?,
       score: map['score'] as double?,
       aiFeedback: map['aiFeedback'] as String?,
+      feedback: map['feedback'] as String?,
+      createdAt: map['createdAt'] as String?,
     );
   }
 
@@ -38,6 +44,8 @@
       'isCorrect': isCorrect,
       'score': score,
       'aiFeedback': aiFeedback,
+      'feedback': feedback,
+      'createdAt': createdAt,
     };
   }
 
@@ -49,6 +57,8 @@
     int? isCorrect,
     double? score,
     String? aiFeedback,
+    String? feedback,
+    String? createdAt,
   }) {
     return ExamAnswer(
       id: id ?? this.id,
@@ -58,6 +68,8 @@
       isCorrect: isCorrect ?? this.isCorrect,
       score: score ?? this.score,
       aiFeedback: aiFeedback ?? this.aiFeedback,
+      feedback: feedback ?? this.feedback,
+      createdAt: createdAt ?? this.createdAt,
     );
   }
 }

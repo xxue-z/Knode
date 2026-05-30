@@ -34,5 +34,8 @@ class NgramTokenizer implements Tokenizer {
     return result;
   }
 
+  @override
+  String tokenizeToString(String text) => tokenize(text).join(' ');
+
   static bool _isPurePunctOrDigit(String s) => RegExp(r'^[\d\p{P}\p{S}]+$', unicode: true).hasMatch(s);
 }

@@ -10,6 +10,8 @@
   final String? finishedAt;
   final String status;
   final String? configJson;
+  final String? createdAt;
+  final String? updatedAt;
 
   const Exam({
     required this.id,
@@ -23,6 +25,8 @@
     this.finishedAt,
     required this.status,
     this.configJson,
+    this.createdAt,
+    this.updatedAt,
   });
 
   factory Exam.fromMap(Map<String, dynamic> map) {
@@ -38,6 +42,8 @@
       finishedAt: map['finishedAt'] as String?,
       status: map['status'] as String,
       configJson: map['configJson'] as String?,
+      createdAt: map['createdAt'] as String?,
+      updatedAt: map['updatedAt'] as String?,
     );
   }
 
@@ -54,6 +60,8 @@
       'finishedAt': finishedAt,
       'status': status,
       'configJson': configJson,
+      'createdAt': createdAt,
+      'updatedAt': updatedAt,
     };
   }
 
@@ -69,6 +77,8 @@
     String? finishedAt,
     String? status,
     String? configJson,
+    String? createdAt,
+    String? updatedAt,
   }) {
     return Exam(
       id: id ?? this.id,
@@ -82,6 +92,8 @@
       finishedAt: finishedAt ?? this.finishedAt,
       status: status ?? this.status,
       configJson: configJson ?? this.configJson,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
     );
   }
 }

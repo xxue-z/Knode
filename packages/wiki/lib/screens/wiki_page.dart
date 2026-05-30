@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:wiki/gen/strings.dart';
+
+final _strings = const L10nStringsMixin();
 
 /// 知识图谱页面骨架
 ///
@@ -13,22 +16,22 @@ class WikiPage extends StatefulWidget {
 
 class _WikiPageState extends State<WikiPage> {
   /// 当前选中的类目名称，显示在 AppBar 标题。
-  String _currentCategoryName = '全部知识';
+  String _currentCategoryName = _strings.wiki_all_knowledge;
 
   /// 全局 Key 用于控制 EndDrawer（右侧类目面板）。
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   /// 模拟的类目列表，后续从数据库加载。
-  static const List<_CategoryEntry> _categories = [
-    _CategoryEntry(id: 'all', name: '全部知识', icon: Icons.home_outlined),
-    _CategoryEntry(id: 'notes', name: '笔记', icon: Icons.note_outlined),
+  static final List<_CategoryEntry> _categories = [
+    _CategoryEntry(id: 'all', name: _strings.wiki_all_knowledge, icon: Icons.home_outlined),
+    _CategoryEntry(id: 'notes', name: _strings.wiki_notes, icon: Icons.note_outlined),
     _CategoryEntry(
       id: 'study',
-      name: '学习资料',
+      name: _strings.wiki_study_materials,
       icon: Icons.menu_book_outlined,
     ),
-    _CategoryEntry(id: 'work', name: '工作', icon: Icons.work_outline),
-    _CategoryEntry(id: 'ideas', name: '灵感', icon: Icons.lightbulb_outline),
+    _CategoryEntry(id: 'work', name: _strings.wiki_work, icon: Icons.work_outline),
+    _CategoryEntry(id: 'ideas', name: _strings.wiki_ideas, icon: Icons.lightbulb_outline),
   ];
 
   void _onCategorySelected(_CategoryEntry category) {
@@ -47,30 +50,30 @@ class _WikiPageState extends State<WikiPage> {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('新建节点'),
+        title: Text(_strings.wiki_create_node),
         content: TextField(
           controller: controller,
           autofocus: true,
-          decoration: const InputDecoration(
-            hintText: '输入节点名称',
-            border: OutlineInputBorder(),
+          decoration: InputDecoration(
+            hintText: _strings.wiki_node_name,
+            border: const OutlineInputBorder(),
           ),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text('取消'),
+            child: Text(_strings.wiki_cancel),
           ),
           FilledButton(
             onPressed: () {
               Navigator.pop(ctx);
               if (controller.text.isNotEmpty) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('创建节点: ${controller.text} - 功能开发中')),
+                  SnackBar(content: Text('${_strings.wiki_create_node}: ${controller.text} - 功能开发中')),
                 );
               }
             },
-            child: const Text('创建'),
+            child: Text(_strings.wiki_confirm),
           ),
         ],
       ),
@@ -93,7 +96,7 @@ class _WikiPageState extends State<WikiPage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('管理类目', style: Theme.of(context).textTheme.titleMedium),
+                  Text(_strings.wiki_manage_categories, style: Theme.of(context).textTheme.titleMedium),
                   IconButton(
                     icon: const Icon(Icons.add),
                     onPressed: () {
@@ -152,7 +155,7 @@ class _WikiPageState extends State<WikiPage> {
           // 右侧类目面板入口按钮（显式入口，配合右滑手势使用）。
           IconButton(
             icon: const Icon(Icons.account_tree_outlined),
-            tooltip: '类目面板',
+            tooltip: _strings.wiki_category_panel,
             onPressed: _openCategoryPanel,
           ),
         ],
@@ -174,6 +177,7 @@ class _WikiPageState extends State<WikiPage> {
         selectedId: 'all',
         width: drawerWidth,
         onSelected: _onCategorySelected,
+        onManage: () => _showCategoryManager(context),
       ),
       endDrawerEnableOpenDragGesture: true,
       // 浮动按钮：快速添加新节点。
@@ -181,7 +185,7 @@ class _WikiPageState extends State<WikiPage> {
         onPressed: () {
           _showCreateNodeDialog(context);
         },
-        tooltip: '新建节点',
+        tooltip: _strings.wiki_create_node,
         child: const Icon(Icons.add),
       ),
     );
@@ -219,7 +223,7 @@ class _GraphCanvasPlaceholder extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           Text(
-            '知识图谱',
+            _strings.wiki_knowledge_graph,
             style: textTheme.titleMedium?.copyWith(
               color: colorScheme.onSurfaceVariant,
             ),
@@ -247,12 +251,14 @@ class _CategoryDrawer extends StatelessWidget {
     required this.selectedId,
     required this.width,
     required this.onSelected,
+    this.onManage,
   });
 
   final List<_CategoryEntry> categories;
   final String selectedId;
   final double width;
   final ValueChanged<_CategoryEntry> onSelected;
+  final VoidCallback? onManage;
 
   @override
   Widget build(BuildContext context) {
@@ -269,7 +275,7 @@ class _CategoryDrawer extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
               child: Text(
-                '类目',
+                _strings.wiki_category,
                 style: textTheme.titleLarge?.copyWith(
                   color: colorScheme.onSurface,
                 ),
@@ -318,10 +324,10 @@ class _CategoryDrawer extends StatelessWidget {
               child: OutlinedButton.icon(
                 onPressed: () {
                   Navigator.of(context).pop();
-                  _showCategoryManager(context);
+                  onManage?.call();
                 },
                 icon: const Icon(Icons.settings_outlined, size: 18),
-                label: const Text('管理类目'),
+                label: Text(_strings.wiki_manage_categories),
               ),
             ),
           ],

@@ -9,6 +9,7 @@
   final int difficulty;
   final String? tags;
   final String createdAt;
+  final String? contentHash;
 
   const Question({
     required this.id,
@@ -21,6 +22,7 @@
     required this.difficulty,
     this.tags,
     required this.createdAt,
+    this.contentHash,
   });
 
   factory Question.fromMap(Map<String, dynamic> map) {
@@ -35,6 +37,7 @@
       difficulty: map['difficulty'] as int,
       tags: map['tags'] as String?,
       createdAt: map['createdAt'] as String,
+      contentHash: map['contentHash'] as String?,
     );
   }
 
@@ -50,6 +53,7 @@
       'difficulty': difficulty,
       'tags': tags,
       'createdAt': createdAt,
+      'contentHash': contentHash,
     };
   }
 
@@ -64,6 +68,7 @@
     int? difficulty,
     String? tags,
     String? createdAt,
+    String? contentHash,
   }) {
     return Question(
       id: id ?? this.id,
@@ -76,6 +81,7 @@
       difficulty: difficulty ?? this.difficulty,
       tags: tags ?? this.tags,
       createdAt: createdAt ?? this.createdAt,
+      contentHash: contentHash ?? this.contentHash,
     );
   }
 }

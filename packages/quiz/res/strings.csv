@@ -1,0 +1,86 @@
+id,en,zh
+quiz,Quiz,测验
+exam,Exam,考试
+question,Question,题目
+answer,Answer,答案
+score,Score,分数
+feedback,Feedback,反馈
+single_choice,Single Choice,单选题
+multiple_choice,Multiple Choice,多选题
+true_false,True/False,判断题
+fill_in_the_blank,Fill in the Blank,填空题
+short_answer,Short Answer,简答题
+daily_quiz,Daily Quiz,每日一测
+random_quiz,Random Quiz,随机速记
+monthly_exam,Monthly Exam,月考
+quarterly_exam,Quarterly Exam,季考
+yearly_exam,Yearly Exam,年考
+wrong_question_review,Wrong Question Review,错题重练
+wrong_questions,Wrong Questions,错题本
+wrong_question_detail,Wrong Question Detail,错题详情
+exam_result,Exam Result,测验结果
+submit_exam,Submit Exam,交卷
+next_question,Next Question,下一题
+previous_question,Previous Question,上一题
+confirm_submit,Confirm Submit,确认交卷
+continue_answering,Continue Answering,继续答题
+return,Return,返回
+mastered,Mastered,已掌握
+mark_as_mastered,Mark as Mastered,标记为已掌握
+view_source_document,View Source Document,查看源文档
+no_associated_document,No Associated Document,无关联文档
+correct,Correct,正确
+wrong,Wrong,错误
+explanation,Explanation,解析
+ai_explanation,AI Explanation,AI 讲解
+your_answer,Your Answer,你的答案
+correct_answer,Correct Answer,正确答案
+congratulations_passed,"Congratulations, passed!",恭喜通过！
+keep_going,Keep going!,继续加油！
+easy,Easy,简单
+medium,Medium,中等
+hard,Hard,困难
+unknown,Unknown,未知
+sort_by_wrong_count,Sort by Wrong Count,按错误次数
+sort_by_difficulty,Sort by Difficulty,按难度
+daily_quiz_settings,Daily Quiz Settings,每日一测设置
+enable_daily_quiz,Enable Daily Quiz,启用每日一测
+generate_quiz_questions_daily,Generate quiz questions daily,每天定时生成测验题目
+question_scope,Question Scope,出题范围
+all_knowledge_base,All Knowledge Base,全部知识库
+specific_category,Specific Category,指定类目
+recent_reading_documents,Recent Reading Documents,最近阅读文档
+question_count,Question Count,题目数量
+reminder_time,Reminder Time,提醒时间
+save_settings,Save Settings,保存设置
+settings_saved,Settings Saved,设置已保存
+create_exam_failed,Create Exam Failed,创建考试失败
+questions,Questions,题
+completed,Completed,已完成
+streak_days,Streak Days,连续天数
+accuracy,Accuracy,正确率
+quiz_types,Quiz Types,测验类型
+ten_questions_per_day,10 questions per day,每天 10 道题
+random_quick_review,Random quick review,随机抽取快速复习
+monthly_comprehensive_quiz,Monthly comprehensive quiz,每月综合测验
+quarterly_comprehensive_quiz,Quarterly comprehensive quiz,季度综合测验
+yearly_comprehensive_quiz,Yearly comprehensive quiz,年度综合测验
+consolidate_weak_knowledge_points,Consolidate weak knowledge points,巩固薄弱知识点
+no_wrong_questions_keep_it_up,"No wrong questions, keep it up!",暂无错题，继续保持！
+mastered_will_no_longer_appear,"Mastered, will no longer appear in wrong questions",已标记为掌握，错题本中将不再显示
+please_override_in_main_dart,Please override in main.dart,请在 main.dart 中覆盖
+exam_generated,Exam Generated,考试已生成
+ready_with_n_questions,"Ready, with N questions",已准备好，共 {count} 题
+monthly_exam_2,Monthly Exam,月度考试
+quarterly_exam_2,Quarterly Exam,季度考试
+yearly_exam_2,Yearly Exam,年度考试
+load_failed,Load failed,加载失败
+loading,Loading...,加载中...
+no_exam_records,No exam records,暂无考试记录
+please_switch_to_quiz_tab,Please switch to Quiz tab,"请切换到""测验""标签查看考试历史"
+quick_quiz_started,Quick Quiz Started,"速记已开始，请切换到""测验""标签查看"
+daily_quiz_started,Daily Quiz Started,"每日一测已开始，请切换到""测验""标签查看"
+daily_quiz_not_enabled,Daily Quiz Not Enabled,每日一测未启用
+today_n_questions_tap_to_start,"Today N questions, tap to start",今日 {count} 题，点击开始
+tap_to_start,Tap to start,点击开始练习
+practice,Practice,开始练习

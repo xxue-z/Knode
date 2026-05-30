@@ -1,9 +1,11 @@
-﻿import 'package:flutter/material.dart';
+﻿import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:core/models/question.dart';
-import 'package:core/models/exam_answer.dart';
 import 'package:core/database/dao/wrong_question_dao.dart';
-import '../../providers/quiz_provider.dart';
+import 'package:quiz/gen/strings.dart';
+
+const _strings = L10nStringsMixin();
 
 /// 错题详情页面，展示题目、用户答案对比、AI 讲解，支持"掌握"移除。
 class WrongDetailPage extends ConsumerStatefulWidget {
@@ -37,7 +39,7 @@ class _WrongDetailPageState extends ConsumerState<WrongDetailPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('错题详情'),
+        title: Text(_strings.quiz_wrong_question_detail),
         centerTitle: true,
         actions: [
           // 掌握按钮
@@ -47,7 +49,7 @@ class _WrongDetailPageState extends ConsumerState<WrongDetailPage> {
               _isMastered ? Icons.check_circle : Icons.check_circle_outline,
               color: _isMastered ? colorScheme.primary : null,
             ),
-            label: Text(_isMastered ? '已掌握' : '掌握'),
+            label: Text(_strings.quiz_mastered),
           ),
         ],
       ),
@@ -79,7 +81,7 @@ class _WrongDetailPageState extends ConsumerState<WrongDetailPage> {
           if (q.options != null && q.options!.isNotEmpty) ...[
             Text('选项:', style: theme.textTheme.labelLarge),
             const SizedBox(height: 8),
-            ...q.options!.asMap().entries.map((entry) {
+            ...(jsonDecode(q.options!) as List).asMap().entries.map((entry) {
               final optLabel = String.fromCharCode(65 + entry.key);
               return Padding(
                 padding: const EdgeInsets.only(bottom: 4),
@@ -104,7 +106,7 @@ class _WrongDetailPageState extends ConsumerState<WrongDetailPage> {
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
-                      '你的答案: ${widget.userAnswer}',
+                      '${_strings.quiz_your_answer}: ${widget.userAnswer}',
                       style: TextStyle(color: colorScheme.onErrorContainer),
                     ),
                   ),
@@ -128,7 +130,7 @@ class _WrongDetailPageState extends ConsumerState<WrongDetailPage> {
                 const SizedBox(width: 8),
                 Expanded(
                   child: Text(
-                    '正确答案: ${q.answer}',
+                    '${_strings.quiz_correct_answer}: ${q.answer}',
                     style: TextStyle(
                       color: colorScheme.onPrimaryContainer,
                       fontWeight: FontWeight.bold,
@@ -142,7 +144,7 @@ class _WrongDetailPageState extends ConsumerState<WrongDetailPage> {
 
           // 解析
           if (q.explanation != null && q.explanation!.isNotEmpty) ...[
-            Text('解析:', style: theme.textTheme.labelLarge),
+            Text('${_strings.quiz_explanation}:', style: theme.textTheme.labelLarge),
             const SizedBox(height: 8),
             Container(
               padding: const EdgeInsets.all(12),
@@ -157,7 +159,7 @@ class _WrongDetailPageState extends ConsumerState<WrongDetailPage> {
 
           // AI 讲解区域
           if (widget.aiFeedback != null && widget.aiFeedback!.isNotEmpty) ...[
-            Text('AI 讲解:', style: theme.textTheme.labelLarge),
+            Text('${_strings.quiz_ai_explanation}:', style: theme.textTheme.labelLarge),
             const SizedBox(height: 8),
             Container(
               padding: const EdgeInsets.all(12),
@@ -183,7 +185,7 @@ class _WrongDetailPageState extends ConsumerState<WrongDetailPage> {
                 child: OutlinedButton.icon(
                   onPressed: () => Navigator.pop(context),
                   icon: const Icon(Icons.arrow_back),
-                  label: const Text('返回'),
+                  label: Text(_strings.quiz_return),
                 ),
               ),
               const SizedBox(width: 12),
@@ -191,7 +193,7 @@ class _WrongDetailPageState extends ConsumerState<WrongDetailPage> {
                 child: FilledButton.icon(
                   onPressed: _isMastered ? null : _markAsMastered,
                   icon: Icon(_isMastered ? Icons.check : Icons.school),
-                  label: Text(_isMastered ? '已掌握' : '标记为已掌握'),
+                  label: Text(_isMastered ? _strings.quiz_mastered : _strings.quiz_mark_as_mastered),
                 ),
               ),
             ],
@@ -211,7 +213,7 @@ class _WrongDetailPageState extends ConsumerState<WrongDetailPage> {
     }
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('已标记为掌握，错题本中将不再显示')),
+        SnackBar(content: Text(_strings.quiz_mastered_will_no_longer_appear)),
       );
     }
   }
@@ -219,15 +221,15 @@ class _WrongDetailPageState extends ConsumerState<WrongDetailPage> {
   String _typeLabel(String type) {
     switch (type) {
       case 'single_choice':
-        return '单选题';
+        return _strings.quiz_single_choice;
       case 'multi_choice':
-        return '多选题';
+        return _strings.quiz_multiple_choice;
       case 'true_false':
-        return '判断题';
+        return _strings.quiz_true_false;
       case 'fill_blank':
-        return '填空题';
+        return _strings.quiz_fill_in_the_blank;
       case 'short_answer':
-        return '简答题';
+        return _strings.quiz_short_answer;
       default:
         return type;
     }

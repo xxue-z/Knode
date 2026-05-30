@@ -1,11 +1,13 @@
-﻿import 'dart:async';
+import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:wiki/gen/strings.dart';
 
-import 'package:core/database/repositories/document_repository.dart';
-import '../../../providers/document_provider.dart';
-import 'quill_editor.dart';
+import 'package:wiki/providers/document_provider.dart';
+import 'package:wiki/screens/quill_editor.dart';
+
+final _strings = const L10nStringsMixin();
 
 /// 文档编辑页面。
 ///
@@ -60,7 +62,7 @@ class _EditorPageState extends ConsumerState<EditorPage> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('加载内容失败: $e')),
+          SnackBar(content: Text('${_strings.wiki_error}: $e')),
         );
       }
     }
@@ -93,7 +95,7 @@ class _EditorPageState extends ConsumerState<EditorPage> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('保存失败: $e')),
+          SnackBar(content: Text('${_strings.wiki_error}: $e')),
         );
       }
     }
@@ -121,14 +123,14 @@ class _EditorPageState extends ConsumerState<EditorPage> {
                 child: TextField(
                   controller: _titleController,
                   style: const TextStyle(fontSize: 18),
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     border: InputBorder.none,
-                    hintText: '文档标题',
+                    hintText: _strings.wiki_document_title,
                   ),
                   onChanged: (_) => _onContentChanged(),
                 ),
               )
-            : const Text('加载中...'),
+            : Text(_strings.wiki_loading),
         centerTitle: true,
         actions: [
           // 模式切换按钮。
@@ -140,7 +142,7 @@ class _EditorPageState extends ConsumerState<EditorPage> {
           // 手动保存按钮。
           IconButton(
             icon: const Icon(Icons.save_outlined),
-            tooltip: '保存',
+            tooltip: _strings.wiki_save,
             onPressed: _saveContent,
           ),
         ],

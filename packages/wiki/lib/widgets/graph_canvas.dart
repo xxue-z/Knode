@@ -100,12 +100,12 @@ class GraphCanvasPainter extends CustomPainter {
 
     // Save layer and apply the combined transform.
     uiCanvas.save();
-    final ui.Matrix4 matrix4 = ui.Matrix4.compose(
+    final matrix4 = vm.Matrix4.compose(
       vm.Vector3(transform[3], transform[7], transform[11]),
       vm.Quaternion.identity(),
       vm.Vector3(transform[0], transform[5], transform[10]),
     );
-    uiCanvas.transform(matrix4);
+    uiCanvas.transform(matrix4.storage);
 
     _drawEdges(uiCanvas);
     _drawNodes(uiCanvas);
@@ -233,7 +233,6 @@ class GraphCanvasPainter extends CustomPainter {
         ),
         textDirection: ui.TextDirection.ltr,
         maxLines: 1,
-        ellipsizeOverflow: true,
       )..layout(maxWidth: rect.width - 16);
 
       textPainter.paint(
@@ -306,8 +305,9 @@ class GraphController extends ChangeNotifier {
   /// Convert a screen-space [Offset] into graph-space coordinates.
   vm.Vector3 screenToGraph(Offset screen) {
     final inverse = vm.Matrix4.inverted(_transform);
-    final v = vm.Vector3(screen.dx, screen.dy, 0);
-    return inverse.transform(v);
+    final v = vm.Vector4(screen.dx, screen.dy, 0, 1);
+    final result = inverse.transform(v);
+    return vm.Vector3(result.x, result.y, result.z);
   }
 }
 

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:quiz/gen/strings.dart';
 import '../../providers/exam_provider.dart';
-import 'exam/exam_page.dart';
+import 'exam_page.dart';
+
+const _strings = L10nStringsMixin();
 
 /// 测验页面骨架
 ///
@@ -13,7 +16,7 @@ class QuizPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('测验'),
+        title: Text(_strings.quiz_quiz),
       ),
       body: const _QuizBody(),
     );
@@ -41,7 +44,7 @@ class _QuizBody extends StatelessWidget {
               SizedBox(height: padding),
               // 测验类型卡片网格
               Text(
-                '测验类型',
+                _strings.quiz_quiz_types,
                 style: Theme.of(context).textTheme.titleMedium,
               ),
               const SizedBox(height: 12),
@@ -70,19 +73,19 @@ class _StatsCard extends StatelessWidget {
           children: [
             _StatItem(
               icon: Icons.check_circle_outline,
-              label: '已完成',
+              label: _strings.quiz_completed,
               value: '--',
               color: colorScheme.primary,
             ),
             _StatItem(
               icon: Icons.local_fire_department_outlined,
-              label: '连续天数',
+              label: _strings.quiz_streak_days,
               value: '--',
               color: colorScheme.tertiary,
             ),
             _StatItem(
               icon: Icons.trending_up_outlined,
-              label: '正确率',
+              label: _strings.quiz_accuracy,
               value: '--',
               color: colorScheme.secondary,
             ),
@@ -131,36 +134,42 @@ class _QuizGrid extends StatelessWidget {
 
   final int crossAxisCount;
 
-  static const _quizTypes = [
+  static final _quizTypes = [
     _QuizTypeData(
       icon: Icons.wb_sunny_outlined,
-      label: '每日一测',
-      description: '每天 10 道题',
+      label: _strings.quiz_daily_quiz,
+      description: _strings.quiz_ten_questions_per_day,
+      examType: 'daily',
     ),
     _QuizTypeData(
       icon: Icons.shuffle_outlined,
-      label: '随机速记',
-      description: '随机抽取快速复习',
+      label: _strings.quiz_random_quiz,
+      description: _strings.quiz_random_quick_review,
+      examType: 'random',
     ),
     _QuizTypeData(
       icon: Icons.calendar_month_outlined,
-      label: '月考',
-      description: '每月综合测验',
+      label: _strings.quiz_monthly_exam,
+      description: _strings.quiz_monthly_comprehensive_quiz,
+      examType: 'monthly',
     ),
     _QuizTypeData(
       icon: Icons.date_range_outlined,
-      label: '季考',
-      description: '季度综合测验',
+      label: _strings.quiz_quarterly_exam,
+      description: _strings.quiz_quarterly_comprehensive_quiz,
+      examType: 'quarterly',
     ),
     _QuizTypeData(
       icon: Icons.event_outlined,
-      label: '年考',
-      description: '年度综合测验',
+      label: _strings.quiz_yearly_exam,
+      description: _strings.quiz_yearly_comprehensive_quiz,
+      examType: 'yearly',
     ),
     _QuizTypeData(
       icon: Icons.replay_outlined,
-      label: '错题重练',
-      description: '巩固薄弱知识点',
+      label: _strings.quiz_wrong_question_review,
+      description: _strings.quiz_consolidate_weak_knowledge_points,
+      examType: 'review',
     ),
   ];
 
@@ -188,32 +197,11 @@ class _QuizTypeCard extends ConsumerWidget {
 
   final _QuizTypeData data;
 
-  String _getExamType() {
-    switch (data.label) {
-      case '每日一测':
-        return 'daily';
-      case '随机速记':
-        return 'random';
-      case '月考':
-        return 'monthly';
-      case '季考':
-        return 'quarterly';
-      case '年考':
-        return 'yearly';
-      case '错题重练':
-        return 'review';
-      default:
-        return 'random';
-    }
-  }
-
   Future<void> _navigateToExam(BuildContext context, WidgetRef ref) async {
-    final examType = _getExamType();
-
     try {
       // 通过 examProvider 创建考试记录
       final exam = await ref.read(examListProvider.notifier).createExam(
-        examType: examType,
+        examType: data.examType,
         questionCount: 10,
         title: data.label,
       );
@@ -236,7 +224,7 @@ class _QuizTypeCard extends ConsumerWidget {
     } catch (e) {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('创建考试失败: $e')),
+          SnackBar(content: Text('${_strings.quiz_create_exam_failed}: $e')),
         );
       }
     }
@@ -292,9 +280,11 @@ class _QuizTypeData {
     required this.icon,
     required this.label,
     required this.description,
+    required this.examType,
   });
 
   final IconData icon;
   final String label;
   final String description;
+  final String examType;
 }

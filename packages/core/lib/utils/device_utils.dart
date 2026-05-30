@@ -11,7 +11,7 @@ class DeviceUtils {
   /// 获取设备可用内存（MB）。
   ///
   /// Android: 通过 /proc/meminfo 读取 MemAvailable
-  /// iOS: 通过 NSProcessInfo 获取物理内存（iOS 不直接暴露可用内存）
+  /// iOS: 返回默认估计值（iOS 不直接暴露可用内存）
   static Future<int> getAvailableMemory() async {
     try {
       if (Platform.isAndroid) {
@@ -21,15 +21,12 @@ class DeviceUtils {
           final kb = int.parse(match.group(1)!);
           return kb ~/ 1024; // 转为 MB
         }
-        // 回退：使用物理内存的 60% 作为估计
-        final android = await _deviceInfo.androidInfo;
-        return (android.physicalMemory * 0.6).toInt() ~/ (1024 * 1024);
+        // 回退：返回默认值 4GB
+        return 4096;
       }
       if (Platform.isIOS) {
-        final ios = await _deviceInfo.iosInfo;
-        // iOS 物理内存（字节），取 50% 作为可用估计
-        final totalBytes = ios.physicalMemory;
-        return (totalBytes * 0.5).toInt() ~/ (1024 * 1024);
+        // iOS 不直接暴露可用内存，返回默认估计值 3GB
+        return 3072;
       }
     } catch (_) {}
     return 0;

@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:core/models/document.dart';
-import '../ui/wiki/graph/graph_canvas.dart' hide GraphNode, GraphEdge;
-import '../ui/wiki/graph/graph_edge.dart';
-import 'document_provider.dart';
+import 'package:wiki/widgets/graph_canvas.dart' hide GraphNode, GraphEdge;
+import 'package:wiki/widgets/graph_edge.dart';
+import 'package:wiki/providers/document_provider.dart';
 
 /// Strongly-typed graph node derived from a [Document].
 class GraphNode {

@@ -2,8 +2,7 @@
 import '../dao/reading_log_dao.dart';
 import '../../models/document.dart';
 import '../../models/reading_log.dart';
-import 'package:core/services/file_service.dart';
-import '../../../../lib/services/import_service.dart';
+import '../../services/file_service.dart';
 
 /// 文档业务异常。
 class DocumentBusinessException implements Exception {
@@ -14,22 +13,25 @@ class DocumentBusinessException implements Exception {
   String toString() => 'DocumentBusinessException: $message';
 }
 
-/// 文档业务仓库，组合 [DocumentDao]、[FileService] 和 [ImportService]。
+/// 文件导入函数类型，由外部注入。
+typedef ImportFileFunction = Future<Map<String, dynamic>> Function(String filePath);
+
+/// 文档业务仓库，组合 [DocumentDao]、[FileService] 和导入函数。
 class DocumentRepository {
   final DocumentDao _documentDao;
   final ReadingLogDao _readingLogDao;
   final FileService _fileService;
-  final ImportService _importService;
+  final ImportFileFunction? _importFn;
 
   DocumentRepository({
     required DocumentDao documentDao,
     required ReadingLogDao readingLogDao,
     required FileService fileService,
-    required ImportService importService,
+    ImportFileFunction? importFn,
   })  : _documentDao = documentDao,
         _readingLogDao = readingLogDao,
         _fileService = fileService,
-        _importService = importService;
+        _importFn = importFn;
 
   /// 创建新文档：写入 DB 记录 + 创建 .md 文件。
   Future<Document> createDocument({
@@ -68,11 +70,15 @@ class DocumentRepository {
     required int categoryId,
     required String filePath,
   }) async {
-    final result = await _importService.importFile(filePath);
+    if (_importFn == null) {
+      throw DocumentBusinessException('导入功能未配置');
+    }
 
-    final title = result['title'] ?? '未命名文档';
-    final content = result['content'] ?? '';
-    final format = result['format'] ?? 'unknown';
+    final result = await _importFn(filePath);
+
+    final title = (result['title'] as String?) ?? '未命名文档';
+    final content = (result['content'] as String?) ?? '';
+    final format = (result['format'] as String?) ?? 'unknown';
 
     final fileName = _fileService.generateFileName(title);
     await _fileService.writeContent(fileName, content);

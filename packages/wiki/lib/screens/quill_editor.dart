@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 
 /// flutter_quill 编辑器封装组件。
@@ -23,10 +23,14 @@ class QuillEditorWidget extends StatefulWidget {
 
 class _QuillEditorWidgetState extends State<QuillEditorWidget> {
   late QuillController _controller;
+  late final FocusNode _focusNode;
+  late final ScrollController _scrollController;
 
   @override
   void initState() {
     super.initState();
+    _focusNode = FocusNode();
+    _scrollController = ScrollController();
     _controller = _buildController(widget.content);
     _controller.addListener(_onChanged);
   }
@@ -180,7 +184,7 @@ class _QuillEditorWidgetState extends State<QuillEditorWidget> {
     final delta = doc.toDelta();
     String lineText = '';
 
-    for (final op in delta) {
+    for (final op in delta.operations) {
       if (!op.isInsert) continue;
       final data = op.value;
       final attrs = op.attributes;
@@ -251,6 +255,8 @@ class _QuillEditorWidgetState extends State<QuillEditorWidget> {
   void dispose() {
     _controller.removeListener(_onChanged);
     _controller.dispose();
+    _focusNode.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -258,28 +264,17 @@ class _QuillEditorWidgetState extends State<QuillEditorWidget> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        QuillToolbar.simple(
-          configurations: QuillSimpleToolbarConfigurations(
-            controller: _controller,
-            showBoldButton: true,
-            showItalicButton: true,
-            showHeaderButton: true,
-            showListBullets: true,
-            showListNumbers: true,
-            showLink: true,
-            showImageButton: true,
-            showColorButton: false,
-            showBackgroundColorButton: false,
-            showClearFormat: true,
-          ),
+        QuillSimpleToolbar(
+          controller: _controller,
         ),
         const Divider(height: 1),
         Expanded(
           child: QuillEditor(
-            configurations: QuillEditorConfigurations(
-              controller: _controller,
-              scrollable: true,
-              padding: const EdgeInsets.all(16),
+            controller: _controller,
+            focusNode: _focusNode,
+            scrollController: _scrollController,
+            config: const QuillEditorConfig(
+              padding: EdgeInsets.all(16),
               autoFocus: false,
               expands: true,
             ),

@@ -1,0 +1,22 @@
+# monolith_localization 配置
+# 文档: https://github.com/eaglesakura/flutter_monolith
+localization:
+  # 支持的语言
+  languages:
+    - zh
+    - en
+
+  # App 级别配置
+  app:
+    package_name: knode_app
+    arb_path: lib/l10n/
+    l10n_helper_class_name: L10nHelper
+    l10n_helper_path: lib/l10n/l10n_helper.dart
+
+  # Package 级别配置
+  package:
+    path_prefixes:
+      - packages/
+    resources_path: res/
+    module_helper_class_name: L10nStringsMixin
+    module_helper_path: lib/gen/strings.dart

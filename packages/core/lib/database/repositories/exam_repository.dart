@@ -5,7 +5,23 @@ import '../dao/wrong_question_dao.dart';
 import '../../models/exam.dart';
 import '../../models/exam_answer.dart';
 import '../../models/question.dart';
-import '../../../../lib/ai/agents/grader_agent.dart';
+import 'package:core/gen/strings.dart';
+
+const _strings = L10nStringsMixin();
+
+/// 评分结果。
+class GradeResult {
+  final double score;
+  final String feedback;
+  const GradeResult({required this.score, required this.feedback});
+}
+
+/// 评分函数类型，由外部注入。
+typedef GradeFunction = Future<GradeResult> Function({
+  required String question,
+  required String referenceAnswer,
+  required String userAnswer,
+});
 
 /// 考试业务仓库，编排考试全流程。
 class ExamRepository {
@@ -13,22 +29,25 @@ class ExamRepository {
   final ExamAnswerDao _answerDao;
   final QuestionDao _questionDao;
   final WrongQuestionDao _wrongDao;
-  final GraderAgent? _graderAgent;
+  final GradeFunction? _gradeFn;
 
   ExamRepository({
     required ExamDao examDao,
     required ExamAnswerDao answerDao,
     required QuestionDao questionDao,
     required WrongQuestionDao wrongDao,
-    GraderAgent? graderAgent,
+    GradeFunction? gradeFn,
   })  : _examDao = examDao,
         _answerDao = answerDao,
         _questionDao = questionDao,
         _wrongDao = wrongDao,
-        _graderAgent = graderAgent;
+        _gradeFn = gradeFn;
 
   Future<List<Exam>> getAll({String? examType, int limit = 50}) =>
       _examDao.getAll(examType: examType, limit: limit);
+
+  /// 直接插入已有考试对象，返回自增 ID。
+  Future<int> createExam(Exam exam) => _examDao.insert(exam);
 
   Future<Exam?> getById(int id) => _examDao.getById(id);
 
@@ -39,7 +58,7 @@ class ExamRepository {
     final questions = await _questionDao.getRandom(limit: questionCount);
     return _createExamWithQuestions(
       examType: 'daily',
-      title: '每日一测',
+      title: _strings.core_daily_quiz,
       questions: questions,
     );
   }
@@ -143,11 +162,11 @@ class ExamRepository {
         // 已评分（客观题）
         totalScore += answer.score!;
         gradedAnswers.add(answer);
-      } else if (_graderAgent != null) {
+      } else if (_gradeFn != null) {
         // 简答题 AI 阅卷
         final question = (await _questionDao.getByIds([answer.questionId])).firstOrNull;
         if (question != null) {
-          final gradeResult = await _graderAgent.grade(
+          final gradeResult = await _gradeFn(
             question: question.stem,
             referenceAnswer: question.answer,
             userAnswer: answer.userAnswer ?? '',

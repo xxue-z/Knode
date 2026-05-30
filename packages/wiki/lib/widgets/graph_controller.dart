@@ -2,6 +2,7 @@
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 
 /// A gesture controller for a knowledge-graph canvas.
 ///
@@ -27,8 +28,11 @@ import 'package:flutter/material.dart';
 /// }
 /// ```
 class GraphController extends ChangeNotifier {
-  GraphController({required TickerProvider vsync})
-      : _ticker = vsync.createTicker(_onTick);
+  late final Ticker _ticker;
+
+  GraphController({required TickerProvider vsync}) {
+    _ticker = vsync.createTicker(_onTick);
+  }
 
   // ---------------------------------------------------------------------------
   // Constants
@@ -52,8 +56,6 @@ class GraphController extends ChangeNotifier {
   // ---------------------------------------------------------------------------
   // Internal state
   // ---------------------------------------------------------------------------
-
-  final Ticker _ticker;
 
   double _scale = 1.0;
   Offset _offset = Offset.zero;
@@ -160,20 +162,20 @@ class GraphController extends ChangeNotifier {
 
   Offset _panStartPosition = Offset.zero;
 
-  void _onPanStart(PanStartDetails details) {
+  void _onPanStart(DragStartDetails details) {
     // Ignore pan if a scale gesture is active.
     if (_isScaling) return;
     _stopInertia();
     _panStartPosition = _offset;
   }
 
-  void _onPanUpdate(PanUpdateDetails details) {
+  void _onPanUpdate(DragUpdateDetails details) {
     if (_isScaling) return;
     _offset = _clampOffset(_panStartPosition + details.delta);
     notifyListeners();
   }
 
-  void _onPanEnd(PanEndDetails details) {
+  void _onPanEnd(DragEndDetails details) {
     if (_isScaling) return;
     _velocity = details.velocity.pixelsPerSecond;
     _startInertia();
@@ -214,7 +216,7 @@ class GraphController extends ChangeNotifier {
     }
 
     // Apply friction decay.
-    final Offset decayedVelocity = _velocity * math.pow(_friction, dt * 60);
+    final Offset decayedVelocity = _velocity * math.pow(_friction, dt * 60).toDouble();
     _velocity = decayedVelocity;
 
     // Integrate.

@@ -1,7 +1,10 @@
 ﻿import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'ai_provider.dart';
+import 'package:core/gen/strings.dart';
 import 'package:core/models/intent_result.dart';
+
+const _strings = L10nStringsMixin();
 
 /// API 规范类型。
 enum ApiSpec { openai, anthropic }
@@ -62,12 +65,12 @@ class CloudAIProvider implements AIProvider {
           return await _chatAnthropic(messages, systemPrompt: systemPrompt, temperature: temperature, maxTokens: maxTokens);
       }
     } on DioException catch (e) {
-      if (e.response?.statusCode == 429) throw StateError('API 限流，请稍后重试');
-      if (e.response?.statusCode == 401) throw StateError('API Key 无效');
+      if (e.response?.statusCode == 429) throw StateError(_strings.core_api_rate_limited);
+      if (e.response?.statusCode == 401) throw StateError(_strings.core_invalid_api_id);
       if (e.response?.statusCode == 502 || e.response?.statusCode == 503) {
-        throw StateError('服务暂时不可用，请稍后重试');
+        throw StateError(_strings.core_service_unavailable);
       }
-      throw StateError('网络请求失败: ${e.message}');
+      throw StateError('${_strings.core_network_request_failed}: ${e.message}');
     }
   }
 
@@ -86,7 +89,7 @@ class CloudAIProvider implements AIProvider {
     if (maxTokens != null) body['max_tokens'] = maxTokens;
 
     final resp = await dio.post('/v1/chat/completions', data: body);
-    return resp.data['choices'][0]['message'];
+    return Map<String, dynamic>.from(resp.data['choices'][0]['message'] as Map);
   }
 
   /// Anthropic 格式请求。
@@ -205,7 +208,7 @@ class CloudAIProvider implements AIProvider {
     final result = await _chat(msgs, systemPrompt: effectiveSystem, temperature: 0.1);
     final raw = result['content'] as String? ?? '{}';
     try {
-      return IntentResult.fromMap(jsonDecode(raw));
+      return IntentResult.fromMap(jsonDecode(raw) as Map<String, dynamic>);
     } catch (_) {
       return IntentResult(type: 'chat', keywords: [text]);
     }
@@ -246,7 +249,7 @@ class CloudAIProvider implements AIProvider {
       final m = jsonDecode(raw);
       return GradeResult(score: (m['score'] as num).toDouble(), feedback: m['feedback'] as String? ?? '');
     } catch (_) {
-      return const GradeResult(score: 0, feedback: '评分失败');
+      return GradeResult(score: 0, feedback: _strings.core_grading_failed);
     }
   }
 
@@ -261,7 +264,7 @@ class CloudAIProvider implements AIProvider {
       final data = resp.data['data'][0]['embedding'];
       return List<double>.from((data as List).map((e) => (e as num).toDouble()));
     } catch (e) {
-      throw StateError('Embedding 生成失败: $e');
+      throw StateError('${_strings.core_embedding_generation_failed}: $e');
     }
   }
 

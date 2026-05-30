@@ -1,7 +1,11 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:wiki/gen/strings.dart';
 
-import '../../../providers/category_provider.dart';
+import 'package:core/models/category.dart';
+import 'package:wiki/providers/category_provider.dart';
+
+final _strings = const L10nStringsMixin();
 
 /// 层级目录树组件。
 ///
@@ -43,7 +47,7 @@ class _CategoryTreeState extends ConsumerState<CategoryTree> {
         );
       },
       loading: () => const Center(child: CircularProgressIndicator()),
-      error: (e, _) => Center(child: Text('加载失败: $e')),
+      error: (e, _) => Center(child: Text('${_strings.wiki_error}: $e')),
     );
   }
 
@@ -160,7 +164,7 @@ class _CategoryTreeState extends ConsumerState<CategoryTree> {
                 color: Theme.of(context).colorScheme.error,
               ),
               title: Text(
-                '删除',
+                _strings.wiki_delete,
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.error,
                 ),
@@ -190,7 +194,7 @@ class _CategoryTreeState extends ConsumerState<CategoryTree> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('取消'),
+            child: Text(_strings.wiki_cancel),
           ),
           TextButton(
             onPressed: () {
@@ -202,7 +206,7 @@ class _CategoryTreeState extends ConsumerState<CategoryTree> {
               }
               Navigator.pop(context);
             },
-            child: const Text('确定'),
+            child: Text(_strings.wiki_confirm),
           ),
         ],
       ),
@@ -253,15 +257,15 @@ class _CategoryTreeState extends ConsumerState<CategoryTree> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('取消'),
+            child: Text(_strings.wiki_cancel),
           ),
           TextButton(
             onPressed: () {
               ref.read(categoryListProvider.notifier).delete(category.id);
               Navigator.pop(context);
             },
-            child: const Text('删除',
-                style: TextStyle(color: Colors.red)),
+            child: Text(_strings.wiki_delete,
+                style: const TextStyle(color: Colors.red)),
           ),
         ],
       ),

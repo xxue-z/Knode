@@ -1,6 +1,9 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:core/models/question.dart';
+import 'package:quiz/gen/strings.dart';
 import 'dart:convert';
+
+const _strings = L10nStringsMixin();
 
 /// 单题展示组件，支持 5 种题型。
 class QuestionCard extends StatelessWidget {
@@ -75,7 +78,7 @@ class QuestionCard extends StatelessWidget {
 
           // 判断题
           if (question.type == 'true_false')
-            ...['正确', '错误'].map((v) => RadioListTile<String>(
+            ...[_strings.quiz_correct, _strings.quiz_wrong].map((v) => RadioListTile<String>(
                   title: Text(v),
                   value: v[0],
                   groupValue: selectedAnswer,

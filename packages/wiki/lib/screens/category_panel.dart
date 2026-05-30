@@ -1,8 +1,10 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:wiki/gen/strings.dart';
 
-import '../../../providers/category_provider.dart';
-import 'category_tree.dart';
+import 'package:wiki/screens/category_tree.dart';
+
+final _strings = const L10nStringsMixin();
 
 /// 右滑类目面板组件。
 ///
@@ -95,7 +97,7 @@ class _CategoryPanelState extends ConsumerState<CategoryPanel>
                         Padding(
                           padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
                           child: Text(
-                            '类目',
+                            _strings.wiki_category,
                             style: Theme.of(context).textTheme.titleLarge,
                           ),
                         ),
@@ -103,7 +105,7 @@ class _CategoryPanelState extends ConsumerState<CategoryPanel>
                         // 「全部知识」选项。
                         ListTile(
                           leading: const Icon(Icons.home_outlined),
-                          title: const Text('全部知识'),
+                          title: Text(_strings.wiki_all_knowledge),
                           selected: widget.selectedCategoryId == null,
                           selectedTileColor: Theme.of(context)
                               .colorScheme

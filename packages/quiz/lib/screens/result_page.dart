@@ -1,7 +1,9 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:core/models/question.dart';
-import '../../wiki/reader/reader_page.dart';
+import 'package:quiz/gen/strings.dart';
+
+const _strings = L10nStringsMixin();
 
 /// 成绩展示页面，显示总分、每题得分，可点击查看源文档。
 class ResultPage extends ConsumerWidget {
@@ -11,11 +13,15 @@ class ResultPage extends ConsumerWidget {
     required this.total,
     required this.answers,
     required this.questions,
+    this.onSourceDocumentTap,
   });
 
   final int correctCount, total;
   final Map<int, String> answers;
   final List<Question> questions;
+
+  /// Callback when user taps to view a source document. Receives the document ID.
+  final void Function(int docId)? onSourceDocumentTap;
 
   double get score => total == 0 ? 0 : (correctCount / total * 100);
 
@@ -24,7 +30,7 @@ class ResultPage extends ConsumerWidget {
     final colorScheme = Theme.of(context).colorScheme;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('测验结果'), centerTitle: true),
+      appBar: AppBar(title: Text(_strings.quiz_exam_result), centerTitle: true),
       body: ListView(
         padding: const EdgeInsets.all(20),
         children: [
@@ -48,7 +54,7 @@ class ResultPage extends ConsumerWidget {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    score >= 60 ? '恭喜通过！' : '继续加油！',
+                    score >= 60 ? _strings.quiz_congratulations_passed : _strings.quiz_keep_going,
                     style: TextStyle(
                       color: score >= 60 ? colorScheme.primary : colorScheme.error,
                     ),
@@ -76,11 +82,11 @@ class ResultPage extends ConsumerWidget {
                 subtitle: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('你的答案: ${userAnswer ?? "未作答"}'),
-                    Text('正确答案: ${q.answer}'),
+                    Text('${_strings.quiz_your_answer}: ${userAnswer ?? "未作答"}'),
+                    Text('${_strings.quiz_correct_answer}: ${q.answer}'),
                     if (q.explanation != null && q.explanation!.isNotEmpty)
                       Text(
-                        '解析: ${q.explanation}',
+                        '${_strings.quiz_explanation}: ${q.explanation}',
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(color: colorScheme.onSurfaceVariant),
@@ -93,20 +99,15 @@ class ResultPage extends ConsumerWidget {
                 trailing: q.sourceFileIds != null
                     ? IconButton(
                         icon: const Icon(Icons.open_in_new),
-                        tooltip: '查看源文档',
+                        tooltip: _strings.quiz_view_source_document,
                         onPressed: () {
                           // 解析第一个关联文档 ID
                           final ids = q.sourceFileIds!.split(',').map(int.tryParse).whereType<int>().toList();
-                          if (ids.isNotEmpty) {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) => ReaderPage(docId: ids.first),
-                              ),
-                            );
+                          if (ids.isNotEmpty && onSourceDocumentTap != null) {
+                            onSourceDocumentTap!(ids.first);
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text('无关联文档')),
+                              SnackBar(content: Text(_strings.quiz_no_associated_document)),
                             );
                           }
                         },
@@ -119,7 +120,7 @@ class ResultPage extends ConsumerWidget {
           const SizedBox(height: 16),
           FilledButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('返回'),
+            child: Text(_strings.quiz_return),
           ),
         ],
       ),
@@ -159,15 +160,15 @@ class ResultPage extends ConsumerWidget {
                 Icon(isCorrect ? Icons.check : Icons.close,
                     color: isCorrect ? Colors.green : Colors.red, size: 18),
                 const SizedBox(width: 8),
-                Text('你的答案: ${userAnswer ?? "未作答"}'),
+                Text('${_strings.quiz_your_answer}: ${userAnswer ?? "未作答"}'),
               ],
             ),
             const SizedBox(height: 8),
-            Text('正确答案: ${q.answer}',
+            Text('${_strings.quiz_correct_answer}: ${q.answer}',
                 style: const TextStyle(fontWeight: FontWeight.bold)),
             if (q.explanation != null) ...[
               const SizedBox(height: 12),
-              Text('解析: ${q.explanation}'),
+              Text('${_strings.quiz_explanation}: ${q.explanation}'),
             ],
           ],
         ),

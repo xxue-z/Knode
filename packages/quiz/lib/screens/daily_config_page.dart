@@ -1,7 +1,10 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:core/models/daily_task_config.dart';
-import '../../../providers/quiz_provider.dart';
+import 'package:quiz/gen/strings.dart';
+import 'package:quiz/providers/quiz_provider.dart';
+
+const _strings = L10nStringsMixin();
 
 /// 每日一测配置页面，可设置启用/禁用、出题范围、题目数量、提醒时间。
 class DailyConfigPage extends ConsumerStatefulWidget {
@@ -49,7 +52,7 @@ class _DailyConfigPageState extends ConsumerState<DailyConfigPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('每日一测设置'),
+        title: Text(_strings.quiz_daily_quiz_settings),
         centerTitle: true,
       ),
       body: ListView(
@@ -57,8 +60,8 @@ class _DailyConfigPageState extends ConsumerState<DailyConfigPage> {
         children: [
           // 启用开关
           SwitchListTile(
-            title: const Text('启用每日一测'),
-            subtitle: const Text('每天定时生成测验题目'),
+            title: Text(_strings.quiz_enable_daily_quiz),
+            subtitle: Text(_strings.quiz_generate_quiz_questions_daily),
             value: _isEnabled,
             onChanged: (v) => setState(() {
               _isEnabled = v;
@@ -69,7 +72,7 @@ class _DailyConfigPageState extends ConsumerState<DailyConfigPage> {
 
           // 出题范围
           ListTile(
-            title: const Text('出题范围'),
+            title: Text(_strings.quiz_question_scope),
             subtitle: Text(_scopeTypeLabel(_scopeType)),
             trailing: const Icon(Icons.chevron_right),
             onTap: () => _showScopeSelector(),
@@ -81,7 +84,7 @@ class _DailyConfigPageState extends ConsumerState<DailyConfigPage> {
             padding: const EdgeInsets.symmetric(vertical: 8),
             child: Row(
               children: [
-                const Text('题目数量: '),
+                Text('${_strings.quiz_question_count}: '),
                 Expanded(
                   child: Slider(
                     value: _questionCount.toDouble(),
@@ -103,7 +106,7 @@ class _DailyConfigPageState extends ConsumerState<DailyConfigPage> {
 
           // 提醒时间
           ListTile(
-            title: const Text('提醒时间'),
+            title: Text(_strings.quiz_reminder_time),
             subtitle: Text(_reminderTime.format(context)),
             trailing: const Icon(Icons.access_time),
             onTap: () async {
@@ -119,7 +122,7 @@ class _DailyConfigPageState extends ConsumerState<DailyConfigPage> {
           // 保存按钮
           FilledButton(
             onPressed: _hasChanges ? _save : null,
-            child: const Text('保存设置'),
+            child: Text(_strings.quiz_save_settings),
           ),
         ],
       ),
@@ -134,7 +137,7 @@ class _DailyConfigPageState extends ConsumerState<DailyConfigPage> {
           mainAxisSize: MainAxisSize.min,
           children: [
             ListTile(
-              title: const Text('全部知识库'),
+              title: Text(_strings.quiz_all_knowledge_base),
               leading: Radio<String>(
                 value: 'all',
                 groupValue: _scopeType,
@@ -142,7 +145,7 @@ class _DailyConfigPageState extends ConsumerState<DailyConfigPage> {
               ),
             ),
             ListTile(
-              title: const Text('指定类目'),
+              title: Text(_strings.quiz_specific_category),
               leading: Radio<String>(
                 value: 'category',
                 groupValue: _scopeType,
@@ -150,7 +153,7 @@ class _DailyConfigPageState extends ConsumerState<DailyConfigPage> {
               ),
             ),
             ListTile(
-              title: const Text('最近 N 天阅读'),
+              title: Text(_strings.quiz_recent_reading_documents),
               leading: Radio<String>(
                 value: 'days',
                 groupValue: _scopeType,
@@ -187,7 +190,7 @@ class _DailyConfigPageState extends ConsumerState<DailyConfigPage> {
     if (mounted) {
       setState(() => _hasChanges = false);
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('设置已保存')),
+        SnackBar(content: Text(_strings.quiz_settings_saved)),
       );
       Navigator.pop(context);
     }
@@ -196,11 +199,11 @@ class _DailyConfigPageState extends ConsumerState<DailyConfigPage> {
   String _scopeTypeLabel(String type) {
     switch (type) {
       case 'all':
-        return '全部知识库';
+        return _strings.quiz_all_knowledge_base;
       case 'category':
-        return '指定类目';
+        return _strings.quiz_specific_category;
       case 'days':
-        return '最近阅读文档';
+        return _strings.quiz_recent_reading_documents;
       default:
         return type;
     }

@@ -2,22 +2,25 @@
 import '../dao/message_dao.dart';
 import '../../models/conversation.dart';
 import '../../models/message.dart';
-import '../../../../lib/ai/agents/summarizer_agent.dart';
 
-class BusinessException implements Exception {
+/// 会话业务异常。
+class ConversationBusinessException implements Exception {
   final String message;
-  const BusinessException(this.message);
+  const ConversationBusinessException(this.message);
   @override
-  String toString() => 'BusinessException: $message';
+  String toString() => 'ConversationBusinessException: $message';
 }
+
+/// 摘要生成函数类型，由外部注入。
+typedef SummarizeFunction = Future<String> Function(String content);
 
 class ConversationRepository {
   final ConversationDao _convDao;
   final MessageDao _msgDao;
-  final SummarizerAgent? _summarizerAgent;
+  final SummarizeFunction? _summarizeFn;
 
-  ConversationRepository({required ConversationDao convDao, required MessageDao msgDao, SummarizerAgent? summarizerAgent})
-      : _convDao = convDao, _msgDao = msgDao, _summarizerAgent = summarizerAgent;
+  ConversationRepository({required ConversationDao convDao, required MessageDao msgDao, SummarizeFunction? summarizeFn})
+      : _convDao = convDao, _msgDao = msgDao, _summarizeFn = summarizeFn;
 
   Future<List<Conversation>> getAll({String status = 'active'}) => _convDao.getAll(status: status);
   Future<Conversation?> getById(int id) => _convDao.getById(id);
@@ -39,7 +42,7 @@ class ConversationRepository {
 
   Future<void> rename(int id, String title) async {
     final conv = await _convDao.getById(id);
-    if (conv == null) throw BusinessException('会话不存在: id=$id');
+    if (conv == null) throw ConversationBusinessException('会话不存在: id=$id');
     await _convDao.update(conv.copyWith(title: title));
   }
 
@@ -50,30 +53,26 @@ class ConversationRepository {
 
   /// 将会话归档为笔记。
   ///
-  /// 1. 调用 SummarizerAgent 生成摘要
-  /// 2. 创建 Document 记录
-  /// 3. 更新 Conversation 的 wiki_file_id 和 status
+  /// 1. 调用摘要函数生成摘要
+  /// 2. 返回归档信息，由调用方创建 Document 记录
   Future<int?> archive(int conversationId, int categoryId) async {
     final conv = await _convDao.getById(conversationId);
-    if (conv == null) throw BusinessException('会话不存在: id=$conversationId');
+    if (conv == null) throw ConversationBusinessException('会话不存在: id=$conversationId');
 
     // 获取所有消息拼接为文本
     final messages = await _msgDao.getByConversation(conversationId);
-    if (messages.isEmpty) throw BusinessException('会话为空，无法归档');
+    if (messages.isEmpty) throw ConversationBusinessException('会话为空，无法归档');
 
     final conversationText = messages
         .map((m) => '${m.role == "user" ? "用户" : "AI"}：${m.content}')
         .join('\n\n');
 
-    // 调用摘要 Agent 生成摘要
-    String summary = '';
-    if (_summarizerAgent != null) {
+    // 调用摘要函数生成摘要
+    if (_summarizeFn != null) {
       try {
-        summary = await _summarizerAgent.summarize(content: conversationText);
+        await _summarizeFn(conversationText);
       } catch (_) {
-        summary = conversationText.length > 200
-            ? '${conversationText.substring(0, 200)}...'
-            : conversationText;
+        // 摘要失败时忽略
       }
     }
 

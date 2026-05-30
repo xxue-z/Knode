@@ -45,7 +45,7 @@ class TtsService {
       onPlayStateChanged?.call(false);
     });
 
-    _tts.setErrorHandler((String message) {
+    _tts.setErrorHandler((dynamic message) {
       _isSpeaking = false;
       _currentText = '';
       onPlayStateChanged?.call(false);
@@ -74,15 +74,10 @@ class TtsService {
 
   /// 继续朗读。
   ///
-  /// 优先使用 flutter_tts 的 [continueSpeak] 方法恢复播放。
-  /// 若平台不支持，则重新朗读缓存的文本。
+  /// 重新朗读缓存的文本（flutter_tts 不支持原生恢复）。
   Future<void> resume() async {
-    try {
-      await _tts.continueSpeak();
-    } catch (_) {
-      if (_currentText.isNotEmpty) {
-        await _tts.speak(_currentText);
-      }
+    if (_currentText.isNotEmpty) {
+      await _tts.speak(_currentText);
     }
   }
 

@@ -1,8 +1,12 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:core/models/question.dart';
+import 'package:quiz/gen/strings.dart';
 import '../../providers/quiz_provider.dart';
+
 import 'wrong_detail.dart';
+
+const _strings = L10nStringsMixin();
 
 /// 错题本列表页面，显示所有错题，按错误次数排序。
 class WrongListPage extends ConsumerStatefulWidget {
@@ -21,7 +25,7 @@ class _WrongListPageState extends ConsumerState<WrongListPage> {
     final repo = ref.read(questionRepositoryProvider);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('错题本'),
+        title: Text(_strings.quiz_wrong_questions),
         centerTitle: true,
         actions: [
           PopupMenuButton<String>(
@@ -35,8 +39,8 @@ class _WrongListPageState extends ConsumerState<WrongListPage> {
               }
             }),
             itemBuilder: (_) => [
-              const PopupMenuItem(value: 'wrong_count', child: Text('按错误次数')),
-              const PopupMenuItem(value: 'difficulty', child: Text('按难度')),
+              PopupMenuItem(value: 'wrong_count', child: Text(_strings.quiz_sort_by_wrong_count)),
+              PopupMenuItem(value: 'difficulty', child: Text(_strings.quiz_sort_by_difficulty)),
             ],
           ),
         ],
@@ -49,13 +53,13 @@ class _WrongListPageState extends ConsumerState<WrongListPage> {
           }
           final questions = snapshot.data ?? [];
           if (questions.isEmpty) {
-            return const Center(
+            return Center(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Icon(Icons.check_circle_outline, size: 64, color: Colors.grey),
                   SizedBox(height: 16),
-                  Text('暂无错题，继续保持！'),
+                  Text(_strings.quiz_no_wrong_questions_keep_it_up),
                 ],
               ),
             );
@@ -139,28 +143,28 @@ class _WrongListPageState extends ConsumerState<WrongListPage> {
   String _difficultyLabel(int difficulty) {
     switch (difficulty) {
       case 1:
-        return '简单';
+        return _strings.quiz_easy;
       case 2:
-        return '中等';
+        return _strings.quiz_medium;
       case 3:
-        return '困难';
+        return _strings.quiz_hard;
       default:
-        return '未知';
+        return _strings.quiz_unknown;
     }
   }
 
   String _typeLabel(String type) {
     switch (type) {
       case 'single_choice':
-        return '单选';
+        return _strings.quiz_single_choice;
       case 'multi_choice':
-        return '多选';
+        return _strings.quiz_multiple_choice;
       case 'true_false':
-        return '判断';
+        return _strings.quiz_true_false;
       case 'fill_blank':
-        return '填空';
+        return _strings.quiz_fill_in_the_blank;
       case 'short_answer':
-        return '简答';
+        return _strings.quiz_short_answer;
       default:
         return type;
     }

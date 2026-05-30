@@ -1,4 +1,5 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:timezone/timezone.dart' as tz;
 
 /// 本地通知服务，封装 flutter_local_notifications。
 class NotificationService {
@@ -51,11 +52,12 @@ class NotificationService {
     required DateTime scheduledTime,
   }) async {
     if (!_initialized) await init();
+    final tzDateTime = tz.TZDateTime.from(scheduledTime, tz.local);
     await _plugin.zonedSchedule(
       id,
       title,
       body,
-      scheduledTime as TZDateTime,
+      tzDateTime,
       const NotificationDetails(
         android: AndroidNotificationDetails(
           'knode_scheduled',
