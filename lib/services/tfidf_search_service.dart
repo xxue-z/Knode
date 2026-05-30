@@ -1,5 +1,5 @@
 ﻿import '../core/tokenizer/tokenizer.dart';
-import 'tfidf_service.dart';
+import 'tfidf_service.dart' show TfidfService, ChunkData;
 
 /// TF-IDF 检索结果（与 HybridSearchService.SearchResult 兼容）。
 class TfidfSearchResult {
@@ -36,5 +36,10 @@ class TfidfSearchService {
 
   Future<void> deleteByDoc(int docId) async {
     await _tfidfService.deleteByDoc(docId);
+  }
+
+  /// 获取文档的所有块。
+  Future<List<ChunkData>> getChunks(int docId) async {
+    return _tfidfService.getChunks(docId);
   }
 }

@@ -2,6 +2,7 @@ import 'dart:math' as math;
 import 'vector_store_service.dart';
 import 'tfidf_search_service.dart';
 import 'text_chunker.dart';
+import 'embedding_fallback_service.dart';
 
 /// 混合检索服务：并行召回 + 归一化加权融合 + Top K。
 ///
@@ -11,12 +12,13 @@ class HybridSearchService {
   final VectorStoreService _vectorStore;
   final TfidfSearchService _tfidfSearch;
   final TextChunker _chunker;
+  final EmbeddingFallbackService? _embeddingService;
 
-  HybridSearchService(this._vectorStore, this._tfidfSearch, this._chunker);
+  HybridSearchService(this._vectorStore, this._tfidfSearch, this._chunker, [this._embeddingService]);
 
   /// 混合检索。
   ///
-  /// [queryEmbedding] 为空时跳过语义检索，α 自动降级为 0。
+  /// [queryEmbedding] 为空时自动尝试生成（如果 EmbeddingFallbackService 可用）。
   /// [alpha] 语义权重，默认 0.7。Embedding 不可用时自动设为 0。
   Future<List<SearchResult>> search(
     String query, {
@@ -26,13 +28,19 @@ class HybridSearchService {
   }) async {
     final m = topK * 2;
 
+    // 如果未提供 embedding，尝试自动生成
+    List<double>? effectiveEmbedding = queryEmbedding;
+    if (effectiveEmbedding == null && _embeddingService != null) {
+      effectiveEmbedding = await _embeddingService.generateEmbedding(query);
+    }
+
     // 判断 Embedding 是否可用
-    final hasEmbedding = queryEmbedding != null && queryEmbedding.isNotEmpty;
+    final hasEmbedding = effectiveEmbedding != null && effectiveEmbedding.isNotEmpty;
     if (!hasEmbedding) alpha = 0.0;
 
     // 并行召回
     final semanticFuture = hasEmbedding
-        ? _vectorStore.search(queryEmbedding!, topK: m).catchError((_) => <VectorSearchResult>[])
+        ? _vectorStore.search(effectiveEmbedding, topK: m).catchError((_) => <VectorSearchResult>[])
         : Future.value(<VectorSearchResult>[]);
     final tfidfFuture = _tfidfSearch.search(query, topK: m).catchError((_) => <TfidfSearchResult>[]);
 
@@ -84,12 +92,21 @@ class HybridSearchService {
   }
 
   /// 索引文档：分块 → 写入 doc_chunks + doc_vectors。
+  ///
+  /// 如果未提供 embedding 且 EmbeddingFallbackService 可用，会自动生成。
   Future<void> indexDocument(int docId, String text, {List<double>? embedding}) async {
     final chunks = _chunker.chunk(text);
     for (final chunk in chunks) {
       await _tfidfSearch.indexDocument(docId, chunk.text);
-      if (embedding != null) {
-        await _vectorStore.insert(docId, chunk.index, embedding);
+
+      // 尝试为每个 chunk 生成 embedding
+      List<double>? chunkEmbedding = embedding;
+      if (chunkEmbedding == null && _embeddingService != null) {
+        chunkEmbedding = await _embeddingService.generateEmbedding(chunk.text);
+      }
+
+      if (chunkEmbedding != null && chunkEmbedding.isNotEmpty) {
+        await _vectorStore.insert(docId, chunk.index, chunkEmbedding);
       }
     }
   }
