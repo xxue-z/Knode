@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../data/models/question.dart';
+import 'package:core/models/question.dart';
 import '../../wiki/reader/reader_page.dart';
 
 /// 成绩展示页面，显示总分、每题得分，可点击查看源文档。

@@ -1,7 +1,7 @@
 ﻿import 'package:sqflite/sqflite.dart';
-import '../database/app_database.dart';
-import '../database/tables/daily_task_config_table.dart';
-import '../models/daily_task_config.dart';
+import '../app_database.dart';
+import '../tables/daily_task_config_table.dart';
+import '../../models/daily_task_config.dart';
 
 class DailyTaskDao {
   Database get _db => AppDatabase.instance.db;

@@ -1,7 +1,7 @@
 ﻿import 'package:sqflite/sqflite.dart';
-import '../database/app_database.dart';
-import '../database/tables/message_table.dart';
-import '../models/message.dart';
+import '../app_database.dart';
+import '../tables/message_table.dart';
+import '../../models/message.dart';
 
 class MessageDao {
   Database get _db => AppDatabase.instance.db;

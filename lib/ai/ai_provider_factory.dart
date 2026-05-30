@@ -1,7 +1,7 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+﻿import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'ai_provider.dart';
 import 'cloud_ai_provider.dart';
-import '../data/dao/settings_dao.dart';
+import 'package:core/database/dao/settings_dao.dart';
 
 /// AIProvider 工厂，根据配置创建云端或本地 Provider。
 class AIProviderFactory {

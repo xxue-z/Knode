@@ -1,5 +1,5 @@
 ﻿import 'package:flutter/services.dart';
-import '../data/dao/settings_dao.dart';
+import 'package:core/database/dao/settings_dao.dart';
 
 /// 提示词模板管理器。从 assets/prompts/ 加载，支持变量替换和用户自定义覆盖。
 class PromptManager {

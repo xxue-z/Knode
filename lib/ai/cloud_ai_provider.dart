@@ -1,7 +1,7 @@
-import 'dart:convert';
+﻿import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'ai_provider.dart';
-import '../data/models/intent_result.dart';
+import 'package:core/models/intent_result.dart';
 
 /// API 规范类型。
 enum ApiSpec { openai, anthropic }

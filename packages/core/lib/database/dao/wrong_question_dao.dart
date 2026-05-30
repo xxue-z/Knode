@@ -1,7 +1,7 @@
 ﻿import 'package:sqflite/sqflite.dart';
-import '../database/app_database.dart';
-import '../database/tables/wrong_question_log_table.dart';
-import '../models/wrong_question_log.dart';
+import '../app_database.dart';
+import '../tables/wrong_question_log_table.dart';
+import '../../models/wrong_question_log.dart';
 
 class WrongQuestionDao {
   Database get _db => AppDatabase.instance.db;

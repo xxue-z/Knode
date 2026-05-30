@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../data/models/question.dart';
-import '../../data/models/exam_answer.dart';
-import '../../data/dao/wrong_question_dao.dart';
+import 'package:core/models/question.dart';
+import 'package:core/models/exam_answer.dart';
+import 'package:core/database/dao/wrong_question_dao.dart';
 import '../../providers/quiz_provider.dart';
 
 /// 错题详情页面，展示题目、用户答案对比、AI 讲解，支持"掌握"移除。

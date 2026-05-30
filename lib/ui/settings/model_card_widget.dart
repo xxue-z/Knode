@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
-import '../../data/models/local_model.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:core/models/local_model.dart';
 
 /// 模型状态联动卡片组件。
 ///

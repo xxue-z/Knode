@@ -1,8 +1,8 @@
 ﻿import 'package:sqflite/sqflite.dart';
 
-import '../database/app_database.dart';
-import '../database/tables/document_table.dart';
-import '../models/document.dart';
+import '../app_database.dart';
+import '../tables/document_table.dart';
+import '../../models/document.dart';
 
 /// 文档数据访问对象，实现 CRUD、搜索及阅读统计更新。
 class DocumentDao {

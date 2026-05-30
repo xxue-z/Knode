@@ -1,8 +1,8 @@
 ﻿import 'dart:convert';
 import 'package:sqflite/sqflite.dart';
-import '../database/app_database.dart';
-import '../database/tables/question_table.dart';
-import '../models/question.dart';
+import '../app_database.dart';
+import '../tables/question_table.dart';
+import '../../models/question.dart';
 
 class QuestionDao {
   Database get _db => AppDatabase.instance.db;

@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../data/repositories/document_repository.dart';
+import 'package:core/database/repositories/document_repository.dart';
 import '../../../providers/document_provider.dart';
 import 'quill_editor.dart';
 

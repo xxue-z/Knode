@@ -1,7 +1,7 @@
-import 'dart:convert';
+﻿import 'dart:convert';
 import 'package:shelf/shelf.dart' as shelf;
-import '../../../data/repositories/document_repository.dart';
-import '../../../data/dao/document_dao.dart';
+import 'package:core/database/repositories/document_repository.dart';
+import 'package:core/database/dao/document_dao.dart';
 
 /// 文档 API Handler，提供文档列表和内容阅读接口。
 class DocHandler {

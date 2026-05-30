@@ -1,7 +1,7 @@
 ﻿import 'dart:convert';
 import '../ai_provider.dart';
 import '../prompt_manager.dart';
-import '../../data/models/intent_result.dart';
+import 'package:core/models/intent_result.dart';
 
 class IntentAgent {
   final AIProvider _ai;

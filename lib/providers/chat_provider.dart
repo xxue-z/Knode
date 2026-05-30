@@ -1,6 +1,6 @@
 ﻿import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../data/models/message.dart';
-import '../data/repositories/conversation_repository.dart';
+import 'package:core/models/message.dart';
+import 'package:core/database/repositories/conversation_repository.dart';
 import '../ai/agents/qa_agent.dart';
 
 class ChatMessageState {

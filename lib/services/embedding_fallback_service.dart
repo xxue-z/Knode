@@ -1,8 +1,8 @@
-import 'dart:async';
+﻿import 'dart:async';
 import 'package:crypto/crypto.dart';
 import 'dart:convert';
 import '../ai/ai_provider.dart';
-import '../data/database/app_database.dart';
+import 'package:core/database/app_database.dart';
 import 'package:sqflite/sqflite.dart';
 
 /// Embedding 回退服务：本地模型 → 云端 API → 仅 TF-IDF。

@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../data/models/question.dart';
+import 'package:core/models/question.dart';
 import '../../providers/quiz_provider.dart';
 import 'wrong_detail.dart';
 

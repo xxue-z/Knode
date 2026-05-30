@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../../data/models/daily_task_config.dart';
+import 'package:core/models/daily_task_config.dart';
 import '../../../providers/quiz_provider.dart';
 
 /// 每日一测配置页面，可设置启用/禁用、出题范围、题目数量、提醒时间。

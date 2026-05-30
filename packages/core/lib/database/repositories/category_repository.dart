@@ -1,6 +1,6 @@
 ﻿import '../dao/category_dao.dart';
 import '../dao/document_dao.dart';
-import '../models/category.dart';
+import '../../models/category.dart';
 
 /// 类目业务异常。
 class BusinessException implements Exception {

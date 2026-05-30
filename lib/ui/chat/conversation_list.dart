@@ -1,7 +1,7 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../providers/conversation_provider.dart';
-import '../../data/models/conversation.dart';
+import 'package:core/models/conversation.dart';
 
 class ConversationList extends ConsumerWidget {
   const ConversationList({super.key, this.onConversationSelected});

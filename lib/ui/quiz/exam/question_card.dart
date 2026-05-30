@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
-import '../../data/models/question.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:core/models/question.dart';
 import 'dart:convert';
 
 /// 单题展示组件，支持 5 种题型。

@@ -1,8 +1,8 @@
 ﻿import 'package:sqflite/sqflite.dart';
 
-import '../database/app_database.dart';
-import '../database/tables/reading_log_table.dart';
-import '../models/reading_log.dart';
+import '../app_database.dart';
+import '../tables/reading_log_table.dart';
+import '../../models/reading_log.dart';
 
 /// 阅读日志数据访问对象，记录每次阅读的开始/结束时间和时长。
 class ReadingLogDao {

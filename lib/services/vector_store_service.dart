@@ -1,6 +1,6 @@
 ﻿import 'dart:math';
 import 'package:sqflite/sqflite.dart';
-import '../data/database/app_database.dart';
+import 'package:core/database/app_database.dart';
 
 class VectorStoreService {
   Database get _db => AppDatabase.instance.db;

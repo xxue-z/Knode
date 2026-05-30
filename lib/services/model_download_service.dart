@@ -1,10 +1,10 @@
-import 'dart:io';
+﻿import 'dart:io';
 import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:path/path.dart' as p;
 import 'package:crypto/crypto.dart';
 import 'dart:convert';
-import '../data/models/local_model.dart';
+import 'package:core/models/local_model.dart';
 
 class DownloadProgress {
   final double percent;

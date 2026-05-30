@@ -1,8 +1,8 @@
 ﻿import 'package:sqflite/sqflite.dart';
 
-import '../database/app_database.dart';
-import '../database/tables/category_table.dart';
-import '../models/category.dart';
+import '../app_database.dart';
+import '../tables/category_table.dart';
+import '../../models/category.dart';
 
 /// 数据库列名（snake_case）与模型字段（camelCase）的映射工具。
 class _CategoryMapper {

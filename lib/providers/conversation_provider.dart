@@ -1,6 +1,6 @@
 ﻿import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../data/models/conversation.dart';
-import '../data/repositories/conversation_repository.dart';
+import 'package:core/models/conversation.dart';
+import 'package:core/database/repositories/conversation_repository.dart';
 
 final conversationRepositoryProvider = Provider<ConversationRepository>((ref) => throw UnimplementedError('请在 main.dart 中覆盖'));
 

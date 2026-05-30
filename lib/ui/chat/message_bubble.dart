@@ -1,7 +1,7 @@
-import 'dart:convert';
+﻿import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import '../../data/models/message.dart';
+import 'package:core/models/message.dart';
 
 class MessageBubble extends StatelessWidget {
   const MessageBubble({super.key, required this.message, this.onCitationTap});

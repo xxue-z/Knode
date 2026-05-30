@@ -1,6 +1,6 @@
 ﻿import '../dao/question_dao.dart';
 import '../dao/wrong_question_dao.dart';
-import '../models/question.dart';
+import '../../models/question.dart';
 
 class QuestionRepository {
   final QuestionDao _questionDao;

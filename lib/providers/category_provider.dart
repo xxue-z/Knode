@@ -1,7 +1,7 @@
 ﻿import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../data/models/category.dart';
-import '../data/repositories/category_repository.dart';
+import 'package:core/models/category.dart';
+import 'package:core/database/repositories/category_repository.dart';
 
 /// 类目仓库 Provider（由外部注入依赖）。
 final categoryRepositoryProvider = Provider<CategoryRepository>((ref) {

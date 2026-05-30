@@ -1,6 +1,6 @@
-import 'dart:async';
+﻿import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../data/models/local_model.dart';
+import 'package:core/models/local_model.dart';
 import '../services/model_repo_service.dart';
 import '../services/model_download_service.dart';
 import '../ai/local_ai_provider.dart';

@@ -3,12 +3,15 @@
 /// 此文件将作为 barrel export，导出 core 包的所有公共 API。
 library core;
 
+// Data layer
+export 'database/database.dart';
+export 'models/models.dart';
+
 // TODO: 在文件迁移完成后，添加以下导出
 // export 'ai/ai_provider.dart';
-// export 'database/database.dart';
-// export 'models/models.dart';
 // export 'services/services.dart';
 // export 'providers/providers.dart';
+
 export 'constants/app_constants.dart';
 export 'constants/db_constants.dart';
 export 'extensions/string_extensions.dart';

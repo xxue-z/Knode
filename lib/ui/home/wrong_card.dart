@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../providers/quiz_provider.dart';
-import '../../data/dao/wrong_question_dao.dart';
+import 'package:core/database/dao/wrong_question_dao.dart';
 
 /// 首页最近错题卡片，显示错题总数，点击跳转错题本。
 class WrongCard extends ConsumerWidget {

@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:file_picker/file_picker.dart';
-import '../../data/models/cloud_vendor.dart';
-import '../../data/models/local_model.dart';
+import 'package:core/models/cloud_vendor.dart';
+import 'package:core/models/local_model.dart';
 import '../../providers/model_provider.dart';
 import '../../providers/settings_provider.dart';
 import '../../services/cloud_vendor_service.dart';

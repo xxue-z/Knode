@@ -1,6 +1,6 @@
-import 'package:sqflite/sqflite.dart';
-import '../database/app_database.dart';
-import '../database/tables/settings_table.dart';
+﻿import 'package:sqflite/sqflite.dart';
+import '../app_database.dart';
+import '../tables/settings_table.dart';
 
 /// 设置数据访问对象（DAO）。
 ///

@@ -1,7 +1,7 @@
-import 'dart:convert';
+﻿import 'dart:convert';
 import 'package:llama_cpp_dart/llama_cpp_dart.dart';
 import 'ai_provider.dart';
-import '../data/models/intent_result.dart';
+import 'package:core/models/intent_result.dart';
 
 /// AIProvider 的本地实现，使用 llama_cpp_dart 加载 .gguf 量化模型离线推理。
 ///

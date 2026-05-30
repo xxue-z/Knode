@@ -1,10 +1,10 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../data/models/question.dart';
-import '../data/models/exam.dart';
-import '../data/models/daily_task_config.dart';
-import '../data/repositories/question_repository.dart';
-import '../data/repositories/exam_repository.dart';
-import '../data/dao/daily_task_dao.dart';
+﻿import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:core/models/question.dart';
+import 'package:core/models/exam.dart';
+import 'package:core/models/daily_task_config.dart';
+import 'package:core/database/repositories/question_repository.dart';
+import 'package:core/database/repositories/exam_repository.dart';
+import 'package:core/database/dao/daily_task_dao.dart';
 
 final questionRepositoryProvider = Provider<QuestionRepository>(
   (ref) => throw UnimplementedError('请在 main.dart 中覆盖'),

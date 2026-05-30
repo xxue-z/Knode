@@ -1,4 +1,4 @@
-﻿import '../data/models/intent_result.dart';
+﻿import 'package:core/models/intent_result.dart';
 
 /// AI 回答结果。
 class AIResponse {

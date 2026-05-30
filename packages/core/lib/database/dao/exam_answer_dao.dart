@@ -1,7 +1,7 @@
 ﻿import 'package:sqflite/sqflite.dart';
-import '../database/app_database.dart';
-import '../database/tables/exam_answer_table.dart';
-import '../models/exam_answer.dart';
+import '../app_database.dart';
+import '../tables/exam_answer_table.dart';
+import '../../models/exam_answer.dart';
 
 class ExamAnswerDao {
   Database get _db => AppDatabase.instance.db;

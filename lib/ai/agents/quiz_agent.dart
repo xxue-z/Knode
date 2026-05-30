@@ -2,7 +2,7 @@
 import '../ai_provider.dart';
 import '../prompt_manager.dart';
 import 'package:core/utils/hash_utils.dart';
-import '../../data/models/question.dart';
+import 'package:core/models/question.dart';
 
 class QuizAgent {
   final AIProvider _ai;

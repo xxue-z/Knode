@@ -1,7 +1,7 @@
-import 'dart:convert';
+﻿import 'dart:convert';
 import 'package:shelf/shelf.dart' as shelf;
-import '../../../data/repositories/question_repository.dart';
-import '../../../data/repositories/exam_repository.dart';
+import 'package:core/database/repositories/question_repository.dart';
+import 'package:core/database/repositories/exam_repository.dart';
 
 /// 答题 API Handler，提供在线答题和提交答案接口。
 class QuizHandler {

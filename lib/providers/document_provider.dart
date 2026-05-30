@@ -1,7 +1,7 @@
 ﻿import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../data/models/document.dart';
-import '../data/repositories/document_repository.dart';
+import 'package:core/models/document.dart';
+import 'package:core/database/repositories/document_repository.dart';
 
 /// 文档仓库 Provider（由外部注入依赖）。
 final documentRepositoryProvider = Provider<DocumentRepository>((ref) {

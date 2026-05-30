@@ -1,6 +1,6 @@
 ﻿import 'package:flutter/material.dart';
 import 'dart:convert';
-import '../../data/models/citation.dart';
+import 'package:core/models/citation.dart';
 
 class CitationWidget extends StatelessWidget {
   const CitationWidget({super.key, required this.citationsJson, this.onTapDoc});

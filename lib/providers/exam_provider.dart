@@ -1,8 +1,8 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../data/models/exam.dart';
-import '../data/models/exam_answer.dart';
-import '../data/models/question.dart';
-import '../data/repositories/exam_repository.dart';
+﻿import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:core/models/exam.dart';
+import 'package:core/models/exam_answer.dart';
+import 'package:core/models/question.dart';
+import 'package:core/database/repositories/exam_repository.dart';
 
 final examRepositoryProvider = Provider<ExamRepository>(
   (ref) => throw UnimplementedError('请在 main.dart 中覆盖'),

@@ -1,8 +1,8 @@
 ﻿import '../dao/conversation_dao.dart';
 import '../dao/message_dao.dart';
-import '../models/conversation.dart';
-import '../models/message.dart';
-import '../../ai/agents/summarizer_agent.dart';
+import '../../models/conversation.dart';
+import '../../models/message.dart';
+import '../../../../lib/ai/agents/summarizer_agent.dart';
 
 class BusinessException implements Exception {
   final String message;

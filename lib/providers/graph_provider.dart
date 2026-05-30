@@ -1,9 +1,9 @@
-import 'dart:math' as math;
+﻿import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../data/models/document.dart';
+import 'package:core/models/document.dart';
 import '../ui/wiki/graph/graph_canvas.dart' hide GraphNode, GraphEdge;
 import '../ui/wiki/graph/graph_edge.dart';
 import 'document_provider.dart';

@@ -1,8 +1,8 @@
-import 'quiz_agent.dart';
-import '../data/repositories/exam_repository.dart';
-import '../data/repositories/question_repository.dart';
-import '../data/models/exam.dart';
-import '../data/models/question.dart';
+﻿import 'quiz_agent.dart';
+import 'package:core/database/repositories/exam_repository.dart';
+import 'package:core/database/repositories/question_repository.dart';
+import 'package:core/models/exam.dart';
+import 'package:core/models/question.dart';
 import 'notification_service.dart';
 import 'background_service.dart';
 

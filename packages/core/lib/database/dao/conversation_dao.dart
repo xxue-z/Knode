@@ -1,7 +1,7 @@
 ﻿import 'package:sqflite/sqflite.dart';
-import '../database/app_database.dart';
-import '../database/tables/conversation_table.dart';
-import '../models/conversation.dart';
+import '../app_database.dart';
+import '../tables/conversation_table.dart';
+import '../../models/conversation.dart';
 
 class ConversationDao {
   Database get _db => AppDatabase.instance.db;
