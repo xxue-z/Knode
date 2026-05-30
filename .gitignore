@@ -40,3 +40,4 @@ ios/
 *.aab
 *.ipa
 *.app
+/.docs
