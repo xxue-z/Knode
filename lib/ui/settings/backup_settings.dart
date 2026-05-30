@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../providers/settings_provider.dart';
+import 'package:core/providers/settings_provider.dart';
 import 'package:core/services/backup_service.dart';
 
 /// WebDAV 备份配置页面。

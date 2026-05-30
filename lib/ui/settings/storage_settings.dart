@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:file_picker/file_picker.dart';
-import '../../providers/settings_provider.dart';
+import 'package:core/providers/settings_provider.dart';
 
 /// 存储路径配置页面。
 ///

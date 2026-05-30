@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../providers/document_provider.dart';
 import 'package:core/services/tts_service.dart';
-import '../../../providers/service_providers.dart';
+import 'package:core/providers/service_providers.dart';
 
 /// 沉浸式阅读页面。
 ///

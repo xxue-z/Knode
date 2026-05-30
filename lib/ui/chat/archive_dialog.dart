@@ -2,7 +2,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../providers/conversation_provider.dart';
 import '../../providers/category_provider.dart';
-import '../../providers/service_providers.dart';
+import 'package:core/providers/service_providers.dart';
 import 'package:core/database/repositories/conversation_repository.dart';
 import 'package:core/models/document.dart';
 

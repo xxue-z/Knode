@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:file_picker/file_picker.dart';
-import '../../providers/model_provider.dart';
-import '../../providers/settings_provider.dart';
+import 'package:core/providers/model_provider.dart';
+import 'package:core/providers/settings_provider.dart';
 import 'package:core/utils/device_utils.dart';
 import 'model_card_widget.dart';
 
