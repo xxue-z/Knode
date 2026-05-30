@@ -1,5 +1,6 @@
 import 'package:sqflite/sqflite.dart';
 import '../database/app_database.dart';
+import '../database/tables/settings_table.dart';
 
 /// 设置数据访问对象（DAO）。
 ///
@@ -10,7 +11,7 @@ class SettingsDao {
   /// 获取指定键的值。
   Future<String?> get(String key) async {
     final rows = await _db.query(
-      'settings',
+      SettingsTable.tableName,
       columns: ['value'],
       where: 'key = ?',
       whereArgs: [key],
@@ -25,7 +26,7 @@ class SettingsDao {
   /// 如果键已存在则更新，否则插入。
   Future<void> set(String key, String value) async {
     await _db.insert(
-      'settings',
+      SettingsTable.tableName,
       {'key': key, 'value': value},
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
@@ -33,12 +34,12 @@ class SettingsDao {
 
   /// 删除指定键。
   Future<void> delete(String key) async {
-    await _db.delete('settings', where: 'key = ?', whereArgs: [key]);
+    await _db.delete(SettingsTable.tableName, where: 'key = ?', whereArgs: [key]);
   }
 
   /// 获取所有键值对。
   Future<Map<String, String>> getAll() async {
-    final rows = await _db.query('settings');
+    final rows = await _db.query(SettingsTable.tableName);
     final result = <String, String>{};
     for (final row in rows) {
       final key = row['key'] as String;
@@ -53,7 +54,7 @@ class SettingsDao {
     final batch = _db.batch();
     for (final entry in entries.entries) {
       batch.insert(
-        'settings',
+        SettingsTable.tableName,
         {'key': entry.key, 'value': entry.value},
         conflictAlgorithm: ConflictAlgorithm.replace,
       );

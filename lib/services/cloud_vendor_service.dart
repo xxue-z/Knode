@@ -1,8 +1,8 @@
-import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
+import '../core/utils/json_utils.dart';
 import '../data/models/cloud_vendor.dart';
 
 /// 云端厂商 JSON 拉取与本地缓存服务。
@@ -40,7 +40,8 @@ class CloudVendorService {
       if (!await file.exists()) return [];
       final content = await file.readAsString();
       if (content.isEmpty) return [];
-      final json = jsonDecode(content) as Map<String, dynamic>;
+      final json = JsonUtils.tryDecodeMap(content);
+      if (json == null) return [];
       return _parseVendors(json);
     } catch (_) {
       return [];
@@ -49,13 +50,15 @@ class CloudVendorService {
 
   /// 带重试的 HTTP GET 请求（最多 3 次，指数退避）。
   Future<Map<String, dynamic>> _fetchWithRetry(String url) async {
-    Exception? lastError;
+    Object? lastError;
     for (int attempt = 0; attempt < 3; attempt++) {
       try {
         final resp = await _dio.get(url);
         if (resp.statusCode == 200) {
           if (resp.data is String) {
-            return jsonDecode(resp.data as String) as Map<String, dynamic>;
+            final json = JsonUtils.tryDecodeMap(resp.data as String);
+            if (json == null) throw StateError('JSON 解析失败');
+            return json;
           }
           return resp.data as Map<String, dynamic>;
         }
@@ -87,7 +90,7 @@ class CloudVendorService {
   /// 保存 JSON 到本地缓存文件。
   Future<void> _saveCache(Map<String, dynamic> json) async {
     final file = await _cacheFile();
-    await file.writeAsString(const JsonEncoder.withIndent('  ').convert(json));
+    await file.writeAsString(JsonUtils.encodePretty(json));
   }
 
   /// 缓存文件路径：{appDocDir}/cloud_models_cache.json。
