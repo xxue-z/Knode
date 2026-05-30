@@ -1,0 +1,17 @@
+name: quiz
+description: 知维 Quiz 包 - 题库、测验、阅卷
+publish_to: 'none'
+version: 0.1.0
+resolution: workspace
+
+environment:
+  sdk: '>=3.5.0 <4.0.0'
+
+dependencies:
+  core:
+    path: ../core
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0

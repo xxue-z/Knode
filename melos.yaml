@@ -1,0 +1,42 @@
+name: knode
+repository: https://github.com/user/knode
+
+packages:
+  - apps/**
+  - packages/**
+
+command:
+  bootstrap:
+    usePubspecOverrides: true
+
+scripts:
+  analyze:
+    name: Analyze
+    description: Run dart analyze on all packages
+    run: melos exec -- dart analyze --fatal-infos
+    packageFilters:
+      dirExists: lib
+
+  test:
+    name: Test
+    description: Run tests on all packages
+    run: melos exec -- flutter test
+    packageFilters:
+      dirExists: test
+
+  format:
+    name: Format
+    description: Format all Dart files
+    run: dart format --set-exit-if-changed .
+
+  fix:
+    name: Fix
+    description: Apply automated fixes
+    run: melos exec -- dart fix --apply
+    packageFilters:
+      dirExists: lib
+
+  get:
+    name: Get Dependencies
+    description: Run dart pub get on all packages
+    run: melos exec -- dart pub get
