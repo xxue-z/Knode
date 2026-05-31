@@ -47,7 +47,7 @@ class SettingsPage extends ConsumerWidget {
             _SettingsTile(
               icon: Icons.backup_outlined,
               title: _strings.knode_app_backup_settings,
-              subtitle: 'WebDAV / 本地备份',
+              subtitle: _strings.knode_app_webdav_subtitle,
               onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const BackupSettingsPage())),
             ),
           ]),

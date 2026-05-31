@@ -581,6 +581,10 @@
   "@knode_app_connection_success": {
     "description": "连接成功"
   },
+  "knode_app_copied_to_clipboard": "Copied to clipboard",
+  "@knode_app_copied_to_clipboard": {
+    "description": "已复制到剪贴板"
+  },
   "knode_app_custom": "Custom",
   "@knode_app_custom": {
     "description": "已自定义"
@@ -637,6 +641,15 @@
   "@knode_app_home": {
     "description": "首页"
   },
+  "knode_app_import_count": "Successfully imported {count} templates",
+  "@knode_app_import_count": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    },
+    "description": "成功导入 {count} 个模板"
+  },
   "knode_app_import_data": "Import Data",
   "@knode_app_import_data": {
     "description": "导入数据"
@@ -644,6 +657,10 @@
   "knode_app_import_failed": "Import failed",
   "@knode_app_import_failed": {
     "description": "导入失败"
+  },
+  "knode_app_import_file": "Import from file",
+  "@knode_app_import_file": {
+    "description": "从文件导入"
   },
   "knode_app_import_json_hint": "Paste JSON content here",
   "@knode_app_import_json_hint": {
@@ -701,6 +718,10 @@
   "@knode_app_model_repo_url": {
     "description": "模型仓库地址"
   },
+  "knode_app_no_custom_templates": "No custom templates to export",
+  "@knode_app_no_custom_templates": {
+    "description": "没有自定义模板可导出"
+  },
   "knode_app_no_models": "No models",
   "@knode_app_no_models": {
     "description": "暂无模型"
@@ -737,6 +758,14 @@
   "@knode_app_prompt_edit_hint": {
     "description": "编辑提示词模板..."
   },
+  "knode_app_prompt_grader": "Grader",
+  "@knode_app_prompt_grader": {
+    "description": "阅卷评分"
+  },
+  "knode_app_prompt_intent": "Intent Analyzer",
+  "@knode_app_prompt_intent": {
+    "description": "意图分析"
+  },
   "knode_app_prompt_management": "Prompt Management",
   "@knode_app_prompt_management": {
     "description": "提示词管理"
@@ -744,6 +773,34 @@
   "knode_app_prompt_management_subtitle": "Manage AI prompt templates",
   "@knode_app_prompt_management_subtitle": {
     "description": "管理 AI 提示词模板"
+  },
+  "knode_app_prompt_periodic_exam": "Periodic Exam",
+  "@knode_app_prompt_periodic_exam": {
+    "description": "阶段考试"
+  },
+  "knode_app_prompt_question_variant": "Question Variant",
+  "@knode_app_prompt_question_variant": {
+    "description": "变种出题"
+  },
+  "knode_app_prompt_quiz_gen": "Quiz Generator",
+  "@knode_app_prompt_quiz_gen": {
+    "description": "出题生成"
+  },
+  "knode_app_prompt_rag_qa": "RAG Q&A",
+  "@knode_app_prompt_rag_qa": {
+    "description": "RAG 问答"
+  },
+  "knode_app_prompt_search": "Search Agent",
+  "@knode_app_prompt_search": {
+    "description": "联网搜索"
+  },
+  "knode_app_prompt_summary": "Summarizer",
+  "@knode_app_prompt_summary": {
+    "description": "摘要生成"
+  },
+  "knode_app_prompt_tag_gen": "Tag Generator",
+  "@knode_app_prompt_tag_gen": {
+    "description": "标签生成"
   },
   "knode_app_quick_card": "Quick Card",
   "@knode_app_quick_card": {
@@ -764,6 +821,10 @@
   "knode_app_reset_override": "Reset to Default",
   "@knode_app_reset_override": {
     "description": "恢复默认"
+  },
+  "knode_app_reset_single_confirm": "Reset this template to default?",
+  "@knode_app_reset_single_confirm": {
+    "description": "将此模板恢复为默认值？"
   },
   "knode_app_reset_success": "Reset successful",
   "@knode_app_reset_success": {
@@ -860,6 +921,10 @@
   "knode_app_webdav": "WebDAV",
   "@knode_app_webdav": {
     "description": "WebDAV"
+  },
+  "knode_app_webdav_subtitle": "WebDAV / Local Backup",
+  "@knode_app_webdav_subtitle": {
+    "description": "WebDAV / 本地备份"
   },
   "knode_app_wrong_card": "Wrong Card",
   "@knode_app_wrong_card": {

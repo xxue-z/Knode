@@ -136,17 +136,29 @@ class PromptManager {
     return custom != null && custom.isNotEmpty;
   }
 
+  /// Export all templates. Only custom overrides are exported with their
+  /// content; default templates are recorded with `is_custom: false` so
+  /// that [importFromJson] can skip them on round-trip.
   Future<String> exportAll() async {
-    final map = <String, String>{};
+    final templates = <String, dynamic>{};
     for (final agentName in _templateFiles.keys) {
-      map[agentName] = await loadTemplate(agentName);
+      final customKey = 'prompt_$agentName';
+      final custom = await _settingsDao.get(customKey);
+      final hasCustom = custom != null && custom.isNotEmpty;
+      templates[agentName] = {
+        'is_custom': hasCustom,
+        'content': hasCustom ? custom : await _getOriginalTemplate(agentName),
+      };
     }
     return const JsonEncoder.withIndent('  ').convert({
       'version': 1,
-      'templates': map,
+      'templates': templates,
     });
   }
 
+  /// Import templates from JSON. Only entries with `is_custom: true` are
+  /// saved as overrides; default entries are skipped to preserve the
+  /// round-trip invariant.
   Future<int> importFromJson(String jsonString) async {
     final dynamic decoded;
     try {
@@ -157,6 +169,11 @@ class PromptManager {
     if (decoded is! Map<String, dynamic>) {
       throw const FormatException('Root must be a JSON object');
     }
+    // Validate version
+    final version = decoded['version'];
+    if (version is! int || version < 1) {
+      throw const FormatException('Unsupported or missing version field');
+    }
     final templates = decoded['templates'];
     if (templates is! Map<String, dynamic>) {
       throw const FormatException('Missing or invalid "templates" field');
@@ -165,10 +182,21 @@ class PromptManager {
     for (final entry in templates.entries) {
       final agentName = entry.key;
       final value = entry.value;
-      if (value is! String) continue;
       if (!_templateFiles.containsKey(agentName)) continue;
-      await saveCustomTemplate(agentName, value);
-      count++;
+
+      // New format: { is_custom: bool, content: String }
+      if (value is Map<String, dynamic>) {
+        final isCustom = value['is_custom'] == true;
+        if (!isCustom) continue; // skip non-custom entries
+        final content = value['content'];
+        if (content is! String) continue;
+        await saveCustomTemplate(agentName, content);
+        count++;
+      } else if (value is String) {
+        // Legacy format: plain string (import all for backward compat)
+        await saveCustomTemplate(agentName, value);
+        count++;
+      }
     }
     return count;
   }

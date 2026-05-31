@@ -82,6 +82,10 @@ mixin class L10nStringsMixin {
   String get knode_app_connection_success =>
       LocalizeStringDelegate.get('knode_app_connection_success');
 
+  /// 已复制到剪贴板
+  String get knode_app_copied_to_clipboard =>
+      LocalizeStringDelegate.get('knode_app_copied_to_clipboard');
+
   /// 已自定义
   String get knode_app_custom => LocalizeStringDelegate.get('knode_app_custom');
 
@@ -134,6 +138,10 @@ mixin class L10nStringsMixin {
   /// 首页
   String get knode_app_home => LocalizeStringDelegate.get('knode_app_home');
 
+  /// 成功导入 {count} 个模板
+  String knode_app_import_count({required String count}) =>
+      LocalizeStringDelegate.get('knode_app_import_count', arguments: [count]);
+
   /// 导入数据
   String get knode_app_import_data =>
       LocalizeStringDelegate.get('knode_app_import_data');
@@ -141,6 +149,10 @@ mixin class L10nStringsMixin {
   /// 导入失败
   String get knode_app_import_failed =>
       LocalizeStringDelegate.get('knode_app_import_failed');
+
+  /// 从文件导入
+  String get knode_app_import_file =>
+      LocalizeStringDelegate.get('knode_app_import_file');
 
   /// 在此粘贴 JSON 内容
   String get knode_app_import_json_hint =>
@@ -198,6 +210,10 @@ mixin class L10nStringsMixin {
   String get knode_app_model_repo_url =>
       LocalizeStringDelegate.get('knode_app_model_repo_url');
 
+  /// 没有自定义模板可导出
+  String get knode_app_no_custom_templates =>
+      LocalizeStringDelegate.get('knode_app_no_custom_templates');
+
   /// 暂无模型
   String get knode_app_no_models =>
       LocalizeStringDelegate.get('knode_app_no_models');
@@ -234,6 +250,14 @@ mixin class L10nStringsMixin {
   String get knode_app_prompt_edit_hint =>
       LocalizeStringDelegate.get('knode_app_prompt_edit_hint');
 
+  /// 阅卷评分
+  String get knode_app_prompt_grader =>
+      LocalizeStringDelegate.get('knode_app_prompt_grader');
+
+  /// 意图分析
+  String get knode_app_prompt_intent =>
+      LocalizeStringDelegate.get('knode_app_prompt_intent');
+
   /// 提示词管理
   String get knode_app_prompt_management =>
       LocalizeStringDelegate.get('knode_app_prompt_management');
@@ -241,6 +265,34 @@ mixin class L10nStringsMixin {
   /// 管理 AI 提示词模板
   String get knode_app_prompt_management_subtitle =>
       LocalizeStringDelegate.get('knode_app_prompt_management_subtitle');
+
+  /// 阶段考试
+  String get knode_app_prompt_periodic_exam =>
+      LocalizeStringDelegate.get('knode_app_prompt_periodic_exam');
+
+  /// 变种出题
+  String get knode_app_prompt_question_variant =>
+      LocalizeStringDelegate.get('knode_app_prompt_question_variant');
+
+  /// 出题生成
+  String get knode_app_prompt_quiz_gen =>
+      LocalizeStringDelegate.get('knode_app_prompt_quiz_gen');
+
+  /// RAG 问答
+  String get knode_app_prompt_rag_qa =>
+      LocalizeStringDelegate.get('knode_app_prompt_rag_qa');
+
+  /// 联网搜索
+  String get knode_app_prompt_search =>
+      LocalizeStringDelegate.get('knode_app_prompt_search');
+
+  /// 摘要生成
+  String get knode_app_prompt_summary =>
+      LocalizeStringDelegate.get('knode_app_prompt_summary');
+
+  /// 标签生成
+  String get knode_app_prompt_tag_gen =>
+      LocalizeStringDelegate.get('knode_app_prompt_tag_gen');
 
   /// 快捷卡片
   String get knode_app_quick_card =>
@@ -261,6 +313,10 @@ mixin class L10nStringsMixin {
   /// 恢复默认
   String get knode_app_reset_override =>
       LocalizeStringDelegate.get('knode_app_reset_override');
+
+  /// 将此模板恢复为默认值？
+  String get knode_app_reset_single_confirm =>
+      LocalizeStringDelegate.get('knode_app_reset_single_confirm');
 
   /// 重置成功
   String get knode_app_reset_success =>
@@ -352,6 +408,10 @@ mixin class L10nStringsMixin {
 
   /// WebDAV
   String get knode_app_webdav => LocalizeStringDelegate.get('knode_app_webdav');
+
+  /// WebDAV &#x2F; 本地备份
+  String get knode_app_webdav_subtitle =>
+      LocalizeStringDelegate.get('knode_app_webdav_subtitle');
 
   /// 错题卡片
   String get knode_app_wrong_card =>

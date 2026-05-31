@@ -88,3 +88,18 @@ original_template_changed,Original template has changed,原始模板已有变更
 file_too_large,File too large,文件过大
 invalid_json,Invalid JSON format,JSON 格式错误
 export_warning,Exported file contains custom prompts,导出文件包含自定义提示词
+prompt_rag_qa,RAG Q&A,RAG 问答
+prompt_quiz_gen,Quiz Generator,出题生成
+prompt_intent,Intent Analyzer,意图分析
+prompt_summary,Summarizer,摘要生成
+prompt_grader,Grader,阅卷评分
+prompt_tag_gen,Tag Generator,标签生成
+prompt_question_variant,Question Variant,变种出题
+prompt_periodic_exam,Periodic Exam,阶段考试
+prompt_search,Search Agent,联网搜索
+webdav_subtitle,WebDAV / Local Backup,WebDAV / 本地备份
+no_custom_templates,No custom templates to export,没有自定义模板可导出
+reset_single_confirm,Reset this template to default?,将此模板恢复为默认值？
+copied_to_clipboard,Copied to clipboard,已复制到剪贴板
+import_file,Import from file,从文件导入
+import_count,Successfully imported {count} templates,成功导入 {count} 个模板

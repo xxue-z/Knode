@@ -6,6 +6,33 @@ import 'package:knode_app/gen/strings.dart';
 
 final _strings = const L10nStringsMixin();
 
+/// Maps agent names to i18n display name keys.
+String _editorDisplayNameFor(String agentName) {
+  const map = {
+    'qa_with_rag': 'prompt_rag_qa',
+    'quiz_generator': 'prompt_quiz_gen',
+    'intent_analyzer': 'prompt_intent',
+    'summarizer': 'prompt_summary',
+    'grader': 'prompt_grader',
+    'tag_generator': 'prompt_tag_gen',
+    'question_variant': 'prompt_question_variant',
+    'periodic_exam_generator': 'prompt_periodic_exam',
+    'search_agent': 'prompt_search',
+  };
+  switch (map[agentName]) {
+    case 'prompt_rag_qa': return _strings.knode_app_prompt_rag_qa;
+    case 'prompt_quiz_gen': return _strings.knode_app_prompt_quiz_gen;
+    case 'prompt_intent': return _strings.knode_app_prompt_intent;
+    case 'prompt_summary': return _strings.knode_app_prompt_summary;
+    case 'prompt_grader': return _strings.knode_app_prompt_grader;
+    case 'prompt_tag_gen': return _strings.knode_app_prompt_tag_gen;
+    case 'prompt_question_variant': return _strings.knode_app_prompt_question_variant;
+    case 'prompt_periodic_exam': return _strings.knode_app_prompt_periodic_exam;
+    case 'prompt_search': return _strings.knode_app_prompt_search;
+    default: return agentName;
+  }
+}
+
 class PromptEditorScreen extends ConsumerStatefulWidget {
   final String agentName;
   const PromptEditorScreen({super.key, required this.agentName});
@@ -22,8 +49,7 @@ class _PromptEditorScreenState extends ConsumerState<PromptEditorScreen> {
   bool _expanded = true;
   String? _error;
 
-  String get _displayName =>
-      ref.read(promptManagerProvider).displayNameOf(widget.agentName);
+  String get _displayName => _editorDisplayNameFor(widget.agentName);
 
   @override
   void initState() {
@@ -58,6 +84,9 @@ class _PromptEditorScreenState extends ConsumerState<PromptEditorScreen> {
   List<String> get _variables =>
       PromptManager.extractVariables(_controller.text);
 
+  bool get _hasChanges =>
+      _original != null && _controller.text != _original;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,7 +94,15 @@ class _PromptEditorScreenState extends ConsumerState<PromptEditorScreen> {
         title: Text(_displayName),
         centerTitle: true,
         actions: [
-          TextButton(onPressed: _save, child: Text(_strings.knode_app_save)),
+          TextButton(
+            onPressed: _resetToDefault,
+            child: Text(_strings.knode_app_reset_override),
+          ),
+          if (_hasChanges)
+            TextButton(
+              onPressed: _save,
+              child: Text(_strings.knode_app_save),
+            ),
         ],
       ),
       body: _loading
@@ -157,6 +194,38 @@ class _PromptEditorScreenState extends ConsumerState<PromptEditorScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(_strings.knode_app_save_success)),
+        );
+        Navigator.pop(context, true);
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('${_strings.knode_app_error}: $e')),
+        );
+      }
+    }
+  }
+
+  Future<void> _resetToDefault() async {
+    if (!mounted) return;
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: Text(_strings.knode_app_reset_override),
+        content: Text(_strings.knode_app_reset_single_confirm),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(context, false), child: Text(_strings.knode_app_cancel)),
+          TextButton(onPressed: () => Navigator.pop(context, true), child: Text(_strings.knode_app_confirm)),
+        ],
+      ),
+    );
+    if (confirmed != true) return;
+    try {
+      final manager = ref.read(promptManagerProvider);
+      await manager.resetOverride(widget.agentName);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(_strings.knode_app_reset_success)),
         );
         Navigator.pop(context, true);
       }
