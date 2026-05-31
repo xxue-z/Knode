@@ -59,3 +59,7 @@ tap_to_start_answering,Tap to start answering,点击开始答题
 local_import,Local import,本地导入
 please_override_in_main_dart,Please override in main.dart,请在 main.dart 中覆盖
 anthropic_embedding_not_supported,"Anthropic API does not support Embedding, please use OpenAI compatible interface",Anthropic API 不支持 Embedding，请使用 OpenAI 兼容接口
+conversation_not_found,Conversation not found,会话不存在
+conversation_empty_archive,Conversation is empty cannot archive,会话为空无法归档
+user_role,User,用户
+ai_role,AI,AI

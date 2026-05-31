@@ -65,3 +65,7 @@ monthly_exam_2,Monthly Exam,月度考试
 quarterly_exam_2,Quarterly Exam,季度考试
 yearly_exam_2,Yearly Exam,年度考试
 exam_not_found,Exam not found,考试不存在
+conversation_not_found,Conversation not found,会话不存在
+conversation_empty_archive,Conversation is empty cannot archive,会话为空无法归档
+user_role,User,用户
+ai_role,AI,AI

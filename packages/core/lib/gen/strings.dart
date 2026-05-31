@@ -9,6 +9,9 @@ import 'package:monolith_localization_runtime/src/localize_string_delegate.dart'
 mixin class L10nStringsMixin {
   const L10nStringsMixin();
 
+  /// AI
+  String get core_ai_role => LocalizeStringDelegate.get('core_ai_role');
+
   /// 答案
   String get core_answer => LocalizeStringDelegate.get('core_answer');
 
@@ -38,6 +41,14 @@ mixin class L10nStringsMixin {
   /// 对话
   String get core_conversation =>
       LocalizeStringDelegate.get('core_conversation');
+
+  /// 会话为空无法归档
+  String get core_conversation_empty_archive =>
+      LocalizeStringDelegate.get('core_conversation_empty_archive');
+
+  /// 会话不存在
+  String get core_conversation_not_found =>
+      LocalizeStringDelegate.get('core_conversation_not_found');
 
   /// 每日一测
   String get core_daily_quiz => LocalizeStringDelegate.get('core_daily_quiz');
@@ -224,6 +235,9 @@ mixin class L10nStringsMixin {
 
   /// 判断题
   String get core_true_false => LocalizeStringDelegate.get('core_true_false');
+
+  /// 用户
+  String get core_user_role => LocalizeStringDelegate.get('core_user_role');
 
   /// WebDAV 未配置
   String get core_webdav_not_configured =>

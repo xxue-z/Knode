@@ -13,6 +13,7 @@ class PromptManager {
     'tag_generator': 'tag_generator.txt',
     'question_variant': 'question_variant.txt',
     'periodic_exam_generator': 'periodic_exam_generator.txt',
+    'search_agent': 'search_agent.txt',
   };
 
   final SettingsDao _settingsDao;

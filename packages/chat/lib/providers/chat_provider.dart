@@ -32,13 +32,13 @@ class ChatNotifier extends StateNotifier<ChatMessageState> {
     }
   }
 
-  Future<void> sendMessage(String content) async {
+  Future<void> sendMessage(String content, {bool enableSearch = false}) async {
     if (_conversationId == null || content.trim().isEmpty) return;
     final convId = _conversationId!;
     await _repo.addMessage(convId, role: 'user', content: content);
     state = state.copyWith(isLoading: true);
     try {
-      final response = await _qaAgent.ask(query: content, conversationId: convId);
+      final response = await _qaAgent.ask(query: content, conversationId: convId, enableSearch: enableSearch);
       await _repo.addMessage(convId, role: 'assistant', content: response.answer);
     } catch (e) {
       await _repo.addMessage(convId, role: 'assistant', content: '${_strings.chat_error}: $e');
@@ -49,5 +49,5 @@ class ChatNotifier extends StateNotifier<ChatMessageState> {
 }
 
 final chatProvider = StateNotifierProvider<ChatNotifier, ChatMessageState>((ref) {
-  throw UnimplementedError('请在 main.dart 中覆盖');
+  throw UnimplementedError(_strings.chat_please_override_in_main_dart);
 });

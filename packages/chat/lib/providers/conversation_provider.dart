@@ -1,8 +1,11 @@
 ﻿import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:core/models/conversation.dart';
 import 'package:core/database/repositories/conversation_repository.dart';
+import 'package:chat/gen/strings.dart';
 
-final conversationRepositoryProvider = Provider<ConversationRepository>((ref) => throw UnimplementedError('请在 main.dart 中覆盖'));
+const _strings = L10nStringsMixin();
+
+final conversationRepositoryProvider = Provider<ConversationRepository>((ref) => throw UnimplementedError(_strings.chat_please_override_in_main_dart));
 
 class ConversationListNotifier extends AsyncNotifier<List<Conversation>> {
   @override
@@ -27,6 +30,12 @@ class ConversationListNotifier extends AsyncNotifier<List<Conversation>> {
   Future<void> delete(int id) async {
     final repo = ref.read(conversationRepositoryProvider);
     await repo.delete(id);
+    ref.invalidateSelf();
+  }
+
+  Future<void> toggleWebSearch(int id, bool enable) async {
+    final repo = ref.read(conversationRepositoryProvider);
+    await repo.toggleWebSearch(id, enable);
     ref.invalidateSelf();
   }
 }

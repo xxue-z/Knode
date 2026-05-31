@@ -2,6 +2,9 @@
 import '../dao/message_dao.dart';
 import '../../models/conversation.dart';
 import '../../models/message.dart';
+import '../../gen/strings.dart';
+
+const _strings = L10nStringsMixin();
 
 /// 会话业务异常。
 class ConversationBusinessException implements Exception {
@@ -42,7 +45,7 @@ class ConversationRepository {
 
   Future<void> rename(int id, String title) async {
     final conv = await _convDao.getById(id);
-    if (conv == null) throw ConversationBusinessException('会话不存在: id=$id');
+    if (conv == null) throw ConversationBusinessException('${_strings.core_conversation_not_found}: id=$id');
     await _convDao.update(conv.copyWith(title: title));
   }
 
@@ -57,14 +60,14 @@ class ConversationRepository {
   /// 2. 返回归档信息，由调用方创建 Document 记录
   Future<int?> archive(int conversationId, int categoryId) async {
     final conv = await _convDao.getById(conversationId);
-    if (conv == null) throw ConversationBusinessException('会话不存在: id=$conversationId');
+    if (conv == null) throw ConversationBusinessException('${_strings.core_conversation_not_found}: id=$conversationId');
 
     // 获取所有消息拼接为文本
     final messages = await _msgDao.getByConversation(conversationId);
-    if (messages.isEmpty) throw ConversationBusinessException('会话为空，无法归档');
+    if (messages.isEmpty) throw ConversationBusinessException(_strings.core_conversation_empty_archive);
 
     final conversationText = messages
-        .map((m) => '${m.role == "user" ? "用户" : "AI"}：${m.content}')
+        .map((m) => '${m.role == "user" ? _strings.core_user_role : _strings.core_ai_role}：${m.content}')
         .join('\n\n');
 
     // 调用摘要函数生成摘要
@@ -78,5 +81,15 @@ class ConversationRepository {
 
     // 返回归档信息，由调用方（ArchiveDialog）创建 Document 记录
     return conversationId;
+  }
+
+  /// 切换会话的联网搜索状态。
+  Future<void> toggleWebSearch(int id, bool enable) async {
+    final conv = await _convDao.getById(id);
+    if (conv == null) throw ConversationBusinessException('${_strings.core_conversation_not_found}: id=$id');
+    await _convDao.update(conv.copyWith(
+      enableWebSearch: enable ? 1 : 0,
+      updatedAt: DateTime.now().toIso8601String(),
+    ));
   }
 }

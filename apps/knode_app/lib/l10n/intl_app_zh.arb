@@ -1,5 +1,13 @@
 {
   "@@locale": "zh",
+  "chat_add_attachment": "添加附件",
+  "@chat_add_attachment": {
+    "description": "添加附件"
+  },
+  "chat_ai_assistant": "AI 助手",
+  "@chat_ai_assistant": {
+    "description": "AI 助手"
+  },
   "chat_ai_chat": "AI 对话",
   "@chat_ai_chat": {
     "description": "AI 对话"
@@ -28,9 +36,21 @@
   "@chat_clear_history": {
     "description": "清除历史"
   },
+  "chat_clear_history_dev": "清空对话功能开发中",
+  "@chat_clear_history_dev": {
+    "description": "清空对话功能开发中"
+  },
   "chat_confirm": "确认",
   "@chat_confirm": {
     "description": "确认"
+  },
+  "chat_connection_failed": "连接失败",
+  "@chat_connection_failed": {
+    "description": "连接失败"
+  },
+  "chat_connection_success": "连接成功",
+  "@chat_connection_success": {
+    "description": "连接成功"
   },
   "chat_copied": "已复制",
   "@chat_copied": {
@@ -40,9 +60,21 @@
   "@chat_copy": {
     "description": "复制"
   },
+  "chat_current_session": "当前会话",
+  "@chat_current_session": {
+    "description": "当前会话"
+  },
   "chat_delete_conversation": "删除对话",
   "@chat_delete_conversation": {
     "description": "删除对话"
+  },
+  "chat_document": "文档",
+  "@chat_document": {
+    "description": "文档"
+  },
+  "chat_document_dev": "文档选择功能开发中",
+  "@chat_document_dev": {
+    "description": "文档选择功能开发中"
   },
   "chat_error": "错误",
   "@chat_error": {
@@ -51,6 +83,22 @@
   "chat_export_chat": "导出对话",
   "@chat_export_chat": {
     "description": "导出对话"
+  },
+  "chat_history_sessions": "历史会话",
+  "@chat_history_sessions": {
+    "description": "历史会话"
+  },
+  "chat_history_sessions_dev": "历史会话功能开发中",
+  "@chat_history_sessions_dev": {
+    "description": "历史会话功能开发中"
+  },
+  "chat_image": "图片",
+  "@chat_image": {
+    "description": "图片"
+  },
+  "chat_image_dev": "图片选择功能开发中",
+  "@chat_image_dev": {
+    "description": "图片选择功能开发中"
   },
   "chat_input_message": "输入消息...",
   "@chat_input_message": {
@@ -63,6 +111,14 @@
   "chat_knowledge_base": "知识库",
   "@chat_knowledge_base": {
     "description": "知识库"
+  },
+  "chat_link": "链接",
+  "@chat_link": {
+    "description": "链接"
+  },
+  "chat_link_dev": "链接粘贴功能开发中",
+  "@chat_link_dev": {
+    "description": "链接粘贴功能开发中"
   },
   "chat_loading": "加载中...",
   "@chat_loading": {
@@ -79,6 +135,10 @@
   "chat_no_conversations_yet": "暂无对话",
   "@chat_no_conversations_yet": {
     "description": "暂无对话"
+  },
+  "chat_please_override_in_main_dart": "请在 main.dart 中覆盖",
+  "@chat_please_override_in_main_dart": {
+    "description": "请在 main.dart 中覆盖"
   },
   "chat_qa": "问答",
   "@chat_qa": {
@@ -108,17 +168,65 @@
   "@chat_search": {
     "description": "搜索"
   },
+  "chat_search_api_key": "搜索 API Key",
+  "@chat_search_api_key": {
+    "description": "搜索 API Key"
+  },
+  "chat_search_config": "搜索配置",
+  "@chat_search_config": {
+    "description": "搜索配置"
+  },
+  "chat_search_provider": "搜索服务商",
+  "@chat_search_provider": {
+    "description": "搜索服务商"
+  },
   "chat_send": "发送",
   "@chat_send": {
     "description": "发送"
+  },
+  "chat_send_message": "发送消息",
+  "@chat_send_message": {
+    "description": "发送消息"
+  },
+  "chat_send_message_need_ai": "消息发送功能需连接 AIProvider",
+  "@chat_send_message_need_ai": {
+    "description": "消息发送功能需连接 AIProvider"
   },
   "chat_sources": "来源",
   "@chat_sources": {
     "description": "来源"
   },
+  "chat_start_conversation_hint": "发送消息开始与 AI 助手对话",
+  "@chat_start_conversation_hint": {
+    "description": "发送消息开始与 AI 助手对话"
+  },
+  "chat_test_connection": "测试连接",
+  "@chat_test_connection": {
+    "description": "测试连接"
+  },
   "chat_token_usage": "Token 用量",
   "@chat_token_usage": {
     "description": "Token 用量"
+  },
+  "chat_voice_input": "语音输入",
+  "@chat_voice_input": {
+    "description": "语音输入"
+  },
+  "chat_voice_real_device": "语音输入功能需在真机上使用",
+  "@chat_voice_real_device": {
+    "description": "语音输入功能需在真机上使用"
+  },
+  "chat_web": "联网",
+  "@chat_web": {
+    "description": "联网"
+  },
+  "chat_web_search": "联网搜索",
+  "@chat_web_search": {
+    "description": "联网搜索"
+  },
+  "core_ai_role": "AI",
+  "@core_ai_role": {
+    "description": "AI"
   },
   "core_answer": "答案",
   "@core_answer": {
@@ -155,6 +263,14 @@
   "core_conversation": "对话",
   "@core_conversation": {
     "description": "对话"
+  },
+  "core_conversation_empty_archive": "会话为空无法归档",
+  "@core_conversation_empty_archive": {
+    "description": "会话为空无法归档"
+  },
+  "core_conversation_not_found": "会话不存在",
+  "@core_conversation_not_found": {
+    "description": "会话不存在"
   },
   "core_daily_quiz": "每日一测",
   "@core_daily_quiz": {
@@ -368,6 +484,10 @@
   "@core_true_false": {
     "description": "判断题"
   },
+  "core_user_role": "用户",
+  "@core_user_role": {
+    "description": "用户"
+  },
   "core_webdav_not_configured": "WebDAV 未配置",
   "@core_webdav_not_configured": {
     "description": "WebDAV 未配置"
@@ -388,6 +508,14 @@
   "@knode_app_about": {
     "description": "关于"
   },
+  "knode_app_ai_engine": "AI 引擎",
+  "@knode_app_ai_engine": {
+    "description": "AI 引擎"
+  },
+  "knode_app_ai_engine_subtitle": "本地模型管理、云端 API 配置",
+  "@knode_app_ai_engine_subtitle": {
+    "description": "本地模型管理、云端 API 配置"
+  },
   "knode_app_ai_settings": "AI 设置",
   "@knode_app_ai_settings": {
     "description": "AI 设置"
@@ -399,6 +527,15 @@
   "knode_app_auto_backup": "自动备份",
   "@knode_app_auto_backup": {
     "description": "自动备份"
+  },
+  "knode_app_available_memory": "可用内存: {memory} MB",
+  "@knode_app_available_memory": {
+    "placeholders": {
+      "memory": {
+        "type": "String"
+      }
+    },
+    "description": "可用内存: {memory} MB"
   },
   "knode_app_backup_settings": "备份设置",
   "@knode_app_backup_settings": {
@@ -416,13 +553,33 @@
   "@knode_app_clear_cache": {
     "description": "清除缓存"
   },
+  "knode_app_cloud_api": "云端 API",
+  "@knode_app_cloud_api": {
+    "description": "云端 API"
+  },
   "knode_app_cloud_config": "云配置",
   "@knode_app_cloud_config": {
     "description": "云配置"
   },
+  "knode_app_cloud_model_repo_url": "云模型仓库地址",
+  "@knode_app_cloud_model_repo_url": {
+    "description": "云模型仓库地址"
+  },
+  "knode_app_config_api_key_first": "请先配置 API Key",
+  "@knode_app_config_api_key_first": {
+    "description": "请先配置 API Key"
+  },
   "knode_app_confirm": "确认",
   "@knode_app_confirm": {
     "description": "确认"
+  },
+  "knode_app_connection_failed": "连接失败",
+  "@knode_app_connection_failed": {
+    "description": "连接失败"
+  },
+  "knode_app_connection_success": "连接成功",
+  "@knode_app_connection_success": {
+    "description": "连接成功"
   },
   "knode_app_daily_card": "每日卡片",
   "@knode_app_daily_card": {
@@ -444,6 +601,18 @@
   "@knode_app_feedback": {
     "description": "反馈"
   },
+  "knode_app_fetch": "获取",
+  "@knode_app_fetch": {
+    "description": "获取"
+  },
+  "knode_app_fetch_failed_use_cache": "获取失败，使用已缓存数据",
+  "@knode_app_fetch_failed_use_cache": {
+    "description": "获取失败，使用已缓存数据"
+  },
+  "knode_app_fetch_or_import_hint": "请获取仓库或导入本地文件",
+  "@knode_app_fetch_or_import_hint": {
+    "description": "请获取仓库或导入本地文件"
+  },
   "knode_app_font_size": "字体大小",
   "@knode_app_font_size": {
     "description": "字体大小"
@@ -455,6 +624,22 @@
   "knode_app_import_data": "导入数据",
   "@knode_app_import_data": {
     "description": "导入数据"
+  },
+  "knode_app_import_failed": "导入失败",
+  "@knode_app_import_failed": {
+    "description": "导入失败"
+  },
+  "knode_app_import_local_model": "导入本地模型",
+  "@knode_app_import_local_model": {
+    "description": "导入本地模型"
+  },
+  "knode_app_import_success": "导入成功",
+  "@knode_app_import_success": {
+    "description": "导入成功"
+  },
+  "knode_app_input_api_key": "输入 API Key",
+  "@knode_app_input_api_key": {
+    "description": "输入 API Key"
   },
   "knode_app_language": "语言",
   "@knode_app_language": {
@@ -468,9 +653,17 @@
   "@knode_app_light_mode": {
     "description": "浅色模式"
   },
+  "knode_app_load_failed": "加载失败",
+  "@knode_app_load_failed": {
+    "description": "加载失败"
+  },
   "knode_app_loading": "加载中...",
   "@knode_app_loading": {
     "description": "加载中..."
+  },
+  "knode_app_local_model": "本地模型",
+  "@knode_app_local_model": {
+    "description": "本地模型"
   },
   "knode_app_model_card": "模型卡片",
   "@knode_app_model_card": {
@@ -479,6 +672,14 @@
   "knode_app_model_download": "模型下载",
   "@knode_app_model_download": {
     "description": "模型下载"
+  },
+  "knode_app_model_repo_url": "模型仓库地址",
+  "@knode_app_model_repo_url": {
+    "description": "模型仓库地址"
+  },
+  "knode_app_no_models": "暂无模型",
+  "@knode_app_no_models": {
+    "description": "暂无模型"
   },
   "knode_app_notification": "通知",
   "@knode_app_notification": {
@@ -512,6 +713,14 @@
   "@knode_app_score_card": {
     "description": "成绩卡片"
   },
+  "knode_app_search_api_key": "搜索 API Key",
+  "@knode_app_search_api_key": {
+    "description": "搜索 API Key"
+  },
+  "knode_app_select_search_provider": "选择搜索服务商",
+  "@knode_app_select_search_provider": {
+    "description": "选择搜索服务商"
+  },
   "knode_app_server_settings": "服务设置",
   "@knode_app_server_settings": {
     "description": "服务设置"
@@ -527,6 +736,14 @@
   "knode_app_sound": "声音",
   "@knode_app_sound": {
     "description": "声音"
+  },
+  "knode_app_storage_path": "存储路径",
+  "@knode_app_storage_path": {
+    "description": "存储路径"
+  },
+  "knode_app_storage_path_subtitle": "管理知识库文件存储位置",
+  "@knode_app_storage_path_subtitle": {
+    "description": "管理知识库文件存储位置"
   },
   "knode_app_storage_settings": "存储设置",
   "@knode_app_storage_settings": {
@@ -544,6 +761,10 @@
   "@knode_app_system_default": {
     "description": "跟随系统"
   },
+  "knode_app_testing": "测试中...",
+  "@knode_app_testing": {
+    "description": "测试中..."
+  },
   "knode_app_theme": "主题",
   "@knode_app_theme": {
     "description": "主题"
@@ -555,6 +776,14 @@
   "knode_app_vibration": "振动",
   "@knode_app_vibration": {
     "description": "振动"
+  },
+  "knode_app_web_search": "联网搜索",
+  "@knode_app_web_search": {
+    "description": "联网搜索"
+  },
+  "knode_app_web_search_subtitle": "搜索服务商、API Key 配置",
+  "@knode_app_web_search_subtitle": {
+    "description": "搜索服务商、API Key 配置"
   },
   "knode_app_webdav": "WebDAV",
   "@knode_app_webdav": {

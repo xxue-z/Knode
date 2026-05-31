@@ -18,17 +18,23 @@ class SettingsPage extends ConsumerWidget {
         children: [
           _Section(title: _strings.knode_app_ai_settings, children: [
             _SettingsTile(
+              icon: Icons.language,
+              title: _strings.knode_app_web_search,
+              subtitle: _strings.knode_app_web_search_subtitle,
+              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const AiSettingsPage())),
+            ),
+            _SettingsTile(
               icon: Icons.smart_toy_outlined,
-              title: 'AI 引擎',
-              subtitle: '本地模型管理、云端 API 配置',
+              title: _strings.knode_app_ai_engine,
+              subtitle: _strings.knode_app_ai_engine_subtitle,
               onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const AiSettingsPage())),
             ),
           ]),
           _Section(title: _strings.knode_app_storage_settings, children: [
             _SettingsTile(
               icon: Icons.folder_outlined,
-              title: '存储路径',
-              subtitle: '管理知识库文件存储位置',
+              title: _strings.knode_app_storage_path,
+              subtitle: _strings.knode_app_storage_path_subtitle,
               onTap: () {},
             ),
             _SettingsTile(

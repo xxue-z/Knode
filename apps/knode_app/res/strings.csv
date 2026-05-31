@@ -44,3 +44,29 @@ confirm,Confirm,确认
 loading,Loading...,加载中...
 error,Error,错误
 success,Success,成功
+web_search,Web Search,联网搜索
+web_search_subtitle,"Search provider, API Key config","搜索服务商、API Key 配置"
+ai_engine,AI Engine,AI 引擎
+ai_engine_subtitle,"Local model management, cloud API config","本地模型管理、云端 API 配置"
+storage_path,Storage Path,存储路径
+storage_path_subtitle,Manage knowledge base file storage location,管理知识库文件存储位置
+select_search_provider,Select Search Provider,选择搜索服务商
+search_api_key,Search API Key,搜索 API Key
+input_api_key,Input API Key,输入 API Key
+testing,Testing...,测试中...
+connection_success,Connection Success,连接成功
+connection_failed,Connection Failed,连接失败
+config_api_key_first,Please configure API Key first,请先配置 API Key
+local_model,Local Model,本地模型
+cloud_api,Cloud API,云端 API
+model_repo_url,Model Repository URL,模型仓库地址
+fetch,Fetch,获取
+import_local_model,Import Local Model,导入本地模型
+available_memory,Available Memory: {memory} MB,可用内存: {memory} MB
+cloud_model_repo_url,Cloud Model Repository URL,云模型仓库地址
+no_models,No models,暂无模型
+fetch_or_import_hint,Fetch repository or import local file,请获取仓库或导入本地文件
+fetch_failed_use_cache,"Fetch failed, using cached data","获取失败，使用已缓存数据"
+import_success,Import successful,导入成功
+import_failed,Import failed,导入失败
+load_failed,Load failed,加载失败

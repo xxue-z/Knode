@@ -10,11 +10,12 @@ class ConversationDao {
     id: r['id'] as int, title: r['title'] as String?,
     status: r['status'] as String, wikiFileId: r['wiki_file_id'] as int?,
     createdAt: r['created_at'] as String, updatedAt: r['updated_at'] as String,
+    enableWebSearch: r['enable_web_search'] as int? ?? 0,
   );
 
   static Map<String, dynamic> _toRow(Conversation c) => {
     'title': c.title, 'status': c.status, 'wiki_file_id': c.wikiFileId,
-    'created_at': c.createdAt, 'updated_at': c.updatedAt,
+    'created_at': c.createdAt, 'updated_at': c.updatedAt, 'enable_web_search': c.enableWebSearch,
   };
 
   Future<List<Conversation>> getAll({String status = 'active'}) async {

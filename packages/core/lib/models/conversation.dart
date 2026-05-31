@@ -5,6 +5,7 @@
   final int? wikiFileId;
   final String createdAt;
   final String updatedAt;
+  final int enableWebSearch;
 
   const Conversation({
     required this.id,
@@ -13,6 +14,7 @@
     this.wikiFileId,
     required this.createdAt,
     required this.updatedAt,
+    this.enableWebSearch = 0,
   });
 
   factory Conversation.fromMap(Map<String, dynamic> map) {
@@ -23,6 +25,7 @@
       wikiFileId: map['wikiFileId'] as int?,
       createdAt: map['createdAt'] as String,
       updatedAt: map['updatedAt'] as String,
+      enableWebSearch: map['enableWebSearch'] as int? ?? 0,
     );
   }
 
@@ -34,6 +37,7 @@
       'wikiFileId': wikiFileId,
       'createdAt': createdAt,
       'updatedAt': updatedAt,
+      'enableWebSearch': enableWebSearch,
     };
   }
 
@@ -44,6 +48,7 @@
     int? wikiFileId,
     String? createdAt,
     String? updatedAt,
+    int? enableWebSearch,
   }) {
     return Conversation(
       id: id ?? this.id,
@@ -52,6 +57,7 @@
       wikiFileId: wikiFileId ?? this.wikiFileId,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
+      enableWebSearch: enableWebSearch ?? this.enableWebSearch,
     );
   }
 }

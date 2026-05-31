@@ -22,7 +22,7 @@ class AppDatabase {
   AppDatabase._();
   static final AppDatabase instance = AppDatabase._();
 
-  static const int _dbVersion = 2;
+  static const int _dbVersion = 3;
   static const String _dbName = 'knode.db';
 
   Database? _database;
@@ -84,6 +84,9 @@ class AppDatabase {
       await db.execute('ALTER TABLE documents ADD COLUMN tags TEXT');
       await db.execute('ALTER TABLE documents ADD COLUMN links_to TEXT');
       await db.execute('ALTER TABLE documents ADD COLUMN manual_tags INTEGER DEFAULT 0');
+    }
+    if (oldVersion < 3) {
+      await db.execute('ALTER TABLE conversations ADD COLUMN enable_web_search INTEGER DEFAULT 0');
     }
   }
 

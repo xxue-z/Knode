@@ -6,8 +6,18 @@ import 'package:core/services/speech_service.dart';
 const _strings = L10nStringsMixin();
 
 class MessageInput extends ConsumerStatefulWidget {
-  const MessageInput({super.key, this.onSend});
+  const MessageInput({
+    super.key,
+    this.onSend,
+    this.enableWebSearch = false,
+    this.onToggleWebSearch,
+    this.showSearchToggle = true,
+  });
+
   final ValueChanged<String>? onSend;
+  final bool enableWebSearch;
+  final ValueChanged<bool>? onToggleWebSearch;
+  final bool showSearchToggle;
 
   @override
   ConsumerState<MessageInput> createState() => _MessageInputState();
@@ -55,29 +65,67 @@ class _MessageInputState extends ConsumerState<MessageInput> {
           color: Theme.of(context).colorScheme.surface,
           border: Border(top: BorderSide(color: Theme.of(context).colorScheme.outlineVariant)),
         ),
-        child: Row(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: [
-            IconButton(
-              icon: Icon(_isRecording ? Icons.stop_circle : Icons.mic_outlined),
-              color: _isRecording ? Colors.red : null,
-              onPressed: _toggleRecording,
-            ),
-            Expanded(
-              child: TextField(
-                controller: _controller,
-                maxLines: 4, minLines: 1,
-                decoration: InputDecoration(
-                  hintText: _strings.chat_input_message,
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(24)),
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+            // Search toggle row
+            if (widget.showSearchToggle)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 4),
+                child: Row(
+                  children: [
+                    Icon(
+                      widget.enableWebSearch ? Icons.language : Icons.language_outlined,
+                      size: 18,
+                      color: widget.enableWebSearch
+                          ? Theme.of(context).colorScheme.primary
+                          : Theme.of(context).colorScheme.onSurfaceVariant,
+                    ),
+                    const SizedBox(width: 4),
+                    Text(
+                      _strings.chat_web_search,
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: widget.enableWebSearch
+                            ? Theme.of(context).colorScheme.primary
+                            : Theme.of(context).colorScheme.onSurfaceVariant,
+                      ),
+                    ),
+                    const Spacer(),
+                    Switch(
+                      value: widget.enableWebSearch,
+                      onChanged: widget.onToggleWebSearch,
+                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    ),
+                  ],
                 ),
-                onSubmitted: (_) => _send(),
               ),
-            ),
-            const SizedBox(width: 8),
-            IconButton(
-              icon: const Icon(Icons.send_outlined),
-              onPressed: _send,
+            // Input row
+            Row(
+              children: [
+                IconButton(
+                  icon: Icon(_isRecording ? Icons.stop_circle : Icons.mic_outlined),
+                  color: _isRecording ? Colors.red : null,
+                  onPressed: _toggleRecording,
+                ),
+                Expanded(
+                  child: TextField(
+                    controller: _controller,
+                    maxLines: 4, minLines: 1,
+                    decoration: InputDecoration(
+                      hintText: _strings.chat_input_message,
+                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(24)),
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                    ),
+                    onSubmitted: (_) => _send(),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                IconButton(
+                  icon: const Icon(Icons.send_outlined),
+                  onPressed: _send,
+                ),
+              ],
             ),
           ],
         ),

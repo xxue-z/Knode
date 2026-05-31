@@ -39,6 +39,7 @@ class CitationWidget extends StatelessWidget {
           ...citations.asMap().entries.map((e) {
             final i = e.key + 1;
             final c = e.value;
+            final isWeb = c.sourceType == 'web';
             return InkWell(
               onTap: () => onTapDoc?.call(c.docId),
               child: Padding(
@@ -47,6 +48,35 @@ class CitationWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text('[$i] ', style: TextStyle(fontWeight: FontWeight.bold, color: Theme.of(context).colorScheme.primary, fontSize: 12)),
+                    // Source type badge
+                    Container(
+                      margin: const EdgeInsets.only(right: 4),
+                      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
+                      decoration: BoxDecoration(
+                        color: isWeb
+                            ? Colors.blue.withValues(alpha: 0.1)
+                            : Colors.green.withValues(alpha: 0.1),
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            isWeb ? Icons.language : Icons.article_outlined,
+                            size: 10,
+                            color: isWeb ? Colors.blue : Colors.green,
+                          ),
+                          const SizedBox(width: 2),
+                          Text(
+                            isWeb ? _strings.chat_web : _strings.chat_knowledge_base,
+                            style: TextStyle(
+                              fontSize: 9,
+                              color: isWeb ? Colors.blue : Colors.green,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                     Expanded(child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

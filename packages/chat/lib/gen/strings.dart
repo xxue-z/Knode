@@ -9,6 +9,14 @@ import 'package:monolith_localization_runtime/src/localize_string_delegate.dart'
 mixin class L10nStringsMixin {
   const L10nStringsMixin();
 
+  /// 添加附件
+  String get chat_add_attachment =>
+      LocalizeStringDelegate.get('chat_add_attachment');
+
+  /// AI 助手
+  String get chat_ai_assistant =>
+      LocalizeStringDelegate.get('chat_ai_assistant');
+
   /// AI 对话
   String get chat_ai_chat => LocalizeStringDelegate.get('chat_ai_chat');
 
@@ -31,8 +39,20 @@ mixin class L10nStringsMixin {
   String get chat_clear_history =>
       LocalizeStringDelegate.get('chat_clear_history');
 
+  /// 清空对话功能开发中
+  String get chat_clear_history_dev =>
+      LocalizeStringDelegate.get('chat_clear_history_dev');
+
   /// 确认
   String get chat_confirm => LocalizeStringDelegate.get('chat_confirm');
+
+  /// 连接失败
+  String get chat_connection_failed =>
+      LocalizeStringDelegate.get('chat_connection_failed');
+
+  /// 连接成功
+  String get chat_connection_success =>
+      LocalizeStringDelegate.get('chat_connection_success');
 
   /// 已复制
   String get chat_copied => LocalizeStringDelegate.get('chat_copied');
@@ -40,15 +60,40 @@ mixin class L10nStringsMixin {
   /// 复制
   String get chat_copy => LocalizeStringDelegate.get('chat_copy');
 
+  /// 当前会话
+  String get chat_current_session =>
+      LocalizeStringDelegate.get('chat_current_session');
+
   /// 删除对话
   String get chat_delete_conversation =>
       LocalizeStringDelegate.get('chat_delete_conversation');
+
+  /// 文档
+  String get chat_document => LocalizeStringDelegate.get('chat_document');
+
+  /// 文档选择功能开发中
+  String get chat_document_dev =>
+      LocalizeStringDelegate.get('chat_document_dev');
 
   /// 错误
   String get chat_error => LocalizeStringDelegate.get('chat_error');
 
   /// 导出对话
   String get chat_export_chat => LocalizeStringDelegate.get('chat_export_chat');
+
+  /// 历史会话
+  String get chat_history_sessions =>
+      LocalizeStringDelegate.get('chat_history_sessions');
+
+  /// 历史会话功能开发中
+  String get chat_history_sessions_dev =>
+      LocalizeStringDelegate.get('chat_history_sessions_dev');
+
+  /// 图片
+  String get chat_image => LocalizeStringDelegate.get('chat_image');
+
+  /// 图片选择功能开发中
+  String get chat_image_dev => LocalizeStringDelegate.get('chat_image_dev');
 
   /// 输入消息...
   String get chat_input_message =>
@@ -61,6 +106,12 @@ mixin class L10nStringsMixin {
   /// 知识库
   String get chat_knowledge_base =>
       LocalizeStringDelegate.get('chat_knowledge_base');
+
+  /// 链接
+  String get chat_link => LocalizeStringDelegate.get('chat_link');
+
+  /// 链接粘贴功能开发中
+  String get chat_link_dev => LocalizeStringDelegate.get('chat_link_dev');
 
   /// 加载中...
   String get chat_loading => LocalizeStringDelegate.get('chat_loading');
@@ -75,6 +126,10 @@ mixin class L10nStringsMixin {
   /// 暂无对话
   String get chat_no_conversations_yet =>
       LocalizeStringDelegate.get('chat_no_conversations_yet');
+
+  /// 请在 main.dart 中覆盖
+  String get chat_please_override_in_main_dart =>
+      LocalizeStringDelegate.get('chat_please_override_in_main_dart');
 
   /// 问答
   String get chat_qa => LocalizeStringDelegate.get('chat_qa');
@@ -98,12 +153,53 @@ mixin class L10nStringsMixin {
   /// 搜索
   String get chat_search => LocalizeStringDelegate.get('chat_search');
 
+  /// 搜索 API Key
+  String get chat_search_api_key =>
+      LocalizeStringDelegate.get('chat_search_api_key');
+
+  /// 搜索配置
+  String get chat_search_config =>
+      LocalizeStringDelegate.get('chat_search_config');
+
+  /// 搜索服务商
+  String get chat_search_provider =>
+      LocalizeStringDelegate.get('chat_search_provider');
+
   /// 发送
   String get chat_send => LocalizeStringDelegate.get('chat_send');
+
+  /// 发送消息
+  String get chat_send_message =>
+      LocalizeStringDelegate.get('chat_send_message');
+
+  /// 消息发送功能需连接 AIProvider
+  String get chat_send_message_need_ai =>
+      LocalizeStringDelegate.get('chat_send_message_need_ai');
 
   /// 来源
   String get chat_sources => LocalizeStringDelegate.get('chat_sources');
 
+  /// 发送消息开始与 AI 助手对话
+  String get chat_start_conversation_hint =>
+      LocalizeStringDelegate.get('chat_start_conversation_hint');
+
+  /// 测试连接
+  String get chat_test_connection =>
+      LocalizeStringDelegate.get('chat_test_connection');
+
   /// Token 用量
   String get chat_token_usage => LocalizeStringDelegate.get('chat_token_usage');
+
+  /// 语音输入
+  String get chat_voice_input => LocalizeStringDelegate.get('chat_voice_input');
+
+  /// 语音输入功能需在真机上使用
+  String get chat_voice_real_device =>
+      LocalizeStringDelegate.get('chat_voice_real_device');
+
+  /// 联网
+  String get chat_web => LocalizeStringDelegate.get('chat_web');
+
+  /// 联网搜索
+  String get chat_web_search => LocalizeStringDelegate.get('chat_web_search');
 }

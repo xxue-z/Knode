@@ -55,11 +55,10 @@ class QaAgent {
       systemPrompt: systemPrompt,
     );
 
-    // 如果有联网搜索结果，合并到上下文中重新生成
+    // 如果有联网搜索结果，作为额外上下文与 RAG 结果合并，重新生成回答
     if (searchResults.isNotEmpty) {
       final mergedContext = [
         ...searchResults.map((s) => '[联网搜索] $s'),
-        ragResponse.answer,
       ];
       return _aiProvider.generateAnswer(
         query: query,

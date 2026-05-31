@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:chat/gen/strings.dart';
 import 'package:chat/screens/archive_dialog.dart';
+import 'package:chat/screens/message_input.dart';
 
 const _strings = L10nStringsMixin();
 
@@ -23,11 +24,11 @@ class ChatPage extends StatelessWidget {
           children: [
             ListTile(
               leading: const Icon(Icons.history),
-              title: const Text('历史会话'),
+              title: Text(_strings.chat_history_sessions),
               onTap: () {
                 Navigator.pop(context);
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('历史会话功能开发中')),
+                  SnackBar(content: Text(_strings.chat_history_sessions_dev)),
                 );
               },
             ),
@@ -38,9 +39,9 @@ class ChatPage extends StatelessWidget {
                 Navigator.pop(context);
                 showDialog(
                   context: context,
-                  builder: (_) => const ArchiveDialog(
+                  builder: (_) => ArchiveDialog(
                     conversationId: 0,
-                    conversationTitle: '当前会话',
+                    conversationTitle: _strings.chat_current_session,
                     messages: [],
                     categories: [],
                   ),
@@ -53,7 +54,7 @@ class ChatPage extends StatelessWidget {
               onTap: () {
                 Navigator.pop(context);
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('清空对话功能开发中')),
+                  SnackBar(content: Text(_strings.chat_clear_history_dev)),
                 );
               },
             ),
@@ -72,31 +73,31 @@ class ChatPage extends StatelessWidget {
           children: [
             ListTile(
               leading: const Icon(Icons.image_outlined),
-              title: const Text('图片'),
+              title: Text(_strings.chat_image),
               onTap: () {
                 Navigator.pop(context);
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('图片选择功能开发中')),
+                  SnackBar(content: Text(_strings.chat_image_dev)),
                 );
               },
             ),
             ListTile(
               leading: const Icon(Icons.insert_drive_file_outlined),
-              title: const Text('文档'),
+              title: Text(_strings.chat_document),
               onTap: () {
                 Navigator.pop(context);
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('文档选择功能开发中')),
+                  SnackBar(content: Text(_strings.chat_document_dev)),
                 );
               },
             ),
             ListTile(
               leading: const Icon(Icons.link),
-              title: const Text('链接'),
+              title: Text(_strings.chat_link),
               onTap: () {
                 Navigator.pop(context);
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('链接粘贴功能开发中')),
+                  SnackBar(content: Text(_strings.chat_link_dev)),
                 );
               },
             ),
@@ -108,7 +109,7 @@ class ChatPage extends StatelessWidget {
 
   void _startVoiceInput(BuildContext context) {
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('语音输入功能需在真机上使用')),
+      SnackBar(content: Text(_strings.chat_voice_real_device)),
     );
   }
 
@@ -117,7 +118,7 @@ class ChatPage extends StatelessWidget {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('发送消息'),
+        title: Text(_strings.chat_send_message),
         content: TextField(
           controller: controller,
           autofocus: true,
@@ -137,7 +138,7 @@ class ChatPage extends StatelessWidget {
               Navigator.pop(ctx);
               if (controller.text.isNotEmpty) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('消息发送功能需连接 AIProvider')),
+                  SnackBar(content: Text(_strings.chat_send_message_need_ai)),
                 );
               }
             },
@@ -157,7 +158,7 @@ class ChatPage extends StatelessWidget {
 
         return Scaffold(
           appBar: AppBar(
-            title: const Text('AI 助手'),
+            title: Text(_strings.chat_ai_assistant),
             centerTitle: true,
             actions: [
               IconButton(
@@ -175,10 +176,10 @@ class ChatPage extends StatelessWidget {
                   child: _MessageListPlaceholder(),
                 ),
                 // --- Input bar area ---
-                _InputBarPlaceholder(
-                  onAttachmentTap: () => _showAttachmentPicker(context),
-                  onVoiceTap: () => _startVoiceInput(context),
-                  onSendTap: () => _showMessageInput(context),
+                MessageInput(
+                  onSend: (text) {
+                    // TODO: 发送消息到 ChatNotifier
+                  },
                 ),
               ],
             ),
@@ -215,7 +216,7 @@ class _MessageListPlaceholder extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Text(
-            '发送消息开始与 AI 助手对话',
+            _strings.chat_start_conversation_hint,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   color: Theme.of(context).colorScheme.onSurfaceVariant,
                 ),
@@ -226,71 +227,3 @@ class _MessageListPlaceholder extends StatelessWidget {
   }
 }
 
-/// Placeholder widget for the message input bar.
-///
-/// Will be replaced by a text field with send/voice buttons in P2.
-class _InputBarPlaceholder extends StatelessWidget {
-  const _InputBarPlaceholder({
-    required this.onAttachmentTap,
-    required this.onVoiceTap,
-    required this.onSendTap,
-  });
-
-  final VoidCallback onAttachmentTap;
-  final VoidCallback onVoiceTap;
-  final VoidCallback onSendTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return SafeArea(
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.surface,
-          border: Border(
-            top: BorderSide(
-              color: Theme.of(context).colorScheme.outlineVariant,
-            ),
-          ),
-        ),
-        child: Row(
-          children: [
-            IconButton(
-              icon: const Icon(Icons.add_circle_outline),
-              onPressed: onAttachmentTap,
-              tooltip: '添加附件',
-            ),
-            const SizedBox(width: 8),
-            Expanded(
-              child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.surfaceContainerHighest,
-                  borderRadius: BorderRadius.circular(24),
-                ),
-                child: Text(
-                  _strings.chat_input_message,
-                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        color: Theme.of(context).colorScheme.onSurfaceVariant,
-                      ),
-                ),
-              ),
-            ),
-            const SizedBox(width: 8),
-            IconButton(
-              icon: const Icon(Icons.mic_outlined),
-              onPressed: onVoiceTap,
-              tooltip: '语音输入',
-            ),
-            IconButton(
-              icon: const Icon(Icons.send_outlined),
-              onPressed: onSendTap,
-              tooltip: _strings.chat_send,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}

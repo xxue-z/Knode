@@ -9,6 +9,9 @@ import 'package:core/services/cloud_vendor_service.dart';
 import 'package:core/utils/device_utils.dart';
 import 'package:knode_app/screens/model_card_widget.dart';
 import 'package:knode_app/screens/cloud_config_form.dart';
+import 'package:knode_app/gen/strings.dart';
+
+final _strings = const L10nStringsMixin();
 
 /// AI 引擎主设置页面。
 ///
@@ -27,6 +30,9 @@ class _AiSettingsPageState extends ConsumerState<AiSettingsPage> {
   List<CloudVendor> _cloudVendors = [];
   bool _isLoadingVendors = false;
   int _availableMemory = 0;
+  String _searchProvider = 'Tavily';
+  String _searchApiKey = '';
+  String _testResult = '';
 
   // 默认仓库地址
   static const _defaultModelRepoUrl =
@@ -82,7 +88,7 @@ class _AiSettingsPageState extends ConsumerState<AiSettingsPage> {
       final state = ref.read(modelListProvider);
       if (state.hasError) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('获取失败，使用已缓存数据: ${state.error}')),
+          SnackBar(content: Text('${_strings.knode_app_fetch_failed_use_cache}: ${state.error}')),
         );
       }
     }
@@ -101,7 +107,7 @@ class _AiSettingsPageState extends ConsumerState<AiSettingsPage> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('获取失败，使用已缓存数据: $e')),
+          SnackBar(content: Text('${_strings.knode_app_fetch_failed_use_cache}: $e')),
         );
       }
     }
@@ -122,13 +128,13 @@ class _AiSettingsPageState extends ConsumerState<AiSettingsPage> {
       await ref.read(modelListProvider.notifier).importLocalModel(filePath);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('导入成功'), backgroundColor: Colors.green),
+          SnackBar(content: Text(_strings.knode_app_import_success), backgroundColor: Colors.green),
         );
       }
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('导入失败: $e'), backgroundColor: Colors.red),
+          SnackBar(content: Text('${_strings.knode_app_import_failed}: $e'), backgroundColor: Colors.red),
         );
       }
     }
@@ -146,18 +152,87 @@ class _AiSettingsPageState extends ConsumerState<AiSettingsPage> {
     super.dispose();
   }
 
+  void _showSearchProviderPicker(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: Text(_strings.knode_app_select_search_provider),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            RadioListTile<String>(
+              title: const Text('Tavily'),
+              value: 'Tavily',
+              groupValue: _searchProvider,
+              onChanged: (v) {
+                setState(() => _searchProvider = v!);
+                Navigator.pop(context);
+              },
+            ),
+            RadioListTile<String>(
+              title: const Text('SerpAPI'),
+              value: 'SerpAPI',
+              groupValue: _searchProvider,
+              onChanged: (v) {
+                setState(() => _searchProvider = v!);
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _showApiKeyDialog(BuildContext context) {
+    final controller = TextEditingController(text: _searchApiKey);
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: Text(_strings.knode_app_search_api_key),
+        content: TextField(
+          controller: controller,
+          decoration: InputDecoration(
+            hintText: _strings.knode_app_input_api_key,
+            border: OutlineInputBorder(),
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(_strings.knode_app_cancel),
+          ),
+          FilledButton(
+            onPressed: () {
+              setState(() => _searchApiKey = controller.text);
+              Navigator.pop(context);
+            },
+            child: Text(_strings.knode_app_save),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _testSearchConnection() async {
+    setState(() => _testResult = _strings.knode_app_testing);
+    // TODO: 实际测试连接
+    await Future.delayed(const Duration(seconds: 2));
+    setState(() => _testResult = _searchApiKey.isNotEmpty ? _strings.knode_app_connection_success : _strings.knode_app_config_api_key_first);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('AI 引擎'), centerTitle: true),
+      appBar: AppBar(title: Text(_strings.knode_app_ai_engine), centerTitle: true),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
           // SegmentedButton 切换
           SegmentedButton<bool>(
-            segments: const [
-              ButtonSegment(value: false, label: Text('本地模型'), icon: Icon(Icons.phone_android)),
-              ButtonSegment(value: true, label: Text('云端 API'), icon: Icon(Icons.cloud_outlined)),
+            segments: [
+              ButtonSegment(value: false, label: Text(_strings.knode_app_local_model), icon: const Icon(Icons.phone_android)),
+              ButtonSegment(value: true, label: Text(_strings.knode_app_cloud_api), icon: const Icon(Icons.cloud_outlined)),
             ],
             selected: {_isCloudMode},
             onSelectionChanged: (s) => _onTypeChanged(s.first),
@@ -182,8 +257,8 @@ class _AiSettingsPageState extends ConsumerState<AiSettingsPage> {
             Expanded(
               child: TextField(
                 controller: _repoUrlController,
-                decoration: const InputDecoration(
-                  labelText: '模型仓库地址',
+                decoration: InputDecoration(
+                  labelText: _strings.knode_app_model_repo_url,
                   border: OutlineInputBorder(),
                   isDense: true,
                 ),
@@ -192,7 +267,7 @@ class _AiSettingsPageState extends ConsumerState<AiSettingsPage> {
             const SizedBox(width: 8),
             FilledButton(
               onPressed: _fetchModels,
-              child: const Text('获取'),
+              child: Text(_strings.knode_app_fetch),
             ),
           ],
         ),
@@ -204,7 +279,7 @@ class _AiSettingsPageState extends ConsumerState<AiSettingsPage> {
           child: OutlinedButton.icon(
             onPressed: _importLocalModel,
             icon: const Icon(Icons.file_upload_outlined),
-            label: const Text('导入本地模型'),
+            label: Text(_strings.knode_app_import_local_model),
           ),
         ),
         const SizedBox(height: 16),
@@ -214,7 +289,7 @@ class _AiSettingsPageState extends ConsumerState<AiSettingsPage> {
           Padding(
             padding: const EdgeInsets.only(bottom: 12),
             child: Text(
-              '可用内存: ${_availableMemory} MB',
+              _strings.knode_app_available_memory(memory: '$_availableMemory'),
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
               ),
@@ -256,7 +331,7 @@ class _AiSettingsPageState extends ConsumerState<AiSettingsPage> {
             );
           },
           loading: () => const Center(child: CircularProgressIndicator()),
-          error: (e, _) => Center(child: Text('加载失败: $e')),
+          error: (e, _) => Center(child: Text('${_strings.knode_app_load_failed}: $e')),
         ),
       ],
     );
@@ -272,8 +347,8 @@ class _AiSettingsPageState extends ConsumerState<AiSettingsPage> {
             Expanded(
               child: TextField(
                 controller: _cloudRepoUrlController,
-                decoration: const InputDecoration(
-                  labelText: '云模型仓库地址',
+                decoration: InputDecoration(
+                  labelText: _strings.knode_app_cloud_model_repo_url,
                   border: OutlineInputBorder(),
                   isDense: true,
                 ),
@@ -284,7 +359,7 @@ class _AiSettingsPageState extends ConsumerState<AiSettingsPage> {
               onPressed: _isLoadingVendors ? null : _fetchCloudVendors,
               child: _isLoadingVendors
                   ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2))
-                  : const Text('获取'),
+                  : Text(_strings.knode_app_fetch),
             ),
           ],
         ),
@@ -309,14 +384,14 @@ class _AiSettingsPageState extends ConsumerState<AiSettingsPage> {
             ),
             const SizedBox(height: 16),
             Text(
-              '暂无模型',
+              _strings.knode_app_no_models,
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
               ),
             ),
             const SizedBox(height: 8),
             Text(
-              '请获取仓库或导入本地文件',
+              _strings.knode_app_fetch_or_import_hint,
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
                 color: Theme.of(context).colorScheme.onSurfaceVariant.withValues(alpha: 0.6),
               ),

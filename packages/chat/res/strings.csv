@@ -29,3 +29,29 @@ knowledge_base,Knowledge Base,知识库
 related_documents,Related Documents,相关文档
 token_usage,Token Usage,Token 用量
 intent_recognition,Intent Recognition,意图识别
+web_search,Web Search,联网搜索
+web,Web,联网
+search_provider,Search Provider,搜索服务商
+search_api_key,Search API Key,搜索 API Key
+test_connection,Test Connection,测试连接
+connection_success,Connection Success,连接成功
+connection_failed,Connection Failed,连接失败
+search_config,Search Config,搜索配置
+please_override_in_main_dart,Please override in main.dart,请在 main.dart 中覆盖
+history_sessions,History Sessions,历史会话
+history_sessions_dev,History sessions feature in development,历史会话功能开发中
+current_session,Current Session,当前会话
+image,Image,图片
+image_dev,Image selection feature in development,图片选择功能开发中
+document,Document,文档
+document_dev,Document selection feature in development,文档选择功能开发中
+link,Link,链接
+link_dev,Link paste feature in development,链接粘贴功能开发中
+voice_real_device,Voice input requires real device,语音输入功能需在真机上使用
+send_message,Send Message,发送消息
+send_message_need_ai,Message sending requires AIProvider connection,消息发送功能需连接 AIProvider
+ai_assistant,AI Assistant,AI 助手
+start_conversation_hint,Send a message to start chatting with AI Assistant,发送消息开始与 AI 助手对话
+add_attachment,Add Attachment,添加附件
+voice_input,Voice Input,语音输入
+clear_history_dev,Clear history feature in development,清空对话功能开发中

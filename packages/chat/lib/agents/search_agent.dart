@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:core/ai/ai_provider.dart';
 import 'package:core/ai/cloud_ai_provider.dart';
 import 'package:core/ai/prompt_manager.dart';
@@ -63,6 +64,7 @@ class SearchAgent {
 
       return results;
     } catch (e) {
+      debugPrint('SearchAgent.search failed: $e');
       return [];
     }
   }
