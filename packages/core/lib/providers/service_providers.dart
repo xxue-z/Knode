@@ -10,6 +10,8 @@ import 'package:core/services/hybrid_search_service.dart';
 import 'package:core/services/rag_service.dart';
 import 'package:core/services/embedding_fallback_service.dart';
 import 'package:core/ai/ai_provider.dart';
+import 'package:core/ai/prompt_manager.dart';
+import 'package:core/providers/settings_provider.dart';
 
 /// Tokenizer 实例。
 final tokenizerProvider = Provider<Tokenizer>((ref) {
@@ -73,4 +75,10 @@ final ragServiceProvider = Provider<RagService>((ref) {
 /// AIProvider 实例（需要在 main.dart 中覆盖）。
 final aiProviderRef = Provider<AIProvider>((ref) {
   throw UnimplementedError('请在 main.dart 中覆盖 AIProvider');
+});
+
+
+/// PromptManager instance.
+final promptManagerProvider = Provider<PromptManager>((ref) {
+  return PromptManager(ref.read(settingsDaoProvider));
 });

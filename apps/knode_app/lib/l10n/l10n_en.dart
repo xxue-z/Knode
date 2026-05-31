@@ -9,6 +9,12 @@ class L10nEn extends L10n {
   L10nEn([String locale = 'en']) : super(locale);
 
   @override
+  String get chat_add_attachment => 'Add Attachment';
+
+  @override
+  String get chat_ai_assistant => 'AI Assistant';
+
+  @override
   String get chat_ai_chat => 'AI Chat';
 
   @override
@@ -30,7 +36,16 @@ class L10nEn extends L10n {
   String get chat_clear_history => 'Clear History';
 
   @override
+  String get chat_clear_history_dev => 'Clear history feature in development';
+
+  @override
   String get chat_confirm => 'Confirm';
+
+  @override
+  String get chat_connection_failed => 'Connection Failed';
+
+  @override
+  String get chat_connection_success => 'Connection Success';
 
   @override
   String get chat_copied => 'Copied';
@@ -39,13 +54,35 @@ class L10nEn extends L10n {
   String get chat_copy => 'Copy';
 
   @override
+  String get chat_current_session => 'Current Session';
+
+  @override
   String get chat_delete_conversation => 'Delete Conversation';
+
+  @override
+  String get chat_document => 'Document';
+
+  @override
+  String get chat_document_dev => 'Document selection feature in development';
 
   @override
   String get chat_error => 'Error';
 
   @override
   String get chat_export_chat => 'Export Chat';
+
+  @override
+  String get chat_history_sessions => 'History Sessions';
+
+  @override
+  String get chat_history_sessions_dev =>
+      'History sessions feature in development';
+
+  @override
+  String get chat_image => 'Image';
+
+  @override
+  String get chat_image_dev => 'Image selection feature in development';
 
   @override
   String get chat_input_message => 'Input message...';
@@ -55,6 +92,12 @@ class L10nEn extends L10n {
 
   @override
   String get chat_knowledge_base => 'Knowledge Base';
+
+  @override
+  String get chat_link => 'Link';
+
+  @override
+  String get chat_link_dev => 'Link paste feature in development';
 
   @override
   String get chat_loading => 'Loading...';
@@ -67,6 +110,10 @@ class L10nEn extends L10n {
 
   @override
   String get chat_no_conversations_yet => 'No conversations yet';
+
+  @override
+  String get chat_please_override_in_main_dart =>
+      'Please override in main.dart';
 
   @override
   String get chat_qa => 'QA';
@@ -90,13 +137,51 @@ class L10nEn extends L10n {
   String get chat_search => 'Search';
 
   @override
+  String get chat_search_api_key => 'Search API Key';
+
+  @override
+  String get chat_search_config => 'Search Config';
+
+  @override
+  String get chat_search_provider => 'Search Provider';
+
+  @override
   String get chat_send => 'Send';
+
+  @override
+  String get chat_send_message => 'Send Message';
+
+  @override
+  String get chat_send_message_need_ai =>
+      'Message sending requires AIProvider connection';
 
   @override
   String get chat_sources => 'Sources';
 
   @override
+  String get chat_start_conversation_hint =>
+      'Send a message to start chatting with AI Assistant';
+
+  @override
+  String get chat_test_connection => 'Test Connection';
+
+  @override
   String get chat_token_usage => 'Token Usage';
+
+  @override
+  String get chat_voice_input => 'Voice Input';
+
+  @override
+  String get chat_voice_real_device => 'Voice input requires real device';
+
+  @override
+  String get chat_web => 'Web';
+
+  @override
+  String get chat_web_search => 'Web Search';
+
+  @override
+  String get core_ai_role => 'AI';
 
   @override
   String get core_answer => 'Answer';
@@ -128,6 +213,13 @@ class L10nEn extends L10n {
   String get core_conversation => 'Conversation';
 
   @override
+  String get core_conversation_empty_archive =>
+      'Conversation is empty cannot archive';
+
+  @override
+  String get core_conversation_not_found => 'Conversation not found';
+
+  @override
   String get core_daily_quiz => 'Daily Quiz';
 
   @override
@@ -150,6 +242,9 @@ class L10nEn extends L10n {
 
   @override
   String get core_exam => 'Exam';
+
+  @override
+  String get core_exam_not_found => 'Exam not found';
 
   @override
   String get core_feedback => 'Feedback';
@@ -193,6 +288,9 @@ class L10nEn extends L10n {
   String get core_message => 'Message';
 
   @override
+  String get core_monthly_exam_2 => 'Monthly Exam';
+
+  @override
   String get core_multiple_choice => 'Multiple Choice';
 
   @override
@@ -215,10 +313,16 @@ class L10nEn extends L10n {
   String get core_profile => 'Profile';
 
   @override
+  String get core_quarterly_exam_2 => 'Quarterly Exam';
+
+  @override
   String get core_question => 'Question';
 
   @override
   String get core_quiz => 'Quiz';
+
+  @override
+  String get core_random_quick_review => 'Random quick review';
 
   @override
   String get core_reading => 'Reading';
@@ -280,13 +384,29 @@ class L10nEn extends L10n {
   String get core_true_false => 'True/False';
 
   @override
+  String get core_user_role => 'User';
+
+  @override
   String get core_webdav_not_configured => 'WebDAV not configured';
+
+  @override
+  String get core_wrong_question_review => 'Wrong Question Review';
+
+  @override
+  String get core_yearly_exam_2 => 'Yearly Exam';
 
   @override
   String get core_yes => 'Yes';
 
   @override
   String get knode_app_about => 'About';
+
+  @override
+  String get knode_app_ai_engine => 'AI Engine';
+
+  @override
+  String get knode_app_ai_engine_subtitle =>
+      'Local model management, cloud API config';
 
   @override
   String get knode_app_ai_settings => 'AI Settings';
@@ -296,6 +416,11 @@ class L10nEn extends L10n {
 
   @override
   String get knode_app_auto_backup => 'Auto Backup';
+
+  @override
+  String knode_app_available_memory(String memory) {
+    return 'Available Memory: $memory MB';
+  }
 
   @override
   String get knode_app_backup_settings => 'Backup Settings';
@@ -310,10 +435,28 @@ class L10nEn extends L10n {
   String get knode_app_clear_cache => 'Clear Cache';
 
   @override
+  String get knode_app_cloud_api => 'Cloud API';
+
+  @override
   String get knode_app_cloud_config => 'Cloud Config';
 
   @override
+  String get knode_app_cloud_model_repo_url => 'Cloud Model Repository URL';
+
+  @override
+  String get knode_app_config_api_key_first => 'Please configure API Key first';
+
+  @override
   String get knode_app_confirm => 'Confirm';
+
+  @override
+  String get knode_app_connection_failed => 'Connection Failed';
+
+  @override
+  String get knode_app_connection_success => 'Connection Success';
+
+  @override
+  String get knode_app_custom => 'Custom';
 
   @override
   String get knode_app_daily_card => 'Daily Card';
@@ -328,7 +471,28 @@ class L10nEn extends L10n {
   String get knode_app_export_data => 'Export Data';
 
   @override
+  String get knode_app_export_success => 'Exported successfully';
+
+  @override
+  String get knode_app_export_warning =>
+      'Exported file contains custom prompts';
+
+  @override
   String get knode_app_feedback => 'Feedback';
+
+  @override
+  String get knode_app_fetch => 'Fetch';
+
+  @override
+  String get knode_app_fetch_failed_use_cache =>
+      'Fetch failed, using cached data';
+
+  @override
+  String get knode_app_fetch_or_import_hint =>
+      'Fetch repository or import local file';
+
+  @override
+  String get knode_app_file_too_large => 'File too large';
 
   @override
   String get knode_app_font_size => 'Font Size';
@@ -340,6 +504,24 @@ class L10nEn extends L10n {
   String get knode_app_import_data => 'Import Data';
 
   @override
+  String get knode_app_import_failed => 'Import failed';
+
+  @override
+  String get knode_app_import_json_hint => 'Paste JSON content here';
+
+  @override
+  String get knode_app_import_local_model => 'Import Local Model';
+
+  @override
+  String get knode_app_import_success => 'Import successful';
+
+  @override
+  String get knode_app_input_api_key => 'Input API Key';
+
+  @override
+  String get knode_app_invalid_json => 'Invalid JSON format';
+
+  @override
   String get knode_app_language => 'Language';
 
   @override
@@ -349,7 +531,13 @@ class L10nEn extends L10n {
   String get knode_app_light_mode => 'Light Mode';
 
   @override
+  String get knode_app_load_failed => 'Load failed';
+
+  @override
   String get knode_app_loading => 'Loading...';
+
+  @override
+  String get knode_app_local_model => 'Local Model';
 
   @override
   String get knode_app_model_card => 'Model Card';
@@ -358,7 +546,23 @@ class L10nEn extends L10n {
   String get knode_app_model_download => 'Model Download';
 
   @override
+  String get knode_app_model_repo_url => 'Model Repository URL';
+
+  @override
+  String get knode_app_no_models => 'No models';
+
+  @override
+  String get knode_app_no_templates => 'No templates';
+
+  @override
   String get knode_app_notification => 'Notification';
+
+  @override
+  String get knode_app_original_template => 'Original Template';
+
+  @override
+  String get knode_app_original_template_changed =>
+      'Original template has changed';
 
   @override
   String get knode_app_personal_drawer => 'Personal Drawer';
@@ -370,16 +574,48 @@ class L10nEn extends L10n {
   String get knode_app_profile => 'Profile';
 
   @override
+  String get knode_app_prompt_edit_hint => 'Edit prompt template...';
+
+  @override
+  String get knode_app_prompt_management => 'Prompt Management';
+
+  @override
+  String get knode_app_prompt_management_subtitle =>
+      'Manage AI prompt templates';
+
+  @override
   String get knode_app_quick_card => 'Quick Card';
 
   @override
   String get knode_app_rate_us => 'Rate Us';
 
   @override
+  String get knode_app_reset_all => 'Reset All';
+
+  @override
+  String get knode_app_reset_all_confirm =>
+      'All custom content will be lost continue?';
+
+  @override
+  String get knode_app_reset_override => 'Reset to Default';
+
+  @override
+  String get knode_app_reset_success => 'Reset successful';
+
+  @override
   String get knode_app_save => 'Save';
 
   @override
+  String get knode_app_save_success => 'Template saved';
+
+  @override
   String get knode_app_score_card => 'Score Card';
+
+  @override
+  String get knode_app_search_api_key => 'Search API Key';
+
+  @override
+  String get knode_app_select_search_provider => 'Select Search Provider';
 
   @override
   String get knode_app_server_settings => 'Server Settings';
@@ -394,6 +630,13 @@ class L10nEn extends L10n {
   String get knode_app_sound => 'Sound';
 
   @override
+  String get knode_app_storage_path => 'Storage Path';
+
+  @override
+  String get knode_app_storage_path_subtitle =>
+      'Manage knowledge base file storage location';
+
+  @override
   String get knode_app_storage_settings => 'Storage Settings';
 
   @override
@@ -406,13 +649,25 @@ class L10nEn extends L10n {
   String get knode_app_system_default => 'System Default';
 
   @override
+  String get knode_app_testing => 'Testing...';
+
+  @override
   String get knode_app_theme => 'Theme';
+
+  @override
+  String get knode_app_variables => 'Variables';
 
   @override
   String get knode_app_version => 'Version';
 
   @override
   String get knode_app_vibration => 'Vibration';
+
+  @override
+  String get knode_app_web_search => 'Web Search';
+
+  @override
+  String get knode_app_web_search_subtitle => 'Search provider, API Key config';
 
   @override
   String get knode_app_webdav => 'WebDAV';
@@ -518,7 +773,27 @@ class L10nEn extends L10n {
   String get quiz_accuracy => 'Accuracy';
 
   @override
+  String get quiz_ai_enabled => 'Enable AI Question Generation';
+
+  @override
   String get quiz_ai_explanation => 'AI Explanation';
+
+  @override
+  String get quiz_ai_fixed_ratio => 'Fixed AI Ratio';
+
+  @override
+  String get quiz_ai_ratio_fixed => 'Fixed Ratio';
+
+  @override
+  String quiz_ai_ratio_label(String percent) {
+    return 'AI Questions: $percent%';
+  }
+
+  @override
+  String get quiz_ai_ratio_mode => 'AI Ratio Mode';
+
+  @override
+  String get quiz_ai_ratio_smart => 'Smart Ratio';
 
   @override
   String get quiz_all_knowledge_base => 'All Knowledge Base';
@@ -552,6 +827,9 @@ class L10nEn extends L10n {
   String get quiz_create_exam_failed => 'Create Exam Failed';
 
   @override
+  String get quiz_daily_count => 'Daily Quiz Question Count';
+
+  @override
   String get quiz_daily_quiz => 'Daily Quiz';
 
   @override
@@ -564,6 +842,9 @@ class L10nEn extends L10n {
   String get quiz_daily_quiz_started => 'Daily Quiz Started';
 
   @override
+  String get quiz_daily_scope => 'Daily Quiz Scope';
+
+  @override
   String get quiz_easy => 'Easy';
 
   @override
@@ -574,6 +855,12 @@ class L10nEn extends L10n {
 
   @override
   String get quiz_exam_generated => 'Exam Generated';
+
+  @override
+  String get quiz_exam_history => 'Exam History';
+
+  @override
+  String get quiz_exam_not_found => 'Exam not found';
 
   @override
   String get quiz_exam_result => 'Exam Result';
@@ -604,6 +891,12 @@ class L10nEn extends L10n {
   String get quiz_loading => 'Loading...';
 
   @override
+  String get quiz_makeup_deadline => 'Makeup Deadline';
+
+  @override
+  String get quiz_makeup_exam => 'Makeup Exam';
+
+  @override
   String get quiz_mark_as_mastered => 'Mark as Mastered';
 
   @override
@@ -617,7 +910,13 @@ class L10nEn extends L10n {
   String get quiz_medium => 'Medium';
 
   @override
+  String get quiz_missed_exam => 'Missed Exam';
+
+  @override
   String get quiz_monthly_comprehensive_quiz => 'Monthly comprehensive quiz';
+
+  @override
+  String get quiz_monthly_count => 'Monthly Exam Question Count';
 
   @override
   String get quiz_monthly_exam => 'Monthly Exam';
@@ -659,6 +958,9 @@ class L10nEn extends L10n {
       'Quarterly comprehensive quiz';
 
   @override
+  String get quiz_quarterly_count => 'Quarterly Exam Question Count';
+
+  @override
   String get quiz_quarterly_exam => 'Quarterly Exam';
 
   @override
@@ -683,7 +985,16 @@ class L10nEn extends L10n {
   String get quiz_quiz => 'Quiz';
 
   @override
+  String get quiz_quiz_config => 'Quiz Settings';
+
+  @override
   String get quiz_quiz_types => 'Quiz Types';
+
+  @override
+  String get quiz_random_count => 'Random Quiz Question Count';
+
+  @override
+  String get quiz_random_days => 'Random Quiz Days Range';
 
   @override
   String get quiz_random_quick_review => 'Random quick review';
@@ -700,13 +1011,31 @@ class L10nEn extends L10n {
   String get quiz_recent_reading_documents => 'Recent Reading Documents';
 
   @override
+  String get quiz_reminder_hour => 'Exam Reminder Time';
+
+  @override
   String get quiz_reminder_time => 'Reminder Time';
 
   @override
   String get quiz_return => 'Return';
 
   @override
+  String get quiz_review_count => 'Review Quiz Question Count';
+
+  @override
+  String get quiz_review_wrong_ratio => 'Review Quiz Wrong Ratio';
+
+  @override
   String get quiz_save_settings => 'Save Settings';
+
+  @override
+  String get quiz_scope_all => 'All Questions';
+
+  @override
+  String get quiz_scope_category => 'Specific Category';
+
+  @override
+  String get quiz_scope_days => 'Recently Read';
 
   @override
   String get quiz_score => 'Score';
@@ -753,6 +1082,9 @@ class L10nEn extends L10n {
   String get quiz_unknown => 'Unknown';
 
   @override
+  String get quiz_variant_enabled => 'Enable Variant Questions';
+
+  @override
   String get quiz_view_source_document => 'View Source Document';
 
   @override
@@ -771,6 +1103,9 @@ class L10nEn extends L10n {
   String get quiz_yearly_comprehensive_quiz => 'Yearly comprehensive quiz';
 
   @override
+  String get quiz_yearly_count => 'Yearly Exam Question Count';
+
+  @override
   String get quiz_yearly_exam => 'Yearly Exam';
 
   @override
@@ -786,7 +1121,13 @@ class L10nEn extends L10n {
   String get wiki_add_citation => 'Add Citation';
 
   @override
+  String get wiki_add_tag => 'Add Tag';
+
+  @override
   String get wiki_all_knowledge => 'All Knowledge';
+
+  @override
+  String get wiki_auto_generate_tags => 'Auto-generate tags for new docs';
 
   @override
   String get wiki_cancel => 'Cancel';
@@ -829,6 +1170,9 @@ class L10nEn extends L10n {
 
   @override
   String get wiki_edit_document => 'Edit Document';
+
+  @override
+  String get wiki_edit_tags => 'Edit Tags';
 
   @override
   String get wiki_editor => 'Editor';
@@ -882,6 +1226,9 @@ class L10nEn extends L10n {
   String get wiki_no_documents => 'No Documents';
 
   @override
+  String get wiki_no_tags => 'No tags';
+
+  @override
   String get wiki_node_name => 'Node Name';
 
   @override
@@ -900,6 +1247,13 @@ class L10nEn extends L10n {
   String get wiki_reader_toolbar => 'Reader Toolbar';
 
   @override
+  String get wiki_reset_tags => 'Reset Tags';
+
+  @override
+  String get wiki_reset_tags_confirm =>
+      'Reset tags? AI-generated tags will be cleared';
+
+  @override
   String get wiki_save => 'Save';
 
   @override
@@ -916,6 +1270,15 @@ class L10nEn extends L10n {
 
   @override
   String get wiki_summary => 'Summary';
+
+  @override
+  String get wiki_tag_generated => 'Tags generated';
+
+  @override
+  String get wiki_tag_generation_failed => 'Tag generation failed';
+
+  @override
+  String get wiki_tags => 'Tags';
 
   @override
   String get wiki_text_to_speech => 'Text to Speech';

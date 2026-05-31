@@ -1,7 +1,32 @@
+import 'dart:convert';
+
 import 'package:flutter/services.dart';
 import 'package:core/database/dao/settings_dao.dart';
 
-/// 提示词模板管理器。从 assets/prompts/ 加载，支持变量替换和用户自定义覆盖。
+/// Prompt template info returned by [getAllTemplates].
+class PromptTemplateInfo {
+  final String agentName;
+  final String displayName;
+  final bool hasCustom;
+  final String contentPreview;
+
+  const PromptTemplateInfo({
+    required this.agentName,
+    required this.displayName,
+    required this.hasCustom,
+    required this.contentPreview,
+  });
+
+  Map<String, dynamic> toJson() => {
+        'agentName': agentName,
+        'displayName': displayName,
+        'hasCustom': hasCustom,
+        'contentPreview': contentPreview,
+      };
+}
+
+/// Prompt template manager. Loads from assets/prompts/, supports variable
+/// substitution and user-defined overrides persisted via SettingsDao.
 class PromptManager {
   static const _assetBase = 'assets/prompts/';
   static const Map<String, String> _templateFiles = {
@@ -16,8 +41,22 @@ class PromptManager {
     'search_agent': 'search_agent.txt',
   };
 
+  static const Map<String, String> _displayNames = {
+    'qa_with_rag': 'RAG QA',
+    'quiz_generator': 'Quiz Generator',
+    'intent_analyzer': 'Intent Analyzer',
+    'summarizer': 'Summarizer',
+    'grader': 'Grader',
+    'tag_generator': 'Tag Generator',
+    'question_variant': 'Question Variant',
+    'periodic_exam_generator': 'Periodic Exam',
+    'search_agent': 'Search Agent',
+  };
+
   final SettingsDao _settingsDao;
   final Map<String, String> _cache = {};
+  final Map<String, String> _originalCache = {};
+
   PromptManager(this._settingsDao);
 
   Future<String> loadTemplate(String agentName) async {
@@ -48,5 +87,120 @@ class PromptManager {
     _cache.remove(agentName);
   }
 
-  void clearCache() => _cache.clear();
+  Future<void> resetOverride(String agentName) async {
+    final customKey = 'prompt_$agentName';
+    await _settingsDao.delete(customKey);
+    _cache.remove(agentName);
+  }
+
+  Future<void> resetAllOverrides() async {
+    for (final agentName in _templateFiles.keys) {
+      final customKey = 'prompt_$agentName';
+      await _settingsDao.delete(customKey);
+    }
+    _cache.clear();
+  }
+
+  Future<List<PromptTemplateInfo>> getAllTemplates() async {
+    final list = <PromptTemplateInfo>[];
+    for (final entry in _templateFiles.entries) {
+      final agentName = entry.key;
+      final customKey = 'prompt_$agentName';
+      final custom = await _settingsDao.get(customKey);
+      final hasCustom = custom != null && custom.isNotEmpty;
+      final content =
+          hasCustom ? custom : await _getOriginalTemplate(agentName);
+      final preview =
+          content.length > 80 ? '${content.substring(0, 80)}...' : content;
+      list.add(PromptTemplateInfo(
+        agentName: agentName,
+        displayName: _displayNames[agentName] ?? agentName,
+        hasCustom: hasCustom,
+        contentPreview: preview,
+      ));
+    }
+    return list;
+  }
+
+  Future<String> getOriginalTemplate(String agentName) async {
+    return _getOriginalTemplate(agentName);
+  }
+
+  Future<String?> getCustomTemplate(String agentName) async {
+    final customKey = 'prompt_$agentName';
+    return _settingsDao.get(customKey);
+  }
+
+  Future<bool> hasOverride(String agentName) async {
+    final custom = await getCustomTemplate(agentName);
+    return custom != null && custom.isNotEmpty;
+  }
+
+  Future<String> exportAll() async {
+    final map = <String, String>{};
+    for (final agentName in _templateFiles.keys) {
+      map[agentName] = await loadTemplate(agentName);
+    }
+    return const JsonEncoder.withIndent('  ').convert({
+      'version': 1,
+      'templates': map,
+    });
+  }
+
+  Future<int> importFromJson(String jsonString) async {
+    final dynamic decoded;
+    try {
+      decoded = jsonDecode(jsonString);
+    } catch (_) {
+      throw const FormatException('Invalid JSON format');
+    }
+    if (decoded is! Map<String, dynamic>) {
+      throw const FormatException('Root must be a JSON object');
+    }
+    final templates = decoded['templates'];
+    if (templates is! Map<String, dynamic>) {
+      throw const FormatException('Missing or invalid "templates" field');
+    }
+    var count = 0;
+    for (final entry in templates.entries) {
+      final agentName = entry.key;
+      final value = entry.value;
+      if (value is! String) continue;
+      if (!_templateFiles.containsKey(agentName)) continue;
+      await saveCustomTemplate(agentName, value);
+      count++;
+    }
+    return count;
+  }
+
+  static List<String> extractVariables(String template) {
+    final regex = RegExp(r'\{([a-zA-Z_][a-zA-Z0-9_]*)\}');
+    final matches = regex.allMatches(template);
+    final names = <String>{};
+    for (final m in matches) {
+      names.add(m.group(1)!);
+    }
+    return names.toList()..sort();
+  }
+
+  List<String> get knownAgents => _templateFiles.keys.toList();
+
+  String displayNameOf(String agentName) =>
+      _displayNames[agentName] ?? agentName;
+
+  Future<String> _getOriginalTemplate(String agentName) async {
+    if (_originalCache.containsKey(agentName)) {
+      return _originalCache[agentName]!;
+    }
+    final fileName = _templateFiles[agentName];
+    if (fileName == null) throw ArgumentError('Unknown agent: $agentName');
+    final raw = await rootBundle.loadString('$_assetBase$fileName');
+    _originalCache[agentName] = raw;
+    return raw;
+  }
+
+  void clearCache() {
+    _cache.clear();
+    _originalCache.clear();
+  }
 }

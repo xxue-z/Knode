@@ -4,6 +4,7 @@ import 'package:core/providers/settings_provider.dart';
 import 'package:knode_app/gen/strings.dart';
 import 'package:knode_app/screens/ai_settings.dart';
 import 'package:knode_app/screens/backup_settings.dart';
+import 'package:knode_app/screens/prompt_management_screen.dart';
 
 final _strings = const L10nStringsMixin();
 
@@ -28,6 +29,12 @@ class SettingsPage extends ConsumerWidget {
               title: _strings.knode_app_ai_engine,
               subtitle: _strings.knode_app_ai_engine_subtitle,
               onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const AiSettingsPage())),
+            ),
+            _SettingsTile(
+              icon: Icons.edit_note,
+              title: _strings.knode_app_prompt_management,
+              subtitle: _strings.knode_app_prompt_management_subtitle,
+              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const PromptManagementScreen())),
             ),
           ]),
           _Section(title: _strings.knode_app_storage_settings, children: [

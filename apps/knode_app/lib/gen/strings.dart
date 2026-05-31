@@ -82,6 +82,9 @@ mixin class L10nStringsMixin {
   String get knode_app_connection_success =>
       LocalizeStringDelegate.get('knode_app_connection_success');
 
+  /// 已自定义
+  String get knode_app_custom => LocalizeStringDelegate.get('knode_app_custom');
+
   /// 每日卡片
   String get knode_app_daily_card =>
       LocalizeStringDelegate.get('knode_app_daily_card');
@@ -96,6 +99,14 @@ mixin class L10nStringsMixin {
   /// 导出数据
   String get knode_app_export_data =>
       LocalizeStringDelegate.get('knode_app_export_data');
+
+  /// 导出成功
+  String get knode_app_export_success =>
+      LocalizeStringDelegate.get('knode_app_export_success');
+
+  /// 导出文件包含自定义提示词
+  String get knode_app_export_warning =>
+      LocalizeStringDelegate.get('knode_app_export_warning');
 
   /// 反馈
   String get knode_app_feedback =>
@@ -112,6 +123,10 @@ mixin class L10nStringsMixin {
   String get knode_app_fetch_or_import_hint =>
       LocalizeStringDelegate.get('knode_app_fetch_or_import_hint');
 
+  /// 文件过大
+  String get knode_app_file_too_large =>
+      LocalizeStringDelegate.get('knode_app_file_too_large');
+
   /// 字体大小
   String get knode_app_font_size =>
       LocalizeStringDelegate.get('knode_app_font_size');
@@ -127,6 +142,10 @@ mixin class L10nStringsMixin {
   String get knode_app_import_failed =>
       LocalizeStringDelegate.get('knode_app_import_failed');
 
+  /// 在此粘贴 JSON 内容
+  String get knode_app_import_json_hint =>
+      LocalizeStringDelegate.get('knode_app_import_json_hint');
+
   /// 导入本地模型
   String get knode_app_import_local_model =>
       LocalizeStringDelegate.get('knode_app_import_local_model');
@@ -138,6 +157,10 @@ mixin class L10nStringsMixin {
   /// 输入 API Key
   String get knode_app_input_api_key =>
       LocalizeStringDelegate.get('knode_app_input_api_key');
+
+  /// JSON 格式错误
+  String get knode_app_invalid_json =>
+      LocalizeStringDelegate.get('knode_app_invalid_json');
 
   /// 语言
   String get knode_app_language =>
@@ -179,9 +202,21 @@ mixin class L10nStringsMixin {
   String get knode_app_no_models =>
       LocalizeStringDelegate.get('knode_app_no_models');
 
+  /// 暂无模板
+  String get knode_app_no_templates =>
+      LocalizeStringDelegate.get('knode_app_no_templates');
+
   /// 通知
   String get knode_app_notification =>
       LocalizeStringDelegate.get('knode_app_notification');
+
+  /// 原始模板
+  String get knode_app_original_template =>
+      LocalizeStringDelegate.get('knode_app_original_template');
+
+  /// 原始模板已有变更
+  String get knode_app_original_template_changed =>
+      LocalizeStringDelegate.get('knode_app_original_template_changed');
 
   /// 个人抽屉
   String get knode_app_personal_drawer =>
@@ -195,6 +230,18 @@ mixin class L10nStringsMixin {
   String get knode_app_profile =>
       LocalizeStringDelegate.get('knode_app_profile');
 
+  /// 编辑提示词模板...
+  String get knode_app_prompt_edit_hint =>
+      LocalizeStringDelegate.get('knode_app_prompt_edit_hint');
+
+  /// 提示词管理
+  String get knode_app_prompt_management =>
+      LocalizeStringDelegate.get('knode_app_prompt_management');
+
+  /// 管理 AI 提示词模板
+  String get knode_app_prompt_management_subtitle =>
+      LocalizeStringDelegate.get('knode_app_prompt_management_subtitle');
+
   /// 快捷卡片
   String get knode_app_quick_card =>
       LocalizeStringDelegate.get('knode_app_quick_card');
@@ -203,8 +250,28 @@ mixin class L10nStringsMixin {
   String get knode_app_rate_us =>
       LocalizeStringDelegate.get('knode_app_rate_us');
 
+  /// 一键恢复所有
+  String get knode_app_reset_all =>
+      LocalizeStringDelegate.get('knode_app_reset_all');
+
+  /// 所有自定义内容将丢失是否继续？
+  String get knode_app_reset_all_confirm =>
+      LocalizeStringDelegate.get('knode_app_reset_all_confirm');
+
+  /// 恢复默认
+  String get knode_app_reset_override =>
+      LocalizeStringDelegate.get('knode_app_reset_override');
+
+  /// 重置成功
+  String get knode_app_reset_success =>
+      LocalizeStringDelegate.get('knode_app_reset_success');
+
   /// 保存
   String get knode_app_save => LocalizeStringDelegate.get('knode_app_save');
+
+  /// 模板已保存
+  String get knode_app_save_success =>
+      LocalizeStringDelegate.get('knode_app_save_success');
 
   /// 成绩卡片
   String get knode_app_score_card =>
@@ -262,6 +329,10 @@ mixin class L10nStringsMixin {
 
   /// 主题
   String get knode_app_theme => LocalizeStringDelegate.get('knode_app_theme');
+
+  /// 变量
+  String get knode_app_variables =>
+      LocalizeStringDelegate.get('knode_app_variables');
 
   /// 版本
   String get knode_app_version =>

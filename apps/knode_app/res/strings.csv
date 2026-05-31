@@ -70,3 +70,21 @@ fetch_failed_use_cache,"Fetch failed, using cached data","获取失败，使用�
 import_success,Import successful,导入成功
 import_failed,Import failed,导入失败
 load_failed,Load failed,加载失败
+prompt_management,Prompt Management,提示词管理
+prompt_management_subtitle,Manage AI prompt templates,管理 AI 提示词模板
+custom,Custom,已自定义
+no_templates,No templates,暂无模板
+original_template,Original Template,原始模板
+reset_override,Reset to Default,恢复默认
+reset_all,Reset All,一键恢复所有
+reset_all_confirm,All custom content will be lost continue?,所有自定义内容将丢失是否继续？
+reset_success,Reset successful,重置成功
+variables,Variables,变量
+prompt_edit_hint,Edit prompt template...,编辑提示词模板...
+save_success,Template saved,模板已保存
+import_json_hint,Paste JSON content here,在此粘贴 JSON 内容
+export_success,Exported successfully,导出成功
+original_template_changed,Original template has changed,原始模板已有变更
+file_too_large,File too large,文件过大
+invalid_json,Invalid JSON format,JSON 格式错误
+export_warning,Exported file contains custom prompts,导出文件包含自定义提示词

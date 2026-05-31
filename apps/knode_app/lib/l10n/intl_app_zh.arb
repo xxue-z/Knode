@@ -581,6 +581,10 @@
   "@knode_app_connection_success": {
     "description": "连接成功"
   },
+  "knode_app_custom": "已自定义",
+  "@knode_app_custom": {
+    "description": "已自定义"
+  },
   "knode_app_daily_card": "每日卡片",
   "@knode_app_daily_card": {
     "description": "每日卡片"
@@ -596,6 +600,14 @@
   "knode_app_export_data": "导出数据",
   "@knode_app_export_data": {
     "description": "导出数据"
+  },
+  "knode_app_export_success": "导出成功",
+  "@knode_app_export_success": {
+    "description": "导出成功"
+  },
+  "knode_app_export_warning": "导出文件包含自定义提示词",
+  "@knode_app_export_warning": {
+    "description": "导出文件包含自定义提示词"
   },
   "knode_app_feedback": "反馈",
   "@knode_app_feedback": {
@@ -613,6 +625,10 @@
   "@knode_app_fetch_or_import_hint": {
     "description": "请获取仓库或导入本地文件"
   },
+  "knode_app_file_too_large": "文件过大",
+  "@knode_app_file_too_large": {
+    "description": "文件过大"
+  },
   "knode_app_font_size": "字体大小",
   "@knode_app_font_size": {
     "description": "字体大小"
@@ -629,6 +645,10 @@
   "@knode_app_import_failed": {
     "description": "导入失败"
   },
+  "knode_app_import_json_hint": "在此粘贴 JSON 内容",
+  "@knode_app_import_json_hint": {
+    "description": "在此粘贴 JSON 内容"
+  },
   "knode_app_import_local_model": "导入本地模型",
   "@knode_app_import_local_model": {
     "description": "导入本地模型"
@@ -640,6 +660,10 @@
   "knode_app_input_api_key": "输入 API Key",
   "@knode_app_input_api_key": {
     "description": "输入 API Key"
+  },
+  "knode_app_invalid_json": "JSON 格式错误",
+  "@knode_app_invalid_json": {
+    "description": "JSON 格式错误"
   },
   "knode_app_language": "语言",
   "@knode_app_language": {
@@ -681,9 +705,21 @@
   "@knode_app_no_models": {
     "description": "暂无模型"
   },
+  "knode_app_no_templates": "暂无模板",
+  "@knode_app_no_templates": {
+    "description": "暂无模板"
+  },
   "knode_app_notification": "通知",
   "@knode_app_notification": {
     "description": "通知"
+  },
+  "knode_app_original_template": "原始模板",
+  "@knode_app_original_template": {
+    "description": "原始模板"
+  },
+  "knode_app_original_template_changed": "原始模板已有变更",
+  "@knode_app_original_template_changed": {
+    "description": "原始模板已有变更"
   },
   "knode_app_personal_drawer": "个人抽屉",
   "@knode_app_personal_drawer": {
@@ -697,6 +733,18 @@
   "@knode_app_profile": {
     "description": "个人中心"
   },
+  "knode_app_prompt_edit_hint": "编辑提示词模板...",
+  "@knode_app_prompt_edit_hint": {
+    "description": "编辑提示词模板..."
+  },
+  "knode_app_prompt_management": "提示词管理",
+  "@knode_app_prompt_management": {
+    "description": "提示词管理"
+  },
+  "knode_app_prompt_management_subtitle": "管理 AI 提示词模板",
+  "@knode_app_prompt_management_subtitle": {
+    "description": "管理 AI 提示词模板"
+  },
   "knode_app_quick_card": "快捷卡片",
   "@knode_app_quick_card": {
     "description": "快捷卡片"
@@ -705,9 +753,29 @@
   "@knode_app_rate_us": {
     "description": "评价应用"
   },
+  "knode_app_reset_all": "一键恢复所有",
+  "@knode_app_reset_all": {
+    "description": "一键恢复所有"
+  },
+  "knode_app_reset_all_confirm": "所有自定义内容将丢失是否继续？",
+  "@knode_app_reset_all_confirm": {
+    "description": "所有自定义内容将丢失是否继续？"
+  },
+  "knode_app_reset_override": "恢复默认",
+  "@knode_app_reset_override": {
+    "description": "恢复默认"
+  },
+  "knode_app_reset_success": "重置成功",
+  "@knode_app_reset_success": {
+    "description": "重置成功"
+  },
   "knode_app_save": "保存",
   "@knode_app_save": {
     "description": "保存"
+  },
+  "knode_app_save_success": "模板已保存",
+  "@knode_app_save_success": {
+    "description": "模板已保存"
   },
   "knode_app_score_card": "成绩卡片",
   "@knode_app_score_card": {
@@ -768,6 +836,10 @@
   "knode_app_theme": "主题",
   "@knode_app_theme": {
     "description": "主题"
+  },
+  "knode_app_variables": "变量",
+  "@knode_app_variables": {
+    "description": "变量"
   },
   "knode_app_version": "版本",
   "@knode_app_version": {

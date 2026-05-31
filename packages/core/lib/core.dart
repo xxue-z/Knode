@@ -42,7 +42,6 @@ export 'services/hybrid_search_service.dart';
 export 'services/model_download_service.dart';
 export 'services/model_repo_service.dart';
 export 'services/notification_service.dart';
-export 'services/prompt_remote_sync_service.dart';
 export 'services/rag_service.dart';
 export 'services/speech_service.dart';
 export 'services/text_chunker.dart';
