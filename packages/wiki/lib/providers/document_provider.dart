@@ -1,4 +1,4 @@
-﻿import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:core/models/document.dart';
 import 'package:core/database/repositories/document_repository.dart';
@@ -104,6 +104,21 @@ class DocumentListNotifier extends AsyncNotifier<DocumentListState> {
     state = await AsyncValue.guard(() async {
       final repo = ref.read(documentRepositoryProvider);
       await repo.saveContent(docId, content);
+      final docs = _categoryId != null
+          ? await repo.getByCategory(_categoryId!)
+          : await repo.getRecentlyRead();
+      return DocumentListState(
+        documents: docs,
+        filterCategoryId: _categoryId,
+      );
+    });
+  }
+
+  /// 更新文档标签。
+  Future<void> updateTags(int docId, List<String> tags) async {
+    state = await AsyncValue.guard(() async {
+      final repo = ref.read(documentRepositoryProvider);
+      await repo.updateTags(docId, tags);
       final docs = _categoryId != null
           ? await repo.getByCategory(_categoryId!)
           : await repo.getRecentlyRead();

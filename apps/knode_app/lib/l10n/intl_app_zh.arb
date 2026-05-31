@@ -188,6 +188,10 @@
   "@core_exam": {
     "description": "考试"
   },
+  "core_exam_not_found": "考试不存在",
+  "@core_exam_not_found": {
+    "description": "考试不存在"
+  },
   "core_feedback": "反馈",
   "@core_feedback": {
     "description": "反馈"
@@ -240,6 +244,10 @@
   "@core_message": {
     "description": "消息"
   },
+  "core_monthly_exam_2": "月度考试",
+  "@core_monthly_exam_2": {
+    "description": "月度考试"
+  },
   "core_multiple_choice": "多选题",
   "@core_multiple_choice": {
     "description": "多选题"
@@ -268,6 +276,10 @@
   "@core_profile": {
     "description": "个人中心"
   },
+  "core_quarterly_exam_2": "季度考试",
+  "@core_quarterly_exam_2": {
+    "description": "季度考试"
+  },
   "core_question": "题目",
   "@core_question": {
     "description": "题目"
@@ -275,6 +287,10 @@
   "core_quiz": "测验",
   "@core_quiz": {
     "description": "测验"
+  },
+  "core_random_quick_review": "随机抽取快速复习",
+  "@core_random_quick_review": {
+    "description": "随机抽取快速复习"
   },
   "core_reading": "阅读",
   "@core_reading": {
@@ -355,6 +371,14 @@
   "core_webdav_not_configured": "WebDAV 未配置",
   "@core_webdav_not_configured": {
     "description": "WebDAV 未配置"
+  },
+  "core_wrong_question_review": "错题重练",
+  "@core_wrong_question_review": {
+    "description": "错题重练"
+  },
+  "core_yearly_exam_2": "年度考试",
+  "@core_yearly_exam_2": {
+    "description": "年度考试"
   },
   "core_yes": "是",
   "@core_yes": {
@@ -660,9 +684,38 @@
   "@quiz_accuracy": {
     "description": "正确率"
   },
+  "quiz_ai_enabled": "启用 AI 出题",
+  "@quiz_ai_enabled": {
+    "description": "启用 AI 出题"
+  },
   "quiz_ai_explanation": "AI 讲解",
   "@quiz_ai_explanation": {
     "description": "AI 讲解"
+  },
+  "quiz_ai_fixed_ratio": "固定 AI 比例",
+  "@quiz_ai_fixed_ratio": {
+    "description": "固定 AI 比例"
+  },
+  "quiz_ai_ratio_fixed": "固定比例",
+  "@quiz_ai_ratio_fixed": {
+    "description": "固定比例"
+  },
+  "quiz_ai_ratio_label": "AI 出题: {percent}%",
+  "@quiz_ai_ratio_label": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    },
+    "description": "AI 出题: {percent}%"
+  },
+  "quiz_ai_ratio_mode": "AI 出题比例模式",
+  "@quiz_ai_ratio_mode": {
+    "description": "AI 出题比例模式"
+  },
+  "quiz_ai_ratio_smart": "智能比例",
+  "@quiz_ai_ratio_smart": {
+    "description": "智能比例"
   },
   "quiz_all_knowledge_base": "全部知识库",
   "@quiz_all_knowledge_base": {
@@ -704,6 +757,10 @@
   "@quiz_create_exam_failed": {
     "description": "创建考试失败"
   },
+  "quiz_daily_count": "每日一测题目数量",
+  "@quiz_daily_count": {
+    "description": "每日一测题目数量"
+  },
   "quiz_daily_quiz": "每日一测",
   "@quiz_daily_quiz": {
     "description": "每日一测"
@@ -720,6 +777,10 @@
   "@quiz_daily_quiz_started": {
     "description": "每日一测已开始，请切换到\"测验\"标签查看"
   },
+  "quiz_daily_scope": "每日一测出题范围",
+  "@quiz_daily_scope": {
+    "description": "每日一测出题范围"
+  },
   "quiz_easy": "简单",
   "@quiz_easy": {
     "description": "简单"
@@ -735,6 +796,14 @@
   "quiz_exam_generated": "考试已生成",
   "@quiz_exam_generated": {
     "description": "考试已生成"
+  },
+  "quiz_exam_history": "考试历史",
+  "@quiz_exam_history": {
+    "description": "考试历史"
+  },
+  "quiz_exam_not_found": "考试不存在",
+  "@quiz_exam_not_found": {
+    "description": "考试不存在"
   },
   "quiz_exam_result": "测验结果",
   "@quiz_exam_result": {
@@ -772,6 +841,14 @@
   "@quiz_loading": {
     "description": "加载中..."
   },
+  "quiz_makeup_deadline": "补考截止",
+  "@quiz_makeup_deadline": {
+    "description": "补考截止"
+  },
+  "quiz_makeup_exam": "补考",
+  "@quiz_makeup_exam": {
+    "description": "补考"
+  },
   "quiz_mark_as_mastered": "标记为已掌握",
   "@quiz_mark_as_mastered": {
     "description": "标记为已掌握"
@@ -788,9 +865,17 @@
   "@quiz_medium": {
     "description": "中等"
   },
+  "quiz_missed_exam": "错过考试",
+  "@quiz_missed_exam": {
+    "description": "错过考试"
+  },
   "quiz_monthly_comprehensive_quiz": "每月综合测验",
   "@quiz_monthly_comprehensive_quiz": {
     "description": "每月综合测验"
+  },
+  "quiz_monthly_count": "月考题目数量",
+  "@quiz_monthly_count": {
+    "description": "月考题目数量"
   },
   "quiz_monthly_exam": "月考",
   "@quiz_monthly_exam": {
@@ -840,6 +925,10 @@
   "@quiz_quarterly_comprehensive_quiz": {
     "description": "季度综合测验"
   },
+  "quiz_quarterly_count": "季考题目数量",
+  "@quiz_quarterly_count": {
+    "description": "季考题目数量"
+  },
   "quiz_quarterly_exam": "季考",
   "@quiz_quarterly_exam": {
     "description": "季考"
@@ -872,9 +961,21 @@
   "@quiz_quiz": {
     "description": "测验"
   },
+  "quiz_quiz_config": "出题设置",
+  "@quiz_quiz_config": {
+    "description": "出题设置"
+  },
   "quiz_quiz_types": "测验类型",
   "@quiz_quiz_types": {
     "description": "测验类型"
+  },
+  "quiz_random_count": "随机速记题目数量",
+  "@quiz_random_count": {
+    "description": "随机速记题目数量"
+  },
+  "quiz_random_days": "随机速记天数范围",
+  "@quiz_random_days": {
+    "description": "随机速记天数范围"
   },
   "quiz_random_quick_review": "随机抽取快速复习",
   "@quiz_random_quick_review": {
@@ -897,6 +998,10 @@
   "@quiz_recent_reading_documents": {
     "description": "最近阅读文档"
   },
+  "quiz_reminder_hour": "考试提醒时间",
+  "@quiz_reminder_hour": {
+    "description": "考试提醒时间"
+  },
   "quiz_reminder_time": "提醒时间",
   "@quiz_reminder_time": {
     "description": "提醒时间"
@@ -905,9 +1010,29 @@
   "@quiz_return": {
     "description": "返回"
   },
+  "quiz_review_count": "温故知新题目数量",
+  "@quiz_review_count": {
+    "description": "温故知新题目数量"
+  },
+  "quiz_review_wrong_ratio": "温故知新错题比例",
+  "@quiz_review_wrong_ratio": {
+    "description": "温故知新错题比例"
+  },
   "quiz_save_settings": "保存设置",
   "@quiz_save_settings": {
     "description": "保存设置"
+  },
+  "quiz_scope_all": "全部题库",
+  "@quiz_scope_all": {
+    "description": "全部题库"
+  },
+  "quiz_scope_category": "指定类目",
+  "@quiz_scope_category": {
+    "description": "指定类目"
+  },
+  "quiz_scope_days": "最近阅读",
+  "@quiz_scope_days": {
+    "description": "最近阅读"
   },
   "quiz_score": "分数",
   "@quiz_score": {
@@ -970,6 +1095,10 @@
   "@quiz_unknown": {
     "description": "未知"
   },
+  "quiz_variant_enabled": "启用变种出题",
+  "@quiz_variant_enabled": {
+    "description": "启用变种出题"
+  },
   "quiz_view_source_document": "查看源文档",
   "@quiz_view_source_document": {
     "description": "查看源文档"
@@ -994,6 +1123,10 @@
   "@quiz_yearly_comprehensive_quiz": {
     "description": "年度综合测验"
   },
+  "quiz_yearly_count": "年考题目数量",
+  "@quiz_yearly_count": {
+    "description": "年考题目数量"
+  },
   "quiz_yearly_exam": "年考",
   "@quiz_yearly_exam": {
     "description": "年考"
@@ -1014,9 +1147,17 @@
   "@wiki_add_citation": {
     "description": "添加引用"
   },
+  "wiki_add_tag": "添加标签",
+  "@wiki_add_tag": {
+    "description": "添加标签"
+  },
   "wiki_all_knowledge": "全部知识",
   "@wiki_all_knowledge": {
     "description": "全部知识"
+  },
+  "wiki_auto_generate_tags": "自动为新文档生成标签",
+  "@wiki_auto_generate_tags": {
+    "description": "自动为新文档生成标签"
   },
   "wiki_cancel": "取消",
   "@wiki_cancel": {
@@ -1073,6 +1214,10 @@
   "wiki_edit_document": "编辑文档",
   "@wiki_edit_document": {
     "description": "编辑文档"
+  },
+  "wiki_edit_tags": "编辑标签",
+  "@wiki_edit_tags": {
+    "description": "编辑标签"
   },
   "wiki_editor": "编辑器",
   "@wiki_editor": {
@@ -1142,6 +1287,10 @@
   "@wiki_no_documents": {
     "description": "暂无文档"
   },
+  "wiki_no_tags": "暂无标签",
+  "@wiki_no_tags": {
+    "description": "暂无标签"
+  },
   "wiki_node_name": "节点名称",
   "@wiki_node_name": {
     "description": "节点名称"
@@ -1166,6 +1315,14 @@
   "@wiki_reader_toolbar": {
     "description": "阅读器工具栏"
   },
+  "wiki_reset_tags": "重置标签",
+  "@wiki_reset_tags": {
+    "description": "重置标签"
+  },
+  "wiki_reset_tags_confirm": "确定重置标签？AI 生成的标签将被清除",
+  "@wiki_reset_tags_confirm": {
+    "description": "确定重置标签？AI 生成的标签将被清除"
+  },
   "wiki_save": "保存",
   "@wiki_save": {
     "description": "保存"
@@ -1189,6 +1346,18 @@
   "wiki_summary": "摘要",
   "@wiki_summary": {
     "description": "摘要"
+  },
+  "wiki_tag_generated": "标签已生成",
+  "@wiki_tag_generated": {
+    "description": "标签已生成"
+  },
+  "wiki_tag_generation_failed": "标签生成失败",
+  "@wiki_tag_generation_failed": {
+    "description": "标签生成失败"
+  },
+  "wiki_tags": "标签",
+  "@wiki_tags": {
+    "description": "标签"
   },
   "wiki_text_to_speech": "文字转语音",
   "@wiki_text_to_speech": {

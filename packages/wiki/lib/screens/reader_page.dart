@@ -4,6 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wiki/gen/strings.dart';
 
 import 'package:wiki/providers/document_provider.dart';
+import 'package:wiki/widgets/tag_chip_list.dart';
+import 'package:wiki/widgets/tag_editor_dialog.dart';
+import 'package:core/models/document.dart';
 import 'package:core/services/tts_service.dart';
 import 'package:core/providers/service_providers.dart';
 
@@ -46,6 +49,7 @@ class _ReaderPageState extends ConsumerState<ReaderPage> {
 
   /// 文档内容。
   String _content = '';
+  Document? _document;
   bool _isLoading = true;
 
   /// 上次触发菜单的选区，避免重复弹出。
@@ -66,8 +70,12 @@ class _ReaderPageState extends ConsumerState<ReaderPage> {
     try {
       final repo = ref.read(documentRepositoryProvider);
       final content = await repo.readContent(widget.docId);
+      final docList = await repo.getByCategory(0, includeDeleted: true);
+      final matches = docList.where((d) => d.id == widget.docId);
+      final doc = matches.isNotEmpty ? matches.first : null;
       setState(() {
         _content = content;
+        _document = doc;
         _textController.text = content;
         _isLoading = false;
       });
@@ -249,7 +257,21 @@ class _ReaderPageState extends ConsumerState<ReaderPage> {
     super.dispose();
   }
 
-  @override
+  Future<void> _editTags() async {
+    if (_document == null) return;
+    final updatedTags = await TagEditorDialog.show(
+      context,
+      tags: _document!.tags,
+    );
+    if (updatedTags != null && mounted) {
+      final repo = ref.read(documentRepositoryProvider);
+      await repo.updateTags(widget.docId, updatedTags);
+      setState(() {
+        _document = _document!.copyWith(tags: updatedTags, manualTags: 1);
+      });
+    }
+  }
+
   Widget build(BuildContext context) {
     final bgColor = _isDarkMode ? const Color(0xFF1E1E1E) : _backgroundColor;
     final textColor = _isDarkMode ? Colors.white70 : Colors.black87;
@@ -276,19 +298,32 @@ class _ReaderPageState extends ConsumerState<ReaderPage> {
                     horizontal: 24,
                     vertical: 16,
                   ),
-                  child: TextField(
-                    controller: _textController,
-                    readOnly: true,
-                    maxLines: null,
-                    decoration: const InputDecoration(
-                      border: InputBorder.none,
-                      isCollapsed: true,
-                    ),
-                    style: TextStyle(
-                      fontSize: _fontSize,
-                      height: _lineSpacing,
-                      color: textColor,
-                    ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      TextField(
+                        controller: _textController,
+                        readOnly: true,
+                        maxLines: null,
+                        decoration: const InputDecoration(
+                          border: InputBorder.none,
+                          isCollapsed: true,
+                        ),
+                        style: TextStyle(
+                          fontSize: _fontSize,
+                          height: _lineSpacing,
+                          color: textColor,
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      // ── 标签展示区 ──
+                      if (_document != null && _document!.tags.isNotEmpty)
+                        TagChipList(
+                          tags: _document!.tags,
+                          isEditable: true,
+                          onEdit: () => _editTags(),
+                        ),
+                    ],
                   ),
                 ),
               ),

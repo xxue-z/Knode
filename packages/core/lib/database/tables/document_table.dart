@@ -18,6 +18,9 @@ class DocumentTable {
       'read_count INTEGER DEFAULT 0, '
       'last_read_at TEXT, '
       'is_deleted INTEGER DEFAULT 0, '
+      'tags TEXT, '
+      'links_to TEXT, '
+      'manual_tags INTEGER DEFAULT 0, '
       "created_at TEXT DEFAULT (datetime('now')), "
       "updated_at TEXT DEFAULT (datetime('now'))"
       ')';

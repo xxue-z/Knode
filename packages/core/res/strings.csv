@@ -59,3 +59,9 @@ tap_to_start_answering,Tap to start answering,点击开始答题
 local_import,Local import,本地导入
 please_override_in_main_dart,Please override in main.dart,请在 main.dart 中覆盖
 anthropic_embedding_not_supported,"Anthropic API does not support Embedding, please use OpenAI compatible interface",Anthropic API 不支持 Embedding，请使用 OpenAI 兼容接口
+random_quick_review,Random quick review,随机抽取快速复习
+wrong_question_review,Wrong Question Review,错题重练
+monthly_exam_2,Monthly Exam,月度考试
+quarterly_exam_2,Quarterly Exam,季度考试
+yearly_exam_2,Yearly Exam,年度考试
+exam_not_found,Exam not found,考试不存在

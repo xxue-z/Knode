@@ -69,4 +69,51 @@ class QuestionDao {
     }
     return await _db.insert(QuestionTable.tableName, _toRow(q));
   }
+  /// 根据文档 ID 列表查询关联题目。
+  Future<List<Question>> getByDocIds(List<int> docIds) async {
+    if (docIds.isEmpty) return [];
+    final rows = await _db.query(
+      QuestionTable.tableName,
+      where: 'source_file_ids IS NOT NULL',
+    );
+    final result = <Question>[];
+    for (final row in rows) {
+      final sourceIds = row['source_file_ids'] as String?;
+      if (sourceIds == null) continue;
+      for (final docId in docIds) {
+        if (sourceIds.contains(docId.toString())) {
+          result.add(_fromRow(row));
+          break;
+        }
+      }
+    }
+    return result;
+  }
+
+  /// 根据创建时间范围查询题目。
+  Future<List<Question>> getByDateRange(
+    DateTime start,
+    DateTime end, {
+    int limit = 100,
+  }) async {
+    final rows = await _db.query(
+      QuestionTable.tableName,
+      where: 'created_at >= ? AND created_at <= ?',
+      whereArgs: [start.toIso8601String(), end.toIso8601String()],
+      orderBy: 'created_at DESC',
+      limit: limit,
+    );
+    return rows.map(_fromRow).toList();
+  }
+
+  /// 根据标签查询题目。
+  Future<List<Question>> getByTag(String tag, {int limit = 50}) async {
+    final rows = await _db.query(
+      QuestionTable.tableName,
+      where: 'tags LIKE ?',
+      whereArgs: ['%$tag%'],
+      limit: limit,
+    );
+    return rows.map(_fromRow).toList();
+  }
 }

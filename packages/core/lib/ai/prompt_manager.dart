@@ -1,4 +1,4 @@
-﻿import 'package:flutter/services.dart';
+import 'package:flutter/services.dart';
 import 'package:core/database/dao/settings_dao.dart';
 
 /// 提示词模板管理器。从 assets/prompts/ 加载，支持变量替换和用户自定义覆盖。
@@ -10,6 +10,9 @@ class PromptManager {
     'intent_analyzer': 'intent_analyzer.txt',
     'summarizer': 'summarizer.txt',
     'grader': 'grader.txt',
+    'tag_generator': 'tag_generator.txt',
+    'question_variant': 'question_variant.txt',
+    'periodic_exam_generator': 'periodic_exam_generator.txt',
   };
 
   final SettingsDao _settingsDao;

@@ -1,4 +1,6 @@
-﻿import 'package:sqflite/sqflite.dart';
+import 'dart:convert';
+
+import 'package:sqflite/sqflite.dart';
 
 import '../app_database.dart';
 import '../tables/document_table.dart';
@@ -8,8 +10,10 @@ import '../../models/document.dart';
 class DocumentDao {
   Database get _db => AppDatabase.instance.db;
 
-  /// 数据库行（snake_case）→ [Document] 模型。
+  /// 数据库行（snake_case）-> [Document] 模型。
   static Document _fromRow(Map<String, dynamic> row) {
+    final tagsRaw = row['tags'] as String?;
+    final linksRaw = row['links_to'] as String?;
     return Document(
       id: row['id'] as int,
       title: row['title'] as String,
@@ -25,12 +29,19 @@ class DocumentDao {
       readCount: row['read_count'] as int,
       lastReadAt: row['last_read_at'] as String?,
       isDeleted: row['is_deleted'] as int,
+      tags: tagsRaw != null && tagsRaw.isNotEmpty
+          ? List<String>.from(jsonDecode(tagsRaw) as List)
+          : const [],
+      linksTo: linksRaw != null && linksRaw.isNotEmpty
+          ? List<int>.from(jsonDecode(linksRaw) as List)
+          : const [],
+      manualTags: row['manual_tags'] as int? ?? 0,
       createdAt: row['created_at'] as String,
       updatedAt: row['updated_at'] as String,
     );
   }
 
-  /// [Document] 模型 → 数据库行（snake_case），不含 id。
+  /// [Document] 模型 -> 数据库行（snake_case），不含 id。
   static Map<String, dynamic> _toRow(Document doc) {
     return {
       'title': doc.title,
@@ -46,6 +57,9 @@ class DocumentDao {
       'read_count': doc.readCount,
       'last_read_at': doc.lastReadAt,
       'is_deleted': doc.isDeleted,
+      'tags': jsonEncode(doc.tags),
+      'links_to': jsonEncode(doc.linksTo),
+      'manual_tags': doc.manualTags,
       'created_at': doc.createdAt,
       'updated_at': doc.updatedAt,
     };
@@ -187,6 +201,48 @@ class DocumentDao {
     }
   }
 
+  /// 更新文档标签列表。
+  Future<void> updateTags(int docId, List<String> tags) async {
+    try {
+      final count = await _db.update(
+        DocumentTable.tableName,
+        {
+          'tags': jsonEncode(tags),
+          'updated_at': DateTime.now().toIso8601String(),
+        },
+        where: 'id = ?',
+        whereArgs: [docId],
+      );
+      if (count == 0) {
+        throw StateError('Document id=$docId not found, tags not updated.');
+      }
+    } on DatabaseException catch (e) {
+      throw StateError('Failed to update tags for doc id=$docId: $e');
+    }
+  }
+
+  /// 更新文档引用链接列表。
+  Future<void> updateLinksTo(int docId, List<int> linksTo) async {
+    try {
+      final count = await _db.update(
+        DocumentTable.tableName,
+        {
+          'links_to': jsonEncode(linksTo),
+          'updated_at': DateTime.now().toIso8601String(),
+        },
+        where: 'id = ?',
+        whereArgs: [docId],
+      );
+      if (count == 0) {
+        throw StateError(
+          'Document id=$docId not found, links_to not updated.',
+        );
+      }
+    } on DatabaseException catch (e) {
+      throw StateError('Failed to update links_to for doc id=$docId: $e');
+    }
+  }
+
   /// 软删除文档（标记 is_deleted = 1）。
   Future<void> softDelete(int id) async {
     try {
@@ -260,5 +316,34 @@ class DocumentDao {
         'Failed to update reading stats for doc id=$docId: $e',
       );
     }
+  }
+
+  /// 获取指定时间范围内活跃的文档 ID 列表。
+  ///
+  /// 活跃定义：updated_at 或 last_read_at 在 [startDate, endDate] 范围内。
+  Future<List<int>> getActiveDocIds({
+    required DateTime startDate,
+    required DateTime endDate,
+  }) async {
+    final startStr = startDate.toIso8601String();
+    final endStr = endDate.toIso8601String();
+    final rows = await _db.rawQuery(
+      """SELECT id FROM ${DocumentTable.tableName}
+         WHERE is_deleted = 0
+           AND ((updated_at BETWEEN ? AND ?) OR (last_read_at BETWEEN ? AND ?))""",
+      [startStr, endStr, startStr, endStr],
+    );
+    return rows.map((r) => r['id'] as int).toList();
+  }
+
+  /// 获取指定类目下的所有文档 ID。
+  Future<List<int>> getIdsByCategory(int categoryId) async {
+    final rows = await _db.query(
+      DocumentTable.tableName,
+      columns: ['id'],
+      where: 'category_id = ? AND is_deleted = 0',
+      whereArgs: [categoryId],
+    );
+    return rows.map((r) => r['id'] as int).toList();
   }
 }

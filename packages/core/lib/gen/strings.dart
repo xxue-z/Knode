@@ -65,6 +65,10 @@ mixin class L10nStringsMixin {
   /// 考试
   String get core_exam => LocalizeStringDelegate.get('core_exam');
 
+  /// 考试不存在
+  String get core_exam_not_found =>
+      LocalizeStringDelegate.get('core_exam_not_found');
+
   /// 反馈
   String get core_feedback => LocalizeStringDelegate.get('core_feedback');
 
@@ -114,6 +118,10 @@ mixin class L10nStringsMixin {
   /// 消息
   String get core_message => LocalizeStringDelegate.get('core_message');
 
+  /// 月度考试
+  String get core_monthly_exam_2 =>
+      LocalizeStringDelegate.get('core_monthly_exam_2');
+
   /// 多选题
   String get core_multiple_choice =>
       LocalizeStringDelegate.get('core_multiple_choice');
@@ -138,11 +146,19 @@ mixin class L10nStringsMixin {
   /// 个人中心
   String get core_profile => LocalizeStringDelegate.get('core_profile');
 
+  /// 季度考试
+  String get core_quarterly_exam_2 =>
+      LocalizeStringDelegate.get('core_quarterly_exam_2');
+
   /// 题目
   String get core_question => LocalizeStringDelegate.get('core_question');
 
   /// 测验
   String get core_quiz => LocalizeStringDelegate.get('core_quiz');
+
+  /// 随机抽取快速复习
+  String get core_random_quick_review =>
+      LocalizeStringDelegate.get('core_random_quick_review');
 
   /// 阅读
   String get core_reading => LocalizeStringDelegate.get('core_reading');
@@ -212,6 +228,14 @@ mixin class L10nStringsMixin {
   /// WebDAV 未配置
   String get core_webdav_not_configured =>
       LocalizeStringDelegate.get('core_webdav_not_configured');
+
+  /// 错题重练
+  String get core_wrong_question_review =>
+      LocalizeStringDelegate.get('core_wrong_question_review');
+
+  /// 年度考试
+  String get core_yearly_exam_2 =>
+      LocalizeStringDelegate.get('core_yearly_exam_2');
 
   /// 是
   String get core_yes => LocalizeStringDelegate.get('core_yes');

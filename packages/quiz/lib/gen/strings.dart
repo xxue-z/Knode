@@ -12,9 +12,32 @@ mixin class L10nStringsMixin {
   /// 正确率
   String get quiz_accuracy => LocalizeStringDelegate.get('quiz_accuracy');
 
+  /// 启用 AI 出题
+  String get quiz_ai_enabled => LocalizeStringDelegate.get('quiz_ai_enabled');
+
   /// AI 讲解
   String get quiz_ai_explanation =>
       LocalizeStringDelegate.get('quiz_ai_explanation');
+
+  /// 固定 AI 比例
+  String get quiz_ai_fixed_ratio =>
+      LocalizeStringDelegate.get('quiz_ai_fixed_ratio');
+
+  /// 固定比例
+  String get quiz_ai_ratio_fixed =>
+      LocalizeStringDelegate.get('quiz_ai_ratio_fixed');
+
+  /// AI 出题: {percent}%
+  String quiz_ai_ratio_label({required String percent}) =>
+      LocalizeStringDelegate.get('quiz_ai_ratio_label', arguments: [percent]);
+
+  /// AI 出题比例模式
+  String get quiz_ai_ratio_mode =>
+      LocalizeStringDelegate.get('quiz_ai_ratio_mode');
+
+  /// 智能比例
+  String get quiz_ai_ratio_smart =>
+      LocalizeStringDelegate.get('quiz_ai_ratio_smart');
 
   /// 全部知识库
   String get quiz_all_knowledge_base =>
@@ -53,6 +76,9 @@ mixin class L10nStringsMixin {
   String get quiz_create_exam_failed =>
       LocalizeStringDelegate.get('quiz_create_exam_failed');
 
+  /// 每日一测题目数量
+  String get quiz_daily_count => LocalizeStringDelegate.get('quiz_daily_count');
+
   /// 每日一测
   String get quiz_daily_quiz => LocalizeStringDelegate.get('quiz_daily_quiz');
 
@@ -68,6 +94,9 @@ mixin class L10nStringsMixin {
   String get quiz_daily_quiz_started =>
       LocalizeStringDelegate.get('quiz_daily_quiz_started');
 
+  /// 每日一测出题范围
+  String get quiz_daily_scope => LocalizeStringDelegate.get('quiz_daily_scope');
+
   /// 简单
   String get quiz_easy => LocalizeStringDelegate.get('quiz_easy');
 
@@ -81,6 +110,14 @@ mixin class L10nStringsMixin {
   /// 考试已生成
   String get quiz_exam_generated =>
       LocalizeStringDelegate.get('quiz_exam_generated');
+
+  /// 考试历史
+  String get quiz_exam_history =>
+      LocalizeStringDelegate.get('quiz_exam_history');
+
+  /// 考试不存在
+  String get quiz_exam_not_found =>
+      LocalizeStringDelegate.get('quiz_exam_not_found');
 
   /// 测验结果
   String get quiz_exam_result => LocalizeStringDelegate.get('quiz_exam_result');
@@ -111,6 +148,13 @@ mixin class L10nStringsMixin {
   /// 加载中...
   String get quiz_loading => LocalizeStringDelegate.get('quiz_loading');
 
+  /// 补考截止
+  String get quiz_makeup_deadline =>
+      LocalizeStringDelegate.get('quiz_makeup_deadline');
+
+  /// 补考
+  String get quiz_makeup_exam => LocalizeStringDelegate.get('quiz_makeup_exam');
+
   /// 标记为已掌握
   String get quiz_mark_as_mastered =>
       LocalizeStringDelegate.get('quiz_mark_as_mastered');
@@ -125,9 +169,16 @@ mixin class L10nStringsMixin {
   /// 中等
   String get quiz_medium => LocalizeStringDelegate.get('quiz_medium');
 
+  /// 错过考试
+  String get quiz_missed_exam => LocalizeStringDelegate.get('quiz_missed_exam');
+
   /// 每月综合测验
   String get quiz_monthly_comprehensive_quiz =>
       LocalizeStringDelegate.get('quiz_monthly_comprehensive_quiz');
+
+  /// 月考题目数量
+  String get quiz_monthly_count =>
+      LocalizeStringDelegate.get('quiz_monthly_count');
 
   /// 月考
   String get quiz_monthly_exam =>
@@ -176,6 +227,10 @@ mixin class L10nStringsMixin {
   String get quiz_quarterly_comprehensive_quiz =>
       LocalizeStringDelegate.get('quiz_quarterly_comprehensive_quiz');
 
+  /// 季考题目数量
+  String get quiz_quarterly_count =>
+      LocalizeStringDelegate.get('quiz_quarterly_count');
+
   /// 季考
   String get quiz_quarterly_exam =>
       LocalizeStringDelegate.get('quiz_quarterly_exam');
@@ -205,8 +260,18 @@ mixin class L10nStringsMixin {
   /// 测验
   String get quiz_quiz => LocalizeStringDelegate.get('quiz_quiz');
 
+  /// 出题设置
+  String get quiz_quiz_config => LocalizeStringDelegate.get('quiz_quiz_config');
+
   /// 测验类型
   String get quiz_quiz_types => LocalizeStringDelegate.get('quiz_quiz_types');
+
+  /// 随机速记题目数量
+  String get quiz_random_count =>
+      LocalizeStringDelegate.get('quiz_random_count');
+
+  /// 随机速记天数范围
+  String get quiz_random_days => LocalizeStringDelegate.get('quiz_random_days');
 
   /// 随机抽取快速复习
   String get quiz_random_quick_review =>
@@ -226,6 +291,10 @@ mixin class L10nStringsMixin {
   String get quiz_recent_reading_documents =>
       LocalizeStringDelegate.get('quiz_recent_reading_documents');
 
+  /// 考试提醒时间
+  String get quiz_reminder_hour =>
+      LocalizeStringDelegate.get('quiz_reminder_hour');
+
   /// 提醒时间
   String get quiz_reminder_time =>
       LocalizeStringDelegate.get('quiz_reminder_time');
@@ -233,9 +302,27 @@ mixin class L10nStringsMixin {
   /// 返回
   String get quiz_return => LocalizeStringDelegate.get('quiz_return');
 
+  /// 温故知新题目数量
+  String get quiz_review_count =>
+      LocalizeStringDelegate.get('quiz_review_count');
+
+  /// 温故知新错题比例
+  String get quiz_review_wrong_ratio =>
+      LocalizeStringDelegate.get('quiz_review_wrong_ratio');
+
   /// 保存设置
   String get quiz_save_settings =>
       LocalizeStringDelegate.get('quiz_save_settings');
+
+  /// 全部题库
+  String get quiz_scope_all => LocalizeStringDelegate.get('quiz_scope_all');
+
+  /// 指定类目
+  String get quiz_scope_category =>
+      LocalizeStringDelegate.get('quiz_scope_category');
+
+  /// 最近阅读
+  String get quiz_scope_days => LocalizeStringDelegate.get('quiz_scope_days');
 
   /// 分数
   String get quiz_score => LocalizeStringDelegate.get('quiz_score');
@@ -291,6 +378,10 @@ mixin class L10nStringsMixin {
   /// 未知
   String get quiz_unknown => LocalizeStringDelegate.get('quiz_unknown');
 
+  /// 启用变种出题
+  String get quiz_variant_enabled =>
+      LocalizeStringDelegate.get('quiz_variant_enabled');
+
   /// 查看源文档
   String get quiz_view_source_document =>
       LocalizeStringDelegate.get('quiz_view_source_document');
@@ -313,6 +404,10 @@ mixin class L10nStringsMixin {
   /// 年度综合测验
   String get quiz_yearly_comprehensive_quiz =>
       LocalizeStringDelegate.get('quiz_yearly_comprehensive_quiz');
+
+  /// 年考题目数量
+  String get quiz_yearly_count =>
+      LocalizeStringDelegate.get('quiz_yearly_count');
 
   /// 年考
   String get quiz_yearly_exam => LocalizeStringDelegate.get('quiz_yearly_exam');

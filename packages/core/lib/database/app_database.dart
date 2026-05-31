@@ -22,7 +22,7 @@ class AppDatabase {
   AppDatabase._();
   static final AppDatabase instance = AppDatabase._();
 
-  static const int _dbVersion = 1;
+  static const int _dbVersion = 2;
   static const String _dbName = 'knode.db';
 
   Database? _database;
@@ -80,8 +80,11 @@ class AppDatabase {
 
   /// Handles incremental schema migrations.
   Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
-    // Future migrations go here, e.g.:
-    // if (oldVersion < 2) { await db.execute('ALTER TABLE ...'); }
+    if (oldVersion < 2) {
+      await db.execute('ALTER TABLE documents ADD COLUMN tags TEXT');
+      await db.execute('ALTER TABLE documents ADD COLUMN links_to TEXT');
+      await db.execute('ALTER TABLE documents ADD COLUMN manual_tags INTEGER DEFAULT 0');
+    }
   }
 
   /// Closes the database connection. Useful for testing.

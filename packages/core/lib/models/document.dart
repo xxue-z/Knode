@@ -1,4 +1,6 @@
-﻿class Document {
+import 'dart:convert';
+
+class Document {
   final int id;
   final String title;
   final String fileName;
@@ -13,6 +15,9 @@
   final int readCount;
   final String? lastReadAt;
   final int isDeleted;
+  final List<String> tags;
+  final List<int> linksTo;
+  final int manualTags;
   final String createdAt;
   final String updatedAt;
 
@@ -31,6 +36,9 @@
     required this.readCount,
     this.lastReadAt,
     required this.isDeleted,
+    this.tags = const [],
+    this.linksTo = const [],
+    this.manualTags = 0,
     required this.createdAt,
     required this.updatedAt,
   });
@@ -51,6 +59,15 @@
       readCount: map['readCount'] as int,
       lastReadAt: map['lastReadAt'] as String?,
       isDeleted: map['isDeleted'] as int,
+      tags: (map['tags'] as List<dynamic>?)
+              ?.map((e) => e as String)
+              .toList() ??
+          const [],
+      linksTo: (map['linksTo'] as List<dynamic>?)
+              ?.map((e) => e as int)
+              .toList() ??
+          const [],
+      manualTags: map['manualTags'] as int? ?? 0,
       createdAt: map['createdAt'] as String,
       updatedAt: map['updatedAt'] as String,
     );
@@ -72,6 +89,9 @@
       'readCount': readCount,
       'lastReadAt': lastReadAt,
       'isDeleted': isDeleted,
+      'tags': tags,
+      'linksTo': linksTo,
+      'manualTags': manualTags,
       'createdAt': createdAt,
       'updatedAt': updatedAt,
     };
@@ -92,6 +112,9 @@
     int? readCount,
     String? lastReadAt,
     int? isDeleted,
+    List<String>? tags,
+    List<int>? linksTo,
+    int? manualTags,
     String? createdAt,
     String? updatedAt,
   }) {
@@ -110,6 +133,9 @@
       readCount: readCount ?? this.readCount,
       lastReadAt: lastReadAt ?? this.lastReadAt,
       isDeleted: isDeleted ?? this.isDeleted,
+      tags: tags ?? this.tags,
+      linksTo: linksTo ?? this.linksTo,
+      manualTags: manualTags ?? this.manualTags,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );

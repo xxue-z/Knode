@@ -84,3 +84,29 @@ daily_quiz_not_enabled,Daily Quiz Not Enabled,每日一测未启用
 today_n_questions_tap_to_start,"Today N questions, tap to start",今日 {count} 题，点击开始
 tap_to_start,Tap to start,点击开始练习
 practice,Practice,开始练习
+quiz_config,Quiz Settings,出题设置
+daily_count,Daily Quiz Question Count,每日一测题目数量
+daily_scope,Daily Quiz Scope,每日一测出题范围
+scope_all,All Questions,全部题库
+scope_category,Specific Category,指定类目
+scope_days,Recently Read,最近阅读
+random_count,Random Quiz Question Count,随机速记题目数量
+random_days,Random Quiz Days Range,随机速记天数范围
+review_count,Review Quiz Question Count,温故知新题目数量
+review_wrong_ratio,Review Quiz Wrong Ratio,温故知新错题比例
+monthly_count,Monthly Exam Question Count,月考题目数量
+quarterly_count,Quarterly Exam Question Count,季考题目数量
+yearly_count,Yearly Exam Question Count,年考题目数量
+ai_enabled,Enable AI Question Generation,启用 AI 出题
+ai_ratio_mode,AI Ratio Mode,AI 出题比例模式
+ai_ratio_smart,Smart Ratio,智能比例
+ai_ratio_fixed,Fixed Ratio,固定比例
+ai_fixed_ratio,Fixed AI Ratio,固定 AI 比例
+variant_enabled,Enable Variant Questions,启用变种出题
+reminder_hour,Exam Reminder Time,考试提醒时间
+makeup_exam,Makeup Exam,补考
+makeup_deadline,Makeup Deadline,补考截止
+missed_exam,Missed Exam,错过考试
+exam_history,Exam History,考试历史
+ai_ratio_label,AI Questions: {percent}%,AI 出题: {percent}%
+exam_not_found,Exam not found,考试不存在

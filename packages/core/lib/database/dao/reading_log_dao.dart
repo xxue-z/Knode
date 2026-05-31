@@ -102,4 +102,39 @@ class ReadingLogDao {
       throw StateError('Failed to query doc duration sum: $e');
     }
   }
+  /// 获取最近 N 天内阅读过的文档 ID 列表（去重）。
+  Future<List<int>> getRecentlyReadDocIds({int days = 7}) async {
+    try {
+      final since = DateTime.now()
+          .subtract(Duration(days: days))
+          .toIso8601String();
+      final rows = await _db.rawQuery(
+        'SELECT DISTINCT doc_id FROM ${ReadingLogTable.tableName} '
+        'WHERE start_time >= ?',
+        [since],
+      );
+      return rows.map((r) => r['doc_id'] as int).toList();
+    } on DatabaseException catch (e) {
+      throw StateError('Failed to query recently read doc IDs: $e');
+    }
+  }
+
+  /// 获取指定文档在指定时间范围内的总阅读时长（秒）。
+  Future<int> getDocDurationInRange(
+    int docId,
+    DateTime start,
+    DateTime end,
+  ) async {
+    try {
+      final rows = await _db.rawQuery(
+        'SELECT COALESCE(SUM(duration_seconds), 0) AS total '
+        'FROM ${ReadingLogTable.tableName} '
+        'WHERE doc_id = ? AND start_time >= ? AND start_time <= ?',
+        [docId, start.toIso8601String(), end.toIso8601String()],
+      );
+      return rows.first['total'] as int? ?? 0;
+    } on DatabaseException catch (e) {
+      throw StateError('Failed to query doc duration in range: $e');
+    }
+  }
 }

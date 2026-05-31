@@ -17,9 +17,16 @@ mixin class L10nStringsMixin {
   String get wiki_add_citation =>
       LocalizeStringDelegate.get('wiki_add_citation');
 
+  /// 添加标签
+  String get wiki_add_tag => LocalizeStringDelegate.get('wiki_add_tag');
+
   /// 全部知识
   String get wiki_all_knowledge =>
       LocalizeStringDelegate.get('wiki_all_knowledge');
+
+  /// 自动为新文档生成标签
+  String get wiki_auto_generate_tags =>
+      LocalizeStringDelegate.get('wiki_auto_generate_tags');
 
   /// 取消
   String get wiki_cancel => LocalizeStringDelegate.get('wiki_cancel');
@@ -69,6 +76,9 @@ mixin class L10nStringsMixin {
   /// 编辑文档
   String get wiki_edit_document =>
       LocalizeStringDelegate.get('wiki_edit_document');
+
+  /// 编辑标签
+  String get wiki_edit_tags => LocalizeStringDelegate.get('wiki_edit_tags');
 
   /// 编辑器
   String get wiki_editor => LocalizeStringDelegate.get('wiki_editor');
@@ -130,6 +140,9 @@ mixin class L10nStringsMixin {
   String get wiki_no_documents =>
       LocalizeStringDelegate.get('wiki_no_documents');
 
+  /// 暂无标签
+  String get wiki_no_tags => LocalizeStringDelegate.get('wiki_no_tags');
+
   /// 节点名称
   String get wiki_node_name => LocalizeStringDelegate.get('wiki_node_name');
 
@@ -149,6 +162,13 @@ mixin class L10nStringsMixin {
   String get wiki_reader_toolbar =>
       LocalizeStringDelegate.get('wiki_reader_toolbar');
 
+  /// 重置标签
+  String get wiki_reset_tags => LocalizeStringDelegate.get('wiki_reset_tags');
+
+  /// 确定重置标签？AI 生成的标签将被清除
+  String get wiki_reset_tags_confirm =>
+      LocalizeStringDelegate.get('wiki_reset_tags_confirm');
+
   /// 保存
   String get wiki_save => LocalizeStringDelegate.get('wiki_save');
 
@@ -167,6 +187,17 @@ mixin class L10nStringsMixin {
 
   /// 摘要
   String get wiki_summary => LocalizeStringDelegate.get('wiki_summary');
+
+  /// 标签已生成
+  String get wiki_tag_generated =>
+      LocalizeStringDelegate.get('wiki_tag_generated');
+
+  /// 标签生成失败
+  String get wiki_tag_generation_failed =>
+      LocalizeStringDelegate.get('wiki_tag_generation_failed');
+
+  /// 标签
+  String get wiki_tags => LocalizeStringDelegate.get('wiki_tags');
 
   /// 文字转语音
   String get wiki_text_to_speech =>

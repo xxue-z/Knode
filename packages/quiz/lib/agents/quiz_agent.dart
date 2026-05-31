@@ -1,4 +1,4 @@
-﻿import 'dart:convert';
+import 'dart:convert';
 import 'package:core/ai/ai_provider.dart';
 import 'package:core/ai/prompt_manager.dart';
 import 'package:core/utils/hash_utils.dart';
@@ -27,6 +27,40 @@ class QuizAgent {
           stem: q['stem'] as String? ?? '', options: q['options'] != null ? jsonEncode(q['options']) : null,
           answer: q['answer'] as String? ?? '', explanation: q['explanation'] as String?,
           difficulty: q['difficulty'] as int? ?? 1, createdAt: DateTime.now().toIso8601String(),
+        ));
+      }
+      return result;
+    } catch (_) {
+      return [];
+    }
+  }
+
+  /// 基于已有题目生成变种。
+  Future<List<Question>> generateVariant({required List<Question> originals}) async {
+    final stems = originals.map((q) => q.stem).join('\n---\n');
+    final template = await _prompt.loadTemplate('question_variant');
+    final systemPrompt = _prompt.render(template, {
+      'original_questions': stems,
+    });
+    final response = await _ai.generateAnswer(
+      query: 'Generate variant questions based on the original ones',
+      contextDocs: [],
+      systemPrompt: systemPrompt,
+    );
+    try {
+      final json = jsonDecode(response.answer);
+      final questions = (json['questions'] as List?) ?? [];
+      final result = <Question>[];
+      for (final q in questions) {
+        result.add(Question(
+          id: 0,
+          type: q['type'] as String? ?? 'single_choice',
+          stem: q['stem'] as String? ?? '',
+          options: q['options'] != null ? jsonEncode(q['options']) : null,
+          answer: q['answer'] as String? ?? '',
+          explanation: q['explanation'] as String?,
+          difficulty: q['difficulty'] as int? ?? 1,
+          createdAt: DateTime.now().toIso8601String(),
         ));
       }
       return result;

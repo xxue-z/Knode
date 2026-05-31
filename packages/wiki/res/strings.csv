@@ -51,3 +51,12 @@ summary,Summary,摘要
 summarizer,Summarizer,摘要生成器
 tts,TTS,朗读
 text_to_speech,Text to Speech,文字转语音
+tags,Tags,标签
+edit_tags,Edit Tags,编辑标签
+add_tag,Add Tag,添加标签
+no_tags,No tags,暂无标签
+auto_generate_tags,Auto-generate tags for new docs,自动为新文档生成标签
+tag_generated,Tags generated,标签已生成
+tag_generation_failed,Tag generation failed,标签生成失败
+reset_tags,Reset Tags,重置标签
+reset_tags_confirm,"Reset tags? AI-generated tags will be cleared",确定重置标签？AI 生成的标签将被清除

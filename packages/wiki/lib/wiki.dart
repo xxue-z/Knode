@@ -1,4 +1,4 @@
-﻿/// 知维 Wiki 模块 - 文档管理、知识图谱
+/// 知维 Wiki 模块 - 文档管理、知识图谱
 ///
 /// 此文件作为 barrel export，导出 wiki 包的所有公共 API。
 library wiki;
@@ -17,16 +17,21 @@ export 'screens/category_panel.dart';
 export 'providers/category_provider.dart';
 export 'providers/document_provider.dart';
 export 'providers/graph_provider.dart';
+export 'providers/tag_provider.dart';
 
 // ── Widgets ──
 export 'widgets/graph_canvas.dart' hide GraphNode, GraphEdge, GraphController;
 export 'widgets/graph_controller.dart';
 export 'widgets/graph_edge.dart';
 export 'widgets/graph_node.dart';
+export 'widgets/tag_chip_list.dart';
+export 'widgets/tag_editor_dialog.dart';
 
 // ── Services ──
 export 'services/import_service.dart';
 export 'services/export_service.dart';
+export 'services/graph_service.dart';
 
 // ── Agents ──
 export 'agents/summarizer_agent.dart';
+export 'agents/tag_generator_agent.dart';
