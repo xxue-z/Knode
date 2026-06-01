@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 import 'package:flutter/material.dart';
 
@@ -18,7 +17,7 @@ class HighlightStyle {
   });
 
   /// 序列化为 JSON 字符串（存入数据库）。
-  String toJson() =&gt; jsonEncode({
+  String toJson() => jsonEncode({
     'type': type == HighlightType.background ? 'bg' : 'underline',
     'color': color.value,
     'opacity': opacity,
@@ -27,7 +26,7 @@ class HighlightStyle {
   /// 从 JSON 字符串反序列化。
   static HighlightStyle fromJson(String json) {
     try {
-      final map = jsonDecode(json) as Map&lt;String, dynamic&gt;;
+      final map = jsonDecode(json) as Map<String, dynamic>;
       return HighlightStyle(
         type: map['type'] == 'bg' ? HighlightType.background : HighlightType.underline,
         color: Color(map['color'] as int),
@@ -39,7 +38,7 @@ class HighlightStyle {
   }
 
   /// 预设样式列表。
-  static const List&lt;HighlightStyle&gt; presets = [
+  static const List<HighlightStyle> presets = [
     HighlightStyle(type: HighlightType.background, color: Color(0xFFFFF59D)), // 黄色
     HighlightStyle(type: HighlightType.background, color: Color(0xFF81C784)), // 绿色
     HighlightStyle(type: HighlightType.background, color: Color(0xFF64B5F6)), // 蓝色

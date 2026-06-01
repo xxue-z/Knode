@@ -64,7 +64,7 @@ class AppDatabase {
 
   /// Creates all tables on first launch.
   Future<void> _onCreate(Database db, int version) async {
-    final statements = &lt;String&gt;[
+    final statements = <String>[
       CategoryTable.createSql,
       DocumentTable.createSql,
       ConversationTable.createSql,
@@ -87,16 +87,16 @@ class AppDatabase {
   }
 
   /// Handles incremental schema migrations.
-  Future&lt;void&gt; _onUpgrade(Database db, int oldVersion, int newVersion) async {
-    if (oldVersion &lt; 2) {
+  Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
+    if (oldVersion < 2) {
       await db.execute('ALTER TABLE documents ADD COLUMN tags TEXT');
       await db.execute('ALTER TABLE documents ADD COLUMN links_to TEXT');
       await db.execute('ALTER TABLE documents ADD COLUMN manual_tags INTEGER DEFAULT 0');
     }
-    if (oldVersion &lt; 3) {
+    if (oldVersion < 3) {
       await db.execute('ALTER TABLE conversations ADD COLUMN enable_web_search INTEGER DEFAULT 0');
     }
-    if (oldVersion &lt; 4) {
+    if (oldVersion < 4) {
       AppLogger.instance.i('数据库升级到 v4: 新增 bookmarks/highlights 表', tag: 'Database');
       await db.execute(BookmarkTable.createSql);
       await db.execute(BookmarkTable.indexSql);

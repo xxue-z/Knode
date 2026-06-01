@@ -346,11 +346,11 @@ class DocumentDao {
       where: 'category_id = ? AND is_deleted = 0',
       whereArgs: [categoryId],
     );
-    return rows.map((r) =&gt; r['id'] as int).toList();
+    return rows.map((r) => r['id'] as int).toList();
   }
 
   /// 获取指定原文档关联的所有笔记文档。
-  Future&lt;List&lt;Document&gt;&gt; getNoteDocuments(int sourceDocId) async {
+  Future<List<Document>> getNoteDocuments(int sourceDocId) async {
     try {
       final rows = await _db.query(
         DocumentTable.tableName,
@@ -366,7 +366,7 @@ class DocumentDao {
   }
 
   /// 判断文档是否为笔记文档。
-  Future&lt;bool&gt; isNoteDocument(int docId) async {
+  Future<bool> isNoteDocument(int docId) async {
     final doc = await getById(docId);
     return doc?.sourceDocId != null;
   }
