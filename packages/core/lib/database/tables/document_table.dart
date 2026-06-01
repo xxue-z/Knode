@@ -21,6 +21,7 @@ class DocumentTable {
       'tags TEXT, '
       'links_to TEXT, '
       'manual_tags INTEGER DEFAULT 0, '
+      'source_doc_id INTEGER, '
       "created_at TEXT DEFAULT (datetime('now')), "
       "updated_at TEXT DEFAULT (datetime('now'))"
       ')';

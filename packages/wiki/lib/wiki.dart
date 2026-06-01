@@ -18,6 +18,7 @@ export 'providers/category_provider.dart';
 export 'providers/document_provider.dart';
 export 'providers/graph_provider.dart';
 export 'providers/tag_provider.dart';
+export 'providers/reader_provider.dart';
 
 // ── Widgets ──
 export 'widgets/graph_canvas.dart' hide GraphNode, GraphEdge, GraphController;
@@ -26,6 +27,18 @@ export 'widgets/graph_edge.dart';
 export 'widgets/graph_node.dart';
 export 'widgets/tag_chip_list.dart';
 export 'widgets/tag_editor_dialog.dart';
+export 'widgets/markdown_reader.dart';
+export 'widgets/highlight_style_picker.dart';
+export 'widgets/add_annotation_dialog.dart';
+export 'widgets/outline_panel.dart';
+export 'widgets/annotations_panel.dart';
+export 'widgets/dictionary_panel.dart';
+export 'widgets/reader_settings_panel.dart';
+
+// ── Utils ──
+export 'utils/heading_extractor.dart';
+export 'utils/highlight_applier.dart';
+export 'utils/offset_calculator.dart';
 
 // ── Services ──
 export 'services/import_service.dart';

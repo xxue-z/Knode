@@ -20,6 +20,7 @@ class Document {
   final int manualTags;
   final String createdAt;
   final String updatedAt;
+  final int? sourceDocId;
 
   const Document({
     required this.id,
@@ -41,6 +42,7 @@ class Document {
     this.manualTags = 0,
     required this.createdAt,
     required this.updatedAt,
+    this.sourceDocId,
   });
 
   factory Document.fromMap(Map<String, dynamic> map) {
@@ -70,6 +72,7 @@ class Document {
       manualTags: map['manualTags'] as int? ?? 0,
       createdAt: map['createdAt'] as String,
       updatedAt: map['updatedAt'] as String,
+      sourceDocId: map['sourceDocId'] as int?,
     );
   }
 
@@ -94,6 +97,7 @@ class Document {
       'manualTags': manualTags,
       'createdAt': createdAt,
       'updatedAt': updatedAt,
+      'sourceDocId': sourceDocId,
     };
   }
 
@@ -113,10 +117,11 @@ class Document {
     String? lastReadAt,
     int? isDeleted,
     List<String>? tags,
-    List<int>? linksTo,
+    List&lt;int&gt;? linksTo,
     int? manualTags,
     String? createdAt,
     String? updatedAt,
+    int? sourceDocId,
   }) {
     return Document(
       id: id ?? this.id,
@@ -138,6 +143,7 @@ class Document {
       manualTags: manualTags ?? this.manualTags,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
+      sourceDocId: sourceDocId ?? this.sourceDocId,
     );
   }
 }

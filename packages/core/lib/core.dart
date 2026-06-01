@@ -49,6 +49,7 @@ export 'services/tfidf_search_service.dart';
 export 'services/tfidf_service.dart';
 export 'services/tts_service.dart';
 export 'services/vector_store_service.dart';
+export 'services/dictionary_service.dart';
 
 // ── 分词器 ──────────────────────────────────────────────────────────
 export 'tokenizer/ngram_tokenizer.dart';

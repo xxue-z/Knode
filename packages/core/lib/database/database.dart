@@ -13,6 +13,8 @@ export 'dao/question_dao.dart';
 export 'dao/reading_log_dao.dart';
 export 'dao/settings_dao.dart';
 export 'dao/wrong_question_dao.dart';
+export 'dao/bookmark_dao.dart';
+export 'dao/highlight_dao.dart';
 export 'repositories/category_repository.dart';
 export 'repositories/conversation_repository.dart';
 export 'repositories/document_repository.dart';

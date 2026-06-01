@@ -63,3 +63,40 @@ conversation_not_found,Conversation not found,会话不存在
 conversation_empty_archive,Conversation is empty cannot archive,会话为空无法归档
 user_role,User,用户
 ai_role,AI,AI
+bookmark,Bookmark,书签
+highlight,Highlight,高亮
+add_bookmark,Add Bookmark,添加书签
+remove_bookmark,Remove Bookmark,删除书签
+add_highlight,Add Highlight,添加高亮
+edit_note,Edit Note,编辑备注
+note,Note,备注
+style,Style,样式
+underline,Underline,下划线
+background,Background,背景色
+yellow,Yellow,黄色
+green,Green,绿色
+blue,Blue,蓝色
+pink,Pink,粉色
+reading_progress,Reading Progress,阅读进度
+headings,Headings,标题列表
+outline,Outline,大纲
+dictionary,Dictionary,词典
+search_word,Search Word,搜索单词
+word_definition,Word Definition,单词释义
+reader_settings,Reader Settings,阅读器设置
+font_size,Font Size,字体大小
+line_spacing,Line Spacing,行间距
+page_margin,Page Margin,页面边距
+theme,Theme,主题
+light,Light,浅色
+sepia,Sepia,护眼
+dark,Dark,深色
+tap_to_select,Tap to select,点击选择
+confirm_delete_bookmark,Confirm delete this bookmark?,确认删除此书签？
+confirm_delete_highlight,Confirm delete this highlight?,确认删除此高亮？
+no_highlights,No highlights yet,暂无高亮
+no_bookmarks,No bookmarks yet,暂无书签
+no_headings,No headings in this document,本文档无标题
+note_document,Note Document,笔记文档
+create_note,Create Note,创建笔记
+link_to_source,Link to Source,关联原文档

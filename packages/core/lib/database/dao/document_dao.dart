@@ -36,6 +36,7 @@ class DocumentDao {
           ? List<int>.from(jsonDecode(linksRaw) as List)
           : const [],
       manualTags: row['manual_tags'] as int? ?? 0,
+      sourceDocId: row['source_doc_id'] as int?,
       createdAt: row['created_at'] as String,
       updatedAt: row['updated_at'] as String,
     );
@@ -60,6 +61,7 @@ class DocumentDao {
       'tags': jsonEncode(doc.tags),
       'links_to': jsonEncode(doc.linksTo),
       'manual_tags': doc.manualTags,
+      'source_doc_id': doc.sourceDocId,
       'created_at': doc.createdAt,
       'updated_at': doc.updatedAt,
     };
@@ -344,6 +346,28 @@ class DocumentDao {
       where: 'category_id = ? AND is_deleted = 0',
       whereArgs: [categoryId],
     );
-    return rows.map((r) => r['id'] as int).toList();
+    return rows.map((r) =&gt; r['id'] as int).toList();
+  }
+
+  /// 获取指定原文档关联的所有笔记文档。
+  Future&lt;List&lt;Document&gt;&gt; getNoteDocuments(int sourceDocId) async {
+    try {
+      final rows = await _db.query(
+        DocumentTable.tableName,
+        where: 'source_doc_id = ? AND is_deleted = 0',
+        whereArgs: [sourceDocId],
+        orderBy: 'created_at ASC',
+      );
+      return rows.map(_fromRow).toList();
+    } on DatabaseException catch (e, st) {
+      AppLogger.instance.e('查询笔记文档失败: sourceDocId=$sourceDocId', tag: 'DocumentDao', error: e, stackTrace: st);
+      rethrow;
+    }
+  }
+
+  /// 判断文档是否为笔记文档。
+  Future&lt;bool&gt; isNoteDocument(int docId) async {
+    final doc = await getById(docId);
+    return doc?.sourceDocId != null;
   }
 }
