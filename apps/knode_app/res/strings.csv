@@ -1,4 +1,4 @@
-﻿id,en,zh
+﻿﻿id,en,zh
 home,Home,首页
 settings,Settings,设置
 ai_settings,AI Settings,AI 设置
@@ -104,4 +104,4 @@ copied_to_clipboard,Copied to clipboard,已复制到剪贴板
 import_file,Import from file,从文件导入
 import_count,Successfully imported {count} templates,成功导入 {count} 个模板
 skip_memory_check,Skip Memory Compatibility Check,跳过内存兼容性检查
-skip_memory_check_desc,Show all models, don't filter by device memory,显示所有模型，不根据设备内存过滤
+skip_memory_check_desc,"Show all models, don't filter by device memory",显示所有模型，不根据设备内存过滤

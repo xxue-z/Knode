@@ -128,6 +128,21 @@ void main() {
         expect(filtered.length, 1);
         expect(filtered.first.id, 'small_mb');
       });
+
+      test('handles range format by taking max value', () {
+        final models = [
+          createModel('range_ok', '4-6 GB'),
+          createModel('range_fail', '6-8 GB'),
+        ];
+
+        final filtered = ModelDownloadService.filterModelsByRam(
+          models: models,
+          totalMemoryGB: 8.0,
+        );
+
+        expect(filtered.length, 1);
+        expect(filtered.first.id, 'range_ok');
+      });
     });
   });
 }

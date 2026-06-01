@@ -80,7 +80,9 @@ class DeviceUtils {
         return 4.0;
       }
       if (Platform.isIOS) {
-        return 4.0;
+        // TODO: 通过 MethodChannel 调用 NSProcessInfo.physicalMemory 获取真实值
+        // 或使用 device_info_plus 的 utsname.machine 对照设备内存表
+        return 4.0; // 回退默认值
       }
     } catch (_) {}
     return 0.0;
@@ -88,10 +90,20 @@ class DeviceUtils {
 
   /// 解析 RAM 需求字符串为 GB 数值。
   ///
-  /// 支持格式: "2 GB", "2GB", "2 gb", "512 MB", "512MB"
-  /// 无法解析时返回 0。
+  /// 支持格式: "2 GB", "2GB", "2 gb", "512 MB", "512MB", "4-6 GB"
+  /// 范围格式取最大值。无法解析时返回 0。
   static double parseRamString(String ramStr) {
     if (ramStr.isEmpty) return 0;
+
+    // 范围格式: "4-6 GB" → 取最大值 6
+    final rangeMatch = RegExp(r'([\d.]+)\s*-\s*([\d.]+)\s*(GB|MB|gb|mb)').firstMatch(ramStr);
+    if (rangeMatch != null) {
+      final maxVal = double.tryParse(rangeMatch.group(2)!) ?? 0;
+      final unit = rangeMatch.group(3)!.toUpperCase();
+      return unit == 'MB' ? maxVal / 1024 : maxVal;
+    }
+
+    // 单值格式: "2 GB", "512MB"
     final match = RegExp(r'([\d.]+)\s*(GB|MB|gb|mb)').firstMatch(ramStr);
     if (match == null) return 0;
     final value = double.tryParse(match.group(1)!) ?? 0;

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:core/models/local_model.dart';
+import 'package:core/gen/strings.dart' as core_strings;
 import 'package:knode_app/gen/strings.dart';
 
 final _strings = const L10nStringsMixin();
+const _coreStrings = core_strings.L10nStringsMixin();
 
 /// 模型状态联动卡片组件。
 ///
@@ -105,7 +107,7 @@ class ModelCardWidget extends StatelessWidget {
                       borderRadius: BorderRadius.circular(4),
                     ),
                     child: Text(
-                      '使用中',
+                      _coreStrings.core_model_in_use,
                       style: TextStyle(
                         fontSize: 10,
                         fontWeight: FontWeight.bold,
@@ -170,10 +172,10 @@ class ModelCardWidget extends StatelessWidget {
     final tags = <String>[];
     if (model.quantization.isNotEmpty) tags.add(model.quantization);
     if (model.size.isNotEmpty) tags.add(model.size);
-    if (model.minRam.isNotEmpty) tags.add(_strings.core_model_requires_ram(minRam: model.minRam));
+    if (model.minRam.isNotEmpty) tags.add(_coreStrings.core_model_requires_ram(minRam: model.minRam));
 
     if (isIncompatible && model.status == ModelStatus.notDownloaded) {
-      tags.add(_strings.core_model_not_compatible);
+      tags.add(_coreStrings.core_model_not_compatible);
     }
 
     if (tags.isEmpty) return const SizedBox.shrink();
@@ -215,12 +217,12 @@ class ModelCardWidget extends StatelessWidget {
           children: [
             FilledButton(
               onPressed: onLoad,
-              child: const Text('加载'),
+              child: Text(_coreStrings.core_model_load),
             ),
             const SizedBox(width: 12),
             TextButton(
               onPressed: onDelete,
-              child: const Text('删除'),
+              child: Text(_coreStrings.core_model_delete),
             ),
           ],
         );
@@ -229,7 +231,7 @@ class ModelCardWidget extends StatelessWidget {
           alignment: Alignment.centerRight,
           child: TextButton(
             onPressed: null, // 置灰
-            child: const Text('已加载'),
+            child: Text(_coreStrings.core_model_loaded),
           ),
         );
       case ModelStatus.loadFailed:
@@ -238,12 +240,12 @@ class ModelCardWidget extends StatelessWidget {
           children: [
             FilledButton(
               onPressed: onRetry,
-              child: const Text('重试'),
+              child: Text(_coreStrings.core_model_retry),
             ),
             const SizedBox(width: 12),
             TextButton(
               onPressed: onDelete,
-              child: const Text('删除'),
+              child: Text(_coreStrings.core_model_delete),
             ),
           ],
         );
@@ -255,10 +257,10 @@ class ModelCardWidget extends StatelessWidget {
       return Align(
         alignment: Alignment.centerRight,
         child: Tooltip(
-          message: _strings.core_memory_insufficient,
+          message: _coreStrings.core_memory_insufficient,
           child: FilledButton.tonal(
             onPressed: null,
-            child: Text(_strings.core_memory_insufficient),
+            child: Text(_coreStrings.core_memory_insufficient),
           ),
         ),
       );
@@ -266,9 +268,9 @@ class ModelCardWidget extends StatelessWidget {
 
     final urls = model.downloadUrls;
     if (urls.isEmpty) {
-      return const Align(
+      return Align(
         alignment: Alignment.centerRight,
-        child: Text('无下载源', style: TextStyle(color: Colors.grey)),
+        child: Text(_coreStrings.core_model_no_download_source, style: const TextStyle(color: Colors.grey)),
       );
     }
 
@@ -278,7 +280,7 @@ class ModelCardWidget extends StatelessWidget {
         alignment: Alignment.centerRight,
         child: FilledButton.tonal(
           onPressed: onDownload != null ? () => onDownload!(key) : null,
-          child: const Text('下载'),
+          child: Text(_coreStrings.core_model_download),
         ),
       );
     }
@@ -286,7 +288,7 @@ class ModelCardWidget extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: urls.keys.map((key) {
-        final label = key == 'global' ? '国际' : key == 'china_mirror' ? '国内' : key;
+        final label = key == 'global' ? _coreStrings.core_mirror_global : key == 'china_mirror' ? _coreStrings.core_mirror_china : key;
         return Padding(
           padding: const EdgeInsets.only(left: 8),
           child: FilledButton.tonal(

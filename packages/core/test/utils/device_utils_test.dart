@@ -42,6 +42,13 @@ void main() {
         expect(DeviceUtils.parseRamString('1.5 GB'), 1.5);
         expect(DeviceUtils.parseRamString('0.5 GB'), 0.5);
       });
+
+      test('parses range format and takes max value', () {
+        expect(DeviceUtils.parseRamString('4-6 GB'), 6.0);
+        expect(DeviceUtils.parseRamString('2-4GB'), 4.0);
+        expect(DeviceUtils.parseRamString('512-1024 MB'), 1.0);
+        expect(DeviceUtils.parseRamString('4 - 8 GB'), 8.0);
+      });
     });
 
     group('isModelSupported', () {

@@ -8,12 +8,15 @@ import 'package:core/models/local_model.dart';
 import 'package:core/providers/model_provider.dart';
 import 'package:core/providers/settings_provider.dart';
 import 'package:core/services/cloud_vendor_service.dart';
+import 'package:core/services/model_download_service.dart';
 import 'package:core/utils/device_utils.dart';
 import 'package:knode_app/screens/model_card_widget.dart';
 import 'package:knode_app/screens/cloud_config_form.dart';
+import 'package:core/gen/strings.dart' as core_strings;
 import 'package:knode_app/gen/strings.dart';
 
 final _strings = const L10nStringsMixin();
+const _coreStrings = core_strings.L10nStringsMixin();
 
 /// AI 引擎主设置页面。
 ///
@@ -148,9 +151,9 @@ class _AiSettingsPageState extends ConsumerState<AiSettingsPage> {
         final proceed = await showDialog<bool>(
           context: context,
           builder: (_) => AlertDialog(
-            title: Text(_strings.core_memory_insufficient),
+            title: Text(_coreStrings.core_memory_insufficient),
             content: Text(
-              _strings.core_model_may_not_run(
+              _coreStrings.core_model_may_not_run(
                 size: '${fileSizeMB.toStringAsFixed(0)} MB',
                 mem: '${totalMemoryGB.toStringAsFixed(1)} GB',
               ),
@@ -162,7 +165,7 @@ class _AiSettingsPageState extends ConsumerState<AiSettingsPage> {
               ),
               FilledButton(
                 onPressed: () => Navigator.pop(context, true),
-                child: Text(_strings.core_continue_import),
+                child: Text(_coreStrings.core_continue_import),
               ),
             ],
           ),
@@ -333,7 +336,7 @@ class _AiSettingsPageState extends ConsumerState<AiSettingsPage> {
           Padding(
             padding: const EdgeInsets.only(bottom: 8),
             child: Text(
-              '${_strings.core_total_memory}: ${_totalMemoryGB.toStringAsFixed(1)} GB  |  ${_strings.core_available_memory}: $_availableMemory MB',
+              '${_coreStrings.core_total_memory}: ${_totalMemoryGB.toStringAsFixed(1)} GB  |  ${_coreStrings.core_available_memory}: $_availableMemory MB',
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
               ),
@@ -362,7 +365,10 @@ class _AiSettingsPageState extends ConsumerState<AiSettingsPage> {
             }
             return Column(
               children: models.map((model) {
-                final isCompatible = _skipMemoryCheck || _isModelCompatible(model);
+                final isCompatible = _skipMemoryCheck || ModelDownloadService.filterModelsByRam(
+                  models: [model],
+                  totalMemoryGB: _totalMemoryGB,
+                ).isNotEmpty;
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 8),
                   child: ModelCardWidget(
@@ -398,12 +404,6 @@ class _AiSettingsPageState extends ConsumerState<AiSettingsPage> {
         ),
       ],
     );
-  }
-
-  bool _isModelCompatible(LocalModel model) {
-    final requiredGB = DeviceUtils.parseRamString(model.minRam);
-    if (requiredGB <= 0) return true;
-    return requiredGB <= _totalMemoryGB * 0.8;
   }
 
   Widget _buildCloudTab() {

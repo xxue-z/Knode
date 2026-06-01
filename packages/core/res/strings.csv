@@ -76,3 +76,12 @@ core_memory_insufficient,Insufficient Memory,内存不足
 core_model_not_compatible,Incompatible (Insufficient Memory),不可用（内存不足）
 core_model_may_not_run,This model is ~{size}, your device has {mem}, may not run properly,该模型约 {size}，你的设备内存为 {mem}，可能无法正常运行
 core_model_requires_ram,Requires {minRam} RAM,需 {minRam} RAM
+core_model_in_use,In Use,使用中
+core_model_load,Load,加载
+core_model_loaded,Loaded,已加载
+core_model_delete,Delete,删除
+core_model_retry,Retry,重试
+core_model_no_download_source,No download source,无下载源
+core_model_download,Download,下载
+core_mirror_global,Global,国际
+core_mirror_china,China,国内

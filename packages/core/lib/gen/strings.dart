@@ -80,6 +80,15 @@ mixin class L10nStringsMixin {
   String get core_continue_import => LocalizeStringDelegate.get('core_continue_import');
   String get core_memory_insufficient => LocalizeStringDelegate.get('core_memory_insufficient');
   String get core_model_not_compatible => LocalizeStringDelegate.get('core_model_not_compatible');
-  String get core_model_may_not_run => LocalizeStringDelegate.get('core_model_may_not_run');
-  String get core_model_requires_ram => LocalizeStringDelegate.get('core_model_requires_ram');
+  String core_model_may_not_run({required String size, required String mem}) => LocalizeStringDelegate.get('core_model_may_not_run', arguments: [size, mem]);
+  String core_model_requires_ram({required String minRam}) => LocalizeStringDelegate.get('core_model_requires_ram', arguments: [minRam]);
+  String get core_model_in_use => LocalizeStringDelegate.get('core_model_in_use');
+  String get core_model_load => LocalizeStringDelegate.get('core_model_load');
+  String get core_model_loaded => LocalizeStringDelegate.get('core_model_loaded');
+  String get core_model_delete => LocalizeStringDelegate.get('core_model_delete');
+  String get core_model_retry => LocalizeStringDelegate.get('core_model_retry');
+  String get core_model_no_download_source => LocalizeStringDelegate.get('core_model_no_download_source');
+  String get core_model_download => LocalizeStringDelegate.get('core_model_download');
+  String get core_mirror_global => LocalizeStringDelegate.get('core_mirror_global');
+  String get core_mirror_china => LocalizeStringDelegate.get('core_mirror_china');
 }

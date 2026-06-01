@@ -1,13 +1,19 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:core/models/local_model.dart';
 import 'package:core/providers/model_provider.dart';
 import 'package:core/providers/settings_provider.dart';
+import 'package:core/services/model_download_service.dart';
 import 'package:core/utils/device_utils.dart';
+import 'package:core/gen/strings.dart' as core_strings;
 import 'package:knode_app/gen/strings.dart';
 import 'package:knode_app/screens/model_card_widget.dart';
 
 final _strings = const L10nStringsMixin();
+const _coreStrings = core_strings.L10nStringsMixin();
 
 /// 模型下载管理页面。
 ///
@@ -22,6 +28,8 @@ class ModelDownloadPage extends ConsumerStatefulWidget {
 class _ModelDownloadPageState extends ConsumerState<ModelDownloadPage> {
   final _repoUrlController = TextEditingController();
   int _availableMemory = 0;
+  double _totalMemoryGB = 0;
+  bool _skipMemoryCheck = false;
   bool _isLoading = true;
 
   static const _defaultRepoUrl =
@@ -36,10 +44,12 @@ class _ModelDownloadPageState extends ConsumerState<ModelDownloadPage> {
 
   Future<void> _load() async {
     _availableMemory = await DeviceUtils.getAvailableMemory();
+    _totalMemoryGB = await DeviceUtils.getTotalMemoryInGB();
     final settings = ref.read(settingsProvider).valueOrNull ?? {};
     if (settings['model_repo_url']?.isNotEmpty == true) {
       _repoUrlController.text = settings['model_repo_url']!;
     }
+    _skipMemoryCheck = settings['skip_memory_check'] == 'true';
     setState(() => _isLoading = false);
   }
 
@@ -59,17 +69,54 @@ class _ModelDownloadPageState extends ConsumerState<ModelDownloadPage> {
     final filePath = result.files.first.path;
     if (filePath == null) return;
 
+    // 内存兼容性检查
+    final settings = ref.read(settingsProvider).valueOrNull ?? {};
+    final skipCheck = settings['skip_memory_check'] == 'true';
+
+    if (!skipCheck) {
+      final file = File(filePath);
+      final fileSizeMB = await file.length() / (1024 * 1024);
+      final totalMemoryGB = await DeviceUtils.getTotalMemoryInGB();
+      final isCompatible = fileSizeMB <= totalMemoryGB * 1024 * 0.6;
+
+      if (!isCompatible && mounted) {
+        final proceed = await showDialog<bool>(
+          context: context,
+          builder: (_) => AlertDialog(
+            title: Text(_coreStrings.core_memory_insufficient),
+            content: Text(
+              _coreStrings.core_model_may_not_run(
+                size: '${fileSizeMB.toStringAsFixed(0)} MB',
+                mem: '${totalMemoryGB.toStringAsFixed(1)} GB',
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context, false),
+                child: Text(_strings.cancel),
+              ),
+              FilledButton(
+                onPressed: () => Navigator.pop(context, true),
+                child: Text(_coreStrings.core_continue_import),
+              ),
+            ],
+          ),
+        );
+        if (proceed != true) return;
+      }
+    }
+
     try {
       await ref.read(modelListProvider.notifier).importLocalModel(filePath);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('导入成功'), backgroundColor: Colors.green),
+          SnackBar(content: Text(_strings.import_success), backgroundColor: Colors.green),
         );
       }
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('导入失败: $e'), backgroundColor: Colors.red),
+          SnackBar(content: Text('${_strings.import_failed}: $e'), backgroundColor: Colors.red),
         );
       }
     }
@@ -88,24 +135,37 @@ class _ModelDownloadPageState extends ConsumerState<ModelDownloadPage> {
     final modelsAsync = ref.watch(modelListProvider);
 
     return Scaffold(
-      appBar: AppBar(title: Text(_strings.knode_app_model_download), centerTitle: true),
+      appBar: AppBar(title: Text(_strings.model_download), centerTitle: true),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
           // 设备内存信息
-          Card(
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Row(
-                children: [
-                  const Icon(Icons.memory, size: 20),
-                  const SizedBox(width: 8),
-                  Text('可用内存: ${_availableMemory} MB'),
-                ],
+          if (_totalMemoryGB > 0)
+            Padding(
+              padding: const EdgeInsets.only(bottom: 8),
+              child: Text(
+                '${_coreStrings.core_total_memory}: ${_totalMemoryGB.toStringAsFixed(1)} GB  |  ${_coreStrings.core_available_memory}: $_availableMemory MB',
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
               ),
             ),
+
+          // 跳过内存检查开关
+          SwitchListTile(
+            title: Text(_strings.skip_memory_check),
+            subtitle: Text(_strings.skip_memory_check_desc),
+            value: _skipMemoryCheck,
+            dense: true,
+            contentPadding: EdgeInsets.zero,
+            onChanged: (value) async {
+              setState(() => _skipMemoryCheck = value);
+              await ref.read(settingsProvider.notifier).set(
+                'skip_memory_check', value.toString(),
+              );
+            },
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 8),
 
           // 仓库地址 + 获取
           Row(
@@ -113,9 +173,9 @@ class _ModelDownloadPageState extends ConsumerState<ModelDownloadPage> {
               Expanded(
                 child: TextField(
                   controller: _repoUrlController,
-                  decoration: const InputDecoration(
-                    labelText: '模型仓库地址',
-                    border: OutlineInputBorder(),
+                  decoration: InputDecoration(
+                    labelText: _strings.model_repo_url,
+                    border: const OutlineInputBorder(),
                     isDense: true,
                   ),
                 ),
@@ -123,7 +183,7 @@ class _ModelDownloadPageState extends ConsumerState<ModelDownloadPage> {
               const SizedBox(width: 8),
               FilledButton(
                 onPressed: _fetchModels,
-                child: const Text('获取'),
+                child: Text(_strings.fetch),
               ),
             ],
           ),
@@ -135,7 +195,7 @@ class _ModelDownloadPageState extends ConsumerState<ModelDownloadPage> {
             child: OutlinedButton.icon(
               onPressed: _importLocalModel,
               icon: const Icon(Icons.file_upload_outlined),
-              label: const Text('导入本地模型'),
+              label: Text(_strings.import_local_model),
             ),
           ),
           const SizedBox(height: 16),
@@ -147,34 +207,43 @@ class _ModelDownloadPageState extends ConsumerState<ModelDownloadPage> {
                 return _buildEmptyState();
               }
               return Column(
-                children: models.map((model) => Padding(
-                  padding: const EdgeInsets.only(bottom: 8),
-                  child: ModelCardWidget(
-                    model: model,
-                    onDownload: (mirrorKey) {
-                      ref.read(modelListProvider.notifier).startDownload(model, mirrorKey);
-                    },
-                    onCancel: () {
-                      ref.read(modelListProvider.notifier).cancelDownload();
-                    },
-                    onLoad: () {
-                      ref.read(modelListProvider.notifier).loadModel(model);
-                    },
-                    onDelete: () {
-                      ref.read(modelListProvider.notifier).deleteModel(model);
-                    },
-                    onRetry: () {
-                      final key = model.downloadUrls.keys.firstOrNull;
-                      if (key != null) {
-                        ref.read(modelListProvider.notifier).startDownload(model, key);
-                      }
-                    },
-                  ),
-                )).toList(),
+                children: models.map((model) {
+                  final isCompatible = _skipMemoryCheck || ModelDownloadService.filterModelsByRam(
+                    models: [model],
+                    totalMemoryGB: _totalMemoryGB,
+                  ).isNotEmpty;
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 8),
+                    child: ModelCardWidget(
+                      model: model,
+                      isIncompatible: !isCompatible,
+                      onDownload: isCompatible
+                          ? (mirrorKey) {
+                              ref.read(modelListProvider.notifier).startDownload(model, mirrorKey);
+                            }
+                          : null,
+                      onCancel: () {
+                        ref.read(modelListProvider.notifier).cancelDownload();
+                      },
+                      onLoad: () {
+                        ref.read(modelListProvider.notifier).loadModel(model);
+                      },
+                      onDelete: () {
+                        ref.read(modelListProvider.notifier).deleteModel(model);
+                      },
+                      onRetry: () {
+                        final key = model.downloadUrls.keys.firstOrNull;
+                        if (key != null) {
+                          ref.read(modelListProvider.notifier).startDownload(model, key);
+                        }
+                      },
+                    ),
+                  );
+                }).toList(),
               );
             },
             loading: () => const Center(child: CircularProgressIndicator()),
-            error: (e, _) => Center(child: Text('加载失败: $e')),
+            error: (e, _) => Center(child: Text('${_strings.load_failed}: $e')),
           ),
         ],
       ),
@@ -194,14 +263,14 @@ class _ModelDownloadPageState extends ConsumerState<ModelDownloadPage> {
             ),
             const SizedBox(height: 16),
             Text(
-              '暂无模型',
+              _strings.no_models,
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
               ),
             ),
             const SizedBox(height: 8),
             Text(
-              '请获取仓库或导入本地文件',
+              _strings.fetch_or_import_hint,
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
                 color: Theme.of(context).colorScheme.onSurfaceVariant.withValues(alpha: 0.6),
               ),
