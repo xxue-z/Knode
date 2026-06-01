@@ -217,4 +217,31 @@ mixin class L10nStringsMixin {
 
   /// 缩小
   String get wiki_zoom_out => LocalizeStringDelegate.get('wiki_zoom_out');
+
+  String get wiki_font_size => LocalizeStringDelegate.get('wiki_font_size');
+  String get wiki_line_spacing => LocalizeStringDelegate.get('wiki_line_spacing');
+  String get wiki_night_mode => LocalizeStringDelegate.get('wiki_night_mode');
+  String get wiki_view_source => LocalizeStringDelegate.get('wiki_view_source');
+  String get wiki_ai_explanation => LocalizeStringDelegate.get('wiki_ai_explanation');
+  String get wiki_generate_question => LocalizeStringDelegate.get('wiki_generate_question');
+  String get wiki_copy => LocalizeStringDelegate.get('wiki_copy');
+  String get wiki_copied_to_clipboard => LocalizeStringDelegate.get('wiki_copied_to_clipboard');
+  String get wiki_generating_ai_explanation => LocalizeStringDelegate.get('wiki_generating_ai_explanation');
+  String get wiki_close => LocalizeStringDelegate.get('wiki_close');
+  String get wiki_ai_explanation_failed => LocalizeStringDelegate.get('wiki_ai_explanation_failed');
+  String get wiki_generating_questions => LocalizeStringDelegate.get('wiki_generating_questions');
+  String get wiki_generated_questions => LocalizeStringDelegate.get('wiki_generated_questions');
+  String get wiki_question_generation_failed => LocalizeStringDelegate.get('wiki_question_generation_failed');
+  String get wiki_auto_saved => LocalizeStringDelegate.get('wiki_auto_saved');
+  String get wiki_no_categories => LocalizeStringDelegate.get('wiki_no_categories');
+  String get wiki_rename => LocalizeStringDelegate.get('wiki_rename');
+  String get wiki_move_to => LocalizeStringDelegate.get('wiki_move_to');
+  String get wiki_rename_category => LocalizeStringDelegate.get('wiki_rename_category');
+  String get wiki_category_name => LocalizeStringDelegate.get('wiki_category_name');
+  String get wiki_root_directory => LocalizeStringDelegate.get('wiki_root_directory');
+  String get wiki_delete_category => LocalizeStringDelegate.get('wiki_delete_category');
+  String get wiki_delete_category_confirm => LocalizeStringDelegate.get('wiki_delete_category_confirm');
+  String get wiki_feature_in_development => LocalizeStringDelegate.get('wiki_feature_in_development');
+  String get wiki_add_category_in_dev => LocalizeStringDelegate.get('wiki_add_category_in_dev');
+  String get wiki_edit_category_in_dev => LocalizeStringDelegate.get('wiki_edit_category_in_dev');
 }

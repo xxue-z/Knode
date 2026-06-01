@@ -418,4 +418,14 @@ mixin class L10nStringsMixin {
 
   /// 你的答案
   String get quiz_your_answer => LocalizeStringDelegate.get('quiz_your_answer');
+
+  String get quiz_options_label => LocalizeStringDelegate.get('quiz_options_label');
+  String quiz_question_n_of_m({required String current, required String total}) =>
+      LocalizeStringDelegate.get('quiz_question_n_of_m', arguments: [current, total]);
+  String quiz_answered_n_of_m({required String current, required String total}) =>
+      LocalizeStringDelegate.get('quiz_answered_n_of_m', arguments: [current, total]);
+  String get quiz_input_answer => LocalizeStringDelegate.get('quiz_input_answer');
+  String get quiz_input_your_answer => LocalizeStringDelegate.get('quiz_input_your_answer');
+  String get quiz_not_answered => LocalizeStringDelegate.get('quiz_not_answered');
+  String get quiz_options => LocalizeStringDelegate.get('quiz_options');
 }

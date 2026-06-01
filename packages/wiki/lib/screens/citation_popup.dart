@@ -122,7 +122,7 @@ class CitationPopup extends StatelessWidget {
                       onTapSource?.call();
                     },
                     icon: const Icon(Icons.open_in_new, size: 14),
-                    label: const Text('查看原文', style: TextStyle(fontSize: 12)),
+                    label: Text(_strings.wiki_view_source, style: const TextStyle(fontSize: 12)),
                   ),
                 ],
               ),

@@ -36,17 +36,17 @@ class DailyCard extends ConsumerWidget {
                   final count = config?.questionCount ?? 10;
                   final isEnabled = config?.isEnabled == 1;
                   return Text(
-                    isEnabled ? '今日 $count 题，点击开始' : '每日一测未启用',
+                    isEnabled ? 'Today $count questions, tap to start' : 'Daily quiz not enabled',
                     style: Theme.of(context).textTheme.bodySmall,
                   );
                 },
                 loading: () => Text(_strings.knode_app_loading),
-                error: (_, __) => const Text('点击开始练习'),
+                error: (_, __) => Text(_strings.knode_app_tap_to_start),
               ),
               const SizedBox(height: 12),
               FilledButton.tonal(
                 onPressed: () => _startDailyQuiz(context, ref),
-                child: const Text('开始练习'),
+                child: Text(_strings.knode_app_start_practice),
               ),
             ],
           ),
@@ -57,11 +57,8 @@ class DailyCard extends ConsumerWidget {
 
   void _startDailyQuiz(BuildContext context, WidgetRef ref) {
     ref.read(quizProvider.notifier).startQuiz(count: 10);
-    // 切换到测验 Tab 开始答题
-    // 由于 DailyCard 在 HomeTab 内，需要通过回调或导航实现
-    // 目前显示提示，等 ExamPage 与 QuizProvider 完整对接后实现
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('每日一测已开始，请切换到"测验"标签查看')),
+      SnackBar(content: Text(_strings.knode_app_daily_quiz_started)),
     );
   }
 }

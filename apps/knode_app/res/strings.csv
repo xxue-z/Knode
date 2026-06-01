@@ -158,3 +158,66 @@ log_copied,Copied to clipboard,已复制到剪贴板
 log_detail,Log Detail,日志详情
 log_error_info,Error Info,错误信息
 log_stack_trace,Stack Trace,堆栈跟踪
+modify_storage_path,Modify Storage Path,修改存储路径
+migrate_files_confirm,"Change storage path to:\n{path}\n\nMigrate existing files?","将存储路径修改为:\n{path}\n\n是否迁移已有文件？"
+path_only,Path Only,仅修改路径
+migrate_and_change,Migrate & Change,修改并迁移
+storage_path_updated,Storage path updated,存储路径已更新
+migrated_n_files,Migrated {n} files,已迁移 {n} 个文件
+migration_failed,Migration failed,迁移失败
+current_storage_path,Current Storage Path,当前存储路径
+description,Description,说明
+enable_micro_server,Enable Micro Server,启用微服务
+enable_micro_server_desc,Access via browser when enabled,开启后可通过浏览器访问
+port,Port,端口号
+switch_to_quiz_tab,Switch to Quiz tab to view exam history,请切换到"测验"标签查看考试历史
+no_exam_records,No exam records,暂无考试记录
+quiz_started_switch_tab,Quiz started, switch to Quiz tab,速记已开始，请切换到"测验"标签查看
+available_memory_label,Available Memory,可用内存
+model_repo_url_label,Model Repository URL,模型仓库地址
+load_label,Load,加载
+loaded,Loaded,已加载
+retry,Retry,重试
+no_download_source,No download source,无下载源
+download_label,Download,下载
+confirm_restore,Confirm Restore,确认恢复
+restore_confirm_msg,Restore will overwrite current data. Continue?,恢复将覆盖当前数据，是否继续？
+restore_btn,Restore,恢复
+account,Account,账号
+backup_frequency_label,Backup Frequency,定时备份频率
+manual_operations,Manual Operations,手动操作
+backup_now_label,Backup Now,立即备份
+restore_data,Restore Data,恢复数据
+daily_label,Daily,每天
+weekly_label,Weekly,每周
+local_model_label,Local Model,本地模型
+cloud_api_label,Cloud API,云端 API
+cloud_model_repo_url_label,Cloud Model Repository URL,云模型仓库地址
+daily_quiz_started,Daily quiz started, switch to Quiz tab,每日一测已开始，请切换到"测验"标签查看
+tap_to_start,Tap to start,点击开始练习
+start_practice,Start Practice,开始练习
+favorites,Favorites,收藏夹
+browse_history,Browse History,浏览历史
+cloud_sync,Cloud Sync,云同步
+custom_label,Custom...,自定义...
+service_provider,Service Provider,服务商
+api_base_url,API Base URL,接口地址
+model_label,Model,模型
+copy,Copy,复制
+font_size_label,Font Size,字号
+line_spacing,Line Spacing,行距
+night_mode,Night Mode,夜间模式
+view_source,View Source,查看原文
+multiple_choice_suffix,(Multiple Choice),（多选）
+options_label,Options:,选项:
+not_answered,Not answered,未作答
+storage_migration_hint_1,New documents will be saved to the new location,新文档将保存到新位置
+storage_migration_hint_2,Migration copies existing .md files to the new directory,迁移会将已有 .md 文件复制到新目录
+storage_migration_hint_3,Original files are not deleted - clean them manually,原文件不会被删除，请手动清理
+api_protocol,API Protocol,API 协议
+model_name_label,Model,模型
+share_logs_subject,Knode App Logs,知维应用日志
+mirror_not_found,Mirror "{key}" not found,镜像 "{key}" 不存在
+checksum_failed,File checksum failed - please re-download,文件校验失败，请重新下载
+source_not_found,Source file not found: {path},源文件不存在: {path}
+gguf_only,Only .gguf files are supported,仅支持 .gguf 格式文件

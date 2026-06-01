@@ -31,7 +31,7 @@ class _ServerSettingsPageState extends ConsumerState<ServerSettingsPage> {
     final notifier = ref.read(settingsProvider.notifier);
     await notifier.set('server_enabled', _enabled.toString());
     await notifier.set('server_port', _portController.text);
-    if (mounted) ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('已保存')));
+    if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(_strings.knode_app_save_success)));
   }
 
   @override
@@ -45,8 +45,8 @@ class _ServerSettingsPageState extends ConsumerState<ServerSettingsPage> {
         padding: const EdgeInsets.all(16),
         children: [
           SwitchListTile(
-            title: const Text('启用微服务'),
-            subtitle: const Text('开启后可通过浏览器访问'),
+            title: Text(_strings.knode_app_enable_micro_server),
+            subtitle: Text(_strings.knode_app_enable_micro_server_desc),
             value: _enabled,
             onChanged: (v) => setState(() => _enabled = v),
           ),
@@ -54,7 +54,7 @@ class _ServerSettingsPageState extends ConsumerState<ServerSettingsPage> {
           TextField(
             controller: _portController,
             keyboardType: TextInputType.number,
-            decoration: const InputDecoration(labelText: '端口号', border: OutlineInputBorder()),
+            decoration: InputDecoration(labelText: _strings.knode_app_port, border: const OutlineInputBorder()),
           ),
           const SizedBox(height: 24),
           FilledButton(onPressed: _save, child: Text(_strings.knode_app_save)),

@@ -33,7 +33,7 @@ class ConversationList extends ConsumerWidget {
           child: convListAsync.when(
             data: (conversations) {
               if (conversations.isEmpty) {
-                return const Center(child: Text('暂无对话，开始新对话吧'));
+                return Center(child: Text(_strings.chat_no_conversations));
               }
               return ListView.separated(
                 itemCount: conversations.length,
@@ -52,7 +52,7 @@ class ConversationList extends ConsumerWidget {
                         if (action == 'archive') _archiveConversation(context, ref, conv);
                       },
                       itemBuilder: (_) => [
-                        PopupMenuItem(value: 'rename', child: const Text('重命名')),
+                        PopupMenuItem(value: 'rename', child: Text(_strings.chat_rename)),
                         PopupMenuItem(value: 'archive', child: Text(_strings.chat_archive)),
                         PopupMenuItem(value: 'delete', child: Text(_strings.chat_delete_conversation)),
                       ],
@@ -62,7 +62,7 @@ class ConversationList extends ConsumerWidget {
               );
             },
             loading: () => const Center(child: CircularProgressIndicator()),
-            error: (e, _) => Center(child: Text('加载失败: $e')),
+            error: (e, _) => Center(child: Text('${_strings.chat_load_failed}: $e')),
           ),
         ),
       ],
@@ -74,7 +74,7 @@ class ConversationList extends ConsumerWidget {
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
-        title: const Text('重命名对话'),
+        title: Text(_strings.chat_rename_conversation),
         content: TextField(controller: controller, autofocus: true),
         actions: [
           TextButton(onPressed: () => Navigator.pop(context), child: Text(_strings.chat_cancel)),
@@ -90,7 +90,7 @@ class ConversationList extends ConsumerWidget {
 
   void _archiveConversation(BuildContext context, WidgetRef ref, Conversation conv) {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('归档功能需在会话详情页中使用')),
+      SnackBar(content: Text(_strings.chat_archive_need_detail)),
     );
   }
 }

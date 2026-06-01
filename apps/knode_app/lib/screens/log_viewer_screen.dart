@@ -170,7 +170,7 @@ class _LogViewerScreenState extends State<LogViewerScreen> {
 
   Future<void> _exportLogs() async {
     final content = await AppLogger.instance.exportLogs(level: _filterLevel);
-    await Share.share(content, subject: 'Knode App Logs');
+    await Share.share(content, subject: _strings.knode_app_share_logs_subject);
   }
 
   Future<void> _clearLogs() async {
@@ -325,7 +325,7 @@ class _LogEntryTileState extends State<_LogEntryTile> {
                 alignment: Alignment.centerRight,
                 child: TextButton.icon(
                   icon: const Icon(Icons.copy, size: 14),
-                  label: Text(_strings.core_copy, style: const TextStyle(fontSize: 12)),
+                  label: Text(_strings.knode_app_copy, style: const TextStyle(fontSize: 12)),
                   onPressed: () {
                     final text = entry.toFormattedString();
                     Clipboard.setData(ClipboardData(text: text));

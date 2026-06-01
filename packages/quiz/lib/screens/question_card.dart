@@ -57,7 +57,7 @@ class QuestionCard extends StatelessWidget {
 
           // 多选题
           if (question.type == 'multi_choice' && _options != null) ...[
-            Text('（多选）', style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Theme.of(context).colorScheme.error)),
+            Text('（${_strings.quiz_multiple_choice}）', style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Theme.of(context).colorScheme.error)),
             const SizedBox(height: 8),
             ..._options!.asMap().entries.map((e) {
               final letter = String.fromCharCode(65 + e.key);

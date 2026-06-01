@@ -1,4 +1,7 @@
 ﻿import 'package:flutter/material.dart';
+import 'package:wiki/gen/strings.dart';
+
+final _strings = const L10nStringsMixin();
 
 /// 阅读设置底部栏组件。
 ///
@@ -71,7 +74,7 @@ class _ReaderToolbarState extends State<ReaderToolbar> {
             children: [
               const Icon(Icons.text_fields, size: 20),
               const SizedBox(width: 12),
-              const Text('字号', style: TextStyle(fontSize: 14)),
+              Text(_strings.wiki_font_size, style: const TextStyle(fontSize: 14)),
               Expanded(
                 child: Slider(
                   value: _fontSize,
@@ -103,7 +106,7 @@ class _ReaderToolbarState extends State<ReaderToolbar> {
             children: [
               const Icon(Icons.format_line_spacing, size: 20),
               const SizedBox(width: 12),
-              const Text('行距', style: TextStyle(fontSize: 14)),
+              Text(_strings.wiki_line_spacing, style: const TextStyle(fontSize: 14)),
               Expanded(
                 child: Slider(
                   value: _lineSpacing,
@@ -137,7 +140,7 @@ class _ReaderToolbarState extends State<ReaderToolbar> {
               _isDarkMode ? Icons.dark_mode : Icons.light_mode,
               size: 20,
             ),
-            title: const Text('夜间模式', style: TextStyle(fontSize: 14)),
+            title: Text(_strings.wiki_night_mode, style: const TextStyle(fontSize: 14)),
             value: _isDarkMode,
             onChanged: (v) {
               setState(() => _isDarkMode = v);

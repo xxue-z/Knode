@@ -44,23 +44,23 @@ class _StorageSettingsPageState extends ConsumerState<StorageSettingsPage> {
   /// 选择新的存储路径。
   Future<void> _pickNewPath() async {
     final selected = await FilePicker.platform.getDirectoryPath(
-      dialogTitle: '选择知识库存储目录',
+      dialogTitle: _strings.knode_app_modify_storage_path,
     );
     if (selected == null) return;
 
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (_) => AlertDialog(
-        title: const Text('修改存储路径'),
-        content: Text('将存储路径修改为:\n$selected\n\n是否迁移已有文件？'),
+        title: Text(_strings.knode_app_modify_storage_path),
+        content: Text(_strings.knode_app_migrate_files_confirm.replaceAll('{path}', selected)),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
-            child: const Text('仅修改路径'),
+            child: Text(_strings.knode_app_path_only),
           ),
           FilledButton(
             onPressed: () => Navigator.pop(context, true),
-            child: const Text('修改并迁移'),
+            child: Text(_strings.knode_app_migrate_and_change),
           ),
         ],
       ),
@@ -68,18 +68,16 @@ class _StorageSettingsPageState extends ConsumerState<StorageSettingsPage> {
 
     if (confirmed == null) return;
 
-    // 保存新路径
     await ref.read(settingsProvider.notifier).set('wiki_storage_path', selected);
     setState(() => _currentPath = selected);
 
-    // 如果用户选择迁移
     if (confirmed) {
       await _migrateFiles(selected);
     }
 
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('存储路径已更新')),
+        SnackBar(content: Text(_strings.knode_app_storage_path_updated)),
       );
     }
   }
@@ -115,13 +113,13 @@ class _StorageSettingsPageState extends ConsumerState<StorageSettingsPage> {
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('已迁移 $count 个文件')),
+          SnackBar(content: Text(_strings.knode_app_migrated_n_files.replaceAll('{n}', count.toString())),
         );
       }
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('迁移失败: $e'), backgroundColor: Colors.red),
+          SnackBar(content: Text('${_strings.knode_app_migration_failed}: $e'), backgroundColor: Colors.red),
         );
       }
     }
@@ -144,7 +142,7 @@ class _StorageSettingsPageState extends ConsumerState<StorageSettingsPage> {
           Card(
             child: ListTile(
               leading: const Icon(Icons.folder_outlined),
-              title: const Text('当前存储路径'),
+              title: Text(_strings.knode_app_current_storage_path),
               subtitle: Text(
                 _currentPath,
                 style: const TextStyle(fontSize: 12),
@@ -157,7 +155,7 @@ class _StorageSettingsPageState extends ConsumerState<StorageSettingsPage> {
           FilledButton.icon(
             onPressed: _pickNewPath,
             icon: const Icon(Icons.folder_open),
-            label: const Text('修改存储路径'),
+            label: Text(_strings.knode_app_modify_storage_path),
           ),
           const SizedBox(height: 12),
 
@@ -171,23 +169,23 @@ class _StorageSettingsPageState extends ConsumerState<StorageSettingsPage> {
                     child: CircularProgressIndicator(strokeWidth: 2),
                   )
                 : const Icon(Icons.drive_file_move),
-            label: Text(_isMigrating ? '迁移中...' : '迁移文件到当前路径'),
+            label: Text(_isMigrating ? 'Migrating...' : 'Migrate files to current path'),
           ),
           const SizedBox(height: 24),
 
           // 说明
           Card(
             color: Theme.of(context).colorScheme.surfaceContainerHighest,
-            child: const Padding(
-              padding: EdgeInsets.all(16),
+            child: Padding(
+              padding: const EdgeInsets.all(16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('说明', style: TextStyle(fontWeight: FontWeight.bold)),
-                  SizedBox(height: 8),
-                  Text('• 修改路径后，新文档将保存到新位置'),
-                  Text('• 迁移功能会复制已有 .md 文件到新目录'),
-                  Text('• 原文件不会被删除，可手动清理'),
+                  Text(_strings.knode_app_description, style: const TextStyle(fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 8),
+                  Text('• ${_strings.knode_app_storage_migration_hint_1}'),
+                  Text('• ${_strings.knode_app_storage_migration_hint_2}'),
+                  Text('• ${_strings.knode_app_storage_migration_hint_3}'),
                 ],
               ),
             ),

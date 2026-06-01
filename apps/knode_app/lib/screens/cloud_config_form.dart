@@ -1,9 +1,12 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:core/models/cloud_vendor.dart';
 import 'package:core/services/cloud_vendor_service.dart';
 import 'package:core/providers/settings_provider.dart';
+import 'package:knode_app/gen/strings.dart';
+
+final _strings = const L10nStringsMixin();
 
 /// 云端 API 配置表单。
 ///
@@ -110,13 +113,13 @@ class _CloudConfigFormState extends ConsumerState<CloudConfigForm> {
       await Future.delayed(const Duration(seconds: 1));
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('连接成功'), backgroundColor: Colors.green),
+          SnackBar(content: Text(_strings.knode_app_connection_success), backgroundColor: Colors.green),
         );
       }
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('连接失败: $e'), backgroundColor: Colors.red),
+          SnackBar(content: Text('${_strings.knode_app_connection_failed}: $e'), backgroundColor: Colors.red),
         );
       }
     }
@@ -190,7 +193,7 @@ class _CloudConfigFormState extends ConsumerState<CloudConfigForm> {
             onPressed: _isTesting ? null : _testConnection,
             child: _isTesting
                 ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2))
-                : const Text('测试连接'),
+                : Text(_strings.knode_app_test_connection),
           ),
         ),
       ],
@@ -205,15 +208,15 @@ class _CloudConfigFormState extends ConsumerState<CloudConfigForm> {
       )),
       const DropdownMenuItem(
         value: '__custom__',
-        child: Text('自定义...'),
+        child: Text(_strings.knode_app_custom_label),
       ),
     ];
 
     return DropdownButtonFormField<String>(
       value: _isCustomVendor ? '__custom__' : _selectedVendor,
-      decoration: const InputDecoration(
-        labelText: '服务商',
-        border: OutlineInputBorder(),
+      decoration: InputDecoration(
+        labelText: _strings.knode_app_service_provider,
+        border: const OutlineInputBorder(),
       ),
       items: items,
       onChanged: _onVendorChanged,
@@ -225,11 +228,11 @@ class _CloudConfigFormState extends ConsumerState<CloudConfigForm> {
       return DropdownButtonFormField<String>(
         value: _apiSpec,
         decoration: const InputDecoration(
-          labelText: 'API 协议',
+          labelText: _strings.knode_app_api_protocol,
           border: OutlineInputBorder(),
         ),
         items: const [
-          DropdownMenuItem(value: 'openai', child: Text('OpenAI 兼容')),
+          DropdownMenuItem(value: 'openai', child: Text('OpenAI Compatible')),
           DropdownMenuItem(value: 'anthropic', child: Text('Anthropic Claude')),
         ],
         onChanged: (v) {
@@ -244,10 +247,10 @@ class _CloudConfigFormState extends ConsumerState<CloudConfigForm> {
     // 已知厂商：只读显示
     return InputDecorator(
       decoration: const InputDecoration(
-        labelText: 'API 协议',
+        labelText: 'API Protocol',
         border: OutlineInputBorder(),
       ),
-      child: Text(_apiSpec == 'anthropic' ? 'Anthropic' : 'OpenAI 兼容'),
+      child: Text(_apiSpec == 'anthropic' ? 'Anthropic' : 'OpenAI Compatible'),
     );
   }
 
@@ -272,7 +275,7 @@ class _CloudConfigFormState extends ConsumerState<CloudConfigForm> {
     return TextField(
       controller: _baseUrlController,
       decoration: InputDecoration(
-        labelText: '接口地址',
+        labelText: _strings.knode_app_api_base_url,
         border: const OutlineInputBorder(),
         hintText: _isCustomVendor ? 'https://api.example.com' : null,
       ),
@@ -284,9 +287,9 @@ class _CloudConfigFormState extends ConsumerState<CloudConfigForm> {
     if (_isCustomVendor || _currentVendor == null) {
       return TextField(
         controller: _modelController,
-        decoration: const InputDecoration(
-          labelText: '模型',
-          border: OutlineInputBorder(),
+        decoration: InputDecoration(
+          labelText: _strings.knode_app_model_name_label,
+          border: const OutlineInputBorder(),
           hintText: 'gpt-4o-mini',
         ),
         onChanged: (_) => _autoSave(),
@@ -298,9 +301,9 @@ class _CloudConfigFormState extends ConsumerState<CloudConfigForm> {
       value: _currentVendor!.models.contains(_modelController.text)
           ? _modelController.text
           : null,
-      decoration: const InputDecoration(
-        labelText: '模型',
-        border: OutlineInputBorder(),
+      decoration: InputDecoration(
+        labelText: _strings.knode_app_model_name_label,
+        border: const OutlineInputBorder(),
       ),
       items: _currentVendor!.models.map((m) => DropdownMenuItem(
         value: m,

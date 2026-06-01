@@ -122,9 +122,9 @@ class _ReaderPageState extends ConsumerState<ReaderPage> {
           children: [
             ListTile(
               leading: const Icon(Icons.auto_awesome),
-              title: const Text('AI讲解'),
+              title: Text(_strings.wiki_ai_explanation),
               subtitle: Text(
-                '对"${_truncate(selectedText, 20)}"进行讲解',
+                '${_strings.wiki_explain_text}: "${_truncate(selectedText, 20)}"',
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
@@ -135,9 +135,9 @@ class _ReaderPageState extends ConsumerState<ReaderPage> {
             ),
             ListTile(
               leading: const Icon(Icons.quiz),
-              title: const Text('生成题目'),
+              title: Text(_strings.wiki_generate_question),
               subtitle: Text(
-                '基于"${_truncate(selectedText, 20)}"生成题目',
+                '${_strings.wiki_generate_based}: "${_truncate(selectedText, 20)}"',
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
@@ -148,12 +148,12 @@ class _ReaderPageState extends ConsumerState<ReaderPage> {
             ),
             ListTile(
               leading: const Icon(Icons.copy),
-              title: const Text('复制'),
+              title: Text(_strings.wiki_copy),
               onTap: () {
                 Navigator.pop(context);
                 Clipboard.setData(ClipboardData(text: selectedText));
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('已复制到剪贴板')),
+                  SnackBar(content: Text(_strings.wiki_copied_to_clipboard)),
                 );
               },
             ),
@@ -170,25 +170,25 @@ class _ReaderPageState extends ConsumerState<ReaderPage> {
   Future<void> _explainWithAI(String selectedText) async {
     if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('正在生成 AI 讲解...')),
+      SnackBar(content: Text(_strings.wiki_generating_ai_explanation)),
     );
     try {
       final aiProvider = ref.read(aiProviderRef);
       final response = await aiProvider.generateAnswer(
-        query: '请用简洁的中文讲解以下内容：\n\n$selectedText',
+        query: '${_strings.wiki_please_explain}: \n\n$selectedText',
         contextDocs: [selectedText],
-        systemPrompt: '你是一位专业的知识讲解助手，请用通俗易懂的语言解释用户选中的内容。',
+        systemPrompt: _strings.wiki_system_prompt_explain,
       );
       if (mounted) {
         showDialog(
           context: context,
           builder: (ctx) => AlertDialog(
-            title: const Text('AI 讲解'),
+            title: Text(_strings.wiki_ai_explanation),
             content: SingleChildScrollView(child: Text(response.answer)),
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(ctx),
-                child: const Text('关闭'),
+                child: Text(_strings.wiki_close),
               ),
             ],
           ),
@@ -197,7 +197,7 @@ class _ReaderPageState extends ConsumerState<ReaderPage> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('AI 讲解失败: $e')),
+          SnackBar(content: Text('${_strings.wiki_ai_explanation_failed}: $e')),
         );
       }
     }
@@ -206,7 +206,7 @@ class _ReaderPageState extends ConsumerState<ReaderPage> {
   Future<void> _generateQuizFromText(String selectedText) async {
     if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('正在生成题目...')),
+      SnackBar(content: Text(_strings.wiki_generating_questions)),
     );
     try {
       final aiProvider = ref.read(aiProviderRef);
@@ -219,7 +219,7 @@ class _ReaderPageState extends ConsumerState<ReaderPage> {
         showDialog(
           context: context,
           builder: (ctx) => AlertDialog(
-            title: const Text('生成的题目'),
+            title: Text(_strings.wiki_generated_questions),
             content: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -232,7 +232,7 @@ class _ReaderPageState extends ConsumerState<ReaderPage> {
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(ctx),
-                child: const Text('关闭'),
+                child: Text(_strings.wiki_close),
               ),
             ],
           ),
@@ -241,7 +241,7 @@ class _ReaderPageState extends ConsumerState<ReaderPage> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('题目生成失败: $e')),
+          SnackBar(content: Text('${_strings.wiki_question_generation_failed}: $e')),
         );
       }
     }

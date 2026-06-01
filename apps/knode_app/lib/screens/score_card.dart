@@ -17,11 +17,8 @@ class ScoreCard extends ConsumerWidget {
       child: InkWell(
         borderRadius: BorderRadius.circular(12),
         onTap: () {
-          // 切换到测验 Tab（index 3）
-          // 由于 ScoreCard 在 HomeTab 内，需要通过回调或导航实现
-          // 目前显示提示
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('请切换到"测验"标签查看考试历史')),
+            SnackBar(content: Text(_strings.knode_app_switch_to_quiz_tab)),
           );
         },
         child: Padding(
@@ -39,7 +36,7 @@ class ScoreCard extends ConsumerWidget {
               const SizedBox(height: 12),
               examsAsync.when(
                 data: (exams) {
-                  if (exams.isEmpty) return const Text('暂无考试记录');
+                  if (exams.isEmpty) return Text(_strings.knode_app_no_exam_records);
                   final recent = exams.take(3).toList();
                   return Column(
                     children: recent.map((exam) {
@@ -82,7 +79,7 @@ class ScoreCard extends ConsumerWidget {
                   );
                 },
                 loading: () => const CircularProgressIndicator(),
-                error: (e, _) => Text('加载失败: $e'),
+                error: (e, _) => Text('${_strings.knode_app_load_failed}: $e'),
               ),
             ],
           ),

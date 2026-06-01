@@ -69,7 +69,7 @@ class _WikiPageState extends State<WikiPage> {
               Navigator.pop(ctx);
               if (controller.text.isNotEmpty) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('${_strings.wiki_create_node}: ${controller.text} - 功能开发中')),
+                  SnackBar(content: Text('${_strings.wiki_create_node}: ${controller.text} - ${_strings.wiki_feature_development}')),
                 );
               }
             },
@@ -101,7 +101,7 @@ class _WikiPageState extends State<WikiPage> {
                     icon: const Icon(Icons.add),
                     onPressed: () {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('添加类目功能开发中')),
+                        SnackBar(content: Text('${_strings.wiki_add_category} ${_strings.wiki_feature_development}')),
                       );
                     },
                   ),
@@ -124,7 +124,7 @@ class _WikiPageState extends State<WikiPage> {
                             icon: const Icon(Icons.edit_outlined),
                             onPressed: () {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text('编辑类目: ${cat.name} - 功能开发中')),
+                                SnackBar(content: Text('${_strings.wiki_edit_category}: ${cat.name} - ${_strings.wiki_feature_development}')),
                               );
                             },
                           ),
@@ -230,7 +230,7 @@ class _GraphCanvasPlaceholder extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           Text(
-            '图谱画布待实现',
+            _strings.wiki_graph_canvas_pending,
             style: textTheme.bodySmall?.copyWith(
               color: colorScheme.onSurfaceVariant.withValues(alpha: 0.6),
             ),

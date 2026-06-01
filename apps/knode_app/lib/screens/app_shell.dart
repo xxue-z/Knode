@@ -23,7 +23,7 @@ class AppShell extends StatefulWidget {
 class _AppShellState extends State<AppShell> {
   int _currentIndex = 0;
 
-  List<String> get _tabTitles => [_strings.knode_app_home, '知识库', 'Chat', '测验'];
+  List<String> get _tabTitles => [_strings.knode_app_home, 'Wiki', 'Chat', 'Quiz'];
 
   static const _tabIcons = <IconData>[
     Icons.home,
@@ -62,23 +62,23 @@ class _AppShellState extends State<AppShell> {
             ),
             const SizedBox(height: 12),
             Text(
-              '知维用户',
+              'Knode User',
               style: Theme.of(context).textTheme.titleMedium,
             ),
             const Divider(height: 32),
             ListTile(
               leading: const Icon(Icons.bookmark_border),
-              title: const Text('收藏夹'),
+              title: Text(_strings.knode_app_favorites),
               onTap: () => Navigator.of(context).pop(),
             ),
             ListTile(
               leading: const Icon(Icons.history),
-              title: const Text('浏览历史'),
+              title: Text(_strings.knode_app_browse_history),
               onTap: () => Navigator.of(context).pop(),
             ),
             ListTile(
               leading: const Icon(Icons.cloud_upload_outlined),
-              title: const Text('云同步'),
+              title: Text(_strings.knode_app_cloud_sync),
               onTap: () => Navigator.of(context).pop(),
             ),
             const Spacer(),

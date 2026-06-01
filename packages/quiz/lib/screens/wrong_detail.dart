@@ -79,7 +79,7 @@ class _WrongDetailPageState extends ConsumerState<WrongDetailPage> {
 
           // 选项（如有）
           if (q.options != null && q.options!.isNotEmpty) ...[
-            Text('选项:', style: theme.textTheme.labelLarge),
+            Text(_strings.quiz_options_label, style: theme.textTheme.labelLarge),
             const SizedBox(height: 8),
             ...(jsonDecode(q.options!) as List).asMap().entries.map((entry) {
               final optLabel = String.fromCharCode(65 + entry.key);

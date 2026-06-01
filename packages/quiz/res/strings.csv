@@ -110,3 +110,10 @@ missed_exam,Missed Exam,错过考试
 exam_history,Exam History,考试历史
 ai_ratio_label,AI Questions: {percent}%,AI 出题: {percent}%
 exam_not_found,Exam not found,考试不存在
+options_label,Options:,选项:
+question_n_of_m,Question {current}/{total},第 {current}/{total} 题
+answered_n_of_m,Answered {current}/{total},已答 {current}/{total} 题
+input_answer,Input Answer,输入答案
+input_your_answer,Input your answer...,输入你的回答...
+not_answered,Not answered,未作答
+options,Options,选项

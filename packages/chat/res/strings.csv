@@ -55,3 +55,24 @@ start_conversation_hint,Send a message to start chatting with AI Assistant,发�
 add_attachment,Add Attachment,添加附件
 voice_input,Voice Input,语音输入
 clear_history_dev,Clear history feature in development,清空对话功能开发中
+history_conversations,History,历史会话
+history_in_dev,History feature in development,历史会话功能开发中
+clear_in_dev,Clear chat feature in development,清空对话功能开发中
+image_label,Image,图片
+image_in_dev,Image selection in development,图片选择功能开发中
+document_label,Document,文档
+document_in_dev,Document selection in development,文档选择功能开发中
+link_label,Link,链接
+link_in_dev,Link paste in development,链接粘贴功能开发中
+voice_real_device_label,Voice input requires a real device,语音输入功能需在真机上使用
+send_message_label,Send Message,发送消息
+need_ai_provider,Message sending requires AIProvider connection,消息发送功能需连接 AIProvider
+add_attachment_label,Add Attachment,添加附件
+voice_input_label,Voice Input,语音输入
+no_conversations,No conversations, start a new one,暂无对话，开始新对话吧
+rename_label,Rename,重命名
+rename_conversation,Rename Conversation,重命名对话
+archive_in_detail,Archive feature is available in conversation detail,归档功能需在会话详情页中使用
+archive_failed,Archive failed,归档失败
+select_target_category,Select target category:,选择目标类目:
+select_category,Select Category,选择类目

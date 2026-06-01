@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:core/models/question.dart';
 import 'package:quiz/gen/strings.dart';
@@ -82,7 +82,7 @@ class ResultPage extends ConsumerWidget {
                 subtitle: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('${_strings.quiz_your_answer}: ${userAnswer ?? "未作答"}'),
+                    Text('${_strings.quiz_your_answer}: ${userAnswer ?? _strings.quiz_not_answered}'),
                     Text('${_strings.quiz_correct_answer}: ${q.answer}'),
                     if (q.explanation != null && q.explanation!.isNotEmpty)
                       Text(
@@ -153,14 +153,14 @@ class ResultPage extends ConsumerWidget {
             const SizedBox(height: 16),
             Text(q.stem, style: Theme.of(context).textTheme.titleMedium),
             const SizedBox(height: 12),
-            if (q.options != null) Text('选项: ${q.options}'),
+            if (q.options != null) Text('${_strings.quiz_options}: ${q.options}'),
             const SizedBox(height: 12),
             Row(
               children: [
                 Icon(isCorrect ? Icons.check : Icons.close,
                     color: isCorrect ? Colors.green : Colors.red, size: 18),
                 const SizedBox(width: 8),
-                Text('${_strings.quiz_your_answer}: ${userAnswer ?? "未作答"}'),
+                Text('${_strings.quiz_your_answer}: ${userAnswer ?? _strings.quiz_not_answered}'),
               ],
             ),
             const SizedBox(height: 8),

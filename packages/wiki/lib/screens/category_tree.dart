@@ -36,7 +36,7 @@ class _CategoryTreeState extends ConsumerState<CategoryTree> {
       data: (state) {
         final tree = state.tree;
         if (tree.isEmpty) {
-          return const Center(child: Text('暂无类目'));
+          return Center(child: Text(_strings.wiki_no_categories));
         }
         return ListView.builder(
           padding: const EdgeInsets.symmetric(vertical: 8),
@@ -144,7 +144,7 @@ class _CategoryTreeState extends ConsumerState<CategoryTree> {
           children: [
             ListTile(
               leading: const Icon(Icons.edit_outlined),
-              title: const Text('重命名'),
+              title: Text(_strings.wiki_rename),
               onTap: () {
                 Navigator.pop(context);
                 _showRenameDialog(category);
@@ -152,7 +152,7 @@ class _CategoryTreeState extends ConsumerState<CategoryTree> {
             ),
             ListTile(
               leading: const Icon(Icons.drive_file_move_outlined),
-              title: const Text('移动到'),
+              title: Text(_strings.wiki_move_to),
               onTap: () {
                 Navigator.pop(context);
                 _showMoveDialog(category);
@@ -185,11 +185,11 @@ class _CategoryTreeState extends ConsumerState<CategoryTree> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('重命名类目'),
+        title: Text(_strings.wiki_rename_category),
         content: TextField(
           controller: controller,
           autofocus: true,
-          decoration: const InputDecoration(hintText: '类目名称'),
+          decoration: InputDecoration(hintText: _strings.wiki_category_name),
         ),
         actions: [
           TextButton(
@@ -225,7 +225,7 @@ class _CategoryTreeState extends ConsumerState<CategoryTree> {
         child: ListView(
           children: [
             ListTile(
-              title: const Text('根目录'),
+              title: Text(_strings.wiki_root_directory),
               onTap: () {
                 Navigator.pop(context);
                 ref
@@ -252,8 +252,8 @@ class _CategoryTreeState extends ConsumerState<CategoryTree> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('删除类目'),
-        content: Text('确定删除「${category.name}」？子类目将移至根目录。'),
+        title: Text(_strings.wiki_delete_category),
+        content: Text(_strings.wiki_delete_category_confirm.replaceAll('{name}', category.name)),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),

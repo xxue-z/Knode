@@ -74,7 +74,7 @@ class _ArchiveDialogState extends ConsumerState<ArchiveDialog> {
       if (mounted) {
         setState(() => _isArchiving = false);
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('归档失败: $e')),
+          SnackBar(content: Text('${_strings.chat_archive_failed}: $e')),
         );
       }
     }
@@ -87,12 +87,12 @@ class _ArchiveDialogState extends ConsumerState<ArchiveDialog> {
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Text('选择目标类目:'),
+          Text(_strings.chat_select_target_category),
           const SizedBox(height: 12),
           DropdownButton<int>(
             isExpanded: true,
             value: _selectedCategoryId,
-            hint: const Text('选择类目'),
+            hint: Text(_strings.chat_select_category),
             items: widget.categories
                 .map((c) =>
                     DropdownMenuItem(value: c.id, child: Text(c.name)))

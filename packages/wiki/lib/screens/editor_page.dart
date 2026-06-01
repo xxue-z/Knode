@@ -86,9 +86,9 @@ class _EditorPageState extends ConsumerState<EditorPage> {
       _hasUnsavedChanges = false;
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('已自动保存'),
-            duration: Duration(seconds: 1),
+          SnackBar(
+            content: Text(_strings.wiki_auto_saved),
+            duration: const Duration(seconds: 1),
           ),
         );
       }

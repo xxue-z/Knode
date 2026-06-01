@@ -60,3 +60,29 @@ tag_generated,Tags generated,标签已生成
 tag_generation_failed,Tag generation failed,标签生成失败
 reset_tags,Reset Tags,重置标签
 reset_tags_confirm,"Reset tags? AI-generated tags will be cleared",确定重置标签？AI 生成的标签将被清除
+ai_explanation,AI Explanation,AI 讲解
+generate_question,Generate Question,生成题目
+copy,Copy,复制
+copied_to_clipboard,Copied to clipboard,已复制到剪贴板
+generating_ai_explanation,Generating AI explanation...,正在生成 AI 讲解...
+close,Close,关闭
+ai_explanation_failed,AI explanation failed,AI 讲解失败
+generating_questions,Generating questions...,正在生成题目...
+generated_questions,Generated Questions,生成的题目
+question_generation_failed,Question generation failed,题目生成失败
+auto_saved,Auto-saved,已自动保存
+view_source,View Source,查看原文
+no_categories,No categories,暂无类目
+rename,Rename,重命名
+move_to,Move To,移动到
+rename_category,Rename Category,重命名类目
+category_name,Category Name,类目名称
+root_directory,Root Directory,根目录
+delete_category,Delete Category,删除类目
+delete_category_confirm,"Delete ""{name}""? Subcategories will be moved to root.",确定删除「{name}」？子类目将移至根目录。
+font_size,Font Size,字号
+line_spacing,Line Spacing,行距
+night_mode,Night Mode,夜间模式
+feature_in_development,Feature in development,功能开发中
+add_category_in_dev,Add category - in development,添加类目功能开发中
+edit_category_in_dev,Edit category - in development,编辑类目功能开发中
