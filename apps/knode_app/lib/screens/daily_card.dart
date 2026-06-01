@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:quiz/providers/quiz_provider.dart';
-import 'package:quiz/providers/exam_provider.dart';
 import 'package:knode_app/gen/strings.dart';
 
 final _strings = const L10nStringsMixin();

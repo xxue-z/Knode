@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:core/providers/settings_provider.dart';
 import 'package:knode_app/gen/strings.dart';
 import 'package:knode_app/screens/ai_settings.dart';
 import 'package:knode_app/screens/backup_settings.dart';
@@ -55,8 +54,8 @@ class SettingsPage extends ConsumerWidget {
           _Section(title: _strings.knode_app_advanced_settings, children: [
             _SettingsTile(
               icon: Icons.bug_report_outlined,
-              title: _strings.knode_application_log,
-              subtitle: _strings.knode_view_operation_logs_and_error_records,
+              title: _strings.knode_app_application_log,
+              subtitle: _strings.knode_app_view_operation_logs_and_error_records,
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(builder: (_) => const LogViewerScreen()),

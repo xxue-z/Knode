@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:core/models/cloud_vendor.dart';
-import 'package:core/models/local_model.dart';
 import 'package:core/providers/model_provider.dart';
 import 'package:core/providers/settings_provider.dart';
 import 'package:core/services/cloud_vendor_service.dart';
@@ -344,8 +343,8 @@ class _AiSettingsPageState extends ConsumerState<AiSettingsPage> {
           ),
 
         SwitchListTile(
-          title: Text(_strings.skip_memory_check),
-          subtitle: Text(_strings.skip_memory_check_desc),
+          title: Text(_strings.knode_app_skip_memory_check),
+          subtitle: Text(_strings.knode_app_skip_memory_check_desc),
           value: _skipMemoryCheck,
           dense: true,
           contentPadding: EdgeInsets.zero,

@@ -69,7 +69,7 @@ send_message_label,Send Message,发送消息
 need_ai_provider,Message sending requires AIProvider connection,消息发送功能需连接 AIProvider
 add_attachment_label,Add Attachment,添加附件
 voice_input_label,Voice Input,语音输入
-no_conversations,No conversations, start a new one,暂无对话，开始新对话吧
+no_conversations,"No conversations, start a new one","暂无对话，开始新对话吧"
 rename_label,Rename,重命名
 rename_conversation,Rename Conversation,重命名对话
 archive_in_detail,Archive feature is available in conversation detail,归档功能需在会话详情页中使用

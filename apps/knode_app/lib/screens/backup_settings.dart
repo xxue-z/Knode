@@ -210,7 +210,7 @@ class _BackupSettingsPageState extends ConsumerState<BackupSettingsPage> {
           ),
           FilledButton(
             onPressed: () => Navigator.pop(context, true),
-            child: Text(_strings.core_delete),
+            child: Text(_strings.knode_app_delete),
           ),
         ],
       ),
@@ -263,7 +263,7 @@ class _BackupSettingsPageState extends ConsumerState<BackupSettingsPage> {
     final isOperating = _isBacking || _isRestoring;
 
     return Scaffold(
-      appBar: AppBar(title: Text(_strings.knode_app_webdav + ' ' + _strings.backup), centerTitle: true),
+      appBar: AppBar(title: Text(_strings.knode_app_webdav + ' ' + _strings.knode_app_backup), centerTitle: true),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [

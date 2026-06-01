@@ -52,7 +52,7 @@ class _StorageSettingsPageState extends ConsumerState<StorageSettingsPage> {
       context: context,
       builder: (_) => AlertDialog(
         title: Text(_strings.knode_app_modify_storage_path),
-        content: Text(_strings.knode_app_migrate_files_confirm.replaceAll('{path}', selected)),
+        content: Text(_strings.knode_app_migrate_files_confirm(path: selected)),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
@@ -113,7 +113,7 @@ class _StorageSettingsPageState extends ConsumerState<StorageSettingsPage> {
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(_strings.knode_app_migrated_n_files.replaceAll('{n}', count.toString())),
+          SnackBar(content: Text(_strings.knode_app_migrated_n_files(n: count.toString()))),
         );
       }
     } catch (e) {

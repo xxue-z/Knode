@@ -103,6 +103,12 @@ abstract class L10n {
   /// **'添加附件'**
   String get chat_add_attachment;
 
+  /// 添加附件
+  ///
+  /// In zh, this message translates to:
+  /// **'添加附件'**
+  String get chat_add_attachment_label;
+
   /// AI 助手
   ///
   /// In zh, this message translates to:
@@ -126,6 +132,18 @@ abstract class L10n {
   /// In zh, this message translates to:
   /// **'归档'**
   String get chat_archive;
+
+  /// 归档失败
+  ///
+  /// In zh, this message translates to:
+  /// **'归档失败'**
+  String get chat_archive_failed;
+
+  /// 归档功能需在会话详情页中使用
+  ///
+  /// In zh, this message translates to:
+  /// **'归档功能需在会话详情页中使用'**
+  String get chat_archive_in_detail;
 
   /// 取消
   ///
@@ -156,6 +174,12 @@ abstract class L10n {
   /// In zh, this message translates to:
   /// **'清空对话功能开发中'**
   String get chat_clear_history_dev;
+
+  /// 清空对话功能开发中
+  ///
+  /// In zh, this message translates to:
+  /// **'清空对话功能开发中'**
+  String get chat_clear_in_dev;
 
   /// 确认
   ///
@@ -211,6 +235,18 @@ abstract class L10n {
   /// **'文档选择功能开发中'**
   String get chat_document_dev;
 
+  /// 文档选择功能开发中
+  ///
+  /// In zh, this message translates to:
+  /// **'文档选择功能开发中'**
+  String get chat_document_in_dev;
+
+  /// 文档
+  ///
+  /// In zh, this message translates to:
+  /// **'文档'**
+  String get chat_document_label;
+
   /// 错误
   ///
   /// In zh, this message translates to:
@@ -222,6 +258,18 @@ abstract class L10n {
   /// In zh, this message translates to:
   /// **'导出对话'**
   String get chat_export_chat;
+
+  /// 历史会话
+  ///
+  /// In zh, this message translates to:
+  /// **'历史会话'**
+  String get chat_history_conversations;
+
+  /// 历史会话功能开发中
+  ///
+  /// In zh, this message translates to:
+  /// **'历史会话功能开发中'**
+  String get chat_history_in_dev;
 
   /// 历史会话
   ///
@@ -246,6 +294,18 @@ abstract class L10n {
   /// In zh, this message translates to:
   /// **'图片选择功能开发中'**
   String get chat_image_dev;
+
+  /// 图片选择功能开发中
+  ///
+  /// In zh, this message translates to:
+  /// **'图片选择功能开发中'**
+  String get chat_image_in_dev;
+
+  /// 图片
+  ///
+  /// In zh, this message translates to:
+  /// **'图片'**
+  String get chat_image_label;
 
   /// 输入消息...
   ///
@@ -277,6 +337,18 @@ abstract class L10n {
   /// **'链接粘贴功能开发中'**
   String get chat_link_dev;
 
+  /// 链接粘贴功能开发中
+  ///
+  /// In zh, this message translates to:
+  /// **'链接粘贴功能开发中'**
+  String get chat_link_in_dev;
+
+  /// 链接
+  ///
+  /// In zh, this message translates to:
+  /// **'链接'**
+  String get chat_link_label;
+
   /// 加载中...
   ///
   /// In zh, this message translates to:
@@ -289,11 +361,23 @@ abstract class L10n {
   /// **'消息'**
   String get chat_message;
 
+  /// 消息发送功能需连接 AIProvider
+  ///
+  /// In zh, this message translates to:
+  /// **'消息发送功能需连接 AIProvider'**
+  String get chat_need_ai_provider;
+
   /// 新建对话
   ///
   /// In zh, this message translates to:
   /// **'新建对话'**
   String get chat_new_conversation;
+
+  /// 暂无对话，开始新对话吧
+  ///
+  /// In zh, this message translates to:
+  /// **'暂无对话，开始新对话吧'**
+  String get chat_no_conversations;
 
   /// 暂无对话
   ///
@@ -331,6 +415,18 @@ abstract class L10n {
   /// **'相关文档'**
   String get chat_related_documents;
 
+  /// 重命名对话
+  ///
+  /// In zh, this message translates to:
+  /// **'重命名对话'**
+  String get chat_rename_conversation;
+
+  /// 重命名
+  ///
+  /// In zh, this message translates to:
+  /// **'重命名'**
+  String get chat_rename_label;
+
   /// 重试
   ///
   /// In zh, this message translates to:
@@ -367,6 +463,18 @@ abstract class L10n {
   /// **'搜索服务商'**
   String get chat_search_provider;
 
+  /// 选择类目
+  ///
+  /// In zh, this message translates to:
+  /// **'选择类目'**
+  String get chat_select_category;
+
+  /// 选择目标类目:
+  ///
+  /// In zh, this message translates to:
+  /// **'选择目标类目:'**
+  String get chat_select_target_category;
+
   /// 发送
   ///
   /// In zh, this message translates to:
@@ -378,6 +486,12 @@ abstract class L10n {
   /// In zh, this message translates to:
   /// **'发送消息'**
   String get chat_send_message;
+
+  /// 发送消息
+  ///
+  /// In zh, this message translates to:
+  /// **'发送消息'**
+  String get chat_send_message_label;
 
   /// 消息发送功能需连接 AIProvider
   ///
@@ -415,11 +529,23 @@ abstract class L10n {
   /// **'语音输入'**
   String get chat_voice_input;
 
+  /// 语音输入
+  ///
+  /// In zh, this message translates to:
+  /// **'语音输入'**
+  String get chat_voice_input_label;
+
   /// 语音输入功能需在真机上使用
   ///
   /// In zh, this message translates to:
   /// **'语音输入功能需在真机上使用'**
   String get chat_voice_real_device;
+
+  /// 语音输入功能需在真机上使用
+  ///
+  /// In zh, this message translates to:
+  /// **'语音输入功能需在真机上使用'**
+  String get chat_voice_real_device_label;
 
   /// 联网
   ///
@@ -457,6 +583,12 @@ abstract class L10n {
   /// **'API 限流，请稍后重试'**
   String get core_api_rate_limited;
 
+  /// 可用内存
+  ///
+  /// In zh, this message translates to:
+  /// **'可用内存'**
+  String get core_available_memory;
+
   /// 返回
   ///
   /// In zh, this message translates to:
@@ -486,6 +618,12 @@ abstract class L10n {
   /// In zh, this message translates to:
   /// **'确认'**
   String get core_confirm;
+
+  /// 继续导入
+  ///
+  /// In zh, this message translates to:
+  /// **'继续导入'**
+  String get core_continue_import;
 
   /// 对话
   ///
@@ -631,11 +769,89 @@ abstract class L10n {
   /// **'本地模型未加载，请先调用 loadModel()'**
   String get core_local_model_not_loaded;
 
+  /// 内存不足
+  ///
+  /// In zh, this message translates to:
+  /// **'内存不足'**
+  String get core_memory_insufficient;
+
   /// 消息
   ///
   /// In zh, this message translates to:
   /// **'消息'**
   String get core_message;
+
+  /// 国内
+  ///
+  /// In zh, this message translates to:
+  /// **'国内'**
+  String get core_mirror_china;
+
+  /// 国际
+  ///
+  /// In zh, this message translates to:
+  /// **'国际'**
+  String get core_mirror_global;
+
+  /// 删除
+  ///
+  /// In zh, this message translates to:
+  /// **'删除'**
+  String get core_model_delete;
+
+  /// 下载
+  ///
+  /// In zh, this message translates to:
+  /// **'下载'**
+  String get core_model_download;
+
+  /// 使用中
+  ///
+  /// In zh, this message translates to:
+  /// **'使用中'**
+  String get core_model_in_use;
+
+  /// 加载
+  ///
+  /// In zh, this message translates to:
+  /// **'加载'**
+  String get core_model_load;
+
+  /// 已加载
+  ///
+  /// In zh, this message translates to:
+  /// **'已加载'**
+  String get core_model_loaded;
+
+  /// 该模型约 {size}，你的设备内存为 {mem}，可能无法正常运行
+  ///
+  /// In zh, this message translates to:
+  /// **'该模型约 {size}，你的设备内存为 {mem}，可能无法正常运行'**
+  String core_model_may_not_run(String size, String mem);
+
+  /// 无下载源
+  ///
+  /// In zh, this message translates to:
+  /// **'无下载源'**
+  String get core_model_no_download_source;
+
+  /// 不可用（内存不足）
+  ///
+  /// In zh, this message translates to:
+  /// **'不可用（内存不足）'**
+  String get core_model_not_compatible;
+
+  /// 需 {minRam} RAM
+  ///
+  /// In zh, this message translates to:
+  /// **'需 {minRam} RAM'**
+  String core_model_requires_ram(String minRam);
+
+  /// 重试
+  ///
+  /// In zh, this message translates to:
+  /// **'重试'**
+  String get core_model_retry;
 
   /// 月度考试
   ///
@@ -817,6 +1033,12 @@ abstract class L10n {
   /// **'今日测验已准备好，点击开始答题'**
   String get core_today_quiz_ready;
 
+  /// 设备总内存
+  ///
+  /// In zh, this message translates to:
+  /// **'设备总内存'**
+  String get core_total_memory;
+
   /// 判断题
   ///
   /// In zh, this message translates to:
@@ -859,6 +1081,18 @@ abstract class L10n {
   /// **'关于'**
   String get knode_app_about;
 
+  /// 账号
+  ///
+  /// In zh, this message translates to:
+  /// **'账号'**
+  String get knode_app_account;
+
+  /// 高级设置
+  ///
+  /// In zh, this message translates to:
+  /// **'高级设置'**
+  String get knode_app_advanced_settings;
+
   /// AI 引擎
   ///
   /// In zh, this message translates to:
@@ -877,11 +1111,29 @@ abstract class L10n {
   /// **'AI 设置'**
   String get knode_app_ai_settings;
 
+  /// 接口地址
+  ///
+  /// In zh, this message translates to:
+  /// **'接口地址'**
+  String get knode_app_api_base_url;
+
+  /// API 协议
+  ///
+  /// In zh, this message translates to:
+  /// **'API 协议'**
+  String get knode_app_api_protocol;
+
   /// 应用外壳
   ///
   /// In zh, this message translates to:
   /// **'应用外壳'**
   String get knode_app_app_shell;
+
+  /// 应用日志
+  ///
+  /// In zh, this message translates to:
+  /// **'应用日志'**
+  String get knode_app_application_log;
 
   /// 自动备份
   ///
@@ -895,6 +1147,60 @@ abstract class L10n {
   /// **'可用内存: {memory} MB'**
   String knode_app_available_memory(String memory);
 
+  /// 可用内存
+  ///
+  /// In zh, this message translates to:
+  /// **'可用内存'**
+  String get knode_app_available_memory_label;
+
+  /// 备份
+  ///
+  /// In zh, this message translates to:
+  /// **'备份'**
+  String get knode_app_backup;
+
+  /// 备份完成
+  ///
+  /// In zh, this message translates to:
+  /// **'备份完成'**
+  String get knode_app_backup_complete;
+
+  /// 备份失败
+  ///
+  /// In zh, this message translates to:
+  /// **'备份失败'**
+  String get knode_app_backup_failed;
+
+  /// 备份频率
+  ///
+  /// In zh, this message translates to:
+  /// **'备份频率'**
+  String get knode_app_backup_frequency;
+
+  /// 定时备份频率
+  ///
+  /// In zh, this message translates to:
+  /// **'定时备份频率'**
+  String get knode_app_backup_frequency_label;
+
+  /// 备份历史
+  ///
+  /// In zh, this message translates to:
+  /// **'备份历史'**
+  String get knode_app_backup_history;
+
+  /// 立即备份
+  ///
+  /// In zh, this message translates to:
+  /// **'立即备份'**
+  String get knode_app_backup_now;
+
+  /// 立即备份
+  ///
+  /// In zh, this message translates to:
+  /// **'立即备份'**
+  String get knode_app_backup_now_label;
+
   /// 备份设置
   ///
   /// In zh, this message translates to:
@@ -907,11 +1213,23 @@ abstract class L10n {
   /// **'底部导航'**
   String get knode_app_bottom_navigation;
 
+  /// 浏览历史
+  ///
+  /// In zh, this message translates to:
+  /// **'浏览历史'**
+  String get knode_app_browse_history;
+
   /// 取消
   ///
   /// In zh, this message translates to:
   /// **'取消'**
   String get knode_app_cancel;
+
+  /// 文件校验失败，请重新下载
+  ///
+  /// In zh, this message translates to:
+  /// **'文件校验失败，请重新下载'**
+  String get knode_app_checksum_failed;
 
   /// 清除缓存
   ///
@@ -925,6 +1243,12 @@ abstract class L10n {
   /// **'云端 API'**
   String get knode_app_cloud_api;
 
+  /// 云端 API
+  ///
+  /// In zh, this message translates to:
+  /// **'云端 API'**
+  String get knode_app_cloud_api_label;
+
   /// 云配置
   ///
   /// In zh, this message translates to:
@@ -937,6 +1261,18 @@ abstract class L10n {
   /// **'云模型仓库地址'**
   String get knode_app_cloud_model_repo_url;
 
+  /// 云模型仓库地址
+  ///
+  /// In zh, this message translates to:
+  /// **'云模型仓库地址'**
+  String get knode_app_cloud_model_repo_url_label;
+
+  /// 云同步
+  ///
+  /// In zh, this message translates to:
+  /// **'云同步'**
+  String get knode_app_cloud_sync;
+
   /// 请先配置 API Key
   ///
   /// In zh, this message translates to:
@@ -948,6 +1284,12 @@ abstract class L10n {
   /// In zh, this message translates to:
   /// **'确认'**
   String get knode_app_confirm;
+
+  /// 确认恢复
+  ///
+  /// In zh, this message translates to:
+  /// **'确认恢复'**
+  String get knode_app_confirm_restore;
 
   /// 连接失败
   ///
@@ -967,11 +1309,35 @@ abstract class L10n {
   /// **'已复制到剪贴板'**
   String get knode_app_copied_to_clipboard;
 
+  /// 复制
+  ///
+  /// In zh, this message translates to:
+  /// **'复制'**
+  String get knode_app_copy;
+
+  /// 当前存储路径
+  ///
+  /// In zh, this message translates to:
+  /// **'当前存储路径'**
+  String get knode_app_current_storage_path;
+
   /// 已自定义
   ///
   /// In zh, this message translates to:
   /// **'已自定义'**
   String get knode_app_custom;
+
+  /// 自定义...
+  ///
+  /// In zh, this message translates to:
+  /// **'自定义...'**
+  String get knode_app_custom_label;
+
+  /// 每天
+  ///
+  /// In zh, this message translates to:
+  /// **'每天'**
+  String get knode_app_daily;
 
   /// 每日卡片
   ///
@@ -979,11 +1345,83 @@ abstract class L10n {
   /// **'每日卡片'**
   String get knode_app_daily_card;
 
+  /// 每天
+  ///
+  /// In zh, this message translates to:
+  /// **'每天'**
+  String get knode_app_daily_label;
+
+  /// 每日一测已开始，请切换到[测验]标签查看
+  ///
+  /// In zh, this message translates to:
+  /// **'每日一测已开始，请切换到[测验]标签查看'**
+  String get knode_app_daily_quiz_started;
+
   /// 深色模式
   ///
   /// In zh, this message translates to:
   /// **'深色模式'**
   String get knode_app_dark_mode;
+
+  /// 正在解压...
+  ///
+  /// In zh, this message translates to:
+  /// **'正在解压...'**
+  String get knode_app_decompressing;
+
+  /// 删除
+  ///
+  /// In zh, this message translates to:
+  /// **'删除'**
+  String get knode_app_delete;
+
+  /// 确定删除此备份？
+  ///
+  /// In zh, this message translates to:
+  /// **'确定删除此备份？'**
+  String get knode_app_delete_backup_confirm;
+
+  /// 删除失败
+  ///
+  /// In zh, this message translates to:
+  /// **'删除失败'**
+  String get knode_app_delete_failed;
+
+  /// 说明
+  ///
+  /// In zh, this message translates to:
+  /// **'说明'**
+  String get knode_app_description;
+
+  /// 下载失败
+  ///
+  /// In zh, this message translates to:
+  /// **'下载失败'**
+  String get knode_app_download_failed;
+
+  /// 下载
+  ///
+  /// In zh, this message translates to:
+  /// **'下载'**
+  String get knode_app_download_label;
+
+  /// 正在下载...
+  ///
+  /// In zh, this message translates to:
+  /// **'正在下载...'**
+  String get knode_app_downloading;
+
+  /// 启用微服务
+  ///
+  /// In zh, this message translates to:
+  /// **'启用微服务'**
+  String get knode_app_enable_micro_server;
+
+  /// 开启后可通过浏览器访问
+  ///
+  /// In zh, this message translates to:
+  /// **'开启后可通过浏览器访问'**
+  String get knode_app_enable_micro_server_desc;
 
   /// 错误
   ///
@@ -1008,6 +1446,12 @@ abstract class L10n {
   /// In zh, this message translates to:
   /// **'导出文件包含自定义提示词'**
   String get knode_app_export_warning;
+
+  /// 收藏夹
+  ///
+  /// In zh, this message translates to:
+  /// **'收藏夹'**
+  String get knode_app_favorites;
 
   /// 反馈
   ///
@@ -1044,6 +1488,24 @@ abstract class L10n {
   /// In zh, this message translates to:
   /// **'字体大小'**
   String get knode_app_font_size;
+
+  /// 字号
+  ///
+  /// In zh, this message translates to:
+  /// **'字号'**
+  String get knode_app_font_size_label;
+
+  /// 获取备份列表失败
+  ///
+  /// In zh, this message translates to:
+  /// **'获取备份列表失败'**
+  String get knode_app_get_backup_list_failed;
+
+  /// 仅支持 .gguf 格式文件
+  ///
+  /// In zh, this message translates to:
+  /// **'仅支持 .gguf 格式文件'**
+  String get knode_app_gguf_only;
 
   /// 首页
   ///
@@ -1105,6 +1567,18 @@ abstract class L10n {
   /// **'JSON 格式错误'**
   String get knode_app_invalid_json;
 
+  /// 保留备份数量
+  ///
+  /// In zh, this message translates to:
+  /// **'保留备份数量'**
+  String get knode_app_keep_backup_count;
+
+  /// 自动清理时保留最近 {n} 个备份
+  ///
+  /// In zh, this message translates to:
+  /// **'自动清理时保留最近 {n} 个备份'**
+  String knode_app_keep_backup_desc(String n);
+
   /// 语言
   ///
   /// In zh, this message translates to:
@@ -1123,11 +1597,29 @@ abstract class L10n {
   /// **'浅色模式'**
   String get knode_app_light_mode;
 
+  /// 行距
+  ///
+  /// In zh, this message translates to:
+  /// **'行距'**
+  String get knode_app_line_spacing;
+
   /// 加载失败
   ///
   /// In zh, this message translates to:
   /// **'加载失败'**
   String get knode_app_load_failed;
+
+  /// 加载
+  ///
+  /// In zh, this message translates to:
+  /// **'加载'**
+  String get knode_app_load_label;
+
+  /// 已加载
+  ///
+  /// In zh, this message translates to:
+  /// **'已加载'**
+  String get knode_app_loaded;
 
   /// 加载中...
   ///
@@ -1141,6 +1633,150 @@ abstract class L10n {
   /// **'本地模型'**
   String get knode_app_local_model;
 
+  /// 本地模型
+  ///
+  /// In zh, this message translates to:
+  /// **'本地模型'**
+  String get knode_app_local_model_label;
+
+  /// 全部
+  ///
+  /// In zh, this message translates to:
+  /// **'全部'**
+  String get knode_app_log_all;
+
+  /// 清空日志
+  ///
+  /// In zh, this message translates to:
+  /// **'清空日志'**
+  String get knode_app_log_clear;
+
+  /// 确定要清空所有日志文件吗？此操作不可恢复。
+  ///
+  /// In zh, this message translates to:
+  /// **'确定要清空所有日志文件吗？此操作不可恢复。'**
+  String get knode_app_log_clear_confirm;
+
+  /// 日志已清空
+  ///
+  /// In zh, this message translates to:
+  /// **'日志已清空'**
+  String get knode_app_log_clear_success;
+
+  /// 已复制到剪贴板
+  ///
+  /// In zh, this message translates to:
+  /// **'已复制到剪贴板'**
+  String get knode_app_log_copied;
+
+  /// 日志详情
+  ///
+  /// In zh, this message translates to:
+  /// **'日志详情'**
+  String get knode_app_log_detail;
+
+  /// 错误信息
+  ///
+  /// In zh, this message translates to:
+  /// **'错误信息'**
+  String get knode_app_log_error_info;
+
+  /// 导出日志
+  ///
+  /// In zh, this message translates to:
+  /// **'导出日志'**
+  String get knode_app_log_export;
+
+  /// 日志已导出
+  ///
+  /// In zh, this message translates to:
+  /// **'日志已导出'**
+  String get knode_app_log_export_success;
+
+  /// 级别
+  ///
+  /// In zh, this message translates to:
+  /// **'级别'**
+  String get knode_app_log_level;
+
+  /// 暂无日志
+  ///
+  /// In zh, this message translates to:
+  /// **'暂无日志'**
+  String get knode_app_log_no_logs;
+
+  /// 搜索
+  ///
+  /// In zh, this message translates to:
+  /// **'搜索'**
+  String get knode_app_log_search;
+
+  /// 搜索日志...
+  ///
+  /// In zh, this message translates to:
+  /// **'搜索日志...'**
+  String get knode_app_log_search_hint;
+
+  /// 堆栈跟踪
+  ///
+  /// In zh, this message translates to:
+  /// **'堆栈跟踪'**
+  String get knode_app_log_stack_trace;
+
+  /// 日志查看器
+  ///
+  /// In zh, this message translates to:
+  /// **'日志查看器'**
+  String get knode_app_log_viewer;
+
+  /// 手动
+  ///
+  /// In zh, this message translates to:
+  /// **'手动'**
+  String get knode_app_manual;
+
+  /// 手动操作
+  ///
+  /// In zh, this message translates to:
+  /// **'手动操作'**
+  String get knode_app_manual_operation;
+
+  /// 手动操作
+  ///
+  /// In zh, this message translates to:
+  /// **'手动操作'**
+  String get knode_app_manual_operations;
+
+  /// 修改并迁移
+  ///
+  /// In zh, this message translates to:
+  /// **'修改并迁移'**
+  String get knode_app_migrate_and_change;
+
+  /// 将存储路径修改为:\n{path}\n\n是否迁移已有文件？
+  ///
+  /// In zh, this message translates to:
+  /// **'将存储路径修改为:\\n{path}\\n\\n是否迁移已有文件？'**
+  String knode_app_migrate_files_confirm(String path);
+
+  /// 已迁移 {n} 个文件
+  ///
+  /// In zh, this message translates to:
+  /// **'已迁移 {n} 个文件'**
+  String knode_app_migrated_n_files(String n);
+
+  /// 迁移失败
+  ///
+  /// In zh, this message translates to:
+  /// **'迁移失败'**
+  String get knode_app_migration_failed;
+
+  /// 镜像 "{key}" 不存在
+  ///
+  /// In zh, this message translates to:
+  /// **'镜像 \"{key}\" 不存在'**
+  String knode_app_mirror_not_found(String key);
+
   /// 模型卡片
   ///
   /// In zh, this message translates to:
@@ -1153,17 +1789,83 @@ abstract class L10n {
   /// **'模型下载'**
   String get knode_app_model_download;
 
+  /// 模型
+  ///
+  /// In zh, this message translates to:
+  /// **'模型'**
+  String get knode_app_model_label;
+
+  /// 模型
+  ///
+  /// In zh, this message translates to:
+  /// **'模型'**
+  String get knode_app_model_name_label;
+
   /// 模型仓库地址
   ///
   /// In zh, this message translates to:
   /// **'模型仓库地址'**
   String get knode_app_model_repo_url;
 
+  /// 模型仓库地址
+  ///
+  /// In zh, this message translates to:
+  /// **'模型仓库地址'**
+  String get knode_app_model_repo_url_label;
+
+  /// 修改存储路径
+  ///
+  /// In zh, this message translates to:
+  /// **'修改存储路径'**
+  String get knode_app_modify_storage_path;
+
+  /// （多选）
+  ///
+  /// In zh, this message translates to:
+  /// **'（多选）'**
+  String get knode_app_multiple_choice_suffix;
+
+  /// 夜间模式
+  ///
+  /// In zh, this message translates to:
+  /// **'夜间模式'**
+  String get knode_app_night_mode;
+
+  /// 暂无备份记录
+  ///
+  /// In zh, this message translates to:
+  /// **'暂无备份记录'**
+  String get knode_app_no_backups;
+
+  /// 没有可用的备份
+  ///
+  /// In zh, this message translates to:
+  /// **'没有可用的备份'**
+  String get knode_app_no_backups_available;
+
+  /// 不清理
+  ///
+  /// In zh, this message translates to:
+  /// **'不清理'**
+  String get knode_app_no_cleanup;
+
   /// 没有自定义模板可导出
   ///
   /// In zh, this message translates to:
   /// **'没有自定义模板可导出'**
   String get knode_app_no_custom_templates;
+
+  /// 无下载源
+  ///
+  /// In zh, this message translates to:
+  /// **'无下载源'**
+  String get knode_app_no_download_source;
+
+  /// 暂无考试记录
+  ///
+  /// In zh, this message translates to:
+  /// **'暂无考试记录'**
+  String get knode_app_no_exam_records;
 
   /// 暂无模型
   ///
@@ -1177,11 +1879,23 @@ abstract class L10n {
   /// **'暂无模板'**
   String get knode_app_no_templates;
 
+  /// 未作答
+  ///
+  /// In zh, this message translates to:
+  /// **'未作答'**
+  String get knode_app_not_answered;
+
   /// 通知
   ///
   /// In zh, this message translates to:
   /// **'通知'**
   String get knode_app_notification;
+
+  /// 选项:
+  ///
+  /// In zh, this message translates to:
+  /// **'选项:'**
+  String get knode_app_options_label;
 
   /// 原始模板
   ///
@@ -1195,11 +1909,35 @@ abstract class L10n {
   /// **'原始模板已有变更'**
   String get knode_app_original_template_changed;
 
+  /// 正在打包文件...
+  ///
+  /// In zh, this message translates to:
+  /// **'正在打包文件...'**
+  String get knode_app_packing_files;
+
+  /// 密码
+  ///
+  /// In zh, this message translates to:
+  /// **'密码'**
+  String get knode_app_password;
+
+  /// 仅修改路径
+  ///
+  /// In zh, this message translates to:
+  /// **'仅修改路径'**
+  String get knode_app_path_only;
+
   /// 个人抽屉
   ///
   /// In zh, this message translates to:
   /// **'个人抽屉'**
   String get knode_app_personal_drawer;
+
+  /// 端口号
+  ///
+  /// In zh, this message translates to:
+  /// **'端口号'**
+  String get knode_app_port;
 
   /// 隐私政策
   ///
@@ -1291,6 +2029,12 @@ abstract class L10n {
   /// **'快捷卡片'**
   String get knode_app_quick_card;
 
+  /// 速记已开始，请切换到[测验]标签查看
+  ///
+  /// In zh, this message translates to:
+  /// **'速记已开始，请切换到[测验]标签查看'**
+  String get knode_app_quiz_started_switch_tab;
+
   /// 评价应用
   ///
   /// In zh, this message translates to:
@@ -1327,16 +2071,64 @@ abstract class L10n {
   /// **'重置成功'**
   String get knode_app_reset_success;
 
+  /// 恢复
+  ///
+  /// In zh, this message translates to:
+  /// **'恢复'**
+  String get knode_app_restore;
+
+  /// 恢复
+  ///
+  /// In zh, this message translates to:
+  /// **'恢复'**
+  String get knode_app_restore_btn;
+
+  /// 恢复完成
+  ///
+  /// In zh, this message translates to:
+  /// **'恢复完成'**
+  String get knode_app_restore_complete;
+
+  /// 确定恢复到此备份版本？当前数据将被覆盖
+  ///
+  /// In zh, this message translates to:
+  /// **'确定恢复到此备份版本？当前数据将被覆盖'**
+  String get knode_app_restore_confirm;
+
+  /// 恢复将覆盖当前数据，是否继续？
+  ///
+  /// In zh, this message translates to:
+  /// **'恢复将覆盖当前数据，是否继续？'**
+  String get knode_app_restore_confirm_msg;
+
+  /// 恢复数据
+  ///
+  /// In zh, this message translates to:
+  /// **'恢复数据'**
+  String get knode_app_restore_data;
+
+  /// 恢复失败
+  ///
+  /// In zh, this message translates to:
+  /// **'恢复失败'**
+  String get knode_app_restore_failed;
+
+  /// 重试
+  ///
+  /// In zh, this message translates to:
+  /// **'重试'**
+  String get knode_app_retry;
+
   /// 保存
   ///
   /// In zh, this message translates to:
   /// **'保存'**
   String get knode_app_save;
 
-  /// 模板已保存
+  /// 已保存
   ///
   /// In zh, this message translates to:
-  /// **'模板已保存'**
+  /// **'已保存'**
   String get knode_app_save_success;
 
   /// 成绩卡片
@@ -1351,6 +2143,12 @@ abstract class L10n {
   /// **'搜索 API Key'**
   String get knode_app_search_api_key;
 
+  /// 选择恢复版本
+  ///
+  /// In zh, this message translates to:
+  /// **'选择恢复版本'**
+  String get knode_app_select_restore_version;
+
   /// 选择搜索服务商
   ///
   /// In zh, this message translates to:
@@ -1362,6 +2160,12 @@ abstract class L10n {
   /// In zh, this message translates to:
   /// **'服务设置'**
   String get knode_app_server_settings;
+
+  /// 服务商
+  ///
+  /// In zh, this message translates to:
+  /// **'服务商'**
+  String get knode_app_service_provider;
 
   /// 设置
   ///
@@ -1375,11 +2179,59 @@ abstract class L10n {
   /// **'分享'**
   String get knode_app_share;
 
+  /// 知维应用日志
+  ///
+  /// In zh, this message translates to:
+  /// **'知维应用日志'**
+  String get knode_app_share_logs_subject;
+
+  /// 跳过内存兼容性检查
+  ///
+  /// In zh, this message translates to:
+  /// **'跳过内存兼容性检查'**
+  String get knode_app_skip_memory_check;
+
+  /// 显示所有模型，不根据设备内存过滤
+  ///
+  /// In zh, this message translates to:
+  /// **'显示所有模型，不根据设备内存过滤'**
+  String get knode_app_skip_memory_check_desc;
+
   /// 声音
   ///
   /// In zh, this message translates to:
   /// **'声音'**
   String get knode_app_sound;
+
+  /// 源文件不存在: {path}
+  ///
+  /// In zh, this message translates to:
+  /// **'源文件不存在: {path}'**
+  String knode_app_source_not_found(String path);
+
+  /// 开始练习
+  ///
+  /// In zh, this message translates to:
+  /// **'开始练习'**
+  String get knode_app_start_practice;
+
+  /// 新文档将保存到新位置
+  ///
+  /// In zh, this message translates to:
+  /// **'新文档将保存到新位置'**
+  String get knode_app_storage_migration_hint_1;
+
+  /// 迁移会将已有 .md 文件复制到新目录
+  ///
+  /// In zh, this message translates to:
+  /// **'迁移会将已有 .md 文件复制到新目录'**
+  String get knode_app_storage_migration_hint_2;
+
+  /// 原文件不会被删除，请手动清理
+  ///
+  /// In zh, this message translates to:
+  /// **'原文件不会被删除，请手动清理'**
+  String get knode_app_storage_migration_hint_3;
 
   /// 存储路径
   ///
@@ -1392,6 +2244,12 @@ abstract class L10n {
   /// In zh, this message translates to:
   /// **'管理知识库文件存储位置'**
   String get knode_app_storage_path_subtitle;
+
+  /// 存储路径已更新
+  ///
+  /// In zh, this message translates to:
+  /// **'存储路径已更新'**
+  String get knode_app_storage_path_updated;
 
   /// 存储设置
   ///
@@ -1411,11 +2269,29 @@ abstract class L10n {
   /// **'成功'**
   String get knode_app_success;
 
+  /// 请切换到[测验]标签查看考试历史
+  ///
+  /// In zh, this message translates to:
+  /// **'请切换到[测验]标签查看考试历史'**
+  String get knode_app_switch_to_quiz_tab;
+
   /// 跟随系统
   ///
   /// In zh, this message translates to:
   /// **'跟随系统'**
   String get knode_app_system_default;
+
+  /// 点击开始练习
+  ///
+  /// In zh, this message translates to:
+  /// **'点击开始练习'**
+  String get knode_app_tap_to_start;
+
+  /// 测试连接
+  ///
+  /// In zh, this message translates to:
+  /// **'测试连接'**
+  String get knode_app_test_connection;
 
   /// 测试中...
   ///
@@ -1428,6 +2304,24 @@ abstract class L10n {
   /// In zh, this message translates to:
   /// **'主题'**
   String get knode_app_theme;
+
+  /// 上传失败
+  ///
+  /// In zh, this message translates to:
+  /// **'上传失败'**
+  String get knode_app_upload_failed;
+
+  /// 正在上传...
+  ///
+  /// In zh, this message translates to:
+  /// **'正在上传...'**
+  String get knode_app_uploading;
+
+  /// 账号
+  ///
+  /// In zh, this message translates to:
+  /// **'账号'**
+  String get knode_app_user;
 
   /// 变量
   ///
@@ -1447,6 +2341,24 @@ abstract class L10n {
   /// **'振动'**
   String get knode_app_vibration;
 
+  /// 查看日志
+  ///
+  /// In zh, this message translates to:
+  /// **'查看日志'**
+  String get knode_app_view_logs;
+
+  /// 查看运行日志、错误记录
+  ///
+  /// In zh, this message translates to:
+  /// **'查看运行日志、错误记录'**
+  String get knode_app_view_operation_logs_and_error_records;
+
+  /// 查看原文
+  ///
+  /// In zh, this message translates to:
+  /// **'查看原文'**
+  String get knode_app_view_source;
+
   /// 联网搜索
   ///
   /// In zh, this message translates to:
@@ -1465,11 +2377,29 @@ abstract class L10n {
   /// **'WebDAV'**
   String get knode_app_webdav;
 
+  /// WebDAV 未配置
+  ///
+  /// In zh, this message translates to:
+  /// **'WebDAV 未配置'**
+  String get knode_app_webdav_not_configured;
+
   /// WebDAV / 本地备份
   ///
   /// In zh, this message translates to:
   /// **'WebDAV / 本地备份'**
   String get knode_app_webdav_subtitle;
+
+  /// 每周
+  ///
+  /// In zh, this message translates to:
+  /// **'每周'**
+  String get knode_app_weekly;
+
+  /// 每周
+  ///
+  /// In zh, this message translates to:
+  /// **'每周'**
+  String get knode_app_weekly_label;
 
   /// 错题卡片
   ///
@@ -1711,6 +2641,12 @@ abstract class L10n {
   /// **'答案'**
   String get quiz_answer;
 
+  /// 已答 {current}/{total} 题
+  ///
+  /// In zh, this message translates to:
+  /// **'已答 {current}/{total} 题'**
+  String quiz_answered_n_of_m(String current, String total);
+
   /// 已完成
   ///
   /// In zh, this message translates to:
@@ -1867,6 +2803,18 @@ abstract class L10n {
   /// **'困难'**
   String get quiz_hard;
 
+  /// 输入答案
+  ///
+  /// In zh, this message translates to:
+  /// **'输入答案'**
+  String get quiz_input_answer;
+
+  /// 输入你的回答...
+  ///
+  /// In zh, this message translates to:
+  /// **'输入你的回答...'**
+  String get quiz_input_your_answer;
+
   /// 继续加油！
   ///
   /// In zh, this message translates to:
@@ -1981,6 +2929,24 @@ abstract class L10n {
   /// **'暂无错题，继续保持！'**
   String get quiz_no_wrong_questions_keep_it_up;
 
+  /// 未作答
+  ///
+  /// In zh, this message translates to:
+  /// **'未作答'**
+  String get quiz_not_answered;
+
+  /// 选项
+  ///
+  /// In zh, this message translates to:
+  /// **'选项'**
+  String get quiz_options;
+
+  /// 选项:
+  ///
+  /// In zh, this message translates to:
+  /// **'选项:'**
+  String get quiz_options_label;
+
   /// 请在 main.dart 中覆盖
   ///
   /// In zh, this message translates to:
@@ -2040,6 +3006,12 @@ abstract class L10n {
   /// In zh, this message translates to:
   /// **'题目数量'**
   String get quiz_question_count;
+
+  /// 第 {current}/{total} 题
+  ///
+  /// In zh, this message translates to:
+  /// **'第 {current}/{total} 题'**
+  String quiz_question_n_of_m(String current, String total);
 
   /// 出题范围
   ///
@@ -2317,11 +3289,23 @@ abstract class L10n {
   /// **'你的答案'**
   String get quiz_your_answer;
 
+  /// 添加书签
+  ///
+  /// In zh, this message translates to:
+  /// **'添加书签'**
+  String get wiki_add_bookmark;
+
   /// 添加类目
   ///
   /// In zh, this message translates to:
   /// **'添加类目'**
   String get wiki_add_category;
+
+  /// 添加类目功能开发中
+  ///
+  /// In zh, this message translates to:
+  /// **'添加类目功能开发中'**
+  String get wiki_add_category_in_dev;
 
   /// 添加引用
   ///
@@ -2329,11 +3313,29 @@ abstract class L10n {
   /// **'添加引用'**
   String get wiki_add_citation;
 
+  /// 添加高亮
+  ///
+  /// In zh, this message translates to:
+  /// **'添加高亮'**
+  String get wiki_add_highlight;
+
   /// 添加标签
   ///
   /// In zh, this message translates to:
   /// **'添加标签'**
   String get wiki_add_tag;
+
+  /// AI 讲解
+  ///
+  /// In zh, this message translates to:
+  /// **'AI 讲解'**
+  String get wiki_ai_explanation;
+
+  /// AI 讲解失败
+  ///
+  /// In zh, this message translates to:
+  /// **'AI 讲解失败'**
+  String get wiki_ai_explanation_failed;
 
   /// 全部知识
   ///
@@ -2347,6 +3349,24 @@ abstract class L10n {
   /// **'自动为新文档生成标签'**
   String get wiki_auto_generate_tags;
 
+  /// 已自动保存
+  ///
+  /// In zh, this message translates to:
+  /// **'已自动保存'**
+  String get wiki_auto_saved;
+
+  /// 背景色
+  ///
+  /// In zh, this message translates to:
+  /// **'背景色'**
+  String get wiki_background;
+
+  /// 书签
+  ///
+  /// In zh, this message translates to:
+  /// **'书签'**
+  String get wiki_bookmark;
+
   /// 取消
   ///
   /// In zh, this message translates to:
@@ -2358,6 +3378,12 @@ abstract class L10n {
   /// In zh, this message translates to:
   /// **'类目'**
   String get wiki_category;
+
+  /// 类目名称
+  ///
+  /// In zh, this message translates to:
+  /// **'类目名称'**
+  String get wiki_category_name;
 
   /// 类目面板
   ///
@@ -2383,11 +3409,29 @@ abstract class L10n {
   /// **'引用弹窗'**
   String get wiki_citation_popup;
 
+  /// 关闭
+  ///
+  /// In zh, this message translates to:
+  /// **'关闭'**
+  String get wiki_close;
+
   /// 确认
   ///
   /// In zh, this message translates to:
   /// **'确认'**
   String get wiki_confirm;
+
+  /// 已复制到剪贴板
+  ///
+  /// In zh, this message translates to:
+  /// **'已复制到剪贴板'**
+  String get wiki_copied_to_clipboard;
+
+  /// 复制
+  ///
+  /// In zh, this message translates to:
+  /// **'复制'**
+  String get wiki_copy;
 
   /// 创建节点
   ///
@@ -2400,6 +3444,18 @@ abstract class L10n {
   /// In zh, this message translates to:
   /// **'删除'**
   String get wiki_delete;
+
+  /// 删除类目
+  ///
+  /// In zh, this message translates to:
+  /// **'删除类目'**
+  String get wiki_delete_category;
+
+  /// 确定删除「{name}」？子类目将移至根目录。
+  ///
+  /// In zh, this message translates to:
+  /// **'确定删除「{name}」？子类目将移至根目录。'**
+  String wiki_delete_category_confirm(String name);
 
   /// 删除文档
   ///
@@ -2424,6 +3480,12 @@ abstract class L10n {
   /// In zh, this message translates to:
   /// **'编辑类目'**
   String get wiki_edit_category;
+
+  /// 编辑类目功能开发中
+  ///
+  /// In zh, this message translates to:
+  /// **'编辑类目功能开发中'**
+  String get wiki_edit_category_in_dev;
 
   /// 编辑文档
   ///
@@ -2461,6 +3523,42 @@ abstract class L10n {
   /// **'导出文档'**
   String get wiki_export_document;
 
+  /// 功能开发中
+  ///
+  /// In zh, this message translates to:
+  /// **'功能开发中'**
+  String get wiki_feature_in_development;
+
+  /// 字号
+  ///
+  /// In zh, this message translates to:
+  /// **'字号'**
+  String get wiki_font_size;
+
+  /// 生成题目
+  ///
+  /// In zh, this message translates to:
+  /// **'生成题目'**
+  String get wiki_generate_question;
+
+  /// 生成的题目
+  ///
+  /// In zh, this message translates to:
+  /// **'生成的题目'**
+  String get wiki_generated_questions;
+
+  /// 正在生成 AI 讲解...
+  ///
+  /// In zh, this message translates to:
+  /// **'正在生成 AI 讲解...'**
+  String get wiki_generating_ai_explanation;
+
+  /// 正在生成题目...
+  ///
+  /// In zh, this message translates to:
+  /// **'正在生成题目...'**
+  String get wiki_generating_questions;
+
   /// 图谱画布
   ///
   /// In zh, this message translates to:
@@ -2484,6 +3582,12 @@ abstract class L10n {
   /// In zh, this message translates to:
   /// **'图谱节点'**
   String get wiki_graph_node;
+
+  /// 高亮
+  ///
+  /// In zh, this message translates to:
+  /// **'高亮'**
+  String get wiki_highlight;
 
   /// 灵感
   ///
@@ -2515,6 +3619,12 @@ abstract class L10n {
   /// **'知识地图'**
   String get wiki_knowledge_map;
 
+  /// 行距
+  ///
+  /// In zh, this message translates to:
+  /// **'行距'**
+  String get wiki_line_spacing;
+
   /// 加载中...
   ///
   /// In zh, this message translates to:
@@ -2527,17 +3637,47 @@ abstract class L10n {
   /// **'管理类目'**
   String get wiki_manage_categories;
 
+  /// 移动到
+  ///
+  /// In zh, this message translates to:
+  /// **'移动到'**
+  String get wiki_move_to;
+
   /// 新建文档
   ///
   /// In zh, this message translates to:
   /// **'新建文档'**
   String get wiki_new_document;
 
+  /// 夜间模式
+  ///
+  /// In zh, this message translates to:
+  /// **'夜间模式'**
+  String get wiki_night_mode;
+
+  /// 暂无书签
+  ///
+  /// In zh, this message translates to:
+  /// **'暂无书签'**
+  String get wiki_no_bookmarks;
+
+  /// 暂无类目
+  ///
+  /// In zh, this message translates to:
+  /// **'暂无类目'**
+  String get wiki_no_categories;
+
   /// 暂无文档
   ///
   /// In zh, this message translates to:
   /// **'暂无文档'**
   String get wiki_no_documents;
+
+  /// 暂无高亮
+  ///
+  /// In zh, this message translates to:
+  /// **'暂无高亮'**
+  String get wiki_no_highlights;
 
   /// 暂无标签
   ///
@@ -2550,6 +3690,18 @@ abstract class L10n {
   /// In zh, this message translates to:
   /// **'节点名称'**
   String get wiki_node_name;
+
+  /// 备注
+  ///
+  /// In zh, this message translates to:
+  /// **'备注'**
+  String get wiki_note;
+
+  /// 笔记文档
+  ///
+  /// In zh, this message translates to:
+  /// **'笔记文档'**
+  String get wiki_note_document;
 
   /// 笔记
   ///
@@ -2569,17 +3721,89 @@ abstract class L10n {
   /// **'PDF 导出'**
   String get wiki_pdf_export;
 
+  /// 题目生成失败
+  ///
+  /// In zh, this message translates to:
+  /// **'题目生成失败'**
+  String get wiki_question_generation_failed;
+
   /// 阅读器
   ///
   /// In zh, this message translates to:
   /// **'阅读器'**
   String get wiki_reader;
 
+  /// 问问AI
+  ///
+  /// In zh, this message translates to:
+  /// **'问问AI'**
+  String get wiki_reader_ask_ai;
+
+  /// 书签
+  ///
+  /// In zh, this message translates to:
+  /// **'书签'**
+  String get wiki_reader_bookmark;
+
+  /// 浏览器搜索
+  ///
+  /// In zh, this message translates to:
+  /// **'浏览器搜索'**
+  String get wiki_reader_browser_search;
+
+  /// 复制
+  ///
+  /// In zh, this message translates to:
+  /// **'复制'**
+  String get wiki_reader_copy;
+
+  /// 字典
+  ///
+  /// In zh, this message translates to:
+  /// **'字典'**
+  String get wiki_reader_dictionary;
+
+  /// 全文搜索
+  ///
+  /// In zh, this message translates to:
+  /// **'全文搜索'**
+  String get wiki_reader_full_text_search;
+
+  /// 划重点
+  ///
+  /// In zh, this message translates to:
+  /// **'划重点'**
+  String get wiki_reader_highlight_note;
+
+  /// 知识库搜索
+  ///
+  /// In zh, this message translates to:
+  /// **'知识库搜索'**
+  String get wiki_reader_kb_search;
+
+  /// 朗读
+  ///
+  /// In zh, this message translates to:
+  /// **'朗读'**
+  String get wiki_reader_read_aloud;
+
   /// 阅读器工具栏
   ///
   /// In zh, this message translates to:
   /// **'阅读器工具栏'**
   String get wiki_reader_toolbar;
+
+  /// 重命名
+  ///
+  /// In zh, this message translates to:
+  /// **'重命名'**
+  String get wiki_rename;
+
+  /// 重命名类目
+  ///
+  /// In zh, this message translates to:
+  /// **'重命名类目'**
+  String get wiki_rename_category;
 
   /// 重置标签
   ///
@@ -2592,6 +3816,12 @@ abstract class L10n {
   /// In zh, this message translates to:
   /// **'确定重置标签？AI 生成的标签将被清除'**
   String get wiki_reset_tags_confirm;
+
+  /// 根目录
+  ///
+  /// In zh, this message translates to:
+  /// **'根目录'**
+  String get wiki_root_directory;
 
   /// 保存
   ///
@@ -2610,6 +3840,12 @@ abstract class L10n {
   /// In zh, this message translates to:
   /// **'学习资料'**
   String get wiki_study_materials;
+
+  /// 样式
+  ///
+  /// In zh, this message translates to:
+  /// **'样式'**
+  String get wiki_style;
 
   /// 摘要
   ///
@@ -2647,6 +3883,12 @@ abstract class L10n {
   /// **'标签'**
   String get wiki_tags;
 
+  /// 点击选择
+  ///
+  /// In zh, this message translates to:
+  /// **'点击选择'**
+  String get wiki_tap_to_select;
+
   /// 文字转语音
   ///
   /// In zh, this message translates to:
@@ -2658,6 +3900,18 @@ abstract class L10n {
   /// In zh, this message translates to:
   /// **'朗读'**
   String get wiki_tts;
+
+  /// 下划线
+  ///
+  /// In zh, this message translates to:
+  /// **'下划线'**
+  String get wiki_underline;
+
+  /// 查看原文
+  ///
+  /// In zh, this message translates to:
+  /// **'查看原文'**
+  String get wiki_view_source;
 
   /// 知识库
   ///

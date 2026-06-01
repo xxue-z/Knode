@@ -206,7 +206,7 @@ class _CloudConfigFormState extends ConsumerState<CloudConfigForm> {
         value: v.vendor,
         child: Text(v.vendor),
       )),
-      const DropdownMenuItem(
+      DropdownMenuItem(
         value: '__custom__',
         child: Text(_strings.knode_app_custom_label),
       ),
@@ -227,9 +227,9 @@ class _CloudConfigFormState extends ConsumerState<CloudConfigForm> {
     if (_isCustomVendor) {
       return DropdownButtonFormField<String>(
         value: _apiSpec,
-        decoration: const InputDecoration(
+        decoration: InputDecoration(
           labelText: _strings.knode_app_api_protocol,
-          border: OutlineInputBorder(),
+          border: const OutlineInputBorder(),
         ),
         items: const [
           DropdownMenuItem(value: 'openai', child: Text('OpenAI Compatible')),

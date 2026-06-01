@@ -1,4 +1,5 @@
-﻿﻿id,en,zh
+id,en,zh
+delete,Delete,删除
 home,Home,首页
 settings,Settings,设置
 ai_settings,AI Settings,AI 设置
@@ -81,7 +82,7 @@ reset_all_confirm,All custom content will be lost continue?,所有自定义内�
 reset_success,Reset successful,重置成功
 variables,Variables,变量
 prompt_edit_hint,Edit prompt template...,编辑提示词模板...
-save_success,Template saved,模板已保存
+save_success,saved,已保存
 import_json_hint,Paste JSON content here,在此粘贴 JSON 内容
 export_success,Exported successfully,导出成功
 original_template_changed,Original template has changed,原始模板已有变更
@@ -130,7 +131,6 @@ delete_failed,Delete failed,删除失败
 user,User,账号
 password,Password,密码
 test_connection,Test Connection,测试连接
-save_success,Saved,已保存
 backup_frequency,Backup Frequency,备份频率
 manual_operation,Manual Operation,手动操作
 backup_now,Backup Now,立即备份
@@ -170,9 +170,9 @@ description,Description,说明
 enable_micro_server,Enable Micro Server,启用微服务
 enable_micro_server_desc,Access via browser when enabled,开启后可通过浏览器访问
 port,Port,端口号
-switch_to_quiz_tab,Switch to Quiz tab to view exam history,请切换到"测验"标签查看考试历史
+switch_to_quiz_tab,Switch to Quiz tab to view exam history,请切换到[测验]标签查看考试历史
 no_exam_records,No exam records,暂无考试记录
-quiz_started_switch_tab,Quiz started, switch to Quiz tab,速记已开始，请切换到"测验"标签查看
+quiz_started_switch_tab,"Quiz started, switch to Quiz tab","速记已开始，请切换到[测验]标签查看"
 available_memory_label,Available Memory,可用内存
 model_repo_url_label,Model Repository URL,模型仓库地址
 load_label,Load,加载
@@ -193,7 +193,7 @@ weekly_label,Weekly,每周
 local_model_label,Local Model,本地模型
 cloud_api_label,Cloud API,云端 API
 cloud_model_repo_url_label,Cloud Model Repository URL,云模型仓库地址
-daily_quiz_started,Daily quiz started, switch to Quiz tab,每日一测已开始，请切换到"测验"标签查看
+daily_quiz_started,"Daily quiz started, switch to Quiz tab","每日一测已开始，请切换到[测验]标签查看"
 tap_to_start,Tap to start,点击开始练习
 start_practice,Start Practice,开始练习
 favorites,Favorites,收藏夹

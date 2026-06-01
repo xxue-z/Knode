@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:core/models/local_model.dart';
 import 'package:core/providers/model_provider.dart';
 import 'package:core/providers/settings_provider.dart';
 import 'package:core/services/model_download_service.dart';
@@ -93,7 +92,7 @@ class _ModelDownloadPageState extends ConsumerState<ModelDownloadPage> {
             actions: [
               TextButton(
                 onPressed: () => Navigator.pop(context, false),
-                child: Text(_strings.cancel),
+                child: Text(_strings.knode_app_cancel),
               ),
               FilledButton(
                 onPressed: () => Navigator.pop(context, true),
@@ -110,13 +109,13 @@ class _ModelDownloadPageState extends ConsumerState<ModelDownloadPage> {
       await ref.read(modelListProvider.notifier).importLocalModel(filePath);
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(_strings.import_success), backgroundColor: Colors.green),
+          SnackBar(content: Text(_strings.knode_app_import_success), backgroundColor: Colors.green),
         );
       }
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('${_strings.import_failed}: $e'), backgroundColor: Colors.red),
+          SnackBar(content: Text('${_strings.knode_app_import_failed}: $e'), backgroundColor: Colors.red),
         );
       }
     }
@@ -135,7 +134,7 @@ class _ModelDownloadPageState extends ConsumerState<ModelDownloadPage> {
     final modelsAsync = ref.watch(modelListProvider);
 
     return Scaffold(
-      appBar: AppBar(title: Text(_strings.model_download), centerTitle: true),
+      appBar: AppBar(title: Text(_strings.knode_app_model_download), centerTitle: true),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
@@ -153,8 +152,8 @@ class _ModelDownloadPageState extends ConsumerState<ModelDownloadPage> {
 
           // 跳过内存检查开关
           SwitchListTile(
-            title: Text(_strings.skip_memory_check),
-            subtitle: Text(_strings.skip_memory_check_desc),
+            title: Text(_strings.knode_app_skip_memory_check),
+            subtitle: Text(_strings.knode_app_skip_memory_check_desc),
             value: _skipMemoryCheck,
             dense: true,
             contentPadding: EdgeInsets.zero,
@@ -174,7 +173,7 @@ class _ModelDownloadPageState extends ConsumerState<ModelDownloadPage> {
                 child: TextField(
                   controller: _repoUrlController,
                   decoration: InputDecoration(
-                    labelText: _strings.model_repo_url,
+                    labelText: _strings.knode_app_model_repo_url,
                     border: const OutlineInputBorder(),
                     isDense: true,
                   ),
@@ -183,7 +182,7 @@ class _ModelDownloadPageState extends ConsumerState<ModelDownloadPage> {
               const SizedBox(width: 8),
               FilledButton(
                 onPressed: _fetchModels,
-                child: Text(_strings.fetch),
+                child: Text(_strings.knode_app_fetch),
               ),
             ],
           ),
@@ -195,7 +194,7 @@ class _ModelDownloadPageState extends ConsumerState<ModelDownloadPage> {
             child: OutlinedButton.icon(
               onPressed: _importLocalModel,
               icon: const Icon(Icons.file_upload_outlined),
-              label: Text(_strings.import_local_model),
+              label: Text(_strings.knode_app_import_local_model),
             ),
           ),
           const SizedBox(height: 16),
@@ -243,7 +242,7 @@ class _ModelDownloadPageState extends ConsumerState<ModelDownloadPage> {
               );
             },
             loading: () => const Center(child: CircularProgressIndicator()),
-            error: (e, _) => Center(child: Text('${_strings.load_failed}: $e')),
+            error: (e, _) => Center(child: Text('${_strings.knode_app_load_failed}: $e')),
           ),
         ],
       ),
@@ -263,14 +262,14 @@ class _ModelDownloadPageState extends ConsumerState<ModelDownloadPage> {
             ),
             const SizedBox(height: 16),
             Text(
-              _strings.no_models,
+              _strings.knode_app_no_models,
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
               ),
             ),
             const SizedBox(height: 8),
             Text(
-              _strings.fetch_or_import_hint,
+              _strings.knode_app_fetch_or_import_hint,
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
                 color: Theme.of(context).colorScheme.onSurfaceVariant.withValues(alpha: 0.6),
               ),

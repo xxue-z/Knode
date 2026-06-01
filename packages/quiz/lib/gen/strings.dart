@@ -46,6 +46,15 @@ mixin class L10nStringsMixin {
   /// 答案
   String get quiz_answer => LocalizeStringDelegate.get('quiz_answer');
 
+  /// 已答 {current}&#x2F;{total} 题
+  String quiz_answered_n_of_m({
+    required String current,
+    required String total,
+  }) => LocalizeStringDelegate.get(
+    'quiz_answered_n_of_m',
+    arguments: [current, total],
+  );
+
   /// 已完成
   String get quiz_completed => LocalizeStringDelegate.get('quiz_completed');
 
@@ -139,6 +148,14 @@ mixin class L10nStringsMixin {
   /// 困难
   String get quiz_hard => LocalizeStringDelegate.get('quiz_hard');
 
+  /// 输入答案
+  String get quiz_input_answer =>
+      LocalizeStringDelegate.get('quiz_input_answer');
+
+  /// 输入你的回答...
+  String get quiz_input_your_answer =>
+      LocalizeStringDelegate.get('quiz_input_your_answer');
+
   /// 继续加油！
   String get quiz_keep_going => LocalizeStringDelegate.get('quiz_keep_going');
 
@@ -208,6 +225,17 @@ mixin class L10nStringsMixin {
   String get quiz_no_wrong_questions_keep_it_up =>
       LocalizeStringDelegate.get('quiz_no_wrong_questions_keep_it_up');
 
+  /// 未作答
+  String get quiz_not_answered =>
+      LocalizeStringDelegate.get('quiz_not_answered');
+
+  /// 选项
+  String get quiz_options => LocalizeStringDelegate.get('quiz_options');
+
+  /// 选项:
+  String get quiz_options_label =>
+      LocalizeStringDelegate.get('quiz_options_label');
+
   /// 请在 main.dart 中覆盖
   String get quiz_please_override_in_main_dart =>
       LocalizeStringDelegate.get('quiz_please_override_in_main_dart');
@@ -245,6 +273,15 @@ mixin class L10nStringsMixin {
   /// 题目数量
   String get quiz_question_count =>
       LocalizeStringDelegate.get('quiz_question_count');
+
+  /// 第 {current}&#x2F;{total} 题
+  String quiz_question_n_of_m({
+    required String current,
+    required String total,
+  }) => LocalizeStringDelegate.get(
+    'quiz_question_n_of_m',
+    arguments: [current, total],
+  );
 
   /// 出题范围
   String get quiz_question_scope =>
@@ -418,14 +455,4 @@ mixin class L10nStringsMixin {
 
   /// 你的答案
   String get quiz_your_answer => LocalizeStringDelegate.get('quiz_your_answer');
-
-  String get quiz_options_label => LocalizeStringDelegate.get('quiz_options_label');
-  String quiz_question_n_of_m({required String current, required String total}) =>
-      LocalizeStringDelegate.get('quiz_question_n_of_m', arguments: [current, total]);
-  String quiz_answered_n_of_m({required String current, required String total}) =>
-      LocalizeStringDelegate.get('quiz_answered_n_of_m', arguments: [current, total]);
-  String get quiz_input_answer => LocalizeStringDelegate.get('quiz_input_answer');
-  String get quiz_input_your_answer => LocalizeStringDelegate.get('quiz_input_your_answer');
-  String get quiz_not_answered => LocalizeStringDelegate.get('quiz_not_answered');
-  String get quiz_options => LocalizeStringDelegate.get('quiz_options');
 }
