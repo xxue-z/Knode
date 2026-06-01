@@ -1,10 +1,11 @@
-﻿import 'dart:io';
+import 'dart:io';
 import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:path/path.dart' as p;
 import 'package:crypto/crypto.dart';
 import 'dart:convert';
 import 'package:core/models/local_model.dart';
+import 'package:core/utils/device_utils.dart';
 
 class DownloadProgress {
   final double percent;
@@ -148,6 +149,28 @@ class ModelDownloadService {
         .where((f) => f.path.endsWith('.gguf') && !f.path.endsWith('.download'))
         .map((f) => p.basenameWithoutExtension(f.path))
         .toList();
+  }
+
+  /// 根据设备内存过滤模型列表。
+  ///
+  /// 规则：模型的 minRam 不超过设备总内存的 80%。
+  /// 返回过滤后的列表；如果 [skipCheck] 为 true，直接返回原始列表。
+  ///
+  /// [models] 原始模型列表
+  /// [totalMemoryGB] 设备总内存（GB）
+  /// [skipCheck] 是否跳过检查
+  static List<LocalModel> filterModelsByRam({
+    required List<LocalModel> models,
+    required double totalMemoryGB,
+    bool skipCheck = false,
+  }) {
+    if (skipCheck || totalMemoryGB <= 0) return models;
+
+    return models.where((model) {
+      final requiredGB = DeviceUtils.parseRamString(model.minRam);
+      if (requiredGB <= 0) return true;
+      return requiredGB <= totalMemoryGB * 0.8;
+    }).toList();
   }
 
   void dispose() {

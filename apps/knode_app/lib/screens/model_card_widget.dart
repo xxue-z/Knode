@@ -9,6 +9,7 @@ final _strings = const L10nStringsMixin();
 /// 根据 [LocalModel.status] 动态渲染背景色、操作按钮、进度动画。
 class ModelCardWidget extends StatelessWidget {
   final LocalModel model;
+  final bool isIncompatible;
   final void Function(String mirrorKey)? onDownload;
   final VoidCallback? onCancel;
   final VoidCallback? onLoad;
@@ -18,6 +19,7 @@ class ModelCardWidget extends StatelessWidget {
   const ModelCardWidget({
     super.key,
     required this.model,
+    this.isIncompatible = false,
     this.onDownload,
     this.onCancel,
     this.onLoad,
@@ -28,92 +30,92 @@ class ModelCardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final isIncompatibleAndNotDownloaded = isIncompatible && model.status == ModelStatus.notDownloaded;
 
-    return Card(
-      elevation: 2,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      clipBehavior: Clip.antiAlias,
-      child: Container(
-        decoration: BoxDecoration(
-          color: _backgroundColor(isDark),
-        ),
-        child: Stack(
-          children: [
-            // 下载进度条背景动画
-            if (model.status == ModelStatus.downloading)
-              Positioned.fill(
-                child: FractionallySizedBox(
-                  alignment: Alignment.centerLeft,
-                  widthFactor: model.downloadProgress,
-                  child: Container(
-                    color: (isDark ? const Color(0xFF2E7D32) : const Color(0xFF4CAF50))
-                        .withValues(alpha: isDark ? 0.5 : 0.3),
+    return Opacity(
+      opacity: isIncompatibleAndNotDownloaded ? 0.6 : 1.0,
+      child: Card(
+        elevation: 2,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        clipBehavior: Clip.antiAlias,
+        child: Container(
+          decoration: BoxDecoration(
+            color: _backgroundColor(isDark),
+          ),
+          child: Stack(
+            children: [
+              if (model.status == ModelStatus.downloading)
+                Positioned.fill(
+                  child: FractionallySizedBox(
+                    alignment: Alignment.centerLeft,
+                    widthFactor: model.downloadProgress,
+                    child: Container(
+                      color: (isDark ? const Color(0xFF2E7D32) : const Color(0xFF4CAF50))
+                          .withValues(alpha: isDark ? 0.5 : 0.3),
+                    ),
                   ),
                 ),
-              ),
-            // 卡片内容
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildTitleRow(context, isDark),
-                  const SizedBox(height: 4),
-                  _buildDescription(context, isDark),
-                  const SizedBox(height: 8),
-                  _buildTags(context, isDark),
-                  const SizedBox(height: 12),
-                  _buildActionRow(context, isDark),
-                  if (model.status == ModelStatus.loadFailed &&
-                      model.errorMessage != null) ...[
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildTitleRow(context, isDark),
+                    const SizedBox(height: 4),
+                    _buildDescription(context, isDark),
                     const SizedBox(height: 8),
-                    Text(
-                      model.errorMessage!,
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: isDark ? Colors.red[200] : Colors.red[700],
+                    _buildTags(context, isDark),
+                    const SizedBox(height: 12),
+                    _buildActionRow(context, isDark),
+                    if (model.status == ModelStatus.loadFailed &&
+                        model.errorMessage != null) ...[
+                      const SizedBox(height: 8),
+                      Text(
+                        model.errorMessage!,
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: isDark ? Colors.red[200] : Colors.red[700],
+                        ),
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+              if (model.status == ModelStatus.downloading)
+                Positioned.fill(
+                  child: Center(
+                    child: Text(
+                      '${(model.downloadProgress * 100).toStringAsFixed(0)}%',
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
                       ),
                     ),
-                  ],
-                ],
-              ),
-            ),
-            // 下载中百分比文字
-            if (model.status == ModelStatus.downloading)
-              Positioned.fill(
-                child: Center(
-                  child: Text(
-                    '${(model.downloadProgress * 100).toStringAsFixed(0)}%',
-                    style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
+                  ),
+                ),
+              if (model.status == ModelStatus.loaded)
+                Positioned(
+                  top: 8,
+                  left: 8,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.primary,
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                    child: Text(
+                      '使用中',
+                      style: TextStyle(
+                        fontSize: 10,
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).colorScheme.onPrimary,
+                      ),
                     ),
                   ),
                 ),
-              ),
-            // 「使用中」徽章
-            if (model.status == ModelStatus.loaded)
-              Positioned(
-                top: 8,
-                left: 8,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.primary,
-                    borderRadius: BorderRadius.circular(4),
-                  ),
-                  child: Text(
-                    '使用中',
-                    style: TextStyle(
-                      fontSize: 10,
-                      fontWeight: FontWeight.bold,
-                      color: Theme.of(context).colorScheme.onPrimary,
-                    ),
-                  ),
-                ),
-              ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -122,6 +124,9 @@ class ModelCardWidget extends StatelessWidget {
   Color _backgroundColor(bool isDark) {
     switch (model.status) {
       case ModelStatus.notDownloaded:
+        if (isIncompatible) {
+          return isDark ? const Color(0xFF3E3E3E) : const Color(0xFFE0E0E0);
+        }
         return isDark ? const Color(0xFF2C2C2C) : const Color(0xFFF5F5F5);
       case ModelStatus.downloading:
         return isDark ? const Color(0xFF2C2C2C) : const Color(0xFFF5F5F5);
@@ -165,7 +170,11 @@ class ModelCardWidget extends StatelessWidget {
     final tags = <String>[];
     if (model.quantization.isNotEmpty) tags.add(model.quantization);
     if (model.size.isNotEmpty) tags.add(model.size);
-    if (model.minRam.isNotEmpty) tags.add('需 ${model.minRam} RAM');
+    if (model.minRam.isNotEmpty) tags.add(_strings.core_model_requires_ram(minRam: model.minRam));
+
+    if (isIncompatible && model.status == ModelStatus.notDownloaded) {
+      tags.add(_strings.core_model_not_compatible);
+    }
 
     if (tags.isEmpty) return const SizedBox.shrink();
 
@@ -242,6 +251,19 @@ class ModelCardWidget extends StatelessWidget {
   }
 
   Widget _buildDownloadButtons() {
+    if (isIncompatible && model.status == ModelStatus.notDownloaded) {
+      return Align(
+        alignment: Alignment.centerRight,
+        child: Tooltip(
+          message: _strings.core_memory_insufficient,
+          child: FilledButton.tonal(
+            onPressed: null,
+            child: Text(_strings.core_memory_insufficient),
+          ),
+        ),
+      );
+    }
+
     final urls = model.downloadUrls;
     if (urls.isEmpty) {
       return const Align(

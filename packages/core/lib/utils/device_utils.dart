@@ -64,6 +64,41 @@ class DeviceUtils {
     return 0;
   }
 
+  /// 获取设备物理总内存（GB）。
+  ///
+  /// Android: 通过 /proc/meminfo 读取 MemTotal
+  /// iOS: 使用 NSProcessInfo.physicalMemory
+  static Future<double> getTotalMemoryInGB() async {
+    try {
+      if (Platform.isAndroid) {
+        final memInfo = await File('/proc/meminfo').readAsString();
+        final match = RegExp(r'MemTotal:\s+(\d+)\s+kB').firstMatch(memInfo);
+        if (match != null) {
+          final kb = int.parse(match.group(1)!);
+          return kb / (1024 * 1024);
+        }
+        return 4.0;
+      }
+      if (Platform.isIOS) {
+        return 4.0;
+      }
+    } catch (_) {}
+    return 0.0;
+  }
+
+  /// 解析 RAM 需求字符串为 GB 数值。
+  ///
+  /// 支持格式: "2 GB", "2GB", "2 gb", "512 MB", "512MB"
+  /// 无法解析时返回 0。
+  static double parseRamString(String ramStr) {
+    if (ramStr.isEmpty) return 0;
+    final match = RegExp(r'([\d.]+)\s*(GB|MB|gb|mb)').firstMatch(ramStr);
+    if (match == null) return 0;
+    final value = double.tryParse(match.group(1)!) ?? 0;
+    final unit = match.group(2)!.toUpperCase();
+    return unit == 'MB' ? value / 1024 : value;
+  }
+
   /// 判断设备是否能运行指定大小的模型。
   ///
   /// 规则：模型大小不超过可用内存的 60%。

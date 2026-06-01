@@ -961,6 +961,12 @@ abstract class L10n {
   /// **'连接成功'**
   String get knode_app_connection_success;
 
+  /// 已复制到剪贴板
+  ///
+  /// In zh, this message translates to:
+  /// **'已复制到剪贴板'**
+  String get knode_app_copied_to_clipboard;
+
   /// 已自定义
   ///
   /// In zh, this message translates to:
@@ -1045,6 +1051,12 @@ abstract class L10n {
   /// **'首页'**
   String get knode_app_home;
 
+  /// 成功导入 {count} 个模板
+  ///
+  /// In zh, this message translates to:
+  /// **'成功导入 {count} 个模板'**
+  String knode_app_import_count(String count);
+
   /// 导入数据
   ///
   /// In zh, this message translates to:
@@ -1056,6 +1068,12 @@ abstract class L10n {
   /// In zh, this message translates to:
   /// **'导入失败'**
   String get knode_app_import_failed;
+
+  /// 从文件导入
+  ///
+  /// In zh, this message translates to:
+  /// **'从文件导入'**
+  String get knode_app_import_file;
 
   /// 在此粘贴 JSON 内容
   ///
@@ -1141,6 +1159,12 @@ abstract class L10n {
   /// **'模型仓库地址'**
   String get knode_app_model_repo_url;
 
+  /// 没有自定义模板可导出
+  ///
+  /// In zh, this message translates to:
+  /// **'没有自定义模板可导出'**
+  String get knode_app_no_custom_templates;
+
   /// 暂无模型
   ///
   /// In zh, this message translates to:
@@ -1195,6 +1219,18 @@ abstract class L10n {
   /// **'编辑提示词模板...'**
   String get knode_app_prompt_edit_hint;
 
+  /// 阅卷评分
+  ///
+  /// In zh, this message translates to:
+  /// **'阅卷评分'**
+  String get knode_app_prompt_grader;
+
+  /// 意图分析
+  ///
+  /// In zh, this message translates to:
+  /// **'意图分析'**
+  String get knode_app_prompt_intent;
+
   /// 提示词管理
   ///
   /// In zh, this message translates to:
@@ -1206,6 +1242,48 @@ abstract class L10n {
   /// In zh, this message translates to:
   /// **'管理 AI 提示词模板'**
   String get knode_app_prompt_management_subtitle;
+
+  /// 阶段考试
+  ///
+  /// In zh, this message translates to:
+  /// **'阶段考试'**
+  String get knode_app_prompt_periodic_exam;
+
+  /// 变种出题
+  ///
+  /// In zh, this message translates to:
+  /// **'变种出题'**
+  String get knode_app_prompt_question_variant;
+
+  /// 出题生成
+  ///
+  /// In zh, this message translates to:
+  /// **'出题生成'**
+  String get knode_app_prompt_quiz_gen;
+
+  /// RAG 问答
+  ///
+  /// In zh, this message translates to:
+  /// **'RAG 问答'**
+  String get knode_app_prompt_rag_qa;
+
+  /// 联网搜索
+  ///
+  /// In zh, this message translates to:
+  /// **'联网搜索'**
+  String get knode_app_prompt_search;
+
+  /// 摘要生成
+  ///
+  /// In zh, this message translates to:
+  /// **'摘要生成'**
+  String get knode_app_prompt_summary;
+
+  /// 标签生成
+  ///
+  /// In zh, this message translates to:
+  /// **'标签生成'**
+  String get knode_app_prompt_tag_gen;
 
   /// 快捷卡片
   ///
@@ -1236,6 +1314,12 @@ abstract class L10n {
   /// In zh, this message translates to:
   /// **'恢复默认'**
   String get knode_app_reset_override;
+
+  /// 将此模板恢复为默认值？
+  ///
+  /// In zh, this message translates to:
+  /// **'将此模板恢复为默认值？'**
+  String get knode_app_reset_single_confirm;
 
   /// 重置成功
   ///
@@ -1380,6 +1464,12 @@ abstract class L10n {
   /// In zh, this message translates to:
   /// **'WebDAV'**
   String get knode_app_webdav;
+
+  /// WebDAV / 本地备份
+  ///
+  /// In zh, this message translates to:
+  /// **'WebDAV / 本地备份'**
+  String get knode_app_webdav_subtitle;
 
   /// 错题卡片
   ///

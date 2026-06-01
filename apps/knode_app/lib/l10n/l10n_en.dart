@@ -456,6 +456,9 @@ class L10nEn extends L10n {
   String get knode_app_connection_success => 'Connection Success';
 
   @override
+  String get knode_app_copied_to_clipboard => 'Copied to clipboard';
+
+  @override
   String get knode_app_custom => 'Custom';
 
   @override
@@ -501,10 +504,18 @@ class L10nEn extends L10n {
   String get knode_app_home => 'Home';
 
   @override
+  String knode_app_import_count(String count) {
+    return 'Successfully imported $count templates';
+  }
+
+  @override
   String get knode_app_import_data => 'Import Data';
 
   @override
   String get knode_app_import_failed => 'Import failed';
+
+  @override
+  String get knode_app_import_file => 'Import from file';
 
   @override
   String get knode_app_import_json_hint => 'Paste JSON content here';
@@ -549,6 +560,9 @@ class L10nEn extends L10n {
   String get knode_app_model_repo_url => 'Model Repository URL';
 
   @override
+  String get knode_app_no_custom_templates => 'No custom templates to export';
+
+  @override
   String get knode_app_no_models => 'No models';
 
   @override
@@ -577,11 +591,38 @@ class L10nEn extends L10n {
   String get knode_app_prompt_edit_hint => 'Edit prompt template...';
 
   @override
+  String get knode_app_prompt_grader => 'Grader';
+
+  @override
+  String get knode_app_prompt_intent => 'Intent Analyzer';
+
+  @override
   String get knode_app_prompt_management => 'Prompt Management';
 
   @override
   String get knode_app_prompt_management_subtitle =>
       'Manage AI prompt templates';
+
+  @override
+  String get knode_app_prompt_periodic_exam => 'Periodic Exam';
+
+  @override
+  String get knode_app_prompt_question_variant => 'Question Variant';
+
+  @override
+  String get knode_app_prompt_quiz_gen => 'Quiz Generator';
+
+  @override
+  String get knode_app_prompt_rag_qa => 'RAG Q&A';
+
+  @override
+  String get knode_app_prompt_search => 'Search Agent';
+
+  @override
+  String get knode_app_prompt_summary => 'Summarizer';
+
+  @override
+  String get knode_app_prompt_tag_gen => 'Tag Generator';
 
   @override
   String get knode_app_quick_card => 'Quick Card';
@@ -598,6 +639,10 @@ class L10nEn extends L10n {
 
   @override
   String get knode_app_reset_override => 'Reset to Default';
+
+  @override
+  String get knode_app_reset_single_confirm =>
+      'Reset this template to default?';
 
   @override
   String get knode_app_reset_success => 'Reset successful';
@@ -671,6 +716,9 @@ class L10nEn extends L10n {
 
   @override
   String get knode_app_webdav => 'WebDAV';
+
+  @override
+  String get knode_app_webdav_subtitle => 'WebDAV / Local Backup';
 
   @override
   String get knode_app_wrong_card => 'Wrong Card';

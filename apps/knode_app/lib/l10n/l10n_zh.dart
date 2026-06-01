@@ -444,6 +444,9 @@ class L10nZh extends L10n {
   String get knode_app_connection_success => '连接成功';
 
   @override
+  String get knode_app_copied_to_clipboard => '已复制到剪贴板';
+
+  @override
   String get knode_app_custom => '已自定义';
 
   @override
@@ -486,10 +489,18 @@ class L10nZh extends L10n {
   String get knode_app_home => '首页';
 
   @override
+  String knode_app_import_count(String count) {
+    return '成功导入 $count 个模板';
+  }
+
+  @override
   String get knode_app_import_data => '导入数据';
 
   @override
   String get knode_app_import_failed => '导入失败';
+
+  @override
+  String get knode_app_import_file => '从文件导入';
 
   @override
   String get knode_app_import_json_hint => '在此粘贴 JSON 内容';
@@ -534,6 +545,9 @@ class L10nZh extends L10n {
   String get knode_app_model_repo_url => '模型仓库地址';
 
   @override
+  String get knode_app_no_custom_templates => '没有自定义模板可导出';
+
+  @override
   String get knode_app_no_models => '暂无模型';
 
   @override
@@ -561,10 +575,37 @@ class L10nZh extends L10n {
   String get knode_app_prompt_edit_hint => '编辑提示词模板...';
 
   @override
+  String get knode_app_prompt_grader => '阅卷评分';
+
+  @override
+  String get knode_app_prompt_intent => '意图分析';
+
+  @override
   String get knode_app_prompt_management => '提示词管理';
 
   @override
   String get knode_app_prompt_management_subtitle => '管理 AI 提示词模板';
+
+  @override
+  String get knode_app_prompt_periodic_exam => '阶段考试';
+
+  @override
+  String get knode_app_prompt_question_variant => '变种出题';
+
+  @override
+  String get knode_app_prompt_quiz_gen => '出题生成';
+
+  @override
+  String get knode_app_prompt_rag_qa => 'RAG 问答';
+
+  @override
+  String get knode_app_prompt_search => '联网搜索';
+
+  @override
+  String get knode_app_prompt_summary => '摘要生成';
+
+  @override
+  String get knode_app_prompt_tag_gen => '标签生成';
 
   @override
   String get knode_app_quick_card => '快捷卡片';
@@ -580,6 +621,9 @@ class L10nZh extends L10n {
 
   @override
   String get knode_app_reset_override => '恢复默认';
+
+  @override
+  String get knode_app_reset_single_confirm => '将此模板恢复为默认值？';
 
   @override
   String get knode_app_reset_success => '重置成功';
@@ -652,6 +696,9 @@ class L10nZh extends L10n {
 
   @override
   String get knode_app_webdav => 'WebDAV';
+
+  @override
+  String get knode_app_webdav_subtitle => 'WebDAV / 本地备份';
 
   @override
   String get knode_app_wrong_card => '错题卡片';

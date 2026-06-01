@@ -1,4 +1,6 @@
-﻿import 'package:flutter/material.dart';
+import 'dart:io';
+
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:core/models/cloud_vendor.dart';
@@ -30,6 +32,8 @@ class _AiSettingsPageState extends ConsumerState<AiSettingsPage> {
   List<CloudVendor> _cloudVendors = [];
   bool _isLoadingVendors = false;
   int _availableMemory = 0;
+  double _totalMemoryGB = 0;
+  bool _skipMemoryCheck = false;
   String _searchProvider = 'Tavily';
   String _searchApiKey = '';
   String _testResult = '';
@@ -55,6 +59,7 @@ class _AiSettingsPageState extends ConsumerState<AiSettingsPage> {
     final settings = ref.read(settingsProvider).valueOrNull ?? {};
     setState(() {
       _isCloudMode = (settings['ai_type'] ?? 'cloud') == 'cloud';
+      _skipMemoryCheck = settings['skip_memory_check'] == 'true';
       if (settings['model_repo_url']?.isNotEmpty == true) {
         _repoUrlController.text = settings['model_repo_url']!;
       }
@@ -62,13 +67,18 @@ class _AiSettingsPageState extends ConsumerState<AiSettingsPage> {
         _cloudRepoUrlController.text = settings['cloud_vendor_repo_url']!;
       }
     });
-    // 加载云端厂商缓存
     _loadCachedVendors();
   }
 
   Future<void> _loadMemory() async {
     final mem = await DeviceUtils.getAvailableMemory();
-    if (mounted) setState(() => _availableMemory = mem);
+    final totalGB = await DeviceUtils.getTotalMemoryInGB();
+    if (mounted) {
+      setState(() {
+        _availableMemory = mem;
+        _totalMemoryGB = totalGB;
+      });
+    }
   }
 
   Future<void> _loadCachedVendors() async {
@@ -123,6 +133,43 @@ class _AiSettingsPageState extends ConsumerState<AiSettingsPage> {
 
     final filePath = result.files.first.path;
     if (filePath == null) return;
+
+    final file = File(filePath);
+    final fileSizeMB = await file.length() / (1024 * 1024);
+
+    final settings = ref.read(settingsProvider).valueOrNull ?? {};
+    final skipCheck = settings['skip_memory_check'] == 'true';
+
+    if (!skipCheck) {
+      final totalMemoryGB = await DeviceUtils.getTotalMemoryInGB();
+      final isCompatible = fileSizeMB <= totalMemoryGB * 1024 * 0.6;
+
+      if (!isCompatible && mounted) {
+        final proceed = await showDialog<bool>(
+          context: context,
+          builder: (_) => AlertDialog(
+            title: Text(_strings.core_memory_insufficient),
+            content: Text(
+              _strings.core_model_may_not_run(
+                size: '${fileSizeMB.toStringAsFixed(0)} MB',
+                mem: '${totalMemoryGB.toStringAsFixed(1)} GB',
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context, false),
+                child: Text(_strings.knode_app_cancel),
+              ),
+              FilledButton(
+                onPressed: () => Navigator.pop(context, true),
+                child: Text(_strings.core_continue_import),
+              ),
+            ],
+          ),
+        );
+        if (proceed != true) return;
+      }
+    }
 
     try {
       await ref.read(modelListProvider.notifier).importLocalModel(filePath);
@@ -251,7 +298,6 @@ class _AiSettingsPageState extends ConsumerState<AiSettingsPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // 仓库地址输入框 + 获取按钮
         Row(
           children: [
             Expanded(
@@ -259,7 +305,7 @@ class _AiSettingsPageState extends ConsumerState<AiSettingsPage> {
                 controller: _repoUrlController,
                 decoration: InputDecoration(
                   labelText: _strings.knode_app_model_repo_url,
-                  border: OutlineInputBorder(),
+                  border: const OutlineInputBorder(),
                   isDense: true,
                 ),
               ),
@@ -273,7 +319,6 @@ class _AiSettingsPageState extends ConsumerState<AiSettingsPage> {
         ),
         const SizedBox(height: 12),
 
-        // 导入本地模型按钮
         SizedBox(
           width: double.infinity,
           child: OutlinedButton.icon(
@@ -284,50 +329,68 @@ class _AiSettingsPageState extends ConsumerState<AiSettingsPage> {
         ),
         const SizedBox(height: 16),
 
-        // 设备内存信息
-        if (_availableMemory > 0)
+        if (_totalMemoryGB > 0)
           Padding(
-            padding: const EdgeInsets.only(bottom: 12),
+            padding: const EdgeInsets.only(bottom: 8),
             child: Text(
-              _strings.knode_app_available_memory(memory: '$_availableMemory'),
+              '${_strings.core_total_memory}: ${_totalMemoryGB.toStringAsFixed(1)} GB  |  ${_strings.core_available_memory}: $_availableMemory MB',
               style: Theme.of(context).textTheme.bodySmall?.copyWith(
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
               ),
             ),
           ),
 
-        // 模型列表
+        SwitchListTile(
+          title: Text(_strings.skip_memory_check),
+          subtitle: Text(_strings.skip_memory_check_desc),
+          value: _skipMemoryCheck,
+          dense: true,
+          contentPadding: EdgeInsets.zero,
+          onChanged: (value) async {
+            setState(() => _skipMemoryCheck = value);
+            await ref.read(settingsProvider.notifier).set(
+              'skip_memory_check', value.toString(),
+            );
+          },
+        ),
+        const SizedBox(height: 8),
+
         modelsAsync.when(
           data: (models) {
             if (models.isEmpty) {
               return _buildEmptyState();
             }
             return Column(
-              children: models.map((model) => Padding(
-                padding: const EdgeInsets.only(bottom: 8),
-                child: ModelCardWidget(
-                  model: model,
-                  onDownload: (mirrorKey) {
-                    ref.read(modelListProvider.notifier).startDownload(model, mirrorKey);
-                  },
-                  onCancel: () {
-                    ref.read(modelListProvider.notifier).cancelDownload();
-                  },
-                  onLoad: () {
-                    ref.read(modelListProvider.notifier).loadModel(model);
-                  },
-                  onDelete: () {
-                    ref.read(modelListProvider.notifier).deleteModel(model);
-                  },
-                  onRetry: () {
-                    // 重试：重新下载第一个可用镜像
-                    final key = model.downloadUrls.keys.firstOrNull;
-                    if (key != null) {
-                      ref.read(modelListProvider.notifier).startDownload(model, key);
-                    }
-                  },
-                ),
-              )).toList(),
+              children: models.map((model) {
+                final isCompatible = _skipMemoryCheck || _isModelCompatible(model);
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 8),
+                  child: ModelCardWidget(
+                    model: model,
+                    isIncompatible: !isCompatible,
+                    onDownload: isCompatible
+                        ? (mirrorKey) {
+                            ref.read(modelListProvider.notifier).startDownload(model, mirrorKey);
+                          }
+                        : null,
+                    onCancel: () {
+                      ref.read(modelListProvider.notifier).cancelDownload();
+                    },
+                    onLoad: () {
+                      ref.read(modelListProvider.notifier).loadModel(model);
+                    },
+                    onDelete: () {
+                      ref.read(modelListProvider.notifier).deleteModel(model);
+                    },
+                    onRetry: () {
+                      final key = model.downloadUrls.keys.firstOrNull;
+                      if (key != null) {
+                        ref.read(modelListProvider.notifier).startDownload(model, key);
+                      }
+                    },
+                  ),
+                );
+              }).toList(),
             );
           },
           loading: () => const Center(child: CircularProgressIndicator()),
@@ -335,6 +398,12 @@ class _AiSettingsPageState extends ConsumerState<AiSettingsPage> {
         ),
       ],
     );
+  }
+
+  bool _isModelCompatible(LocalModel model) {
+    final requiredGB = DeviceUtils.parseRamString(model.minRam);
+    if (requiredGB <= 0) return true;
+    return requiredGB <= _totalMemoryGB * 0.8;
   }
 
   Widget _buildCloudTab() {
