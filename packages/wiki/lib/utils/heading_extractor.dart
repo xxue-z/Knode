@@ -1,4 +1,3 @@
-
 /// 从 Markdown 文本中提取标题列表。
 ///
 /// 每个标题包含：
@@ -19,8 +18,8 @@ class HeadingItem {
 
 class HeadingExtractor {
   /// 提取 Markdown 中的所有标题。
-  static List&lt;HeadingItem&gt; extract(String markdown) {
-    final List&lt;HeadingItem&gt; headings = [];
+  static List<HeadingItem> extract(String markdown) {
+    final List<HeadingItem> headings = [];
     final lines = markdown.split('\n');
     int currentOffset = 0;
 

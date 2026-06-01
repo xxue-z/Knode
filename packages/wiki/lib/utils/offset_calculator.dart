@@ -1,5 +1,3 @@
-
-import 'dart:ui';
 import 'package:flutter/material.dart';
 
 /// 字符偏移量与渲染位置之间的映射计算器。
@@ -11,7 +9,7 @@ class OffsetCalculator {
   final double maxWidth;
 
   late TextPainter _painter;
-  late List&lt;_LineInfo&gt; _lines;
+  late List<_LineInfo> _lines;
   bool _initialized = false;
 
   OffsetCalculator({
@@ -31,16 +29,17 @@ class OffsetCalculator {
     _lines = [];
     int offset = 0;
 
-    for (int i = 0; i &lt; _painter.computeLineMetrics().length; i++) {
-      final line = _painter.computeLineMetrics()[i];
-      final lineText = text.substring(offset, offset + line.end - offset);
+    // 使用简单的行分割方式
+    final lines = text.split('\n');
+    for (int i = 0; i < lines.length; i++) {
+      final lineLength = lines[i].length;
       _lines.add(_LineInfo(
         startOffset: offset,
-        endOffset: line.end,
-        y: line.baseline - line.height + line.descent,
-        height: line.height,
+        endOffset: offset + lineLength,
+        y: i * 20.0, // 简化的行高计算
+        height: 20.0,
       ));
-      offset = line.end;
+      offset += lineLength + 1; // +1 for newline
     }
 
     _initialized = true;
@@ -50,7 +49,7 @@ class OffsetCalculator {
   OffsetResult? offsetToPosition(int offset) {
     if (!_initialized) return null;
     for (final line in _lines) {
-      if (offset &gt;= line.startOffset &amp;&amp; offset &lt; line.endOffset) {
+      if (offset >= line.startOffset && offset < line.endOffset) {
         return OffsetResult(y: line.y, height: line.height);
       }
     }

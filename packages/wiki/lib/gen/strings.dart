@@ -273,4 +273,10 @@ mixin class L10nStringsMixin {
   String get font_size => LocalizeStringDelegate.get('font_size');
   String get line_spacing => LocalizeStringDelegate.get('line_spacing');
   String get wiki_reader_settings => LocalizeStringDelegate.get('wiki_reader_settings');
+  String get wiki_explain_text => LocalizeStringDelegate.get('wiki_explain_text');
+  String get wiki_generate_based => LocalizeStringDelegate.get('wiki_generate_based');
+  String get wiki_please_explain => LocalizeStringDelegate.get('wiki_please_explain');
+  String get wiki_system_prompt_explain => LocalizeStringDelegate.get('wiki_system_prompt_explain');
+  String get wiki_feature_development => LocalizeStringDelegate.get('wiki_feature_development');
+  String get wiki_graph_canvas_pending => LocalizeStringDelegate.get('wiki_graph_canvas_pending');
 }
