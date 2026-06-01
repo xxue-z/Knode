@@ -80,7 +80,7 @@ class _AddAnnotationDialogState extends State<AddAnnotationDialog> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return AlertDialog(
-      title: Text(widget.type == AnnotationType.highlight ? _strings.add_highlight : _strings.add_bookmark),
+      title: Text(widget.type == AnnotationType.highlight ? _strings.wiki_add_highlight : _strings.wiki_add_bookmark),
       content: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -111,7 +111,7 @@ class _AddAnnotationDialogState extends State<AddAnnotationDialog> {
               TextField(
                 controller: _noteController,
                 decoration: InputDecoration(
-                  labelText: _strings.note,
+                  labelText: _strings.wiki_note,
                   border: const OutlineInputBorder(),
                 ),
                 maxLines: 3,
@@ -122,8 +122,8 @@ class _AddAnnotationDialogState extends State<AddAnnotationDialog> {
               TextField(
                 controller: _labelController,
                 decoration: InputDecoration(
-                  labelText: _strings.bookmark,
-                  hintText: _strings.tap_to_select,
+                  labelText: _strings.wiki_bookmark,
+                  hintText: _strings.wiki_tap_to_select,
                   border: const OutlineInputBorder(),
                 ),
               ),
@@ -134,7 +134,7 @@ class _AddAnnotationDialogState extends State<AddAnnotationDialog> {
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context),
-          child: Text(_strings.cancel),
+          child: Text(_strings.wiki_cancel),
         ),
         TextButton(
           onPressed: () {
@@ -147,7 +147,7 @@ class _AddAnnotationDialogState extends State<AddAnnotationDialog> {
               ),
             );
           },
-          child: Text(_strings.confirm),
+          child: Text(_strings.wiki_confirm),
         ),
       ],
     );

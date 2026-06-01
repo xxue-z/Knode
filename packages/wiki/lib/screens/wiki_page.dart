@@ -47,7 +47,7 @@ class _WikiPageState extends State<WikiPage> {
 
   void _showCreateNodeDialog(BuildContext context) {
     final controller = TextEditingController();
-    showDialog(
+    showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
         title: Text(_strings.wiki_create_node),
@@ -81,7 +81,7 @@ class _WikiPageState extends State<WikiPage> {
   }
 
   void _showCategoryManager(BuildContext context) {
-    showModalBottomSheet(
+    showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
       builder: (ctx) => DraggableScrollableSheet(

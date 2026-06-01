@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:quiz/gen/strings.dart';
-import 'package:quiz/providers/quiz_provider.dart';
 import 'package:core/providers/settings_provider.dart';
 
 const _strings = L10nStringsMixin();

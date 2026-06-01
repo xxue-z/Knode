@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:core/models/daily_task_config.dart';
 import 'package:quiz/gen/strings.dart';
@@ -130,7 +130,7 @@ class _DailyConfigPageState extends ConsumerState<DailyConfigPage> {
   }
 
   void _showScopeSelector() {
-    showModalBottomSheet(
+    showModalBottomSheet<void>(
       context: context,
       builder: (_) => SafeArea(
         child: Column(

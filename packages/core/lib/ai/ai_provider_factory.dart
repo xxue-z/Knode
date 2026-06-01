@@ -1,4 +1,3 @@
-﻿import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'ai_provider.dart';
 import 'cloud_ai_provider.dart';
 import 'package:core/database/dao/settings_dao.dart';

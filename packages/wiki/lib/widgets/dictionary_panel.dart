@@ -79,7 +79,7 @@ class _DictionaryPanelState extends ConsumerState<DictionaryPanel> {
                   Icon(Icons.menu_book, color: theme.colorScheme.primary),
                   const SizedBox(width: 8),
                   Text(
-                    _strings.reader_dictionary,
+                    _strings.wiki_reader_dictionary,
                     style: theme.textTheme.titleMedium,
                   ),
                 ],
@@ -122,7 +122,7 @@ class _DictionaryPanelState extends ConsumerState<DictionaryPanel> {
                         height: 20,
                         child: CircularProgressIndicator(strokeWidth: 2),
                       )
-                    : Text(_strings.search),
+                    : Text(_strings.wiki_search),
               ),
             ),
             const SizedBox(height: 16),

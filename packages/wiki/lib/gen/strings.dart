@@ -144,6 +144,10 @@ mixin class L10nStringsMixin {
   /// 错误
   String get wiki_error => LocalizeStringDelegate.get('wiki_error');
 
+  /// 解释
+  String get wiki_explain_text =>
+      LocalizeStringDelegate.get('wiki_explain_text');
+
   /// 导出
   String get wiki_export => LocalizeStringDelegate.get('wiki_export');
 
@@ -151,12 +155,20 @@ mixin class L10nStringsMixin {
   String get wiki_export_document =>
       LocalizeStringDelegate.get('wiki_export_document');
 
+  /// 开发中
+  String get wiki_feature_development =>
+      LocalizeStringDelegate.get('wiki_feature_development');
+
   /// 功能开发中
   String get wiki_feature_in_development =>
       LocalizeStringDelegate.get('wiki_feature_in_development');
 
   /// 字号
   String get wiki_font_size => LocalizeStringDelegate.get('wiki_font_size');
+
+  /// 基于以下内容生成
+  String get wiki_generate_based =>
+      LocalizeStringDelegate.get('wiki_generate_based');
 
   /// 生成题目
   String get wiki_generate_question =>
@@ -177,6 +189,10 @@ mixin class L10nStringsMixin {
   /// 图谱画布
   String get wiki_graph_canvas =>
       LocalizeStringDelegate.get('wiki_graph_canvas');
+
+  /// 图谱画布（开发中）
+  String get wiki_graph_canvas_pending =>
+      LocalizeStringDelegate.get('wiki_graph_canvas_pending');
 
   /// 图谱控制器
   String get wiki_graph_controller =>
@@ -268,6 +284,10 @@ mixin class L10nStringsMixin {
   /// PDF 导出
   String get wiki_pdf_export => LocalizeStringDelegate.get('wiki_pdf_export');
 
+  /// 请解释以下内容
+  String get wiki_please_explain =>
+      LocalizeStringDelegate.get('wiki_please_explain');
+
   /// 题目生成失败
   String get wiki_question_generation_failed =>
       LocalizeStringDelegate.get('wiki_question_generation_failed');
@@ -353,6 +373,10 @@ mixin class L10nStringsMixin {
 
   /// 摘要
   String get wiki_summary => LocalizeStringDelegate.get('wiki_summary');
+
+  /// 你是一个善于清晰解释知识的助手。请以清晰、有条理的方式解释以下内容。
+  String get wiki_system_prompt_explain =>
+      LocalizeStringDelegate.get('wiki_system_prompt_explain');
 
   /// 标签已生成
   String get wiki_tag_generated =>

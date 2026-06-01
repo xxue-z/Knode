@@ -149,7 +149,7 @@ void showCategoryPanel(
   ValueChanged<int?>? onCategorySelected,
   int? selectedCategoryId,
 }) {
-  showDialog(
+  showDialog<bool>(
     context: context,
     barrierDismissible: true,
     barrierColor: Colors.transparent,

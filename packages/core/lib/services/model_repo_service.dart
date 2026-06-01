@@ -56,7 +56,7 @@ class ModelRepoService {
     Object? lastError;
     for (int attempt = 0; attempt < 3; attempt++) {
       try {
-        final resp = await _dio.get(url);
+        final resp = await _dio.get<Map<String, dynamic>>(url);
         if (resp.statusCode == 200) {
           if (resp.data is String) {
             final json = JsonUtils.tryDecodeMap(resp.data as String);
@@ -71,13 +71,13 @@ class ModelRepoService {
         lastError = StateError('请求失败: ${e.message}');
         if (attempt < 2) {
           AppLogger.instance.w('模型仓库请求重试: 第 ${attempt + 1} 次', tag: 'ModelRepo', error: lastError);
-          await Future.delayed(Duration(seconds: (1 << (attempt + 1)))); // 2, 4
+          await Future<void>.delayed(Duration(seconds: (1 << (attempt + 1)))); // 2, 4
         }
       } catch (e) {
         lastError = StateError('请求失败: $e');
         if (attempt < 2) {
           AppLogger.instance.w('模型仓库请求重试: 第 ${attempt + 1} 次', tag: 'ModelRepo', error: lastError);
-          await Future.delayed(Duration(seconds: (1 << (attempt + 1))));
+          await Future<void>.delayed(Duration(seconds: (1 << (attempt + 1))));
         }
       }
     }

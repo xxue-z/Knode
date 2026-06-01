@@ -216,7 +216,7 @@ class _QuizTypeCard extends ConsumerWidget {
       if (context.mounted) {
         Navigator.push(
           context,
-          MaterialPageRoute(
+          MaterialPageRoute<void>(
             builder: (_) => ExamPage(examId: exam.id),
           ),
         );

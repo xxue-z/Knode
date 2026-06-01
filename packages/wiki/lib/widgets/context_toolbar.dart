@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:core/services/app_logger.dart';
-import 'package:wiki/gen/strings.dart';
 
 /// 工具栏菜单项定义。
 class ToolbarMenuItem {

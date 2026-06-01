@@ -1,11 +1,6 @@
-import 'package:quiz/agents/quiz_agent.dart';
-import 'package:quiz/services/question_mixer.dart';
 import 'package:quiz/gen/strings.dart';
 import 'package:core/database/repositories/exam_repository.dart';
-import 'package:core/database/repositories/question_repository.dart';
 import 'package:core/database/dao/question_dao.dart';
-import 'package:core/database/dao/reading_log_dao.dart';
-import 'package:core/database/dao/wrong_question_dao.dart';
 import 'package:core/models/exam.dart';
 import 'package:core/services/notification_service.dart';
 import 'package:core/services/background_service.dart';
@@ -17,36 +12,20 @@ const _strings = L10nStringsMixin();
 /// 使用 workmanager 在月考/季考/年考前一天晚间触发，
 /// 生成 50-80 题并发送通知。
 class PeriodicExamService {
-  final QuizAgent _quizAgent;
   final ExamRepository _examRepo;
-  final QuestionRepository _questionRepo;
   final QuestionDao _questionDao;
-  final ReadingLogDao _readingLogDao;
-  final WrongQuestionDao _wrongDao;
   final NotificationService _notificationService;
   final BackgroundService _backgroundService;
-  final QuestionMixer? _mixer;
 
   PeriodicExamService({
-    required QuizAgent quizAgent,
     required ExamRepository examRepo,
-    required QuestionRepository questionRepo,
     required QuestionDao questionDao,
-    required ReadingLogDao readingLogDao,
-    required WrongQuestionDao wrongDao,
     required NotificationService notificationService,
     required BackgroundService backgroundService,
-    QuestionMixer? mixer,
-  })  : _quizAgent = quizAgent,
-        _examRepo = examRepo,
-        _questionRepo = questionRepo,
+  })  :         _examRepo = examRepo,
         _questionDao = questionDao,
-        _readingLogDao = readingLogDao,
-        _wrongDao = wrongDao,
         _notificationService = notificationService,
-        _backgroundService = backgroundService,
-        _mixer = mixer;
-
+        _backgroundService = backgroundService;
   /// 创建阶段考试。
   ///
   /// 根据考试类型确定出题范围和数量。

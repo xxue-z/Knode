@@ -1,4 +1,10 @@
 id,en,zh
+graph_canvas_pending,Graph Canvas (Coming Soon),图谱画布（开发中）
+feature_development,In Development,开发中
+explain_text,Explain,解释
+generate_based,Generate based on,基于以下内容生成
+please_explain,Please explain,请解释以下内容
+system_prompt_explain,You are a helpful assistant that explains knowledge clearly. Please explain the following content in a clear and organized way.,你是一个善于清晰解释知识的助手。请以清晰、有条理的方式解释以下内容。
 wiki,Wiki,知识库
 knowledge_graph,Knowledge Graph,知识图谱
 document,Document,文档

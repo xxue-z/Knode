@@ -1,4 +1,4 @@
-﻿import 'dart:async';
+import 'dart:async';
 import 'package:crypto/crypto.dart';
 import 'dart:convert';
 import 'package:core/ai/ai_provider.dart';
@@ -84,7 +84,7 @@ class EmbeddingFallbackService {
         if (embedding.isNotEmpty) return embedding;
       } catch (e) {
         if (attempt < 2) {
-          await Future.delayed(Duration(seconds: 2 * (1 << attempt)));
+          await Future<void>.delayed(Duration(seconds: 2 * (1 << attempt)));
         }
       }
     }

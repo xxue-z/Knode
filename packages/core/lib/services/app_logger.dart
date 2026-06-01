@@ -275,7 +275,7 @@ class FileOutput extends LogOutput {
   }
 
   @override
-  void destroy() {
+  Future<void> destroy() async {
     _sink?.flush();
     _sink?.close();
   }

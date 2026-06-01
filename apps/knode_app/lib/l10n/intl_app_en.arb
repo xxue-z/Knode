@@ -2364,6 +2364,10 @@
   "@wiki_error": {
     "description": "错误"
   },
+  "wiki_explain_text": "Explain",
+  "@wiki_explain_text": {
+    "description": "解释"
+  },
   "wiki_export": "Export",
   "@wiki_export": {
     "description": "导出"
@@ -2372,6 +2376,10 @@
   "@wiki_export_document": {
     "description": "导出文档"
   },
+  "wiki_feature_development": "In Development",
+  "@wiki_feature_development": {
+    "description": "开发中"
+  },
   "wiki_feature_in_development": "Feature in development",
   "@wiki_feature_in_development": {
     "description": "功能开发中"
@@ -2379,6 +2387,10 @@
   "wiki_font_size": "Font Size",
   "@wiki_font_size": {
     "description": "字号"
+  },
+  "wiki_generate_based": "Generate based on",
+  "@wiki_generate_based": {
+    "description": "基于以下内容生成"
   },
   "wiki_generate_question": "Generate Question",
   "@wiki_generate_question": {
@@ -2399,6 +2411,10 @@
   "wiki_graph_canvas": "Graph Canvas",
   "@wiki_graph_canvas": {
     "description": "图谱画布"
+  },
+  "wiki_graph_canvas_pending": "Graph Canvas (Coming Soon)",
+  "@wiki_graph_canvas_pending": {
+    "description": "图谱画布（开发中）"
   },
   "wiki_graph_controller": "Graph Controller",
   "@wiki_graph_controller": {
@@ -2504,6 +2520,10 @@
   "@wiki_pdf_export": {
     "description": "PDF 导出"
   },
+  "wiki_please_explain": "Please explain",
+  "@wiki_please_explain": {
+    "description": "请解释以下内容"
+  },
   "wiki_question_generation_failed": "Question generation failed",
   "@wiki_question_generation_failed": {
     "description": "题目生成失败"
@@ -2599,6 +2619,10 @@
   "wiki_summary": "Summary",
   "@wiki_summary": {
     "description": "摘要"
+  },
+  "wiki_system_prompt_explain": "You are a helpful assistant that explains knowledge clearly. Please explain the following content in a clear and organized way.",
+  "@wiki_system_prompt_explain": {
+    "description": "你是一个善于清晰解释知识的助手。请以清晰、有条理的方式解释以下内容。"
   },
   "wiki_tag_generated": "Tags generated",
   "@wiki_tag_generated": {

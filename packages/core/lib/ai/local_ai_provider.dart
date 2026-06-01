@@ -1,4 +1,4 @@
-﻿import 'dart:convert';
+import 'dart:convert';
 import 'package:llama_cpp_dart/llama_cpp_dart.dart';
 import 'ai_provider.dart';
 import 'package:core/gen/strings.dart';
@@ -37,7 +37,7 @@ class LocalAIProvider implements AIProvider {
   Future<String> _prompt(String systemPrompt, String userPrompt) async {
     _ensureLoaded();
     // 将消息格式化为提示词
-    final prompt = 'System: $systemPrompt\n\nUser: $userPrompt\n\nAssistant:';
+    // unused: final prompt = 'System: $systemPrompt\n\nUser: $userPrompt\n\nAssistant:';
     // 使用 Llama 的 generateCompleteText 方法
     final response = await _llama!.generateCompleteText();
     return response;

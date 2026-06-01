@@ -16,10 +16,8 @@ class BackgroundService {
   static const _dailyQuizTask = 'knode_daily_quiz';
   static const _periodicExamTask = 'knode_periodic_exam';
 
-  final NotificationService _notificationService;
 
-  BackgroundService({required NotificationService notificationService})
-      : _notificationService = notificationService;
+  BackgroundService();
 
   /// 初始化 workmanager。
   Future<void> init() async {

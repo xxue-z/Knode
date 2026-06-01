@@ -45,21 +45,21 @@ class _HighlightStylePickerState extends State<HighlightStylePicker> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // 类型选择
-        Text(_strings.style, style: theme.textTheme.titleMedium),
+        Text(_strings.wiki_style, style: theme.textTheme.titleMedium),
         const SizedBox(height: 8),
         Row(
           children: [
             _TypeButton(
               type: HighlightType.background,
               isSelected: _selectedType == HighlightType.background,
-              label: _strings.background,
+              label: _strings.wiki_background,
               onTap: () => _selectType(HighlightType.background),
             ),
             const SizedBox(width: 8),
             _TypeButton(
               type: HighlightType.underline,
               isSelected: _selectedType == HighlightType.underline,
-              label: _strings.underline,
+              label: _strings.wiki_underline,
               onTap: () => _selectType(HighlightType.underline),
             ),
           ],
@@ -67,7 +67,7 @@ class _HighlightStylePickerState extends State<HighlightStylePicker> {
         const SizedBox(height: 16),
         // 颜色选择
         Text(
-          _selectedType == HighlightType.background ? _strings.background : _strings.underline,
+          _selectedType == HighlightType.background ? _strings.wiki_background : _strings.wiki_underline,
           style: theme.textTheme.titleMedium,
         ),
         const SizedBox(height: 8),

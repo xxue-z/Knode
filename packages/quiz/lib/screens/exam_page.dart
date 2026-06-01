@@ -42,7 +42,7 @@ class _ExamPageState extends ConsumerState<ExamPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(_strings.quiz_question_n_of_m.replaceAll('{n}', '${session.currentIndex + 1}').replaceAll('{m}', '${session.questions.length}')),
+        title: Text(_strings.quiz_question_n_of_m(current: '${session.currentIndex + 1}', total: '${session.questions.length}')),
         centerTitle: true,
         actions: [
           if (session.exam?.timeLimit != null)
@@ -117,7 +117,7 @@ class _ExamPageState extends ConsumerState<ExamPage> {
       context: context,
       builder: (_) => AlertDialog(
         title: Text(_strings.quiz_confirm_submit),
-        content: Text(_strings.quiz_answered_n_of_m.replaceAll('{n}', '${ref.read(examSessionProvider).answeredCount}').replaceAll('{m}', '${ref.read(examSessionProvider).questions.length}')),
+        content: Text(_strings.quiz_answered_n_of_m(current: '${ref.read(examSessionProvider).answeredCount}', total: '${ref.read(examSessionProvider).questions.length}')),
         actions: [
           TextButton(onPressed: () => Navigator.pop(context), child: Text(_strings.quiz_continue_answering)),
           FilledButton(

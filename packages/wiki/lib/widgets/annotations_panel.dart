@@ -55,7 +55,7 @@ class _AnnotationsPanelState extends State<AnnotationsPanel> {
                 children: [
                   Expanded(
                     child: _TabButton(
-                      label: _strings.bookmark,
+                      label: _strings.wiki_bookmark,
                       icon: Icons.bookmark,
                       isActive: _currentTab == AnnotationsTab.bookmarks,
                       onTap: () => setState(() => _currentTab = AnnotationsTab.bookmarks),
@@ -69,7 +69,7 @@ class _AnnotationsPanelState extends State<AnnotationsPanel> {
                   ),
                   Expanded(
                     child: _TabButton(
-                      label: _strings.highlight,
+                      label: _strings.wiki_highlight,
                       icon: Icons.border_color,
                       isActive: _currentTab == AnnotationsTab.highlights,
                       onTap: () => setState(() => _currentTab = AnnotationsTab.highlights),
@@ -188,7 +188,7 @@ class _BookmarksList extends StatelessWidget {
       return Center(
         child: Padding(
           padding: const EdgeInsets.all(16),
-          child: Text(_strings.no_bookmarks),
+          child: Text(_strings.wiki_no_bookmarks),
         ),
       );
     }
@@ -285,7 +285,7 @@ class _HighlightsList extends StatelessWidget {
       return Center(
         child: Padding(
           padding: const EdgeInsets.all(16),
-          child: Text(_strings.no_highlights),
+          child: Text(_strings.wiki_no_highlights),
         ),
       );
     }

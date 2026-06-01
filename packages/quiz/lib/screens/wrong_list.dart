@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:core/models/question.dart';
 import 'package:quiz/gen/strings.dart';
@@ -114,7 +114,7 @@ class _WrongListPageState extends ConsumerState<WrongListPage> {
                   trailing: const Icon(Icons.chevron_right),
                   onTap: () => Navigator.push(
                     context,
-                    MaterialPageRoute(
+                    MaterialPageRoute<void>(
                       builder: (_) => WrongDetailPage(question: q),
                     ),
                   ),

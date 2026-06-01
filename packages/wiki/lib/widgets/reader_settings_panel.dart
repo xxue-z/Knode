@@ -61,7 +61,7 @@ class _ReaderSettingsPanelState extends ConsumerState<ReaderSettingsPanel> {
               ),
               const SizedBox(height: 24),
               // 字体大小
-              _buildSectionHeader(_strings.font_size),
+              _buildSectionHeader(_strings.wiki_font_size),
               Row(
                 children: [
                   IconButton(
@@ -108,7 +108,7 @@ class _ReaderSettingsPanelState extends ConsumerState<ReaderSettingsPanel> {
               ),
               const SizedBox(height: 24),
               // 行间距
-              _buildSectionHeader(_strings.line_spacing),
+              _buildSectionHeader(_strings.wiki_line_spacing),
               Row(
                 children: [
                   const Icon(Icons.format_line_spacing, size: 20),

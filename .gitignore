@@ -41,3 +41,6 @@ ios/
 *.ipa
 *.app
 /.docs
+
+# Temporary analysis output
+_analyze_*.txt

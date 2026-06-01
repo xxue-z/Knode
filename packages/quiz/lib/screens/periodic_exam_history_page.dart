@@ -123,7 +123,7 @@ class _PeriodicExamHistoryPageState
   void _startMakeupExam(Exam exam) {
     Navigator.push(
       context,
-      MaterialPageRoute(
+      MaterialPageRoute<void>(
         builder: (_) => ExamPage(examId: exam.id),
       ),
     );

@@ -1,6 +1,5 @@
 import 'package:test/test.dart';
 import 'package:core/services/backup_service.dart';
-import 'package:core/models/backup_snapshot.dart';
 
 void main() {
   group('BackupService', () {

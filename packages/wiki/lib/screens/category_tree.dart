@@ -253,7 +253,7 @@ class _CategoryTreeState extends ConsumerState<CategoryTree> {
       context: context,
       builder: (context) => AlertDialog(
         title: Text(_strings.wiki_delete_category),
-        content: Text(_strings.wiki_delete_category_confirm.replaceAll('{name}', category.name)),
+        content: Text(_strings.wiki_delete_category_confirm(name: category.name)),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),

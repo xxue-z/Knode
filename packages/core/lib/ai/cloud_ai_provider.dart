@@ -1,4 +1,4 @@
-﻿import 'dart:convert';
+import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'ai_provider.dart';
 import 'package:core/gen/strings.dart';
@@ -88,8 +88,8 @@ class CloudAIProvider implements AIProvider {
     if (temperature != null) body['temperature'] = temperature;
     if (maxTokens != null) body['max_tokens'] = maxTokens;
 
-    final resp = await dio.post('/v1/chat/completions', data: body);
-    return Map<String, dynamic>.from(resp.data['choices'][0]['message'] as Map);
+    final resp = await dio.post<Map<String, dynamic>>('/v1/chat/completions', data: body);
+    return Map<String, dynamic>.from(resp.data?['choices'][0]['message'] as Map);
   }
 
   /// Anthropic 格式请求。
@@ -126,10 +126,10 @@ class CloudAIProvider implements AIProvider {
     if (extractedSystem != null) body['system'] = extractedSystem;
     if (temperature != null) body['temperature'] = temperature;
 
-    final resp = await dio.post('/v1/messages', data: body);
+    final resp = await dio.post<Map<String, dynamic>>('/v1/messages', data: body);
 
     // Anthropic 响应格式：{content: [{type: "text", text: "..."}], stop_reason, ...}
-    final content = resp.data['content'] as List;
+    final content = resp.data?['content'] as List;
     final text = content.isNotEmpty ? content[0]['text'] as String? ?? '' : '';
 
     // 返回 OpenAI 兼容格式，统一后续处理
@@ -260,8 +260,8 @@ class CloudAIProvider implements AIProvider {
       throw StateError('Anthropic API 不支持 Embedding，请使用 OpenAI 兼容接口');
     }
     try {
-      final resp = await dio.post('/v1/embeddings', data: {'model': model, 'input': text});
-      final data = resp.data['data'][0]['embedding'];
+      final resp = await dio.post<Map<String, dynamic>>('/v1/embeddings', data: {'model': model, 'input': text});
+      final data = resp.data?['data'][0]['embedding'];
       return List<double>.from((data as List).map((e) => (e as num).toDouble()));
     } catch (e) {
       throw StateError('${_strings.core_embedding_generation_failed}: $e');

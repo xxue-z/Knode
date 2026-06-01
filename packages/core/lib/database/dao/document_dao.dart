@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:sqflite/sqflite.dart';
 
 import '../app_database.dart';
+import '../../services/app_logger.dart';
 import '../tables/document_table.dart';
 import '../../models/document.dart';
 

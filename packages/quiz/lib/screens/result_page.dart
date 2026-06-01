@@ -128,7 +128,7 @@ class ResultPage extends ConsumerWidget {
   }
 
   void _showDetail(BuildContext context, Question q, String? userAnswer, bool isCorrect) {
-    showModalBottomSheet(
+    showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
       builder: (_) => DraggableScrollableSheet(
