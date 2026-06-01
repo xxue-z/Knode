@@ -15,7 +15,7 @@ class ZipUtils {
       }
     }
     final zipBytes = ZipEncoder().encode(archive);
-    if (zipBytes == null) throw StateError('Zip compression failed');
+    if (zipBytes == null) throw StateError('Zip 压缩失败');
     return zipBytes;
   }
 
@@ -51,9 +51,11 @@ class ZipUtils {
     final entries = <ArchiveEntry>[];
     for (final file in archive) {
       if (file.isFile) {
+        final content = file.content;
+        if (content is! List<int>) continue;
         entries.add(ArchiveEntry(
           name: file.name,
-          content: file.content as List<int>,
+          content: content,
         ));
       }
     }
@@ -82,7 +84,9 @@ class ZipUtils {
 
       final targetFile = File(targetPath);
       await targetFile.parent.create(recursive: true);
-      await targetFile.writeAsBytes(file.content as List<int>);
+      final content = file.content;
+      if (content is! List<int>) continue;
+      await targetFile.writeAsBytes(content);
       count++;
     }
 
@@ -93,7 +97,8 @@ class ZipUtils {
     final archive = ZipDecoder().decodeBytes(zipBytes);
     for (final file in archive) {
       if (file.isFile && file.name == fileName) {
-        return file.content as List<int>;
+        final content = file.content;
+        return content is List<int> ? content : null;
       }
     }
     return null;

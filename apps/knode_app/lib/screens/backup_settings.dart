@@ -89,7 +89,7 @@ class _BackupSettingsPageState extends ConsumerState<BackupSettingsPage> {
     setState(() {
       _isBacking = true;
       _backupProgress = 0;
-      _backupProgressMessage = _strings.knode_app_testing;
+      _backupProgressMessage = _strings.knode_app_packing_files;
     });
     _configure();
     try {
@@ -462,17 +462,19 @@ class _BackupSettingsPageState extends ConsumerState<BackupSettingsPage> {
 }
 
 class _SnapshotPickerDialog extends StatelessWidget {
+  static const _strings = L10nStringsMixin();
+
   final List<BackupSnapshot> snapshots;
   const _SnapshotPickerDialog({required this.snapshots});
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text(const L10nStringsMixin().knode_app_select_restore_version),
+      title: Text(_strings.knode_app_select_restore_version),
       content: SizedBox(
         width: double.maxFinite,
         child: snapshots.isEmpty
-            ? Text(const L10nStringsMixin().knode_app_no_backups_available)
+            ? Text(_strings.knode_app_no_backups_available)
             : ListView.builder(
                 shrinkWrap: true,
                 itemCount: snapshots.length,
@@ -489,7 +491,7 @@ class _SnapshotPickerDialog extends StatelessWidget {
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context),
-          child: Text(const L10nStringsMixin().knode_app_cancel),
+          child: Text(_strings.knode_app_cancel),
         ),
       ],
     );

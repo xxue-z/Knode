@@ -1,15 +1,17 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:http/http.dart' as http;
+import 'package:meta/meta.dart';
 import 'package:core/models/backup_snapshot.dart';
 import 'package:core/utils/zip_utils.dart';
-import 'package:core/gen/strings.dart';
 
-final _strings = const L10nStringsMixin();
-
+/// 进度回调。
 typedef BackupProgressCallback = void Function(double percent, String message);
 
 class BackupService {
+  static const _backupDir = 'knode_backups';
+  static const _dbFileName = 'knode.db';
+  static const _wikiPrefix = 'wiki/';
+
   String? _url;
   String? _user;
   String? _pass;
@@ -26,28 +28,33 @@ class BackupService {
     'authorization': 'Basic ${base64Encode(utf8.encode('$_user:$_pass'))}',
   };
 
+  // ============================================================
+  // 备份
+  // ============================================================
+
+  /// 创建 Zip 压缩备份并上传到 WebDAV。
   Future<BackupSnapshot> backup({
     required String dbPath,
     required String wikiRoot,
     BackupProgressCallback? onProgress,
   }) async {
-    if (!isConfigured) throw StateError(_strings.core_webdav_not_configured);
+    if (!isConfigured) throw StateError('WebDAV 未配置');
 
-    onProgress?.call(0.0, _strings.knode_app_packing_files);
+    onProgress?.call(0.0, '正在打包文件...');
 
     final zipBytes = await ZipUtils.compressDirectory(
       directory: wikiRoot,
-      prefix: 'wiki/',
+      prefix: _wikiPrefix,
       dbPath: dbPath,
     );
 
-    onProgress?.call(0.5, _strings.knode_app_uploading);
+    onProgress?.call(0.5, '正在上传...');
 
     final timestamp = _formatTimestamp(DateTime.now());
     final fileName = 'knode_backup_$timestamp.zip';
-    final uri = Uri.parse('$_url/knode_backups/$fileName');
+    final uri = Uri.parse('$_url/$_backupDir/$fileName');
 
-    await _ensureDirectory('$_url/knode_backups/');
+    await _ensureDirectory('$_url/$_backupDir/');
 
     final client = http.Client();
     try {
@@ -57,13 +64,13 @@ class BackupService {
         headers: { ..._authHeaders, 'content-type': 'application/zip' },
       );
       if (resp.statusCode >= 400) {
-        throw StateError('${_strings.knode_app_upload_failed}: HTTP ${resp.statusCode}');
+        throw StateError('上传失败: HTTP ${resp.statusCode}');
       }
     } finally {
       client.close();
     }
 
-    onProgress?.call(1.0, _strings.knode_app_backup_complete);
+    onProgress?.call(1.0, '备份完成');
 
     return BackupSnapshot(
       fileName: fileName,
@@ -72,47 +79,57 @@ class BackupService {
     );
   }
 
+  // ============================================================
+  // 恢复
+  // ============================================================
+
+  /// 从 WebDAV 下载指定快照并解压恢复。
   Future<void> restore({
     required String dbPath,
     required String wikiRoot,
     BackupSnapshot? snapshot,
     BackupProgressCallback? onProgress,
   }) async {
-    if (!isConfigured) throw StateError(_strings.core_webdav_not_configured);
+    if (!isConfigured) throw StateError('WebDAV 未配置');
 
     final targetSnapshot = snapshot ?? await _getLatestSnapshot();
-    if (targetSnapshot == null) throw StateError(_strings.knode_app_no_backups_available);
+    if (targetSnapshot == null) throw StateError('没有可用的备份');
 
-    onProgress?.call(0.0, '${_strings.knode_app_downloading} ${targetSnapshot.fileName}...');
+    onProgress?.call(0.0, '正在下载 ${targetSnapshot.fileName}...');
 
-    final uri = Uri.parse('$_url/knode_backups/${targetSnapshot.fileName}');
+    final uri = Uri.parse('$_url/$_backupDir/${targetSnapshot.fileName}');
     final client = http.Client();
     List<int> zipBytes;
     try {
       final resp = await client.get(uri, headers: _authHeaders);
       if (resp.statusCode != 200) {
-        throw StateError('${_strings.knode_app_download_failed}: HTTP ${resp.statusCode}');
+        throw StateError('下载失败: HTTP ${resp.statusCode}');
       }
       zipBytes = resp.bodyBytes;
     } finally {
       client.close();
     }
 
-    onProgress?.call(0.4, _strings.knode_app_decompressing);
+    onProgress?.call(0.4, '正在解压...');
 
     final count = await ZipUtils.decompressToDirectory(
       zipBytes: zipBytes,
       targetDirectory: wikiRoot,
-      pathMapping: { 'knode.db': dbPath },
+      pathMapping: { _dbFileName: dbPath },
     );
 
-    onProgress?.call(1.0, '${_strings.knode_app_restore_complete} ($count)');
+    onProgress?.call(1.0, '恢复完成 ($count 个文件)');
   }
 
-  Future<List<BackupSnapshot>> listBackups() async {
-    if (!isConfigured) throw StateError(_strings.core_webdav_not_configured);
+  // ============================================================
+  // 备份列表
+  // ============================================================
 
-    final uri = Uri.parse('$_url/knode_backups/');
+  /// 获取 WebDAV 上所有备份快照列表，按时间倒序排列。
+  Future<List<BackupSnapshot>> listBackups() async {
+    if (!isConfigured) throw StateError('WebDAV 未配置');
+
+    final uri = Uri.parse('$_url/$_backupDir/');
     final client = http.Client();
     try {
       final resp = await client.send(http.Request('PROPFIND', uri)
@@ -126,27 +143,32 @@ class BackupService {
   <D:allprop/>
 </D:propfind>''');
 
+      if (resp.statusCode >= 400) {
+        throw StateError('获取备份列表失败: HTTP ${resp.statusCode}');
+      }
+
       final body = await resp.stream.bytesToString();
-      return _parseBackupList(body);
+      return parseBackupList(body);
     } finally {
       client.close();
     }
   }
 
-  List<BackupSnapshot> _parseBackupList(String xmlBody) {
+  /// 按 <D:response> 块解析 PROPFIND 响应，提取 .zip 备份文件信息。
+  @visibleForTesting
+  List<BackupSnapshot> parseBackupList(String xmlBody) {
     final snapshots = <BackupSnapshot>[];
 
+    final responsePattern = RegExp(r'<D:response>(.*?)</D:response>', dotAll: true, caseSensitive: false);
     final hrefPattern = RegExp(r'<D:href>([^<]+)</D:href>', caseSensitive: false);
-    final sizePattern = RegExp(
-      r'<D:getcontentlength>(\d+)</D:getcontentlength>',
-      caseSensitive: false,
-    );
+    final sizePattern = RegExp(r'<D:getcontentlength>(\d+)</D:getcontentlength>', caseSensitive: false);
 
-    final hrefs = hrefPattern.allMatches(xmlBody).toList();
-    final sizes = sizePattern.allMatches(xmlBody).toList();
+    for (final responseMatch in responsePattern.allMatches(xmlBody)) {
+      final block = responseMatch.group(1)!;
 
-    for (int i = 0; i < hrefs.length; i++) {
-      final href = hrefs[i].group(1) ?? '';
+      final hrefMatch = hrefPattern.firstMatch(block);
+      if (hrefMatch == null) continue;
+      final href = hrefMatch.group(1) ?? '';
       if (!href.endsWith('.zip')) continue;
 
       final fileName = href.split('/').last;
@@ -155,10 +177,8 @@ class BackupService {
       final createdAt = BackupSnapshot.parseTimestamp(fileName);
       if (createdAt == null) continue;
 
-      int sizeBytes = 0;
-      if (i < sizes.length) {
-        sizeBytes = int.tryParse(sizes[i].group(1)!) ?? 0;
-      }
+      final sizeMatch = sizePattern.firstMatch(block);
+      final sizeBytes = sizeMatch != null ? (int.tryParse(sizeMatch.group(1)!) ?? 0) : 0;
 
       snapshots.add(BackupSnapshot(
         fileName: fileName,
@@ -171,23 +191,33 @@ class BackupService {
     return snapshots;
   }
 
-  Future<void> deleteBackup(BackupSnapshot snapshot) async {
-    if (!isConfigured) throw StateError(_strings.core_webdav_not_configured);
+  // ============================================================
+  // 删除备份
+  // ============================================================
 
-    final uri = Uri.parse('$_url/knode_backups/${snapshot.fileName}');
+  /// 删除指定的备份快照。
+  Future<void> deleteBackup(BackupSnapshot snapshot) async {
+    if (!isConfigured) throw StateError('WebDAV 未配置');
+
+    final uri = Uri.parse('$_url/$_backupDir/${snapshot.fileName}');
     final client = http.Client();
     try {
       final resp = await client.delete(uri, headers: _authHeaders);
       if (resp.statusCode >= 400 && resp.statusCode != 404) {
-        throw StateError('${_strings.knode_app_delete_failed}: HTTP ${resp.statusCode}');
+        throw StateError('删除失败: HTTP ${resp.statusCode}');
       }
     } finally {
       client.close();
     }
   }
 
+  // ============================================================
+  // 自动清理
+  // ============================================================
+
+  /// 自动清理旧备份，保留最近 [keepCount] 个。
   Future<int> autoCleanup({int keepCount = 5}) async {
-    if (!isConfigured) throw StateError(_strings.core_webdav_not_configured);
+    if (!isConfigured) throw StateError('WebDAV 未配置');
 
     final snapshots = await listBackups();
     if (snapshots.length <= keepCount) return 0;
@@ -197,16 +227,23 @@ class BackupService {
       try {
         await deleteBackup(snapshots[i]);
         deletedCount++;
-      } catch (_) {}
+      } catch (_) {
+        // 单个删除失败不影响整体清理
+      }
     }
     return deletedCount;
   }
+
+  // ============================================================
+  // 辅助方法
+  // ============================================================
 
   Future<BackupSnapshot?> _getLatestSnapshot() async {
     final snapshots = await listBackups();
     return snapshots.isNotEmpty ? snapshots.first : null;
   }
 
+  /// 确保 WebDAV 目录存在（MKCOL 请求）。
   Future<void> _ensureDirectory(String dirUrl) async {
     final client = http.Client();
     try {
@@ -214,6 +251,7 @@ class BackupService {
         http.Request('MKCOL', Uri.parse(dirUrl))
           ..headers.addAll(_authHeaders),
       );
+      // 405 Method Not Allowed 表示目录已存在，忽略
     } finally {
       client.close();
     }
@@ -227,6 +265,10 @@ class BackupService {
         '${dt.minute.toString().padLeft(2, '0')}'
         '${dt.second.toString().padLeft(2, '0')}';
   }
+
+  // ============================================================
+  // 旧版兼容
+  // ============================================================
 
   Future<bool> testConnection() async {
     if (!isConfigured) return false;
