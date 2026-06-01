@@ -34,6 +34,9 @@ export 'widgets/outline_panel.dart';
 export 'widgets/annotations_panel.dart';
 export 'widgets/dictionary_panel.dart';
 export 'widgets/reader_settings_panel.dart';
+export 'widgets/context_toolbar.dart';
+export 'widgets/fulltext_search_bar.dart';
+export 'widgets/note_editor_sheet.dart';
 
 // ── Utils ──
 export 'utils/heading_extractor.dart';

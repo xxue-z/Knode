@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:core/models/highlight_style.dart';
 import 'package:core/core.dart' as core;
@@ -6,7 +5,7 @@ import 'package:core/core.dart' as core;
 /// 高亮样式选择器组件
 class HighlightStylePicker extends StatefulWidget {
   final HighlightStyle initialStyle;
-  final ValueChanged&lt;HighlightStyle&gt; onStyleChanged;
+  final ValueChanged<HighlightStyle> onStyleChanged;
 
   const HighlightStylePicker({
     super.key,
@@ -15,25 +14,25 @@ class HighlightStylePicker extends StatefulWidget {
   });
 
   @override
-  State&lt;HighlightStylePicker&gt; createState() =&gt; _HighlightStylePickerState();
+  State<HighlightStylePicker> createState() => _HighlightStylePickerState();
 }
 
-class _HighlightStylePickerState extends State&lt;HighlightStylePicker&gt; {
+class _HighlightStylePickerState extends State<HighlightStylePicker> {
   late HighlightType _selectedType;
-  late String _selectedColor;
+  late Color _selectedColor;
 
-  final List&lt;String&gt; _presetColors = [
-    '#FFF176', // 黄色
-    '#81C784', // 绿色
-    '#64B5F6', // 蓝色
-    '#F06292', // 粉色
+  final List<Color> _presetColors = [
+    const Color(0xFFFFF176), // 黄色
+    const Color(0xFF81C784), // 绿色
+    const Color(0xFF64B5F6), // 蓝色
+    const Color(0xFFF06292), // 粉色
   ];
 
   @override
   void initState() {
     super.initState();
     _selectedType = widget.initialStyle.type;
-    _selectedColor = widget.initialStyle.colorHex;
+    _selectedColor = widget.initialStyle.color;
   }
 
   @override
@@ -52,14 +51,14 @@ class _HighlightStylePickerState extends State&lt;HighlightStylePicker&gt; {
               type: HighlightType.background,
               isSelected: _selectedType == HighlightType.background,
               label: l10n.background,
-              onTap: () =&gt; _selectType(HighlightType.background),
+              onTap: () => _selectType(HighlightType.background),
             ),
             const SizedBox(width: 8),
             _TypeButton(
               type: HighlightType.underline,
               isSelected: _selectedType == HighlightType.underline,
               label: l10n.underline,
-              onTap: () =&gt; _selectType(HighlightType.underline),
+              onTap: () => _selectType(HighlightType.underline),
             ),
           ],
         ),
@@ -73,14 +72,14 @@ class _HighlightStylePickerState extends State&lt;HighlightStylePicker&gt; {
         Wrap(
           spacing: 8,
           children: _presetColors.map((color) {
-            final isSelected = _selectedColor == color;
+            final isSelected = _selectedColor.value == color.value;
             return GestureDetector(
-              onTap: () =&gt; _selectColor(color),
+              onTap: () => _selectColor(color),
               child: Container(
                 width: 40,
                 height: 40,
                 decoration: BoxDecoration(
-                  color: _colorFromHex(color),
+                  color: color,
                   shape: BoxShape.circle,
                   border: isSelected
                       ? Border.all(color: Theme.of(context).colorScheme.primary, width: 3)
@@ -98,20 +97,13 @@ class _HighlightStylePickerState extends State&lt;HighlightStylePicker&gt; {
   }
 
   void _selectType(HighlightType type) {
-    setState(() =&gt; _selectedType = type);
-    widget.onStyleChanged(HighlightStyle(type: _selectedType, colorHex: _selectedColor));
+    setState(() => _selectedType = type);
+    widget.onStyleChanged(HighlightStyle(type: _selectedType, color: _selectedColor));
   }
 
-  void _selectColor(String color) {
-    setState(() =&gt; _selectedColor = color);
-    widget.onStyleChanged(HighlightStyle(type: _selectedType, colorHex: _selectedColor));
-  }
-
-  Color _colorFromHex(String hex) {
-    final buffer = StringBuffer();
-    if (hex.length == 6 || hex.length == 7) buffer.write('ff');
-    buffer.write(hex.replaceFirst('#', ''));
-    return Color(int.parse(buffer.toString(), radix: 16));
+  void _selectColor(Color color) {
+    setState(() => _selectedColor = color);
+    widget.onStyleChanged(HighlightStyle(type: _selectedType, color: _selectedColor));
   }
 }
 

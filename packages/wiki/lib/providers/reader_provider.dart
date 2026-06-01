@@ -1,16 +1,17 @@
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:core/models/bookmark.dart';
 import 'package:core/models/highlight.dart';
-import 'package:core/database/database.dart';
+import 'package:core/models/highlight_style.dart';
+import 'package:core/database/dao/bookmark_dao.dart';
+import 'package:core/database/dao/highlight_dao.dart';
 import 'package:core/services/app_logger.dart';
 
 /// 阅读器状态 Provider
-final readerProvider = AsyncNotifierProvider.family&lt;_ReaderNotifier, ReaderState, int&gt;(_ReaderNotifier.new);
+final readerProvider = AsyncNotifierProvider.family<_ReaderNotifier, ReaderState, int>(_ReaderNotifier.new);
 
 class ReaderState {
-  final List&lt;Bookmark&gt; bookmarks;
-  final List&lt;Highlight&gt; highlights;
+  final List<Bookmark> bookmarks;
+  final List<Highlight> highlights;
   final bool isLoading;
 
   ReaderState({
@@ -20,8 +21,8 @@ class ReaderState {
   });
 
   ReaderState copyWith({
-    List&lt;Bookmark&gt;? bookmarks,
-    List&lt;Highlight&gt;? highlights,
+    List<Bookmark>? bookmarks,
+    List<Highlight>? highlights,
     bool? isLoading,
   }) {
     return ReaderState(
@@ -32,13 +33,13 @@ class ReaderState {
   }
 }
 
-class _ReaderNotifier extends FamilyAsyncNotifier&lt;ReaderState, int&gt; {
+class _ReaderNotifier extends FamilyAsyncNotifier<ReaderState, int> {
   @override
-  Future&lt;ReaderState&gt; build(int docId) async {
+  Future<ReaderState> build(int docId) async {
     return await _loadData(docId);
   }
 
-  Future&lt;ReaderState&gt; _loadData(int docId) async {
+  Future<ReaderState> _loadData(int docId) async {
     try {
       final bookmarkDao = BookmarkDao();
       final highlightDao = HighlightDao();
@@ -57,7 +58,7 @@ class _ReaderNotifier extends FamilyAsyncNotifier&lt;ReaderState, int&gt; {
   }
 
   /// 添加书签
-  Future&lt;void&gt; addBookmark(int docId, int start, int end, String text, String? label) async {
+  Future<void> addBookmark(int docId, int start, int end, String text, String? label) async {
     try {
       final dao = BookmarkDao();
       await dao.insert(Bookmark(
@@ -76,7 +77,7 @@ class _ReaderNotifier extends FamilyAsyncNotifier&lt;ReaderState, int&gt; {
   }
 
   /// 删除书签
-  Future&lt;void&gt; removeBookmark(int bookmarkId, int docId) async {
+  Future<void> removeBookmark(int bookmarkId, int docId) async {
     try {
       final dao = BookmarkDao();
       await dao.delete(bookmarkId);
@@ -87,19 +88,20 @@ class _ReaderNotifier extends FamilyAsyncNotifier&lt;ReaderState, int&gt; {
   }
 
   /// 添加高亮
-  Future&lt;void&gt; addHighlight(int docId, int start, int end, String text, HighlightStyle style, String? note) async {
+  Future<void> addHighlight(int docId, int start, int end, String text, HighlightStyle style, String? note) async {
     try {
       final dao = HighlightDao();
+      final now = DateTime.now();
       await dao.insert(Highlight(
         id: null,
         docId: docId,
-        startPosition: start,
-        endPosition: end,
+        startPos: start,
+        endPos: end,
         selectedText: text,
         style: style,
-        note: note,
-        createdAt: DateTime.now(),
-        updatedAt: DateTime.now(),
+        noteText: note,
+        createdAt: now,
+        updatedAt: now,
       ));
       state = AsyncData(await _loadData(docId));
     } catch (e, st) {
@@ -108,7 +110,7 @@ class _ReaderNotifier extends FamilyAsyncNotifier&lt;ReaderState, int&gt; {
   }
 
   /// 更新高亮
-  Future&lt;void&gt; updateHighlight(Highlight highlight, int docId) async {
+  Future<void> updateHighlight(Highlight highlight, int docId) async {
     try {
       final dao = HighlightDao();
       await dao.update(highlight.copyWith(updatedAt: DateTime.now()));
@@ -119,7 +121,7 @@ class _ReaderNotifier extends FamilyAsyncNotifier&lt;ReaderState, int&gt; {
   }
 
   /// 删除高亮
-  Future&lt;void&gt; removeHighlight(int highlightId, int docId) async {
+  Future<void> removeHighlight(int highlightId, int docId) async {
     try {
       final dao = HighlightDao();
       await dao.delete(highlightId);

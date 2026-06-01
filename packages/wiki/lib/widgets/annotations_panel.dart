@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:core/core.dart' as core;
 import 'package:core/models/bookmark.dart';
@@ -7,14 +6,14 @@ import 'package:core/models/highlight.dart';
 /// 标注面板类型
 enum AnnotationsTab { bookmarks, highlights }
 
-/// 标注面板（右侧边栏
+/// 标注面板（右侧边栏）
 class AnnotationsPanel extends StatefulWidget {
-  final List&lt;Bookmark&gt; bookmarks;
-  final List&lt;Highlight&gt; highlights;
-  final ValueChanged&lt;Bookmark&gt; onBookmarkTap;
-  final ValueChanged&lt;Highlight&gt; onHighlightTap;
-  final ValueChanged&lt;Bookmark&gt; onBookmarkDelete;
-  final ValueChanged&lt;Highlight&gt; onHighlightDelete;
+  final List<Bookmark> bookmarks;
+  final List<Highlight> highlights;
+  final ValueChanged<Bookmark> onBookmarkTap;
+  final ValueChanged<Highlight> onHighlightTap;
+  final ValueChanged<Bookmark> onBookmarkDelete;
+  final ValueChanged<Highlight> onHighlightDelete;
 
   const AnnotationsPanel({
     super.key,
@@ -27,10 +26,10 @@ class AnnotationsPanel extends StatefulWidget {
   });
 
   @override
-  State&lt;AnnotationsPanel&gt; createState() =&gt; _AnnotationsPanelState();
+  State<AnnotationsPanel> createState() => _AnnotationsPanelState();
 }
 
-class _AnnotationsPanelState extends State&lt;AnnotationsPanel&gt; {
+class _AnnotationsPanelState extends State<AnnotationsPanel> {
   AnnotationsTab _currentTab = AnnotationsTab.bookmarks;
 
   @override
@@ -44,55 +43,57 @@ class _AnnotationsPanelState extends State&lt;AnnotationsPanel&gt; {
       child: SafeArea(
         child: Column(
           children: [
-          // 头部标签
-          Container(
-            decoration: BoxDecoration(
-              border: Border(
-                bottom: BorderSide(color: theme.colorScheme.outlineVariant),
+            // 头部标签
+            Container(
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(color: theme.colorScheme.outlineVariant),
+                ),
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: _TabButton(
+                      label: l10n.bookmark,
+                      icon: Icons.bookmark,
+                      isActive: _currentTab == AnnotationsTab.bookmarks,
+                      onTap: () => setState(() => _currentTab = AnnotationsTab.bookmarks),
+                      count: widget.bookmarks.length,
+                    ),
+                  ),
+                  Container(
+                    width: 1,
+                    color: theme.colorScheme.outline,
+                    height: 32,
+                  ),
+                  Expanded(
+                    child: _TabButton(
+                      label: l10n.highlight,
+                      icon: Icons.border_color,
+                      isActive: _currentTab == AnnotationsTab.highlights,
+                      onTap: () => setState(() => _currentTab = AnnotationsTab.highlights),
+                      count: widget.highlights.length,
+                    ),
+                  ),
+                ],
               ),
             ),
-            child: Row(
-              children: [
-              Expanded(
-                child: _TabButton(
-                  label: l10n.bookmark,
-                  icon: Icons.bookmark,
-                  isActive: _currentTab == AnnotationsTab.bookmarks,
-                  onTap: () =&gt; setState(() =&gt; _currentTab = AnnotationsTab.bookmarks),
-                  count: widget.bookmarks.length,
-                ),
-              ),
-              Container(
-                width: 1,
-                color: theme.colorScheme.outline,
-                height: 32,
-              ),
-              Expanded(
-                child: _TabButton(
-                  label: l10n.highlight,
-                  icon: Icons.border_color,
-                  isActive: _currentTab == AnnotationsTab.highlights,
-                  onTap: () =&gt; setState(() =&gt; _currentTab = AnnotationsTab.highlights),
-                  count: widget.highlights.length,
-                ),
-              ),
-            ],
-          ),
-          // 内容区域
-          Expanded(
-            child: _currentTab == AnnotationsTab.bookmarks
-                ? _BookmarksList(
-                    bookmarks: widget.bookmarks,
-                    onTap: widget.onBookmarkTap,
-                    onDelete: widget.onBookmarkDelete,
-                  )
-                : _HighlightsList(
-                    highlights: widget.highlights,
-                    onTap: widget.onHighlightTap,
-                    onDelete: widget.onHighlightDelete,
-                  ),
-          ),
-        ],
+            // 内容区域
+            Expanded(
+              child: _currentTab == AnnotationsTab.bookmarks
+                  ? _BookmarksList(
+                      bookmarks: widget.bookmarks,
+                      onTap: widget.onBookmarkTap,
+                      onDelete: widget.onBookmarkDelete,
+                    )
+                  : _HighlightsList(
+                      highlights: widget.highlights,
+                      onTap: widget.onHighlightTap,
+                      onDelete: widget.onHighlightDelete,
+                    ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -145,7 +146,7 @@ class _TabButton extends StatelessWidget {
                 ),
               ],
             ),
-            if (count &gt; 0) ...[
+            if (count > 0) ...[
               const SizedBox(height: 2),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1),
@@ -170,9 +171,9 @@ class _TabButton extends StatelessWidget {
 }
 
 class _BookmarksList extends StatelessWidget {
-  final List&lt;Bookmark&gt; bookmarks;
-  final ValueChanged&lt;Bookmark&gt; onTap;
-  final ValueChanged&lt;Bookmark&gt; onDelete;
+  final List<Bookmark> bookmarks;
+  final ValueChanged<Bookmark> onTap;
+  final ValueChanged<Bookmark> onDelete;
 
   const _BookmarksList({
     required this.bookmarks,
@@ -183,7 +184,6 @@ class _BookmarksList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = core.CoreLocalizations.of(context);
-    final theme = Theme.of(context);
 
     if (bookmarks.isEmpty) {
       return Center(
@@ -201,8 +201,8 @@ class _BookmarksList extends StatelessWidget {
         final bookmark = bookmarks[index];
         return _BookmarkItem(
           bookmark: bookmark,
-          onTap: () =&gt; onTap(bookmark),
-          onDelete: () =&gt; onDelete(bookmark),
+          onTap: () => onTap(bookmark),
+          onDelete: () => onDelete(bookmark),
         );
       },
     );
@@ -236,7 +236,7 @@ class _BookmarkItem extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  if (bookmark.label != null &amp;&amp; bookmark.label!.isNotEmpty) ...[
+                  if (bookmark.label != null && bookmark.label!.isNotEmpty) ...[
                     Text(
                       bookmark.label!,
                       style: theme.textTheme.bodyMedium,
@@ -270,9 +270,9 @@ class _BookmarkItem extends StatelessWidget {
 }
 
 class _HighlightsList extends StatelessWidget {
-  final List&lt;Highlight&gt; highlights;
-  final ValueChanged&lt;Highlight&gt; onTap;
-  final ValueChanged&lt;Highlight&gt; onDelete;
+  final List<Highlight> highlights;
+  final ValueChanged<Highlight> onTap;
+  final ValueChanged<Highlight> onDelete;
 
   const _HighlightsList({
     required this.highlights,
@@ -283,7 +283,6 @@ class _HighlightsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = core.CoreLocalizations.of(context);
-    final theme = Theme.of(context);
 
     if (highlights.isEmpty) {
       return Center(
@@ -301,8 +300,8 @@ class _HighlightsList extends StatelessWidget {
         final highlight = highlights[index];
         return _HighlightItem(
           highlight: highlight,
-          onTap: () =&gt; onTap(highlight),
-          onDelete: () =&gt; onDelete(highlight),
+          onTap: () => onTap(highlight),
+          onDelete: () => onDelete(highlight),
         );
       },
     );
@@ -320,18 +319,10 @@ class _HighlightItem extends StatelessWidget {
     required this.onDelete,
   });
 
-  Color _getColor() {
-    final hex = highlight.style.colorHex;
-    final buffer = StringBuffer();
-    if (hex.length == 6 || hex.length == 7) buffer.write('ff');
-    buffer.write(hex.replaceFirst('#', ''));
-    return Color(int.parse(buffer.toString(), radix: 16));
-  }
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final color = _getColor();
+    final color = highlight.style.color;
 
     return InkWell(
       onTap: onTap,
@@ -358,10 +349,10 @@ class _HighlightItem extends StatelessWidget {
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  if (highlight.note != null &amp;&amp; highlight.note!.isNotEmpty) ...[
+                  if (highlight.noteText != null && highlight.noteText!.isNotEmpty) ...[
                     const SizedBox(height: 4),
                     Text(
-                      highlight.note!,
+                      highlight.noteText!,
                       style: theme.textTheme.bodySmall?.copyWith(
                         color: theme.colorScheme.onSurfaceVariant,
                       ),

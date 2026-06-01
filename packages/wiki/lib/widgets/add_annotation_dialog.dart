@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:core/models/highlight_style.dart';
 import 'package:core/core.dart' as core;
@@ -21,16 +20,16 @@ class AddAnnotationDialog extends StatefulWidget {
   });
 
   /// 显示对话框并返回结果
-  static Future&lt;AddAnnotationResult?&gt; show({
+  static Future<AddAnnotationResult?> show({
     required BuildContext context,
     required AnnotationType type,
     required String selectedText,
     HighlightStyle? initialStyle,
     String? initialLabel,
   }) {
-    return showDialog&lt;AddAnnotationResult&gt;(
+    return showDialog<AddAnnotationResult>(
       context: context,
-      builder: (context) =&gt; AddAnnotationDialog(
+      builder: (context) => AddAnnotationDialog(
         type: type,
         selectedText: selectedText,
         initialStyle: initialStyle,
@@ -40,7 +39,7 @@ class AddAnnotationDialog extends StatefulWidget {
   }
 
   @override
-  State&lt;AddAnnotationDialog&gt; createState() =&gt; _AddAnnotationDialogState();
+  State<AddAnnotationDialog> createState() => _AddAnnotationDialogState();
 }
 
 class AddAnnotationResult {
@@ -55,7 +54,7 @@ class AddAnnotationResult {
   });
 }
 
-class _AddAnnotationDialogState extends State&lt;AddAnnotationDialog&gt; {
+class _AddAnnotationDialogState extends State<AddAnnotationDialog> {
   late HighlightStyle _style;
   final _noteController = TextEditingController();
   final _labelController = TextEditingController();
@@ -63,7 +62,7 @@ class _AddAnnotationDialogState extends State&lt;AddAnnotationDialog&gt; {
   @override
   void initState() {
     super.initState();
-    _style = widget.initialStyle ?? HighlightStyle(type: HighlightType.background, colorHex: '#FFF176');
+    _style = widget.initialStyle ?? const HighlightStyle(color: Color(0xFFFFF176));
     _noteController.text = '';
     _labelController.text = widget.initialLabel ?? '';
   }
@@ -104,7 +103,7 @@ class _AddAnnotationDialogState extends State&lt;AddAnnotationDialog&gt; {
             if (widget.type == AnnotationType.highlight) ...[
               HighlightStylePicker(
                 initialStyle: _style,
-                onStyleChanged: (style) =&gt; setState(() =&gt; _style = style),
+                onStyleChanged: (style) => setState(() => _style = style),
               ),
               const SizedBox(height: 16),
               TextField(
@@ -132,7 +131,7 @@ class _AddAnnotationDialogState extends State&lt;AddAnnotationDialog&gt; {
       ),
       actions: [
         TextButton(
-          onPressed: () =&gt; Navigator.pop(context),
+          onPressed: () => Navigator.pop(context),
           child: Text(l10n.cancel),
         ),
         TextButton(
