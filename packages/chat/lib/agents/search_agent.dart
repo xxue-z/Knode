@@ -41,7 +41,7 @@ class SearchAgent {
         content = response.answer;
       } else {
         // OpenAI/DeepSeek：使用 enable_search 扩展参数
-        final resp = await cloudProvider.dio.post(
+        final resp = await cloudProvider.dio.post<Map<String, dynamic>>(
           '/v1/chat/completions',
           data: {
             'model': cloudProvider.model,
@@ -53,7 +53,7 @@ class SearchAgent {
             'enable_search': true,
           },
         );
-        content = resp.data['choices'][0]['message']['content'] as String? ?? '';
+        content = (resp.data?['choices'] as List?)?.firstOrNull?['message']?['content'] as String? ?? '';
       }
 
       final results = content

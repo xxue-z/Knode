@@ -16,7 +16,7 @@ class ChatPage extends StatelessWidget {
   const ChatPage({super.key});
 
   void _showConversationMenu(BuildContext context) {
-    showModalBottomSheet(
+    showModalBottomSheet<void>(
       context: context,
       builder: (_) => SafeArea(
         child: Column(
@@ -37,7 +37,7 @@ class ChatPage extends StatelessWidget {
               title: Text(_strings.chat_archive),
               onTap: () {
                 Navigator.pop(context);
-                showDialog(
+                showDialog<bool>(
                   context: context,
                   builder: (_) => ArchiveDialog(
                     conversationId: 0,
@@ -60,91 +60,6 @@ class ChatPage extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  void _showAttachmentPicker(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      builder: (_) => SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ListTile(
-              leading: const Icon(Icons.image_outlined),
-              title: Text(_strings.chat_image),
-              onTap: () {
-                Navigator.pop(context);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(_strings.chat_image_dev)),
-                );
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.insert_drive_file_outlined),
-              title: Text(_strings.chat_document),
-              onTap: () {
-                Navigator.pop(context);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(_strings.chat_document_dev)),
-                );
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.link),
-              title: Text(_strings.chat_link),
-              onTap: () {
-                Navigator.pop(context);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(_strings.chat_link_dev)),
-                );
-              },
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  void _startVoiceInput(BuildContext context) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(_strings.chat_voice_real_device)),
-    );
-  }
-
-  void _showMessageInput(BuildContext context) {
-    final controller = TextEditingController();
-    showDialog(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        title: Text(_strings.chat_send_message),
-        content: TextField(
-          controller: controller,
-          autofocus: true,
-          maxLines: 4,
-          decoration: InputDecoration(
-            hintText: _strings.chat_input_message,
-            border: const OutlineInputBorder(),
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx),
-            child: Text(_strings.chat_cancel),
-          ),
-          FilledButton(
-            onPressed: () {
-              Navigator.pop(ctx);
-              if (controller.text.isNotEmpty) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(_strings.chat_send_message_need_ai)),
-                );
-              }
-            },
-            child: Text(_strings.chat_send),
-          ),
-        ],
       ),
     );
   }

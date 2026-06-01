@@ -158,6 +158,9 @@ mixin class L10nStringsMixin {
   /// 链接
   String get chat_link_label => LocalizeStringDelegate.get('chat_link_label');
 
+  /// 加载失败
+  String get chat_load_failed => LocalizeStringDelegate.get('chat_load_failed');
+
   /// 加载中...
   String get chat_loading => LocalizeStringDelegate.get('chat_loading');
 

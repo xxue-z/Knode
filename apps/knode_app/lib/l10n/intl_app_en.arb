@@ -168,6 +168,10 @@
   "@chat_link_label": {
     "description": "链接"
   },
+  "chat_load_failed": "Load failed",
+  "@chat_load_failed": {
+    "description": "加载失败"
+  },
   "chat_loading": "Loading...",
   "@chat_loading": {
     "description": "加载中..."

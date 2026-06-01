@@ -1,4 +1,5 @@
 id,en,zh
+load_failed,Load failed,加载失败
 chat,Chat,对话
 ai_chat,AI Chat,AI 对话
 message,Message,消息

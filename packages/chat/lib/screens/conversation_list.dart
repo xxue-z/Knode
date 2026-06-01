@@ -22,7 +22,7 @@ class ConversationList extends ConsumerWidget {
             onPressed: () async {
               final notifier = ref.read(conversationListProvider.notifier);
               final conv = await notifier.create();
-              if (conv != null) onConversationSelected?.call(conv);
+              onConversationSelected?.call(conv);
             },
             icon: const Icon(Icons.add),
             label: Text(_strings.chat_new_conversation),
@@ -52,7 +52,7 @@ class ConversationList extends ConsumerWidget {
                         if (action == 'archive') _archiveConversation(context, ref, conv);
                       },
                       itemBuilder: (_) => [
-                        PopupMenuItem(value: 'rename', child: Text(_strings.chat_rename)),
+                        PopupMenuItem(value: 'rename', child: Text(_strings.chat_rename_label)),
                         PopupMenuItem(value: 'archive', child: Text(_strings.chat_archive)),
                         PopupMenuItem(value: 'delete', child: Text(_strings.chat_delete_conversation)),
                       ],
@@ -71,7 +71,7 @@ class ConversationList extends ConsumerWidget {
 
   void _showRenameDialog(BuildContext context, WidgetRef ref, Conversation conv) {
     final controller = TextEditingController(text: conv.title);
-    showDialog(
+    showDialog<bool>(
       context: context,
       builder: (_) => AlertDialog(
         title: Text(_strings.chat_rename_conversation),
@@ -90,7 +90,7 @@ class ConversationList extends ConsumerWidget {
 
   void _archiveConversation(BuildContext context, WidgetRef ref, Conversation conv) {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(_strings.chat_archive_need_detail)),
+      SnackBar(content: Text(_strings.chat_archive_in_detail)),
     );
   }
 }
