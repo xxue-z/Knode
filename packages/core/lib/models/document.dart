@@ -117,7 +117,7 @@ class Document {
     String? lastReadAt,
     int? isDeleted,
     List<String>? tags,
-    List&lt;int&gt;? linksTo,
+    List<int>? linksTo,
     int? manualTags,
     String? createdAt,
     String? updatedAt,
