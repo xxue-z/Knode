@@ -86,3 +86,24 @@ night_mode,Night Mode,夜间模式
 feature_in_development,Feature in development,功能开发中
 add_category_in_dev,Add category - in development,添加类目功能开发中
 edit_category_in_dev,Edit category - in development,编辑类目功能开发中
+style,Style,样式
+background,Background,背景色
+underline,Underline,下划线
+bookmark,Bookmark,书签
+highlight,Highlight,高亮
+add_bookmark,Add Bookmark,添加书签
+add_highlight,Add Highlight,添加高亮
+note,Note,备注
+no_bookmarks,No bookmarks yet,暂无书签
+no_highlights,No highlights yet,暂无高亮
+tap_to_select,Tap to select,点击选择
+note_document,Note Document,笔记文档
+reader_copy,Copy,复制
+reader_bookmark,Bookmark,书签
+reader_read_aloud,Read Aloud,朗读
+reader_dictionary,Dictionary,字典
+reader_browser_search,Browser Search,浏览器搜索
+reader_ask_ai,Ask AI,问问AI
+reader_full_text_search,Full Text Search,全文搜索
+reader_kb_search,Knowledge Base Search,知识库搜索
+reader_highlight_note,Highlight / Note,划重点

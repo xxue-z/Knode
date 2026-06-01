@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:core/core.dart' as core;
 import 'package:core/models/bookmark.dart';
 import 'package:core/models/highlight.dart';
+import 'package:wiki/gen/strings.dart';
+
+final _strings = const L10nStringsMixin();
 
 /// 标注面板类型
 enum AnnotationsTab { bookmarks, highlights }
@@ -34,7 +36,6 @@ class _AnnotationsPanelState extends State<AnnotationsPanel> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = core.CoreLocalizations.of(context);
     final theme = Theme.of(context);
 
     return Container(
@@ -54,7 +55,7 @@ class _AnnotationsPanelState extends State<AnnotationsPanel> {
                 children: [
                   Expanded(
                     child: _TabButton(
-                      label: l10n.bookmark,
+                      label: _strings.bookmark,
                       icon: Icons.bookmark,
                       isActive: _currentTab == AnnotationsTab.bookmarks,
                       onTap: () => setState(() => _currentTab = AnnotationsTab.bookmarks),
@@ -68,7 +69,7 @@ class _AnnotationsPanelState extends State<AnnotationsPanel> {
                   ),
                   Expanded(
                     child: _TabButton(
-                      label: l10n.highlight,
+                      label: _strings.highlight,
                       icon: Icons.border_color,
                       isActive: _currentTab == AnnotationsTab.highlights,
                       onTap: () => setState(() => _currentTab = AnnotationsTab.highlights),
@@ -183,13 +184,11 @@ class _BookmarksList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = core.CoreLocalizations.of(context);
-
     if (bookmarks.isEmpty) {
       return Center(
         child: Padding(
           padding: const EdgeInsets.all(16),
-          child: Text(l10n.noBookmarks),
+          child: Text(_strings.no_bookmarks),
         ),
       );
     }
@@ -282,13 +281,11 @@ class _HighlightsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = core.CoreLocalizations.of(context);
-
     if (highlights.isEmpty) {
       return Center(
         child: Padding(
           padding: const EdgeInsets.all(16),
-          child: Text(l10n.noHighlights),
+          child: Text(_strings.no_highlights),
         ),
       );
     }

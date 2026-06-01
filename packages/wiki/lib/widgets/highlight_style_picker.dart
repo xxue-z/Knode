@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:core/models/highlight_style.dart';
-import 'package:core/core.dart' as core;
+import 'package:wiki/gen/strings.dart';
+
+final _strings = const L10nStringsMixin();
 
 /// 高亮样式选择器组件
 class HighlightStylePicker extends StatefulWidget {
@@ -37,27 +39,27 @@ class _HighlightStylePickerState extends State<HighlightStylePicker> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = core.CoreLocalizations.of(context);
+    final theme = Theme.of(context);
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // 类型选择
-        Text(l10n.style, style: Theme.of(context).textTheme.titleMedium),
+        Text(_strings.style, style: theme.textTheme.titleMedium),
         const SizedBox(height: 8),
         Row(
           children: [
             _TypeButton(
               type: HighlightType.background,
               isSelected: _selectedType == HighlightType.background,
-              label: l10n.background,
+              label: _strings.background,
               onTap: () => _selectType(HighlightType.background),
             ),
             const SizedBox(width: 8),
             _TypeButton(
               type: HighlightType.underline,
               isSelected: _selectedType == HighlightType.underline,
-              label: l10n.underline,
+              label: _strings.underline,
               onTap: () => _selectType(HighlightType.underline),
             ),
           ],
@@ -65,8 +67,8 @@ class _HighlightStylePickerState extends State<HighlightStylePicker> {
         const SizedBox(height: 16),
         // 颜色选择
         Text(
-          _selectedType == HighlightType.background ? l10n.background : l10n.underline,
-          style: Theme.of(context).textTheme.titleMedium,
+          _selectedType == HighlightType.background ? _strings.background : _strings.underline,
+          style: theme.textTheme.titleMedium,
         ),
         const SizedBox(height: 8),
         Wrap(
@@ -82,7 +84,7 @@ class _HighlightStylePickerState extends State<HighlightStylePicker> {
                   color: color,
                   shape: BoxShape.circle,
                   border: isSelected
-                      ? Border.all(color: Theme.of(context).colorScheme.primary, width: 3)
+                      ? Border.all(color: theme.colorScheme.primary, width: 3)
                       : null,
                 ),
                 child: isSelected

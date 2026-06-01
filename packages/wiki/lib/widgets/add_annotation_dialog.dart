@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:core/models/highlight_style.dart';
-import 'package:core/core.dart' as core;
+import 'package:wiki/gen/strings.dart';
 import 'package:wiki/widgets/highlight_style_picker.dart';
+
+final _strings = const L10nStringsMixin();
 
 enum AnnotationType { highlight, bookmark }
 
@@ -76,9 +78,9 @@ class _AddAnnotationDialogState extends State<AddAnnotationDialog> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = core.CoreLocalizations.of(context);
+    final theme = Theme.of(context);
     return AlertDialog(
-      title: Text(widget.type == AnnotationType.highlight ? l10n.addHighlight : l10n.addBookmark),
+      title: Text(widget.type == AnnotationType.highlight ? _strings.add_highlight : _strings.add_bookmark),
       content: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -89,7 +91,7 @@ class _AddAnnotationDialogState extends State<AddAnnotationDialog> {
               width: double.infinity,
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                color: theme.colorScheme.surfaceContainerHighest,
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Text(
@@ -109,7 +111,7 @@ class _AddAnnotationDialogState extends State<AddAnnotationDialog> {
               TextField(
                 controller: _noteController,
                 decoration: InputDecoration(
-                  labelText: l10n.note,
+                  labelText: _strings.note,
                   border: const OutlineInputBorder(),
                 ),
                 maxLines: 3,
@@ -120,8 +122,8 @@ class _AddAnnotationDialogState extends State<AddAnnotationDialog> {
               TextField(
                 controller: _labelController,
                 decoration: InputDecoration(
-                  labelText: l10n.bookmark,
-                  hintText: l10n.tapToSelect,
+                  labelText: _strings.bookmark,
+                  hintText: _strings.tap_to_select,
                   border: const OutlineInputBorder(),
                 ),
               ),
@@ -132,7 +134,7 @@ class _AddAnnotationDialogState extends State<AddAnnotationDialog> {
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context),
-          child: Text(l10n.cancel),
+          child: Text(_strings.cancel),
         ),
         TextButton(
           onPressed: () {
@@ -145,7 +147,7 @@ class _AddAnnotationDialogState extends State<AddAnnotationDialog> {
               ),
             );
           },
-          child: Text(l10n.confirm),
+          child: Text(_strings.confirm),
         ),
       ],
     );

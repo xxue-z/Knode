@@ -244,4 +244,29 @@ mixin class L10nStringsMixin {
   String get wiki_feature_in_development => LocalizeStringDelegate.get('wiki_feature_in_development');
   String get wiki_add_category_in_dev => LocalizeStringDelegate.get('wiki_add_category_in_dev');
   String get wiki_edit_category_in_dev => LocalizeStringDelegate.get('wiki_edit_category_in_dev');
+
+  // ── 阅读器增强功能 ──
+  String get style => LocalizeStringDelegate.get('style');
+  String get background => LocalizeStringDelegate.get('background');
+  String get underline => LocalizeStringDelegate.get('underline');
+  String get bookmark => LocalizeStringDelegate.get('bookmark');
+  String get highlight => LocalizeStringDelegate.get('highlight');
+  String get add_bookmark => LocalizeStringDelegate.get('add_bookmark');
+  String get add_highlight => LocalizeStringDelegate.get('add_highlight');
+  String get note => LocalizeStringDelegate.get('note');
+  String get no_bookmarks => LocalizeStringDelegate.get('no_bookmarks');
+  String get no_highlights => LocalizeStringDelegate.get('no_highlights');
+  String get tap_to_select => LocalizeStringDelegate.get('tap_to_select');
+  String get note_document => LocalizeStringDelegate.get('note_document');
+  String get reader_copy => LocalizeStringDelegate.get('reader_copy');
+  String get reader_bookmark => LocalizeStringDelegate.get('reader_bookmark');
+  String get reader_read_aloud => LocalizeStringDelegate.get('reader_read_aloud');
+  String get reader_dictionary => LocalizeStringDelegate.get('reader_dictionary');
+  String get reader_browser_search => LocalizeStringDelegate.get('reader_browser_search');
+  String get reader_ask_ai => LocalizeStringDelegate.get('reader_ask_ai');
+  String get reader_full_text_search => LocalizeStringDelegate.get('reader_full_text_search');
+  String get reader_kb_search => LocalizeStringDelegate.get('reader_kb_search');
+  String get reader_highlight_note => LocalizeStringDelegate.get('reader_highlight_note');
+  String get cancel => LocalizeStringDelegate.get('cancel');
+  String get confirm => LocalizeStringDelegate.get('confirm');
 }
