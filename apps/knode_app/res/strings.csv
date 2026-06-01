@@ -105,3 +105,37 @@ import_file,Import from file,从文件导入
 import_count,Successfully imported {count} templates,成功导入 {count} 个模板
 skip_memory_check,Skip Memory Compatibility Check,跳过内存兼容性检查
 skip_memory_check_desc,"Show all models, don't filter by device memory",显示所有模型，不根据设备内存过滤
+backup,Backup,备份
+backup_history,Backup History,备份历史
+no_backups,No backup records,暂无备份记录
+select_restore_version,Select Restore Version,选择恢复版本
+no_backups_available,No backups available,没有可用的备份
+backup_complete,Backup complete,备份完成
+backup_failed,Backup failed,备份失败
+restore_complete,Restore complete,恢复完成
+restore_failed,Restore failed,恢复失败
+packing_files,Packing files...,正在打包文件...
+uploading,Uploading...,正在上传...
+downloading,Downloading...,正在下载...
+decompressing,Decompressing...,正在解压...
+keep_backup_count,Keep backup count,保留备份数量
+keep_backup_desc,Keep latest {n} backups during auto-cleanup,自动清理时保留最近 {n} 个备份
+no_cleanup,No cleanup,不清理
+delete_backup_confirm,Delete this backup?,确定删除此备份？
+get_backup_list_failed,Failed to get backup list,获取备份列表失败
+restore_confirm,Restore to this version? Current data will be overwritten,确定恢复到此备份版本？当前数据将被覆盖
+upload_failed,Upload failed,上传失败
+download_failed,Download failed,下载失败
+delete_failed,Delete failed,删除失败
+user,User,账号
+password,Password,密码
+test_connection,Test Connection,测试连接
+save_success,Saved,已保存
+backup_frequency,Backup Frequency,备份频率
+manual_operation,Manual Operation,手动操作
+backup_now,Backup Now,立即备份
+restore,Restore,恢复
+daily,Daily,每天
+weekly,Weekly,每周
+manual,Manual,手动
+webdav_not_configured,WebDAV not configured,WebDAV 未配置
