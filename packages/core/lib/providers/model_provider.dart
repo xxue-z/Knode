@@ -2,6 +2,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:core/gen/strings.dart';
 import 'package:core/models/local_model.dart';
+import 'package:core/services/app_logger.dart';
 import 'package:core/services/model_repo_service.dart';
 import 'package:core/services/model_download_service.dart';
 import 'package:core/ai/local_ai_provider.dart';
@@ -84,6 +85,7 @@ class ModelListNotifier extends AsyncNotifier<List<LocalModel>> {
 
   /// 加载模型到内存。
   Future<void> loadModel(LocalModel model) async {
+    AppLogger.instance.i('加载模型: ${model.name}', tag: 'ModelProvider');
     // 先卸载当前已加载的模型
     unloadCurrent();
 
@@ -110,9 +112,11 @@ class ModelListNotifier extends AsyncNotifier<List<LocalModel>> {
       }).toList();
       state = AsyncData(updated);
 
+      AppLogger.instance.i('模型加载成功: ${model.name}', tag: 'ModelProvider');
       // 持久化当前模型 ID
       await ref.read(settingsProvider.notifier).set('local_model_id', model.id);
     } catch (e) {
+      AppLogger.instance.e('模型加载失败: ${model.name}', tag: 'ModelProvider', error: e);
       _updateModel(model.id, (m) => m.copyWith(
         status: ModelStatus.loadFailed,
         errorMessage: '${_strings.core_loading_failed}: $e',
@@ -122,6 +126,7 @@ class ModelListNotifier extends AsyncNotifier<List<LocalModel>> {
 
   /// 卸载当前已加载的模型。
   void unloadCurrent() {
+    AppLogger.instance.d('卸载当前模型', tag: 'ModelProvider');
     final localAi = ref.read(localAiProviderRef);
     if (localAi.isLoaded) {
       localAi.dispose();
@@ -140,6 +145,7 @@ class ModelListNotifier extends AsyncNotifier<List<LocalModel>> {
 
   /// 删除模型文件。
   Future<void> deleteModel(LocalModel model) async {
+    AppLogger.instance.i('删除模型: ${model.id}', tag: 'ModelProvider');
     final service = ref.read(modelDownloadServiceProvider);
     await service.deleteModel(model.id);
     _updateModel(model.id, (m) => m.copyWith(
@@ -151,8 +157,10 @@ class ModelListNotifier extends AsyncNotifier<List<LocalModel>> {
 
   /// 导入本地 .gguf 文件。
   Future<void> importLocalModel(String filePath) async {
+    AppLogger.instance.i('导入模型: $filePath', tag: 'ModelProvider');
     final service = ref.read(modelDownloadServiceProvider);
     final name = await service.importLocalModel(filePath);
+    AppLogger.instance.i('模型导入成功: $name', tag: 'ModelProvider');
 
     // 添加到模型列表
     final current = state.valueOrNull ?? [];

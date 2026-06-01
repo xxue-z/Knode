@@ -4,6 +4,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
 import 'package:core/utils/json_utils.dart';
 import 'package:core/models/cloud_vendor.dart';
+import 'package:core/services/app_logger.dart';
 
 /// 云端厂商 JSON 拉取与本地缓存服务。
 ///
@@ -25,8 +26,10 @@ class CloudVendorService {
       final json = await _fetchWithRetry(url);
       final vendors = _parseVendors(json);
       await _saveCache(json);
+      AppLogger.instance.i('云厂商拉取成功: ${vendors.length} 个厂商', tag: 'CloudVendor');
       return vendors;
     } catch (e) {
+      AppLogger.instance.w('云厂商拉取失败，使用缓存', tag: 'CloudVendor', error: e);
       final cached = await getCachedVendors();
       if (cached.isNotEmpty) return cached;
       rethrow;
@@ -67,11 +70,13 @@ class CloudVendorService {
         if (e.type == DioExceptionType.cancel) rethrow;
         lastError = StateError('请求失败: ${e.message}');
         if (attempt < 2) {
+          AppLogger.instance.w('云厂商请求重试: 第 ${attempt + 1} 次', tag: 'CloudVendor', error: lastError);
           await Future.delayed(Duration(seconds: (1 << (attempt + 1))));
         }
       } catch (e) {
         lastError = StateError('请求失败: $e');
         if (attempt < 2) {
+          AppLogger.instance.w('云厂商请求重试: 第 ${attempt + 1} 次', tag: 'CloudVendor', error: lastError);
           await Future.delayed(Duration(seconds: (1 << (attempt + 1))));
         }
       }

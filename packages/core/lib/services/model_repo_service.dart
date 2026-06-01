@@ -1,9 +1,10 @@
-﻿import 'dart:io';
+import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
 import 'package:core/utils/json_utils.dart';
 import 'package:core/models/local_model.dart';
+import 'package:core/services/app_logger.dart';
 
 /// 远程模型仓库 JSON 拉取与本地缓存服务。
 ///
@@ -25,9 +26,10 @@ class ModelRepoService {
       final json = await _fetchWithRetry(url);
       final models = _parseModels(json);
       await _saveCache(json);
+      AppLogger.instance.i('模型仓库拉取成功: ${models.length} 个模型, url=$url', tag: 'ModelRepo');
       return models;
     } catch (e) {
-      // 网络失败，尝试读取缓存
+      AppLogger.instance.w('模型仓库拉取失败，使用缓存', tag: 'ModelRepo', error: e);
       final cached = await getCachedModels();
       if (cached.isNotEmpty) return cached;
       rethrow;
@@ -68,11 +70,13 @@ class ModelRepoService {
         if (e.type == DioExceptionType.cancel) rethrow;
         lastError = StateError('请求失败: ${e.message}');
         if (attempt < 2) {
+          AppLogger.instance.w('模型仓库请求重试: 第 ${attempt + 1} 次', tag: 'ModelRepo', error: lastError);
           await Future.delayed(Duration(seconds: (1 << (attempt + 1)))); // 2, 4
         }
       } catch (e) {
         lastError = StateError('请求失败: $e');
         if (attempt < 2) {
+          AppLogger.instance.w('模型仓库请求重试: 第 ${attempt + 1} 次', tag: 'ModelRepo', error: lastError);
           await Future.delayed(Duration(seconds: (1 << (attempt + 1))));
         }
       }

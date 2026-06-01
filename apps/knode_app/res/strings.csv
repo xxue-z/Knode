@@ -139,3 +139,22 @@ daily,Daily,每天
 weekly,Weekly,每周
 manual,Manual,手动
 webdav_not_configured,WebDAV not configured,WebDAV 未配置
+advanced_settings,Advanced Settings,高级设置
+application_log,Application log,应用日志
+view_logs,View Logs,查看日志
+log_viewer,Log Viewer,日志查看器
+log_level,Level,级别
+view_operation_logs_and_error_records,View operation logs and error records,查看运行日志、错误记录
+log_all,All,全部
+log_search,Search,搜索
+log_search_hint,Search logs...,搜索日志...
+log_no_logs,No logs,暂无日志
+log_export,Export Logs,导出日志
+log_clear,Clear Logs,清空日志
+log_clear_confirm,Clear all log files? This cannot be undone.,确定要清空所有日志文件吗？此操作不可恢复。
+log_clear_success,Logs cleared,日志已清空
+log_export_success,Logs exported,日志已导出
+log_copied,Copied to clipboard,已复制到剪贴板
+log_detail,Log Detail,日志详情
+log_error_info,Error Info,错误信息
+log_stack_trace,Stack Trace,堆栈跟踪

@@ -5,6 +5,7 @@ import 'package:knode_app/gen/strings.dart';
 import 'package:knode_app/screens/ai_settings.dart';
 import 'package:knode_app/screens/backup_settings.dart';
 import 'package:knode_app/screens/prompt_management_screen.dart';
+import 'package:knode_app/screens/log_viewer_screen.dart';
 
 final _strings = const L10nStringsMixin();
 
@@ -49,6 +50,17 @@ class SettingsPage extends ConsumerWidget {
               title: _strings.knode_app_backup_settings,
               subtitle: _strings.knode_app_webdav_subtitle,
               onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const BackupSettingsPage())),
+            ),
+          ]),
+          _Section(title: _strings.knode_app_advanced_settings, children: [
+            _SettingsTile(
+              icon: Icons.bug_report_outlined,
+              title: _strings.knode_application_log,
+              subtitle: _strings.knode_view_operation_logs_and_error_records,
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const LogViewerScreen()),
+              ),
             ),
           ]),
           _Section(title: _strings.knode_app_about, children: [

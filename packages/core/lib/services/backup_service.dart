@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:meta/meta.dart';
 import 'package:core/models/backup_snapshot.dart';
 import 'package:core/utils/zip_utils.dart';
+import 'package:core/services/app_logger.dart';
 
 /// 进度回调。
 typedef BackupProgressCallback = void Function(double percent, String message);
@@ -40,6 +41,7 @@ class BackupService {
   }) async {
     if (!isConfigured) throw StateError('WebDAV 未配置');
 
+    AppLogger.instance.i('开始备份: dbPath=$dbPath, wikiRoot=$wikiRoot', tag: 'Backup');
     onProgress?.call(0.0, '正在打包文件...');
 
     final zipBytes = await ZipUtils.compressDirectory(
@@ -71,6 +73,7 @@ class BackupService {
     }
 
     onProgress?.call(1.0, '备份完成');
+    AppLogger.instance.i('备份上传完成: $fileName, 大小=${zipBytes.length}B', tag: 'Backup');
 
     return BackupSnapshot(
       fileName: fileName,
@@ -95,6 +98,7 @@ class BackupService {
     final targetSnapshot = snapshot ?? await _getLatestSnapshot();
     if (targetSnapshot == null) throw StateError('没有可用的备份');
 
+    AppLogger.instance.i('开始恢复: ${targetSnapshot.fileName}', tag: 'Backup');
     onProgress?.call(0.0, '正在下载 ${targetSnapshot.fileName}...');
 
     final uri = Uri.parse('$_url/$_backupDir/${targetSnapshot.fileName}');
@@ -119,6 +123,7 @@ class BackupService {
     );
 
     onProgress?.call(1.0, '恢复完成 ($count 个文件)');
+    AppLogger.instance.i('恢复完成: $count 个文件', tag: 'Backup');
   }
 
   // ============================================================
@@ -148,7 +153,9 @@ class BackupService {
       }
 
       final body = await resp.stream.bytesToString();
-      return parseBackupList(body);
+      final snapshots = parseBackupList(body);
+      AppLogger.instance.d('获取备份列表: ${snapshots.length} 个快照', tag: 'Backup');
+      return snapshots;
     } finally {
       client.close();
     }
@@ -199,6 +206,7 @@ class BackupService {
   Future<void> deleteBackup(BackupSnapshot snapshot) async {
     if (!isConfigured) throw StateError('WebDAV 未配置');
 
+    AppLogger.instance.i('删除备份: ${snapshot.fileName}', tag: 'Backup');
     final uri = Uri.parse('$_url/$_backupDir/${snapshot.fileName}');
     final client = http.Client();
     try {
@@ -230,6 +238,9 @@ class BackupService {
       } catch (_) {
         // 单个删除失败不影响整体清理
       }
+    }
+    if (deletedCount > 0) {
+      AppLogger.instance.i('自动清理: 删除 $deletedCount 个旧备份', tag: 'Backup');
     }
     return deletedCount;
   }
@@ -275,8 +286,11 @@ class BackupService {
     try {
       final uri = Uri.parse(_url!);
       final resp = await http.get(uri).timeout(const Duration(seconds: 5));
-      return resp.statusCode < 400;
-    } catch (_) {
+      final ok = resp.statusCode < 400;
+      AppLogger.instance.d('WebDAV 连接测试: ${ok ? "成功" : "失败"}', tag: 'Backup');
+      return ok;
+    } catch (e) {
+      AppLogger.instance.d('WebDAV 连接测试: 失败', tag: 'Backup', error: e);
       return false;
     }
   }

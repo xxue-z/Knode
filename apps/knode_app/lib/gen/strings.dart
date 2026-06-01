@@ -111,4 +111,23 @@ mixin class L10nStringsMixin {
   String get webdav => LocalizeStringDelegate.get('webdav');
   String get webdav_subtitle => LocalizeStringDelegate.get('webdav_subtitle');
   String get wrong_card => LocalizeStringDelegate.get('wrong_card');
+  String get advanced_settings => LocalizeStringDelegate.get('advanced_settings');
+  String get application_log => LocalizeStringDelegate.get('application_log');
+  String get view_logs => LocalizeStringDelegate.get('view_logs');
+  String get log_viewer => LocalizeStringDelegate.get('log_viewer');
+  String get log_level => LocalizeStringDelegate.get('log_level');
+  String get view_operation_logs_and_error_records => LocalizeStringDelegate.get('view_operation_logs_and_error_records');
+  String get log_all => LocalizeStringDelegate.get('log_all');
+  String get log_search => LocalizeStringDelegate.get('log_search');
+  String get log_search_hint => LocalizeStringDelegate.get('log_search_hint');
+  String get log_no_logs => LocalizeStringDelegate.get('log_no_logs');
+  String get log_export => LocalizeStringDelegate.get('log_export');
+  String get log_clear => LocalizeStringDelegate.get('log_clear');
+  String get log_clear_confirm => LocalizeStringDelegate.get('log_clear_confirm');
+  String get log_clear_success => LocalizeStringDelegate.get('log_clear_success');
+  String get log_export_success => LocalizeStringDelegate.get('log_export_success');
+  String get log_copied => LocalizeStringDelegate.get('log_copied');
+  String get log_detail => LocalizeStringDelegate.get('log_detail');
+  String get log_error_info => LocalizeStringDelegate.get('log_error_info');
+  String get log_stack_trace => LocalizeStringDelegate.get('log_stack_trace');
 }

@@ -6,6 +6,7 @@ import 'package:crypto/crypto.dart';
 import 'dart:convert';
 import 'package:core/models/local_model.dart';
 import 'package:core/utils/device_utils.dart';
+import 'package:core/services/app_logger.dart';
 
 class DownloadProgress {
   final double percent;
@@ -34,6 +35,8 @@ class ModelDownloadService {
     if (url == null || url.isEmpty) {
       throw StateError('镜像 "$mirrorKey" 不存在');
     }
+
+    AppLogger.instance.i('开始下载模型: ${model.name}, 镜像=$mirrorKey', tag: 'Download');
 
     final dir = Directory(_modelsDir);
     if (!await dir.exists()) await dir.create(recursive: true);
@@ -71,6 +74,7 @@ class ModelDownloadService {
       // SHA256 校验
       if (model.sha256.isNotEmpty) {
         final valid = await verifySha256(tempPath, model.sha256);
+        AppLogger.instance.d('SHA256 校验: ${valid ? "通过" : "失败"}', tag: 'Download');
         if (!valid) {
           await tempFile.delete();
           throw StateError('文件校验失败，请重新下载');
@@ -81,10 +85,13 @@ class ModelDownloadService {
       final finalFile = File(finalPath);
       if (await finalFile.exists()) await finalFile.delete();
       await tempFile.rename(finalPath);
+      AppLogger.instance.i('模型下载完成: ${model.name}', tag: 'Download');
     } catch (e) {
       if (e is DioException && e.type == DioExceptionType.cancel) {
+        AppLogger.instance.i('下载已取消', tag: 'Download');
         return;
       }
+      AppLogger.instance.e('模型下载失败: ${model.name}', tag: 'Download', error: e);
       rethrow;
     } finally {
       _currentCancelToken = null;

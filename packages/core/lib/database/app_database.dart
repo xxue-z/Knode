@@ -1,5 +1,6 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart' as p;
+import 'package:core/services/app_logger.dart';
 
 import 'tables/category_table.dart';
 import 'tables/document_table.dart';
@@ -51,6 +52,7 @@ class AppDatabase {
       onUpgrade: _onUpgrade,
       onConfigure: _onConfigure,
     );
+    AppLogger.instance.i('数据库初始化成功: $_dbName', tag: 'Database');
   }
 
   /// Enables foreign keys and other pragmas before any other operation.
