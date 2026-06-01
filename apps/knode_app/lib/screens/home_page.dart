@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:knode_app/gen/strings.dart';
 import 'package:knode_app/screens/daily_card.dart';
 import 'package:knode_app/screens/quick_card.dart';
 import 'package:knode_app/screens/score_card.dart';
 import 'package:knode_app/screens/wrong_card.dart';
+
+const _strings = L10nStringsMixin();
 
 /// 首页，展示每日一测、随机速记、最近成绩、错题本等卡片。
 class HomePage extends StatelessWidget {
@@ -18,14 +21,14 @@ class HomePage extends StatelessWidget {
           children: [
             // 欢迎语
             Text(
-              '欢迎回来',
+              _strings.knode_app_welcome_back,
               style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                 fontWeight: FontWeight.bold,
               ),
             ),
             const SizedBox(height: 4),
             Text(
-              '今天也要坚持学习哦',
+              _strings.knode_app_daily_encouragement,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 color: Theme.of(context).colorScheme.onSurfaceVariant,
               ),

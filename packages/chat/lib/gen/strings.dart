@@ -38,6 +38,10 @@ mixin class L10nStringsMixin {
   String get chat_archive_in_detail =>
       LocalizeStringDelegate.get('chat_archive_in_detail');
 
+  /// 会话归档
+  String get chat_archive_title =>
+      LocalizeStringDelegate.get('chat_archive_title');
+
   /// 取消
   String get chat_cancel => LocalizeStringDelegate.get('chat_cancel');
 
@@ -252,6 +256,10 @@ mixin class L10nStringsMixin {
   String get chat_send_message_need_ai =>
       LocalizeStringDelegate.get('chat_send_message_need_ai');
 
+  /// 会话共 {n} 条消息
+  String chat_session_n_messages({required String n}) =>
+      LocalizeStringDelegate.get('chat_session_n_messages', arguments: [n]);
+
   /// 来源
   String get chat_sources => LocalizeStringDelegate.get('chat_sources');
 
@@ -265,6 +273,9 @@ mixin class L10nStringsMixin {
 
   /// Token 用量
   String get chat_token_usage => LocalizeStringDelegate.get('chat_token_usage');
+
+  /// 用户
+  String get chat_user_label => LocalizeStringDelegate.get('chat_user_label');
 
   /// 语音输入
   String get chat_voice_input => LocalizeStringDelegate.get('chat_voice_input');

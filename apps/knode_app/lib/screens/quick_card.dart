@@ -29,7 +29,7 @@ class QuickCard extends ConsumerWidget {
                     Text(_strings.knode_app_quick_card, style: Theme.of(context).textTheme.titleSmall),
                     const SizedBox(height: 4),
                     Text(
-                      '基于最近阅读文件出题',
+                      _strings.knode_app_based_on_recent,
                       style: Theme.of(context).textTheme.bodySmall,
                     ),
                   ],

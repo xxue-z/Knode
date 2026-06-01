@@ -91,7 +91,7 @@ class _DictionaryPanelState extends ConsumerState<DictionaryPanel> {
               child: TextField(
                 controller: _controller,
                 decoration: InputDecoration(
-                  labelText: '搜索单词',
+                  labelText: _strings.wiki_search_word,
                   border: const OutlineInputBorder(),
                   prefixIcon: const Icon(Icons.search),
                   suffixIcon: _controller.text.isNotEmpty
@@ -133,7 +133,7 @@ class _DictionaryPanelState extends ConsumerState<DictionaryPanel> {
                       child: Padding(
                         padding: const EdgeInsets.all(32),
                         child: Text(
-                          '输入单词查询释义',
+                          _strings.wiki_input_word_hint,
                           textAlign: TextAlign.center,
                           style: theme.textTheme.bodyMedium?.copyWith(
                             color: theme.colorScheme.onSurfaceVariant,

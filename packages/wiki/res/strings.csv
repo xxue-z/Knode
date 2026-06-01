@@ -1,4 +1,37 @@
 id,en,zh
+switch_to_source,Switch to source mode,切换到源码模式
+switch_to_rich,Switch to rich text mode,切换到富文本模式
+markdown_source,Markdown source...,Markdown 源码...
+no_text_content,"(PDF file has no text content, may be scanned)","(PDF 文件无文本内容，可能为扫描件)"
+no_docx_text,"(DOCX file has no text content)","(DOCX 文件无文本内容)"
+input_answer,Enter answer,输入答案
+input_your_answer,Enter your answer...,输入你的回答...
+score_suffix,points,分
+answer_correct_n,Correct  /  questions,答对  /  题
+read_aloud,Read Aloud,朗读
+browser_search,Browser Search,浏览器搜索
+ask_ai,Ask AI,问问AI
+fulltext_search,Full-text Search,全文搜索
+knowledge_search,Knowledge Search,知识库搜索
+search_word,Search Word,搜索单词
+input_word_hint,Enter word to look up,输入单词查询释义
+search_document,Search documents...,搜索文档...
+prev_match,Previous Match,上一个匹配
+next_match,Next Match,下一个匹配
+add_note,Add Note,添加笔记
+note_input_hint,Enter note content...,输入笔记内容...
+skip,Skip,跳过
+note_saved,Note Saved,笔记已保存
+toc,Table of Contents,目录
+no_titles,No Titles,暂无标题
+reading_settings,Reading Settings,阅读设置
+margin,Margin,页边距
+theme,Theme,主题
+light,Light,浅色
+eye_care,Eye Care,护眼
+dark,Dark,深色
+outline,Outline,目录
+no_headings,No headings found,暂无标题
 graph_canvas_pending,Graph Canvas (Coming Soon),图谱画布（开发中）
 feature_development,In Development,开发中
 explain_text,Explain,解释

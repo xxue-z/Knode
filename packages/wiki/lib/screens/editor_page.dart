@@ -136,7 +136,7 @@ class _EditorPageState extends ConsumerState<EditorPage> {
           // 模式切换按钮。
           IconButton(
             icon: Icon(_isRichTextMode ? Icons.code : Icons.format_quote),
-            tooltip: _isRichTextMode ? '切换到源码模式' : '切换到富文本模式',
+            tooltip: _isRichTextMode ? _strings.wiki_switch_to_source : _strings.wiki_switch_to_rich,
             onPressed: _toggleMode,
           ),
           // 手动保存按钮。

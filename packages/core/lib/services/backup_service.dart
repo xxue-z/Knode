@@ -5,6 +5,10 @@ import 'package:core/models/backup_snapshot.dart';
 import 'package:core/utils/zip_utils.dart';
 import 'package:core/services/app_logger.dart';
 
+import '../gen/strings.dart';
+
+const _strings = L10nStringsMixin();
+
 /// 进度回调。
 typedef BackupProgressCallback = void Function(double percent, String message);
 
@@ -42,7 +46,7 @@ class BackupService {
     if (!isConfigured) throw StateError('WebDAV 未配置');
 
     AppLogger.instance.i('开始备份: dbPath=$dbPath, wikiRoot=$wikiRoot', tag: 'Backup');
-    onProgress?.call(0.0, '正在打包文件...');
+    onProgress?.call(0.0, _strings.core_progress_packing);
 
     final zipBytes = await ZipUtils.compressDirectory(
       directory: wikiRoot,
@@ -50,7 +54,7 @@ class BackupService {
       dbPath: dbPath,
     );
 
-    onProgress?.call(0.5, '正在上传...');
+    onProgress?.call(0.5, _strings.core_progress_uploading);
 
     final timestamp = _formatTimestamp(DateTime.now());
     final fileName = 'knode_backup_$timestamp.zip';
@@ -72,7 +76,7 @@ class BackupService {
       client.close();
     }
 
-    onProgress?.call(1.0, '备份完成');
+    onProgress?.call(1.0, _strings.core_progress_backup_complete);
     AppLogger.instance.i('备份上传完成: $fileName, 大小=${zipBytes.length}B', tag: 'Backup');
 
     return BackupSnapshot(
@@ -114,7 +118,7 @@ class BackupService {
       client.close();
     }
 
-    onProgress?.call(0.4, '正在解压...');
+    onProgress?.call(0.4, _strings.core_progress_decompressing);
 
     final count = await ZipUtils.decompressToDirectory(
       zipBytes: zipBytes,

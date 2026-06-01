@@ -34,6 +34,9 @@ class L10nEn extends L10n {
       'Archive feature is available in conversation detail';
 
   @override
+  String get chat_archive_title => 'Conversation Archive';
+
+  @override
   String get chat_cancel => 'Cancel';
 
   @override
@@ -137,6 +140,9 @@ class L10nEn extends L10n {
   String get chat_link_label => 'Link';
 
   @override
+  String get chat_load_failed => 'Load failed';
+
+  @override
   String get chat_loading => 'Loading...';
 
   @override
@@ -215,6 +221,11 @@ class L10nEn extends L10n {
       'Message sending requires AIProvider connection';
 
   @override
+  String chat_session_n_messages(String n) {
+    return 'Conversation has $n messages';
+  }
+
+  @override
   String get chat_sources => 'Sources';
 
   @override
@@ -226,6 +237,9 @@ class L10nEn extends L10n {
 
   @override
   String get chat_token_usage => 'Token Usage';
+
+  @override
+  String get chat_user_label => 'User';
 
   @override
   String get chat_voice_input => 'Voice Input';
@@ -428,6 +442,24 @@ class L10nEn extends L10n {
   String get core_profile => 'Profile';
 
   @override
+  String get core_progress_backup_complete => 'Backup complete';
+
+  @override
+  String get core_progress_decompressing => 'Decompressing...';
+
+  @override
+  String get core_progress_downloading => 'Downloading...';
+
+  @override
+  String get core_progress_packing => 'Packing files...';
+
+  @override
+  String get core_progress_restore_complete => 'Restore complete';
+
+  @override
+  String get core_progress_uploading => 'Uploading...';
+
+  @override
   String get core_quarterly_exam_2 => 'Quarterly Exam';
 
   @override
@@ -502,6 +534,9 @@ class L10nEn extends L10n {
   String get core_true_false => 'True/False';
 
   @override
+  String get core_unnamed_document => 'Unnamed Document';
+
+  @override
   String get core_user_role => 'User';
 
   @override
@@ -533,6 +568,9 @@ class L10nEn extends L10n {
       'Local model management, cloud API config';
 
   @override
+  String get knode_app_ai_label => 'AI';
+
+  @override
   String get knode_app_ai_settings => 'AI Settings';
 
   @override
@@ -546,6 +584,9 @@ class L10nEn extends L10n {
 
   @override
   String get knode_app_application_log => 'Application log';
+
+  @override
+  String get knode_app_archive_title => 'Conversation Archive';
 
   @override
   String get knode_app_auto_backup => 'Auto Backup';
@@ -584,6 +625,9 @@ class L10nEn extends L10n {
 
   @override
   String get knode_app_backup_settings => 'Backup Settings';
+
+  @override
+  String get knode_app_based_on_recent => 'Based on recent reading';
 
   @override
   String get knode_app_bottom_navigation => 'Bottom Navigation';
@@ -642,6 +686,11 @@ class L10nEn extends L10n {
   String get knode_app_copy => 'Copy';
 
   @override
+  String knode_app_correct_n_of_m(String n, String m) {
+    return 'Correct $n / $m questions';
+  }
+
+  @override
   String get knode_app_current_storage_path => 'Current Storage Path';
 
   @override
@@ -657,6 +706,9 @@ class L10nEn extends L10n {
   String get knode_app_daily_card => 'Daily Card';
 
   @override
+  String get knode_app_daily_encouragement => 'Keep learning today!';
+
+  @override
   String get knode_app_daily_label => 'Daily';
 
   @override
@@ -668,6 +720,9 @@ class L10nEn extends L10n {
 
   @override
   String get knode_app_decompressing => 'Decompressing...';
+
+  @override
+  String get knode_app_default_exam_title => 'Exam';
 
   @override
   String get knode_app_delete => 'Delete';
@@ -934,10 +989,16 @@ class L10nEn extends L10n {
   String get knode_app_no_exam_records => 'No exam records';
 
   @override
+  String get knode_app_no_key_hint => 'Don\'t have a Key? Click to get one';
+
+  @override
   String get knode_app_no_models => 'No models';
 
   @override
   String get knode_app_no_templates => 'No templates';
+
+  @override
+  String get knode_app_no_wrong_cards => 'No wrong cards yet';
 
   @override
   String get knode_app_not_answered => 'Not answered';
@@ -975,6 +1036,24 @@ class L10nEn extends L10n {
 
   @override
   String get knode_app_profile => 'Profile';
+
+  @override
+  String get knode_app_progress_backup_complete => 'Backup complete';
+
+  @override
+  String get knode_app_progress_decompressing => 'Decompressing...';
+
+  @override
+  String get knode_app_progress_downloading => 'Downloading...';
+
+  @override
+  String get knode_app_progress_packing => 'Packing files...';
+
+  @override
+  String get knode_app_progress_restore_complete => 'Restore complete';
+
+  @override
+  String get knode_app_progress_uploading => 'Uploading...';
 
   @override
   String get knode_app_prompt_edit_hint => 'Edit prompt template...';
@@ -1015,6 +1094,9 @@ class L10nEn extends L10n {
 
   @override
   String get knode_app_quick_card => 'Quick Card';
+
+  @override
+  String get knode_app_quiz_due_review => 'due for review';
 
   @override
   String get knode_app_quiz_started_switch_tab =>
@@ -1076,6 +1158,11 @@ class L10nEn extends L10n {
   String get knode_app_score_card => 'Score Card';
 
   @override
+  String knode_app_score_n_points(String n) {
+    return '$n points';
+  }
+
+  @override
   String get knode_app_search_api_key => 'Search API Key';
 
   @override
@@ -1089,6 +1176,11 @@ class L10nEn extends L10n {
 
   @override
   String get knode_app_service_provider => 'Service Provider';
+
+  @override
+  String knode_app_session_n_messages(String n) {
+    return 'Conversation has $n messages';
+  }
 
   @override
   String get knode_app_settings => 'Settings';
@@ -1168,6 +1260,9 @@ class L10nEn extends L10n {
   String get knode_app_theme => 'Theme';
 
   @override
+  String get knode_app_unnamed_document => 'Unnamed Document';
+
+  @override
   String get knode_app_upload_failed => 'Upload failed';
 
   @override
@@ -1175,6 +1270,9 @@ class L10nEn extends L10n {
 
   @override
   String get knode_app_user => 'User';
+
+  @override
+  String get knode_app_user_label => 'User';
 
   @override
   String get knode_app_variables => 'Variables';
@@ -1215,6 +1313,9 @@ class L10nEn extends L10n {
 
   @override
   String get knode_app_weekly_label => 'Weekly';
+
+  @override
+  String get knode_app_welcome_back => 'Welcome Back';
 
   @override
   String get knode_app_wrong_card => 'Wrong Card';
@@ -1699,6 +1800,9 @@ class L10nEn extends L10n {
   String get wiki_add_highlight => 'Add Highlight';
 
   @override
+  String get wiki_add_note => 'Add Note';
+
+  @override
   String get wiki_add_tag => 'Add Tag';
 
   @override
@@ -1711,6 +1815,12 @@ class L10nEn extends L10n {
   String get wiki_all_knowledge => 'All Knowledge';
 
   @override
+  String get wiki_answer_correct_n => 'Correct  /  questions';
+
+  @override
+  String get wiki_ask_ai => 'Ask AI';
+
+  @override
   String get wiki_auto_generate_tags => 'Auto-generate tags for new docs';
 
   @override
@@ -1721,6 +1831,9 @@ class L10nEn extends L10n {
 
   @override
   String get wiki_bookmark => 'Bookmark';
+
+  @override
+  String get wiki_browser_search => 'Browser Search';
 
   @override
   String get wiki_cancel => 'Cancel';
@@ -1757,6 +1870,9 @@ class L10nEn extends L10n {
 
   @override
   String get wiki_create_node => 'Create Node';
+
+  @override
+  String get wiki_dark => 'Dark';
 
   @override
   String get wiki_delete => 'Delete';
@@ -1797,16 +1913,31 @@ class L10nEn extends L10n {
   String get wiki_error => 'Error';
 
   @override
+  String get wiki_explain_text => 'Explain';
+
+  @override
   String get wiki_export => 'Export';
 
   @override
   String get wiki_export_document => 'Export Document';
 
   @override
+  String get wiki_eye_care => 'Eye Care';
+
+  @override
+  String get wiki_feature_development => 'In Development';
+
+  @override
   String get wiki_feature_in_development => 'Feature in development';
 
   @override
   String get wiki_font_size => 'Font Size';
+
+  @override
+  String get wiki_fulltext_search => 'Full-text Search';
+
+  @override
+  String get wiki_generate_based => 'Generate based on';
 
   @override
   String get wiki_generate_question => 'Generate Question';
@@ -1822,6 +1953,9 @@ class L10nEn extends L10n {
 
   @override
   String get wiki_graph_canvas => 'Graph Canvas';
+
+  @override
+  String get wiki_graph_canvas_pending => 'Graph Canvas (Coming Soon)';
 
   @override
   String get wiki_graph_controller => 'Graph Controller';
@@ -1845,10 +1979,25 @@ class L10nEn extends L10n {
   String get wiki_import_document => 'Import Document';
 
   @override
+  String get wiki_input_answer => 'Enter answer';
+
+  @override
+  String get wiki_input_word_hint => 'Enter word to look up';
+
+  @override
+  String get wiki_input_your_answer => 'Enter your answer...';
+
+  @override
   String get wiki_knowledge_graph => 'Knowledge Graph';
 
   @override
   String get wiki_knowledge_map => 'Knowledge Map';
+
+  @override
+  String get wiki_knowledge_search => 'Knowledge Search';
+
+  @override
+  String get wiki_light => 'Light';
 
   @override
   String get wiki_line_spacing => 'Line Spacing';
@@ -1860,10 +2009,19 @@ class L10nEn extends L10n {
   String get wiki_manage_categories => 'Manage Categories';
 
   @override
+  String get wiki_margin => 'Margin';
+
+  @override
+  String get wiki_markdown_source => 'Markdown source...';
+
+  @override
   String get wiki_move_to => 'Move To';
 
   @override
   String get wiki_new_document => 'New Document';
+
+  @override
+  String get wiki_next_match => 'Next Match';
 
   @override
   String get wiki_night_mode => 'Night Mode';
@@ -1878,10 +2036,23 @@ class L10nEn extends L10n {
   String get wiki_no_documents => 'No Documents';
 
   @override
+  String get wiki_no_docx_text => '(DOCX file has no text content)';
+
+  @override
+  String get wiki_no_headings => 'No headings found';
+
+  @override
   String get wiki_no_highlights => 'No highlights yet';
 
   @override
   String get wiki_no_tags => 'No tags';
+
+  @override
+  String get wiki_no_text_content =>
+      '(PDF file has no text content, may be scanned)';
+
+  @override
+  String get wiki_no_titles => 'No Titles';
 
   @override
   String get wiki_node_name => 'Node Name';
@@ -1893,7 +2064,16 @@ class L10nEn extends L10n {
   String get wiki_note_document => 'Note Document';
 
   @override
+  String get wiki_note_input_hint => 'Enter note content...';
+
+  @override
+  String get wiki_note_saved => 'Note Saved';
+
+  @override
   String get wiki_notes => 'Notes';
+
+  @override
+  String get wiki_outline => 'Outline';
 
   @override
   String get wiki_page => 'Page';
@@ -1902,7 +2082,16 @@ class L10nEn extends L10n {
   String get wiki_pdf_export => 'PDF Export';
 
   @override
+  String get wiki_please_explain => 'Please explain';
+
+  @override
+  String get wiki_prev_match => 'Previous Match';
+
+  @override
   String get wiki_question_generation_failed => 'Question generation failed';
+
+  @override
+  String get wiki_read_aloud => 'Read Aloud';
 
   @override
   String get wiki_reader => 'Reader';
@@ -1938,6 +2127,9 @@ class L10nEn extends L10n {
   String get wiki_reader_toolbar => 'Reader Toolbar';
 
   @override
+  String get wiki_reading_settings => 'Reading Settings';
+
+  @override
   String get wiki_rename => 'Rename';
 
   @override
@@ -1957,7 +2149,19 @@ class L10nEn extends L10n {
   String get wiki_save => 'Save';
 
   @override
+  String get wiki_score_suffix => 'points';
+
+  @override
   String get wiki_search => 'Search';
+
+  @override
+  String get wiki_search_document => 'Search documents...';
+
+  @override
+  String get wiki_search_word => 'Search Word';
+
+  @override
+  String get wiki_skip => 'Skip';
 
   @override
   String get wiki_study_materials => 'Study Materials';
@@ -1975,6 +2179,16 @@ class L10nEn extends L10n {
   String get wiki_summary => 'Summary';
 
   @override
+  String get wiki_switch_to_rich => 'Switch to rich text mode';
+
+  @override
+  String get wiki_switch_to_source => 'Switch to source mode';
+
+  @override
+  String get wiki_system_prompt_explain =>
+      'You are a helpful assistant that explains knowledge clearly. Please explain the following content in a clear and organized way.';
+
+  @override
   String get wiki_tag_generated => 'Tags generated';
 
   @override
@@ -1988,6 +2202,12 @@ class L10nEn extends L10n {
 
   @override
   String get wiki_text_to_speech => 'Text to Speech';
+
+  @override
+  String get wiki_theme => 'Theme';
+
+  @override
+  String get wiki_toc => 'Table of Contents';
 
   @override
   String get wiki_tts => 'TTS';

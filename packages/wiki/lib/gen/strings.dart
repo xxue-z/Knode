@@ -29,6 +29,9 @@ mixin class L10nStringsMixin {
   String get wiki_add_highlight =>
       LocalizeStringDelegate.get('wiki_add_highlight');
 
+  /// 添加笔记
+  String get wiki_add_note => LocalizeStringDelegate.get('wiki_add_note');
+
   /// 添加标签
   String get wiki_add_tag => LocalizeStringDelegate.get('wiki_add_tag');
 
@@ -44,6 +47,13 @@ mixin class L10nStringsMixin {
   String get wiki_all_knowledge =>
       LocalizeStringDelegate.get('wiki_all_knowledge');
 
+  /// 答对  &#x2F;  题
+  String get wiki_answer_correct_n =>
+      LocalizeStringDelegate.get('wiki_answer_correct_n');
+
+  /// 问问AI
+  String get wiki_ask_ai => LocalizeStringDelegate.get('wiki_ask_ai');
+
   /// 自动为新文档生成标签
   String get wiki_auto_generate_tags =>
       LocalizeStringDelegate.get('wiki_auto_generate_tags');
@@ -56,6 +66,10 @@ mixin class L10nStringsMixin {
 
   /// 书签
   String get wiki_bookmark => LocalizeStringDelegate.get('wiki_bookmark');
+
+  /// 浏览器搜索
+  String get wiki_browser_search =>
+      LocalizeStringDelegate.get('wiki_browser_search');
 
   /// 取消
   String get wiki_cancel => LocalizeStringDelegate.get('wiki_cancel');
@@ -97,6 +111,9 @@ mixin class L10nStringsMixin {
 
   /// 创建节点
   String get wiki_create_node => LocalizeStringDelegate.get('wiki_create_node');
+
+  /// 深色
+  String get wiki_dark => LocalizeStringDelegate.get('wiki_dark');
 
   /// 删除
   String get wiki_delete => LocalizeStringDelegate.get('wiki_delete');
@@ -155,6 +172,9 @@ mixin class L10nStringsMixin {
   String get wiki_export_document =>
       LocalizeStringDelegate.get('wiki_export_document');
 
+  /// 护眼
+  String get wiki_eye_care => LocalizeStringDelegate.get('wiki_eye_care');
+
   /// 开发中
   String get wiki_feature_development =>
       LocalizeStringDelegate.get('wiki_feature_development');
@@ -165,6 +185,10 @@ mixin class L10nStringsMixin {
 
   /// 字号
   String get wiki_font_size => LocalizeStringDelegate.get('wiki_font_size');
+
+  /// 全文搜索
+  String get wiki_fulltext_search =>
+      LocalizeStringDelegate.get('wiki_fulltext_search');
 
   /// 基于以下内容生成
   String get wiki_generate_based =>
@@ -217,6 +241,18 @@ mixin class L10nStringsMixin {
   String get wiki_import_document =>
       LocalizeStringDelegate.get('wiki_import_document');
 
+  /// 输入答案
+  String get wiki_input_answer =>
+      LocalizeStringDelegate.get('wiki_input_answer');
+
+  /// 输入单词查询释义
+  String get wiki_input_word_hint =>
+      LocalizeStringDelegate.get('wiki_input_word_hint');
+
+  /// 输入你的回答...
+  String get wiki_input_your_answer =>
+      LocalizeStringDelegate.get('wiki_input_your_answer');
+
   /// 知识图谱
   String get wiki_knowledge_graph =>
       LocalizeStringDelegate.get('wiki_knowledge_graph');
@@ -224,6 +260,13 @@ mixin class L10nStringsMixin {
   /// 知识地图
   String get wiki_knowledge_map =>
       LocalizeStringDelegate.get('wiki_knowledge_map');
+
+  /// 知识库搜索
+  String get wiki_knowledge_search =>
+      LocalizeStringDelegate.get('wiki_knowledge_search');
+
+  /// 浅色
+  String get wiki_light => LocalizeStringDelegate.get('wiki_light');
 
   /// 行距
   String get wiki_line_spacing =>
@@ -236,12 +279,22 @@ mixin class L10nStringsMixin {
   String get wiki_manage_categories =>
       LocalizeStringDelegate.get('wiki_manage_categories');
 
+  /// 页边距
+  String get wiki_margin => LocalizeStringDelegate.get('wiki_margin');
+
+  /// Markdown 源码...
+  String get wiki_markdown_source =>
+      LocalizeStringDelegate.get('wiki_markdown_source');
+
   /// 移动到
   String get wiki_move_to => LocalizeStringDelegate.get('wiki_move_to');
 
   /// 新建文档
   String get wiki_new_document =>
       LocalizeStringDelegate.get('wiki_new_document');
+
+  /// 下一个匹配
+  String get wiki_next_match => LocalizeStringDelegate.get('wiki_next_match');
 
   /// 夜间模式
   String get wiki_night_mode => LocalizeStringDelegate.get('wiki_night_mode');
@@ -258,12 +311,26 @@ mixin class L10nStringsMixin {
   String get wiki_no_documents =>
       LocalizeStringDelegate.get('wiki_no_documents');
 
+  /// (DOCX 文件无文本内容)
+  String get wiki_no_docx_text =>
+      LocalizeStringDelegate.get('wiki_no_docx_text');
+
+  /// 暂无标题
+  String get wiki_no_headings => LocalizeStringDelegate.get('wiki_no_headings');
+
   /// 暂无高亮
   String get wiki_no_highlights =>
       LocalizeStringDelegate.get('wiki_no_highlights');
 
   /// 暂无标签
   String get wiki_no_tags => LocalizeStringDelegate.get('wiki_no_tags');
+
+  /// (PDF 文件无文本内容，可能为扫描件)
+  String get wiki_no_text_content =>
+      LocalizeStringDelegate.get('wiki_no_text_content');
+
+  /// 暂无标题
+  String get wiki_no_titles => LocalizeStringDelegate.get('wiki_no_titles');
 
   /// 节点名称
   String get wiki_node_name => LocalizeStringDelegate.get('wiki_node_name');
@@ -275,8 +342,18 @@ mixin class L10nStringsMixin {
   String get wiki_note_document =>
       LocalizeStringDelegate.get('wiki_note_document');
 
+  /// 输入笔记内容...
+  String get wiki_note_input_hint =>
+      LocalizeStringDelegate.get('wiki_note_input_hint');
+
+  /// 笔记已保存
+  String get wiki_note_saved => LocalizeStringDelegate.get('wiki_note_saved');
+
   /// 笔记
   String get wiki_notes => LocalizeStringDelegate.get('wiki_notes');
+
+  /// 目录
+  String get wiki_outline => LocalizeStringDelegate.get('wiki_outline');
 
   /// 页
   String get wiki_page => LocalizeStringDelegate.get('wiki_page');
@@ -288,9 +365,15 @@ mixin class L10nStringsMixin {
   String get wiki_please_explain =>
       LocalizeStringDelegate.get('wiki_please_explain');
 
+  /// 上一个匹配
+  String get wiki_prev_match => LocalizeStringDelegate.get('wiki_prev_match');
+
   /// 题目生成失败
   String get wiki_question_generation_failed =>
       LocalizeStringDelegate.get('wiki_question_generation_failed');
+
+  /// 朗读
+  String get wiki_read_aloud => LocalizeStringDelegate.get('wiki_read_aloud');
 
   /// 阅读器
   String get wiki_reader => LocalizeStringDelegate.get('wiki_reader');
@@ -334,6 +417,10 @@ mixin class L10nStringsMixin {
   String get wiki_reader_toolbar =>
       LocalizeStringDelegate.get('wiki_reader_toolbar');
 
+  /// 阅读设置
+  String get wiki_reading_settings =>
+      LocalizeStringDelegate.get('wiki_reading_settings');
+
   /// 重命名
   String get wiki_rename => LocalizeStringDelegate.get('wiki_rename');
 
@@ -355,8 +442,22 @@ mixin class L10nStringsMixin {
   /// 保存
   String get wiki_save => LocalizeStringDelegate.get('wiki_save');
 
+  /// 分
+  String get wiki_score_suffix =>
+      LocalizeStringDelegate.get('wiki_score_suffix');
+
   /// 搜索
   String get wiki_search => LocalizeStringDelegate.get('wiki_search');
+
+  /// 搜索文档...
+  String get wiki_search_document =>
+      LocalizeStringDelegate.get('wiki_search_document');
+
+  /// 搜索单词
+  String get wiki_search_word => LocalizeStringDelegate.get('wiki_search_word');
+
+  /// 跳过
+  String get wiki_skip => LocalizeStringDelegate.get('wiki_skip');
 
   /// 学习资料
   String get wiki_study_materials =>
@@ -373,6 +474,14 @@ mixin class L10nStringsMixin {
 
   /// 摘要
   String get wiki_summary => LocalizeStringDelegate.get('wiki_summary');
+
+  /// 切换到富文本模式
+  String get wiki_switch_to_rich =>
+      LocalizeStringDelegate.get('wiki_switch_to_rich');
+
+  /// 切换到源码模式
+  String get wiki_switch_to_source =>
+      LocalizeStringDelegate.get('wiki_switch_to_source');
 
   /// 你是一个善于清晰解释知识的助手。请以清晰、有条理的方式解释以下内容。
   String get wiki_system_prompt_explain =>
@@ -396,6 +505,12 @@ mixin class L10nStringsMixin {
   /// 文字转语音
   String get wiki_text_to_speech =>
       LocalizeStringDelegate.get('wiki_text_to_speech');
+
+  /// 主题
+  String get wiki_theme => LocalizeStringDelegate.get('wiki_theme');
+
+  /// 目录
+  String get wiki_toc => LocalizeStringDelegate.get('wiki_toc');
 
   /// 朗读
   String get wiki_tts => LocalizeStringDelegate.get('wiki_tts');

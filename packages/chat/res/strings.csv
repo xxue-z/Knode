@@ -1,4 +1,7 @@
 id,en,zh
+archive_title,Conversation Archive,会话归档
+user_label,User,用户
+session_n_messages,Conversation has {n} messages,会话共 {n} 条消息
 load_failed,Load failed,加载失败
 chat,Chat,对话
 ai_chat,AI Chat,AI 对话

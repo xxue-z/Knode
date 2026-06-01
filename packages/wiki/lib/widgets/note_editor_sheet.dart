@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:core/services/app_logger.dart';
 
+import '../gen/strings.dart';
+
+const _strings = L10nStringsMixin();
+
 /// 笔记输入底部弹窗。
 ///
 /// 返回用户输入的笔记文本，若用户取消则返回 null。
@@ -40,7 +44,7 @@ class _NoteEditorSheetState extends State<NoteEditorSheet> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // 标题
-          Text('添加笔记', style: theme.textTheme.titleMedium),
+          Text(_strings.wiki_add_note, style: theme.textTheme.titleMedium),
           const SizedBox(height: 8),
           // 选中文字预览
           Container(
@@ -62,8 +66,8 @@ class _NoteEditorSheetState extends State<NoteEditorSheet> {
           TextField(
             controller: _noteController,
             maxLines: 5,
-            decoration: const InputDecoration(
-              hintText: '输入笔记内容...',
+            decoration: InputDecoration(
+              hintText: _strings.wiki_note_input_hint,
               border: OutlineInputBorder(),
             ),
             autofocus: true,
@@ -75,7 +79,7 @@ class _NoteEditorSheetState extends State<NoteEditorSheet> {
             children: [
               TextButton(
                 onPressed: () => Navigator.pop(context),
-                child: const Text('跳过'),
+                child: Text(_strings.wiki_skip),
               ),
               const SizedBox(width: 8),
               FilledButton(
@@ -84,7 +88,7 @@ class _NoteEditorSheetState extends State<NoteEditorSheet> {
                   AppLogger.instance.d('笔记输入完成: ${note.length} 字', tag: 'NoteEditor');
                   Navigator.pop(context, note.isEmpty ? null : note);
                 },
-                child: const Text('保存'),
+                child: Text(_strings.wiki_save),
               ),
             ],
           ),

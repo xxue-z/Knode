@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wiki/gen/strings.dart';
 import 'package:wiki/utils/heading_extractor.dart';
 
-final _strings = const L10nStringsMixin();
+const _strings = L10nStringsMixin();
 
 /// 目录/标题导航面板
 class OutlinePanel extends StatelessWidget {
@@ -40,7 +40,7 @@ class OutlinePanel extends StatelessWidget {
                   Icon(Icons.list_outlined, color: theme.colorScheme.primary),
                   const SizedBox(width: 8),
                   Text(
-                    '目录',
+                    _strings.wiki_outline,
                     style: theme.textTheme.titleMedium,
                   ),
                 ],
@@ -49,7 +49,7 @@ class OutlinePanel extends StatelessWidget {
             // 标题列表
             Expanded(
               child: headings.isEmpty
-                  ? const Center(child: Text('暂无标题'))
+                  ? Center(child: Text(_strings.wiki_no_headings))
                   : ListView.builder(
                       padding: const EdgeInsets.symmetric(vertical: 8),
                       itemCount: headings.length,

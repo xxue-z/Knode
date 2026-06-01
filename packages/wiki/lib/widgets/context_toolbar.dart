@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:core/services/app_logger.dart';
 
+import '../gen/strings.dart';
+
+const _strings = L10nStringsMixin();
+
 /// 工具栏菜单项定义。
 class ToolbarMenuItem {
   final IconData icon;
@@ -95,14 +99,14 @@ List<ToolbarMenuItem> buildReaderMenuItems({
   required VoidCallback onHighlightNote,
 }) {
   return [
-    ToolbarMenuItem(icon: Icons.copy, label: '复制', onTap: onCopy),
-    ToolbarMenuItem(icon: Icons.bookmark_add, label: '书签', onTap: onBookmark),
-    ToolbarMenuItem(icon: Icons.volume_up, label: '朗读', onTap: onReadAloud),
-    ToolbarMenuItem(icon: Icons.menu_book, label: '字典', onTap: onDictionary),
-    ToolbarMenuItem(icon: Icons.open_in_browser, label: '浏览器搜索', onTap: onBrowserSearch),
-    ToolbarMenuItem(icon: Icons.psychology, label: '问问AI', onTap: onAskAI),
-    ToolbarMenuItem(icon: Icons.find_in_page, label: '全文搜索', onTap: onFullTextSearch),
-    ToolbarMenuItem(icon: Icons.search, label: '知识库搜索', onTap: onKnowledgeSearch),
-    ToolbarMenuItem(icon: Icons.highlight, label: '划重点', onTap: onHighlightNote),
+    ToolbarMenuItem(icon: Icons.copy, label: _strings.wiki_copy, onTap: onCopy),
+    ToolbarMenuItem(icon: Icons.bookmark_add, label: _strings.wiki_bookmark, onTap: onBookmark),
+    ToolbarMenuItem(icon: Icons.volume_up, label: _strings.wiki_read_aloud, onTap: onReadAloud),
+    ToolbarMenuItem(icon: Icons.menu_book, label: _strings.wiki_reader_dictionary, onTap: onDictionary),
+    ToolbarMenuItem(icon: Icons.open_in_browser, label: _strings.wiki_browser_search, onTap: onBrowserSearch),
+    ToolbarMenuItem(icon: Icons.psychology, label: _strings.wiki_ask_ai, onTap: onAskAI),
+    ToolbarMenuItem(icon: Icons.find_in_page, label: _strings.wiki_fulltext_search, onTap: onFullTextSearch),
+    ToolbarMenuItem(icon: Icons.search, label: _strings.wiki_knowledge_search, onTap: onKnowledgeSearch),
+    ToolbarMenuItem(icon: Icons.highlight, label: _strings.wiki_reader_highlight_note, onTap: onHighlightNote),
   ];
 }

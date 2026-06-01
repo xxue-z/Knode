@@ -36,9 +36,9 @@ class _ArchiveDialogState extends ConsumerState<ArchiveDialog> {
     try {
       // 拼接会话内容为 Markdown
       final buffer = StringBuffer();
-      buffer.writeln('# ${widget.conversationTitle ?? "会话归档"}\n');
+      buffer.writeln('# ${widget.conversationTitle ?? _strings.chat_archive_title}\n');
       for (final msg in widget.messages) {
-        final role = msg['role'] == 'user' ? '**用户**' : '**AI**';
+        final role = msg['role'] == 'user' ? '**\**' : '**AI**';
         buffer.writeln('$role：${msg['content']}\n');
       }
 
@@ -49,7 +49,7 @@ class _ArchiveDialogState extends ConsumerState<ArchiveDialog> {
           final aiProvider = ref.read(aiProviderRef);
           final conversationText = widget.messages
               .map((m) =>
-                  '${m['role'] == 'user' ? '用户' : 'AI'}: ${m['content']}')
+                  '${m['role'] == 'user' ? _strings.chat_user_label : 'AI'}: ${m['content']}')
               .join('\n');
           final response = await aiProvider.summarize(
             content: conversationText,

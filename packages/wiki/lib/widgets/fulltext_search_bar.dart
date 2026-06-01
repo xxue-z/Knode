@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:core/services/app_logger.dart';
 
+import '../gen/strings.dart';
+
+const _strings = L10nStringsMixin();
+
 /// 文档内全文搜索栏。
 ///
 /// 显示匹配计数 + 上一个/下一个按钮。
@@ -97,7 +101,7 @@ class _FullTextSearchBarState extends State<FullTextSearchBar> {
             child: TextField(
               controller: _searchController,
               decoration: InputDecoration(
-                hintText: '搜索文档...',
+                hintText: _strings.wiki_search_document,
                 isDense: true,
                 border: const OutlineInputBorder(),
                 prefixIcon: const Icon(Icons.search, size: 18),
@@ -119,12 +123,12 @@ class _FullTextSearchBarState extends State<FullTextSearchBar> {
             IconButton(
               icon: const Icon(Icons.keyboard_arrow_up, size: 20),
               onPressed: _goToPrevious,
-              tooltip: '上一个匹配',
+              tooltip: _strings.wiki_prev_match,
             ),
             IconButton(
               icon: const Icon(Icons.keyboard_arrow_down, size: 20),
               onPressed: _goToNext,
-              tooltip: '下一个匹配',
+              tooltip: _strings.wiki_next_match,
             ),
           ],
           IconButton(

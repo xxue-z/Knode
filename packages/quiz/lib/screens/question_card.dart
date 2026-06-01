@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:core/models/question.dart';
 import 'package:quiz/gen/strings.dart';
 import 'dart:convert';
@@ -88,9 +88,9 @@ class QuestionCard extends StatelessWidget {
           // 填空题
           if (question.type == 'fill_blank')
             TextField(
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 border: OutlineInputBorder(),
-                hintText: '输入答案',
+                hintText: _strings.quiz_input_answer,
               ),
               onChanged: onAnswer,
               controller: TextEditingController(text: selectedAnswer),
@@ -100,9 +100,9 @@ class QuestionCard extends StatelessWidget {
           if (question.type == 'short_answer')
             TextField(
               maxLines: 5,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 border: OutlineInputBorder(),
-                hintText: '输入你的回答...',
+                hintText: _strings.quiz_input_your_answer,
                 alignLabelWithHint: true,
               ),
               onChanged: onAnswer,

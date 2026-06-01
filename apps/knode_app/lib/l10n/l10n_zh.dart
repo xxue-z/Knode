@@ -33,6 +33,9 @@ class L10nZh extends L10n {
   String get chat_archive_in_detail => '归档功能需在会话详情页中使用';
 
   @override
+  String get chat_archive_title => '会话归档';
+
+  @override
   String get chat_cancel => '取消';
 
   @override
@@ -135,6 +138,9 @@ class L10nZh extends L10n {
   String get chat_link_label => '链接';
 
   @override
+  String get chat_load_failed => '加载失败';
+
+  @override
   String get chat_loading => '加载中...';
 
   @override
@@ -210,6 +216,11 @@ class L10nZh extends L10n {
   String get chat_send_message_need_ai => '消息发送功能需连接 AIProvider';
 
   @override
+  String chat_session_n_messages(String n) {
+    return '会话共 $n 条消息';
+  }
+
+  @override
   String get chat_sources => '来源';
 
   @override
@@ -220,6 +231,9 @@ class L10nZh extends L10n {
 
   @override
   String get chat_token_usage => 'Token 用量';
+
+  @override
+  String get chat_user_label => '用户';
 
   @override
   String get chat_voice_input => '语音输入';
@@ -416,6 +430,24 @@ class L10nZh extends L10n {
   String get core_profile => '个人中心';
 
   @override
+  String get core_progress_backup_complete => '备份完成';
+
+  @override
+  String get core_progress_decompressing => '正在解压...';
+
+  @override
+  String get core_progress_downloading => '正在下载...';
+
+  @override
+  String get core_progress_packing => '正在打包文件...';
+
+  @override
+  String get core_progress_restore_complete => '恢复完成';
+
+  @override
+  String get core_progress_uploading => '正在上传...';
+
+  @override
   String get core_quarterly_exam_2 => '季度考试';
 
   @override
@@ -488,6 +520,9 @@ class L10nZh extends L10n {
   String get core_true_false => '判断题';
 
   @override
+  String get core_unnamed_document => '未命名文档';
+
+  @override
   String get core_user_role => '用户';
 
   @override
@@ -518,6 +553,9 @@ class L10nZh extends L10n {
   String get knode_app_ai_engine_subtitle => '本地模型管理、云端 API 配置';
 
   @override
+  String get knode_app_ai_label => 'AI';
+
+  @override
   String get knode_app_ai_settings => 'AI 设置';
 
   @override
@@ -531,6 +569,9 @@ class L10nZh extends L10n {
 
   @override
   String get knode_app_application_log => '应用日志';
+
+  @override
+  String get knode_app_archive_title => '会话归档';
 
   @override
   String get knode_app_auto_backup => '自动备份';
@@ -569,6 +610,9 @@ class L10nZh extends L10n {
 
   @override
   String get knode_app_backup_settings => '备份设置';
+
+  @override
+  String get knode_app_based_on_recent => '基于最近阅读文件出题';
 
   @override
   String get knode_app_bottom_navigation => '底部导航';
@@ -625,6 +669,11 @@ class L10nZh extends L10n {
   String get knode_app_copy => '复制';
 
   @override
+  String knode_app_correct_n_of_m(String n, String m) {
+    return '答对 $n / $m 题';
+  }
+
+  @override
   String get knode_app_current_storage_path => '当前存储路径';
 
   @override
@@ -640,6 +689,9 @@ class L10nZh extends L10n {
   String get knode_app_daily_card => '每日卡片';
 
   @override
+  String get knode_app_daily_encouragement => '今天也要坚持学习哦';
+
+  @override
   String get knode_app_daily_label => '每天';
 
   @override
@@ -650,6 +702,9 @@ class L10nZh extends L10n {
 
   @override
   String get knode_app_decompressing => '正在解压...';
+
+  @override
+  String get knode_app_default_exam_title => '考试';
 
   @override
   String get knode_app_delete => '删除';
@@ -911,10 +966,16 @@ class L10nZh extends L10n {
   String get knode_app_no_exam_records => '暂无考试记录';
 
   @override
+  String get knode_app_no_key_hint => '还没有 Key？点击获取';
+
+  @override
   String get knode_app_no_models => '暂无模型';
 
   @override
   String get knode_app_no_templates => '暂无模板';
+
+  @override
+  String get knode_app_no_wrong_cards => '暂无错题';
 
   @override
   String get knode_app_not_answered => '未作答';
@@ -951,6 +1012,24 @@ class L10nZh extends L10n {
 
   @override
   String get knode_app_profile => '个人中心';
+
+  @override
+  String get knode_app_progress_backup_complete => '备份完成';
+
+  @override
+  String get knode_app_progress_decompressing => '正在解压...';
+
+  @override
+  String get knode_app_progress_downloading => '正在下载...';
+
+  @override
+  String get knode_app_progress_packing => '正在打包文件...';
+
+  @override
+  String get knode_app_progress_restore_complete => '恢复完成';
+
+  @override
+  String get knode_app_progress_uploading => '正在上传...';
 
   @override
   String get knode_app_prompt_edit_hint => '编辑提示词模板...';
@@ -990,6 +1069,9 @@ class L10nZh extends L10n {
 
   @override
   String get knode_app_quick_card => '快捷卡片';
+
+  @override
+  String get knode_app_quiz_due_review => '道待复习';
 
   @override
   String get knode_app_quiz_started_switch_tab => '速记已开始，请切换到[测验]标签查看';
@@ -1046,6 +1128,11 @@ class L10nZh extends L10n {
   String get knode_app_score_card => '成绩卡片';
 
   @override
+  String knode_app_score_n_points(String n) {
+    return '$n分';
+  }
+
+  @override
   String get knode_app_search_api_key => '搜索 API Key';
 
   @override
@@ -1059,6 +1146,11 @@ class L10nZh extends L10n {
 
   @override
   String get knode_app_service_provider => '服务商';
+
+  @override
+  String knode_app_session_n_messages(String n) {
+    return '会话共 $n 条消息';
+  }
 
   @override
   String get knode_app_settings => '设置';
@@ -1132,6 +1224,9 @@ class L10nZh extends L10n {
   String get knode_app_theme => '主题';
 
   @override
+  String get knode_app_unnamed_document => '未命名文档';
+
+  @override
   String get knode_app_upload_failed => '上传失败';
 
   @override
@@ -1139,6 +1234,9 @@ class L10nZh extends L10n {
 
   @override
   String get knode_app_user => '账号';
+
+  @override
+  String get knode_app_user_label => '用户';
 
   @override
   String get knode_app_variables => '变量';
@@ -1178,6 +1276,9 @@ class L10nZh extends L10n {
 
   @override
   String get knode_app_weekly_label => '每周';
+
+  @override
+  String get knode_app_welcome_back => '欢迎回来';
 
   @override
   String get knode_app_wrong_card => '错题卡片';
@@ -1649,6 +1750,9 @@ class L10nZh extends L10n {
   String get wiki_add_highlight => '添加高亮';
 
   @override
+  String get wiki_add_note => '添加笔记';
+
+  @override
   String get wiki_add_tag => '添加标签';
 
   @override
@@ -1661,6 +1765,12 @@ class L10nZh extends L10n {
   String get wiki_all_knowledge => '全部知识';
 
   @override
+  String get wiki_answer_correct_n => '答对  /  题';
+
+  @override
+  String get wiki_ask_ai => '问问AI';
+
+  @override
   String get wiki_auto_generate_tags => '自动为新文档生成标签';
 
   @override
@@ -1671,6 +1781,9 @@ class L10nZh extends L10n {
 
   @override
   String get wiki_bookmark => '书签';
+
+  @override
+  String get wiki_browser_search => '浏览器搜索';
 
   @override
   String get wiki_cancel => '取消';
@@ -1707,6 +1820,9 @@ class L10nZh extends L10n {
 
   @override
   String get wiki_create_node => '创建节点';
+
+  @override
+  String get wiki_dark => '深色';
 
   @override
   String get wiki_delete => '删除';
@@ -1747,16 +1863,31 @@ class L10nZh extends L10n {
   String get wiki_error => '错误';
 
   @override
+  String get wiki_explain_text => '解释';
+
+  @override
   String get wiki_export => '导出';
 
   @override
   String get wiki_export_document => '导出文档';
 
   @override
+  String get wiki_eye_care => '护眼';
+
+  @override
+  String get wiki_feature_development => '开发中';
+
+  @override
   String get wiki_feature_in_development => '功能开发中';
 
   @override
   String get wiki_font_size => '字号';
+
+  @override
+  String get wiki_fulltext_search => '全文搜索';
+
+  @override
+  String get wiki_generate_based => '基于以下内容生成';
 
   @override
   String get wiki_generate_question => '生成题目';
@@ -1772,6 +1903,9 @@ class L10nZh extends L10n {
 
   @override
   String get wiki_graph_canvas => '图谱画布';
+
+  @override
+  String get wiki_graph_canvas_pending => '图谱画布（开发中）';
 
   @override
   String get wiki_graph_controller => '图谱控制器';
@@ -1795,10 +1929,25 @@ class L10nZh extends L10n {
   String get wiki_import_document => '导入文档';
 
   @override
+  String get wiki_input_answer => '输入答案';
+
+  @override
+  String get wiki_input_word_hint => '输入单词查询释义';
+
+  @override
+  String get wiki_input_your_answer => '输入你的回答...';
+
+  @override
   String get wiki_knowledge_graph => '知识图谱';
 
   @override
   String get wiki_knowledge_map => '知识地图';
+
+  @override
+  String get wiki_knowledge_search => '知识库搜索';
+
+  @override
+  String get wiki_light => '浅色';
 
   @override
   String get wiki_line_spacing => '行距';
@@ -1810,10 +1959,19 @@ class L10nZh extends L10n {
   String get wiki_manage_categories => '管理类目';
 
   @override
+  String get wiki_margin => '页边距';
+
+  @override
+  String get wiki_markdown_source => 'Markdown 源码...';
+
+  @override
   String get wiki_move_to => '移动到';
 
   @override
   String get wiki_new_document => '新建文档';
+
+  @override
+  String get wiki_next_match => '下一个匹配';
 
   @override
   String get wiki_night_mode => '夜间模式';
@@ -1828,10 +1986,22 @@ class L10nZh extends L10n {
   String get wiki_no_documents => '暂无文档';
 
   @override
+  String get wiki_no_docx_text => '(DOCX 文件无文本内容)';
+
+  @override
+  String get wiki_no_headings => '暂无标题';
+
+  @override
   String get wiki_no_highlights => '暂无高亮';
 
   @override
   String get wiki_no_tags => '暂无标签';
+
+  @override
+  String get wiki_no_text_content => '(PDF 文件无文本内容，可能为扫描件)';
+
+  @override
+  String get wiki_no_titles => '暂无标题';
 
   @override
   String get wiki_node_name => '节点名称';
@@ -1843,7 +2013,16 @@ class L10nZh extends L10n {
   String get wiki_note_document => '笔记文档';
 
   @override
+  String get wiki_note_input_hint => '输入笔记内容...';
+
+  @override
+  String get wiki_note_saved => '笔记已保存';
+
+  @override
   String get wiki_notes => '笔记';
+
+  @override
+  String get wiki_outline => '目录';
 
   @override
   String get wiki_page => '页';
@@ -1852,7 +2031,16 @@ class L10nZh extends L10n {
   String get wiki_pdf_export => 'PDF 导出';
 
   @override
+  String get wiki_please_explain => '请解释以下内容';
+
+  @override
+  String get wiki_prev_match => '上一个匹配';
+
+  @override
   String get wiki_question_generation_failed => '题目生成失败';
+
+  @override
+  String get wiki_read_aloud => '朗读';
 
   @override
   String get wiki_reader => '阅读器';
@@ -1888,6 +2076,9 @@ class L10nZh extends L10n {
   String get wiki_reader_toolbar => '阅读器工具栏';
 
   @override
+  String get wiki_reading_settings => '阅读设置';
+
+  @override
   String get wiki_rename => '重命名';
 
   @override
@@ -1906,7 +2097,19 @@ class L10nZh extends L10n {
   String get wiki_save => '保存';
 
   @override
+  String get wiki_score_suffix => '分';
+
+  @override
   String get wiki_search => '搜索';
+
+  @override
+  String get wiki_search_document => '搜索文档...';
+
+  @override
+  String get wiki_search_word => '搜索单词';
+
+  @override
+  String get wiki_skip => '跳过';
 
   @override
   String get wiki_study_materials => '学习资料';
@@ -1924,6 +2127,15 @@ class L10nZh extends L10n {
   String get wiki_summary => '摘要';
 
   @override
+  String get wiki_switch_to_rich => '切换到富文本模式';
+
+  @override
+  String get wiki_switch_to_source => '切换到源码模式';
+
+  @override
+  String get wiki_system_prompt_explain => '你是一个善于清晰解释知识的助手。请以清晰、有条理的方式解释以下内容。';
+
+  @override
   String get wiki_tag_generated => '标签已生成';
 
   @override
@@ -1937,6 +2149,12 @@ class L10nZh extends L10n {
 
   @override
   String get wiki_text_to_speech => '文字转语音';
+
+  @override
+  String get wiki_theme => '主题';
+
+  @override
+  String get wiki_toc => '目录';
 
   @override
   String get wiki_tts => '朗读';

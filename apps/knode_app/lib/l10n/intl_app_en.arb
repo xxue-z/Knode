@@ -32,6 +32,10 @@
   "@chat_archive_in_detail": {
     "description": "归档功能需在会话详情页中使用"
   },
+  "chat_archive_title": "Conversation Archive",
+  "@chat_archive_title": {
+    "description": "会话归档"
+  },
   "chat_cancel": "Cancel",
   "@chat_cancel": {
     "description": "取消"
@@ -272,6 +276,15 @@
   "@chat_send_message_need_ai": {
     "description": "消息发送功能需连接 AIProvider"
   },
+  "chat_session_n_messages": "Conversation has {n} messages",
+  "@chat_session_n_messages": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    },
+    "description": "会话共 {n} 条消息"
+  },
   "chat_sources": "Sources",
   "@chat_sources": {
     "description": "来源"
@@ -287,6 +300,10 @@
   "chat_token_usage": "Token Usage",
   "@chat_token_usage": {
     "description": "Token 用量"
+  },
+  "chat_user_label": "User",
+  "@chat_user_label": {
+    "description": "用户"
   },
   "chat_voice_input": "Voice Input",
   "@chat_voice_input": {
@@ -553,6 +570,30 @@
   "@core_profile": {
     "description": "个人中心"
   },
+  "core_progress_backup_complete": "Backup complete",
+  "@core_progress_backup_complete": {
+    "description": "备份完成"
+  },
+  "core_progress_decompressing": "Decompressing...",
+  "@core_progress_decompressing": {
+    "description": "正在解压..."
+  },
+  "core_progress_downloading": "Downloading...",
+  "@core_progress_downloading": {
+    "description": "正在下载..."
+  },
+  "core_progress_packing": "Packing files...",
+  "@core_progress_packing": {
+    "description": "正在打包文件..."
+  },
+  "core_progress_restore_complete": "Restore complete",
+  "@core_progress_restore_complete": {
+    "description": "恢复完成"
+  },
+  "core_progress_uploading": "Uploading...",
+  "@core_progress_uploading": {
+    "description": "正在上传..."
+  },
   "core_quarterly_exam_2": "Quarterly Exam",
   "@core_quarterly_exam_2": {
     "description": "季度考试"
@@ -649,6 +690,10 @@
   "@core_true_false": {
     "description": "判断题"
   },
+  "core_unnamed_document": "Unnamed Document",
+  "@core_unnamed_document": {
+    "description": "未命名文档"
+  },
   "core_user_role": "User",
   "@core_user_role": {
     "description": "用户"
@@ -689,6 +734,10 @@
   "@knode_app_ai_engine_subtitle": {
     "description": "本地模型管理、云端 API 配置"
   },
+  "knode_app_ai_label": "AI",
+  "@knode_app_ai_label": {
+    "description": "AI"
+  },
   "knode_app_ai_settings": "AI Settings",
   "@knode_app_ai_settings": {
     "description": "AI 设置"
@@ -708,6 +757,10 @@
   "knode_app_application_log": "Application log",
   "@knode_app_application_log": {
     "description": "应用日志"
+  },
+  "knode_app_archive_title": "Conversation Archive",
+  "@knode_app_archive_title": {
+    "description": "会话归档"
   },
   "knode_app_auto_backup": "Auto Backup",
   "@knode_app_auto_backup": {
@@ -761,6 +814,10 @@
   "knode_app_backup_settings": "Backup Settings",
   "@knode_app_backup_settings": {
     "description": "备份设置"
+  },
+  "knode_app_based_on_recent": "Based on recent reading",
+  "@knode_app_based_on_recent": {
+    "description": "基于最近阅读文件出题"
   },
   "knode_app_bottom_navigation": "Bottom Navigation",
   "@knode_app_bottom_navigation": {
@@ -834,6 +891,18 @@
   "@knode_app_copy": {
     "description": "复制"
   },
+  "knode_app_correct_n_of_m": "Correct {n} / {m} questions",
+  "@knode_app_correct_n_of_m": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      },
+      "m": {
+        "type": "String"
+      }
+    },
+    "description": "答对 {n} / {m} 题"
+  },
   "knode_app_current_storage_path": "Current Storage Path",
   "@knode_app_current_storage_path": {
     "description": "当前存储路径"
@@ -854,6 +923,10 @@
   "@knode_app_daily_card": {
     "description": "每日卡片"
   },
+  "knode_app_daily_encouragement": "Keep learning today!",
+  "@knode_app_daily_encouragement": {
+    "description": "今天也要坚持学习哦"
+  },
   "knode_app_daily_label": "Daily",
   "@knode_app_daily_label": {
     "description": "每天"
@@ -869,6 +942,10 @@
   "knode_app_decompressing": "Decompressing...",
   "@knode_app_decompressing": {
     "description": "正在解压..."
+  },
+  "knode_app_default_exam_title": "Exam",
+  "@knode_app_default_exam_title": {
+    "description": "考试"
   },
   "knode_app_delete": "Delete",
   "@knode_app_delete": {
@@ -1227,6 +1304,10 @@
   "@knode_app_no_exam_records": {
     "description": "暂无考试记录"
   },
+  "knode_app_no_key_hint": "Don't have a Key? Click to get one",
+  "@knode_app_no_key_hint": {
+    "description": "还没有 Key？点击获取"
+  },
   "knode_app_no_models": "No models",
   "@knode_app_no_models": {
     "description": "暂无模型"
@@ -1234,6 +1315,10 @@
   "knode_app_no_templates": "No templates",
   "@knode_app_no_templates": {
     "description": "暂无模板"
+  },
+  "knode_app_no_wrong_cards": "No wrong cards yet",
+  "@knode_app_no_wrong_cards": {
+    "description": "暂无错题"
   },
   "knode_app_not_answered": "Not answered",
   "@knode_app_not_answered": {
@@ -1282,6 +1367,30 @@
   "knode_app_profile": "Profile",
   "@knode_app_profile": {
     "description": "个人中心"
+  },
+  "knode_app_progress_backup_complete": "Backup complete",
+  "@knode_app_progress_backup_complete": {
+    "description": "备份完成"
+  },
+  "knode_app_progress_decompressing": "Decompressing...",
+  "@knode_app_progress_decompressing": {
+    "description": "正在解压..."
+  },
+  "knode_app_progress_downloading": "Downloading...",
+  "@knode_app_progress_downloading": {
+    "description": "正在下载..."
+  },
+  "knode_app_progress_packing": "Packing files...",
+  "@knode_app_progress_packing": {
+    "description": "正在打包文件..."
+  },
+  "knode_app_progress_restore_complete": "Restore complete",
+  "@knode_app_progress_restore_complete": {
+    "description": "恢复完成"
+  },
+  "knode_app_progress_uploading": "Uploading...",
+  "@knode_app_progress_uploading": {
+    "description": "正在上传..."
   },
   "knode_app_prompt_edit_hint": "Edit prompt template...",
   "@knode_app_prompt_edit_hint": {
@@ -1334,6 +1443,10 @@
   "knode_app_quick_card": "Quick Card",
   "@knode_app_quick_card": {
     "description": "快捷卡片"
+  },
+  "knode_app_quiz_due_review": "due for review",
+  "@knode_app_quiz_due_review": {
+    "description": "道待复习"
   },
   "knode_app_quiz_started_switch_tab": "Quiz started, switch to Quiz tab",
   "@knode_app_quiz_started_switch_tab": {
@@ -1407,6 +1520,15 @@
   "@knode_app_score_card": {
     "description": "成绩卡片"
   },
+  "knode_app_score_n_points": "{n} points",
+  "@knode_app_score_n_points": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    },
+    "description": "{n}分"
+  },
   "knode_app_search_api_key": "Search API Key",
   "@knode_app_search_api_key": {
     "description": "搜索 API Key"
@@ -1426,6 +1548,15 @@
   "knode_app_service_provider": "Service Provider",
   "@knode_app_service_provider": {
     "description": "服务商"
+  },
+  "knode_app_session_n_messages": "Conversation has {n} messages",
+  "@knode_app_session_n_messages": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    },
+    "description": "会话共 {n} 条消息"
   },
   "knode_app_settings": "Settings",
   "@knode_app_settings": {
@@ -1524,6 +1655,10 @@
   "@knode_app_theme": {
     "description": "主题"
   },
+  "knode_app_unnamed_document": "Unnamed Document",
+  "@knode_app_unnamed_document": {
+    "description": "未命名文档"
+  },
   "knode_app_upload_failed": "Upload failed",
   "@knode_app_upload_failed": {
     "description": "上传失败"
@@ -1535,6 +1670,10 @@
   "knode_app_user": "User",
   "@knode_app_user": {
     "description": "账号"
+  },
+  "knode_app_user_label": "User",
+  "@knode_app_user_label": {
+    "description": "用户"
   },
   "knode_app_variables": "Variables",
   "@knode_app_variables": {
@@ -1587,6 +1726,10 @@
   "knode_app_weekly_label": "Weekly",
   "@knode_app_weekly_label": {
     "description": "每周"
+  },
+  "knode_app_welcome_back": "Welcome Back",
+  "@knode_app_welcome_back": {
+    "description": "欢迎回来"
   },
   "knode_app_wrong_card": "Wrong Card",
   "@knode_app_wrong_card": {
@@ -1711,6 +1854,10 @@
   "quiz_accuracy": "Accuracy",
   "@quiz_accuracy": {
     "description": "正确率"
+  },
+  "quiz_add_note": "Add Note",
+  "@quiz_add_note": {
+    "description": "添加笔记"
   },
   "quiz_ai_enabled": "Enable AI Question Generation",
   "@quiz_ai_enabled": {
@@ -1957,6 +2104,10 @@
   "@quiz_not_answered": {
     "description": "未作答"
   },
+  "quiz_note_input_hint": "Enter note content...",
+  "@quiz_note_input_hint": {
+    "description": "输入笔记内容..."
+  },
   "quiz_options": "Options",
   "@quiz_options": {
     "description": "选项"
@@ -2090,6 +2241,10 @@
   "@quiz_review_wrong_ratio": {
     "description": "温故知新错题比例"
   },
+  "quiz_save": "Save",
+  "@quiz_save": {
+    "description": "保存"
+  },
   "quiz_save_settings": "Save Settings",
   "@quiz_save_settings": {
     "description": "保存设置"
@@ -2121,6 +2276,10 @@
   "quiz_single_choice": "Single Choice",
   "@quiz_single_choice": {
     "description": "单选题"
+  },
+  "quiz_skip": "Skip",
+  "@quiz_skip": {
+    "description": "跳过"
   },
   "quiz_sort_by_difficulty": "Sort by Difficulty",
   "@quiz_sort_by_difficulty": {
@@ -2231,6 +2390,10 @@
   "@wiki_add_highlight": {
     "description": "添加高亮"
   },
+  "wiki_add_note": "Add Note",
+  "@wiki_add_note": {
+    "description": "添加笔记"
+  },
   "wiki_add_tag": "Add Tag",
   "@wiki_add_tag": {
     "description": "添加标签"
@@ -2247,6 +2410,14 @@
   "@wiki_all_knowledge": {
     "description": "全部知识"
   },
+  "wiki_answer_correct_n": "Correct  /  questions",
+  "@wiki_answer_correct_n": {
+    "description": "答对  /  题"
+  },
+  "wiki_ask_ai": "Ask AI",
+  "@wiki_ask_ai": {
+    "description": "问问AI"
+  },
   "wiki_auto_generate_tags": "Auto-generate tags for new docs",
   "@wiki_auto_generate_tags": {
     "description": "自动为新文档生成标签"
@@ -2262,6 +2433,10 @@
   "wiki_bookmark": "Bookmark",
   "@wiki_bookmark": {
     "description": "书签"
+  },
+  "wiki_browser_search": "Browser Search",
+  "@wiki_browser_search": {
+    "description": "浏览器搜索"
   },
   "wiki_cancel": "Cancel",
   "@wiki_cancel": {
@@ -2310,6 +2485,10 @@
   "wiki_create_node": "Create Node",
   "@wiki_create_node": {
     "description": "创建节点"
+  },
+  "wiki_dark": "Dark",
+  "@wiki_dark": {
+    "description": "深色"
   },
   "wiki_delete": "Delete",
   "@wiki_delete": {
@@ -2376,6 +2555,10 @@
   "@wiki_export_document": {
     "description": "导出文档"
   },
+  "wiki_eye_care": "Eye Care",
+  "@wiki_eye_care": {
+    "description": "护眼"
+  },
   "wiki_feature_development": "In Development",
   "@wiki_feature_development": {
     "description": "开发中"
@@ -2387,6 +2570,10 @@
   "wiki_font_size": "Font Size",
   "@wiki_font_size": {
     "description": "字号"
+  },
+  "wiki_fulltext_search": "Full-text Search",
+  "@wiki_fulltext_search": {
+    "description": "全文搜索"
   },
   "wiki_generate_based": "Generate based on",
   "@wiki_generate_based": {
@@ -2444,6 +2631,18 @@
   "@wiki_import_document": {
     "description": "导入文档"
   },
+  "wiki_input_answer": "Enter answer",
+  "@wiki_input_answer": {
+    "description": "输入答案"
+  },
+  "wiki_input_word_hint": "Enter word to look up",
+  "@wiki_input_word_hint": {
+    "description": "输入单词查询释义"
+  },
+  "wiki_input_your_answer": "Enter your answer...",
+  "@wiki_input_your_answer": {
+    "description": "输入你的回答..."
+  },
   "wiki_knowledge_graph": "Knowledge Graph",
   "@wiki_knowledge_graph": {
     "description": "知识图谱"
@@ -2451,6 +2650,14 @@
   "wiki_knowledge_map": "Knowledge Map",
   "@wiki_knowledge_map": {
     "description": "知识地图"
+  },
+  "wiki_knowledge_search": "Knowledge Search",
+  "@wiki_knowledge_search": {
+    "description": "知识库搜索"
+  },
+  "wiki_light": "Light",
+  "@wiki_light": {
+    "description": "浅色"
   },
   "wiki_line_spacing": "Line Spacing",
   "@wiki_line_spacing": {
@@ -2464,6 +2671,14 @@
   "@wiki_manage_categories": {
     "description": "管理类目"
   },
+  "wiki_margin": "Margin",
+  "@wiki_margin": {
+    "description": "页边距"
+  },
+  "wiki_markdown_source": "Markdown source...",
+  "@wiki_markdown_source": {
+    "description": "Markdown 源码..."
+  },
   "wiki_move_to": "Move To",
   "@wiki_move_to": {
     "description": "移动到"
@@ -2471,6 +2686,10 @@
   "wiki_new_document": "New Document",
   "@wiki_new_document": {
     "description": "新建文档"
+  },
+  "wiki_next_match": "Next Match",
+  "@wiki_next_match": {
+    "description": "下一个匹配"
   },
   "wiki_night_mode": "Night Mode",
   "@wiki_night_mode": {
@@ -2488,6 +2707,14 @@
   "@wiki_no_documents": {
     "description": "暂无文档"
   },
+  "wiki_no_docx_text": "(DOCX file has no text content)",
+  "@wiki_no_docx_text": {
+    "description": "(DOCX 文件无文本内容)"
+  },
+  "wiki_no_headings": "No headings found",
+  "@wiki_no_headings": {
+    "description": "暂无标题"
+  },
   "wiki_no_highlights": "No highlights yet",
   "@wiki_no_highlights": {
     "description": "暂无高亮"
@@ -2495,6 +2722,14 @@
   "wiki_no_tags": "No tags",
   "@wiki_no_tags": {
     "description": "暂无标签"
+  },
+  "wiki_no_text_content": "(PDF file has no text content, may be scanned)",
+  "@wiki_no_text_content": {
+    "description": "(PDF 文件无文本内容，可能为扫描件)"
+  },
+  "wiki_no_titles": "No Titles",
+  "@wiki_no_titles": {
+    "description": "暂无标题"
   },
   "wiki_node_name": "Node Name",
   "@wiki_node_name": {
@@ -2508,9 +2743,21 @@
   "@wiki_note_document": {
     "description": "笔记文档"
   },
+  "wiki_note_input_hint": "Enter note content...",
+  "@wiki_note_input_hint": {
+    "description": "输入笔记内容..."
+  },
+  "wiki_note_saved": "Note Saved",
+  "@wiki_note_saved": {
+    "description": "笔记已保存"
+  },
   "wiki_notes": "Notes",
   "@wiki_notes": {
     "description": "笔记"
+  },
+  "wiki_outline": "Outline",
+  "@wiki_outline": {
+    "description": "目录"
   },
   "wiki_page": "Page",
   "@wiki_page": {
@@ -2524,9 +2771,17 @@
   "@wiki_please_explain": {
     "description": "请解释以下内容"
   },
+  "wiki_prev_match": "Previous Match",
+  "@wiki_prev_match": {
+    "description": "上一个匹配"
+  },
   "wiki_question_generation_failed": "Question generation failed",
   "@wiki_question_generation_failed": {
     "description": "题目生成失败"
+  },
+  "wiki_read_aloud": "Read Aloud",
+  "@wiki_read_aloud": {
+    "description": "朗读"
   },
   "wiki_reader": "Reader",
   "@wiki_reader": {
@@ -2572,6 +2827,10 @@
   "@wiki_reader_toolbar": {
     "description": "阅读器工具栏"
   },
+  "wiki_reading_settings": "Reading Settings",
+  "@wiki_reading_settings": {
+    "description": "阅读设置"
+  },
   "wiki_rename": "Rename",
   "@wiki_rename": {
     "description": "重命名"
@@ -2596,9 +2855,25 @@
   "@wiki_save": {
     "description": "保存"
   },
+  "wiki_score_suffix": "points",
+  "@wiki_score_suffix": {
+    "description": "分"
+  },
   "wiki_search": "Search",
   "@wiki_search": {
     "description": "搜索"
+  },
+  "wiki_search_document": "Search documents...",
+  "@wiki_search_document": {
+    "description": "搜索文档..."
+  },
+  "wiki_search_word": "Search Word",
+  "@wiki_search_word": {
+    "description": "搜索单词"
+  },
+  "wiki_skip": "Skip",
+  "@wiki_skip": {
+    "description": "跳过"
   },
   "wiki_study_materials": "Study Materials",
   "@wiki_study_materials": {
@@ -2619,6 +2894,14 @@
   "wiki_summary": "Summary",
   "@wiki_summary": {
     "description": "摘要"
+  },
+  "wiki_switch_to_rich": "Switch to rich text mode",
+  "@wiki_switch_to_rich": {
+    "description": "切换到富文本模式"
+  },
+  "wiki_switch_to_source": "Switch to source mode",
+  "@wiki_switch_to_source": {
+    "description": "切换到源码模式"
   },
   "wiki_system_prompt_explain": "You are a helpful assistant that explains knowledge clearly. Please explain the following content in a clear and organized way.",
   "@wiki_system_prompt_explain": {
@@ -2643,6 +2926,14 @@
   "wiki_text_to_speech": "Text to Speech",
   "@wiki_text_to_speech": {
     "description": "文字转语音"
+  },
+  "wiki_theme": "Theme",
+  "@wiki_theme": {
+    "description": "主题"
+  },
+  "wiki_toc": "Table of Contents",
+  "@wiki_toc": {
+    "description": "目录"
   },
   "wiki_tts": "TTS",
   "@wiki_tts": {

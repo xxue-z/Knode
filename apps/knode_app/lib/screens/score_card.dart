@@ -49,7 +49,7 @@ class ScoreCard extends ConsumerWidget {
                           children: [
                             Expanded(
                               child: Text(
-                                exam.title ?? '考试',
+                                exam.title ?? _strings.knode_app_default_exam_title,
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: Theme.of(context).textTheme.bodySmall,

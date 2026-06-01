@@ -221,6 +221,30 @@ mixin class L10nStringsMixin {
   /// 个人中心
   String get core_profile => LocalizeStringDelegate.get('core_profile');
 
+  /// 备份完成
+  String get core_progress_backup_complete =>
+      LocalizeStringDelegate.get('core_progress_backup_complete');
+
+  /// 正在解压...
+  String get core_progress_decompressing =>
+      LocalizeStringDelegate.get('core_progress_decompressing');
+
+  /// 正在下载...
+  String get core_progress_downloading =>
+      LocalizeStringDelegate.get('core_progress_downloading');
+
+  /// 正在打包文件...
+  String get core_progress_packing =>
+      LocalizeStringDelegate.get('core_progress_packing');
+
+  /// 恢复完成
+  String get core_progress_restore_complete =>
+      LocalizeStringDelegate.get('core_progress_restore_complete');
+
+  /// 正在上传...
+  String get core_progress_uploading =>
+      LocalizeStringDelegate.get('core_progress_uploading');
+
   /// 季度考试
   String get core_quarterly_exam_2 =>
       LocalizeStringDelegate.get('core_quarterly_exam_2');
@@ -303,6 +327,10 @@ mixin class L10nStringsMixin {
 
   /// 判断题
   String get core_true_false => LocalizeStringDelegate.get('core_true_false');
+
+  /// 未命名文档
+  String get core_unnamed_document =>
+      LocalizeStringDelegate.get('core_unnamed_document');
 
   /// 用户
   String get core_user_role => LocalizeStringDelegate.get('core_user_role');

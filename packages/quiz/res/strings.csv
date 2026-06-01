@@ -1,4 +1,8 @@
 id,en,zh
+note_input_hint,Enter note content...,输入笔记内容...
+add_note,Add Note,添加笔记
+skip,Skip,跳过
+save,Save,保存
 quiz,Quiz,测验
 exam,Exam,考试
 question,Question,题目

@@ -1,4 +1,24 @@
 id,en,zh
+archive_title,Conversation Archive,会话归档
+user_label,User,用户
+ai_label,AI,AI
+session_n_messages,Conversation has {n} messages,会话共 {n} 条消息
+score_n_points,{n} points,{n}分
+correct_n_of_m,Correct {n} / {m} questions,答对 {n} / {m} 题
+progress_packing,Packing files...,正在打包文件...
+progress_uploading,Uploading...,正在上传...
+progress_backup_complete,Backup complete,备份完成
+progress_downloading,Downloading...,正在下载...
+progress_decompressing,Decompressing...,正在解压...
+progress_restore_complete,Restore complete,恢复完成
+unnamed_document,Unnamed Document,未命名文档
+welcome_back,Welcome Back,欢迎回来
+daily_encouragement,Keep learning today!,今天也要坚持学习哦
+no_key_hint,Don't have a Key? Click to get one,还没有 Key？点击获取
+quiz_due_review,due for review,道待复习
+no_wrong_cards,No wrong cards yet,暂无错题
+default_exam_title,Exam,考试
+based_on_recent,Based on recent reading,基于最近阅读文件出题
 delete,Delete,删除
 home,Home,首页
 settings,Settings,设置

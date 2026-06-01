@@ -54,7 +54,7 @@ class _ReaderSettingsPanelState extends ConsumerState<ReaderSettingsPanel> {
                   Icon(Icons.settings, color: theme.colorScheme.primary),
                   const SizedBox(width: 8),
                   Text(
-                    '阅读设置',
+                    _strings.wiki_reading_settings,
                     style: theme.textTheme.titleMedium,
                   ),
                 ],
@@ -137,7 +137,7 @@ class _ReaderSettingsPanelState extends ConsumerState<ReaderSettingsPanel> {
               ),
               const SizedBox(height: 24),
               // 页边距
-              _buildSectionHeader('页边距'),
+              _buildSectionHeader(_strings.wiki_margin),
               Row(
                 children: [
                   const Icon(Icons.space_dashboard, size: 20),
@@ -166,12 +166,12 @@ class _ReaderSettingsPanelState extends ConsumerState<ReaderSettingsPanel> {
               ),
               const SizedBox(height: 24),
               // 主题选择
-              _buildSectionHeader('主题'),
+              _buildSectionHeader(_strings.wiki_theme),
               Wrap(
                 spacing: 8,
                 children: [
                   _ThemeOption(
-                    label: '浅色',
+                    label: _strings.wiki_light,
                     color: Colors.white,
                     isSelected: _settings.theme == core.ReaderTheme.light,
                     onTap: () {
@@ -179,7 +179,7 @@ class _ReaderSettingsPanelState extends ConsumerState<ReaderSettingsPanel> {
                     },
                   ),
                   _ThemeOption(
-                    label: '护眼',
+                    label: _strings.wiki_eye_care,
                     color: const Color(0xFFF4ECD8),
                     isSelected: _settings.theme == core.ReaderTheme.sepia,
                     onTap: () {
@@ -187,7 +187,7 @@ class _ReaderSettingsPanelState extends ConsumerState<ReaderSettingsPanel> {
                     },
                   ),
                   _ThemeOption(
-                    label: '深色',
+                    label: _strings.wiki_dark,
                     color: const Color(0xFF1E1E1E),
                     isSelected: _settings.theme == core.ReaderTheme.dark,
                     onTap: () {

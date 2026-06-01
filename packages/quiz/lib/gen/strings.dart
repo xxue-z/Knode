@@ -12,6 +12,9 @@ mixin class L10nStringsMixin {
   /// 正确率
   String get quiz_accuracy => LocalizeStringDelegate.get('quiz_accuracy');
 
+  /// 添加笔记
+  String get quiz_add_note => LocalizeStringDelegate.get('quiz_add_note');
+
   /// 启用 AI 出题
   String get quiz_ai_enabled => LocalizeStringDelegate.get('quiz_ai_enabled');
 
@@ -229,6 +232,10 @@ mixin class L10nStringsMixin {
   String get quiz_not_answered =>
       LocalizeStringDelegate.get('quiz_not_answered');
 
+  /// 输入笔记内容...
+  String get quiz_note_input_hint =>
+      LocalizeStringDelegate.get('quiz_note_input_hint');
+
   /// 选项
   String get quiz_options => LocalizeStringDelegate.get('quiz_options');
 
@@ -347,6 +354,9 @@ mixin class L10nStringsMixin {
   String get quiz_review_wrong_ratio =>
       LocalizeStringDelegate.get('quiz_review_wrong_ratio');
 
+  /// 保存
+  String get quiz_save => LocalizeStringDelegate.get('quiz_save');
+
   /// 保存设置
   String get quiz_save_settings =>
       LocalizeStringDelegate.get('quiz_save_settings');
@@ -375,6 +385,9 @@ mixin class L10nStringsMixin {
   /// 单选题
   String get quiz_single_choice =>
       LocalizeStringDelegate.get('quiz_single_choice');
+
+  /// 跳过
+  String get quiz_skip => LocalizeStringDelegate.get('quiz_skip');
 
   /// 按难度
   String get quiz_sort_by_difficulty =>

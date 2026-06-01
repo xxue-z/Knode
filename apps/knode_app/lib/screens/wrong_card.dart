@@ -36,7 +36,7 @@ class WrongCard extends ConsumerWidget {
                         if (!snap.hasData) return Text(_strings.knode_app_loading);
                         final count = snap.data!.length;
                         return Text(
-                          count > 0 ? '$count 道待复习' : '暂无错题',
+                          count > 0 ? '$count 道待复习' : _strings.knode_app_no_wrong_cards,
                           style: Theme.of(context).textTheme.bodySmall,
                         );
                       },

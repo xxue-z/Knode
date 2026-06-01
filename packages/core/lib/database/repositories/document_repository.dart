@@ -7,6 +7,10 @@ import '../../models/document.dart';
 import '../../models/reading_log.dart';
 import '../../services/file_service.dart';
 
+import '../../gen/strings.dart';
+
+const _strings = L10nStringsMixin();
+
 /// 文档业务异常。
 class DocumentBusinessException implements Exception {
   final String message;
@@ -94,7 +98,7 @@ class DocumentRepository {
 
     final result = await _importFn(filePath);
 
-    final title = (result['title'] as String?) ?? '未命名文档';
+    final title = (result['title'] as String?) ?? _strings.core_unnamed_document;
     final content = (result['content'] as String?) ?? '';
     final format = (result['format'] as String?) ?? 'unknown';
 

@@ -161,7 +161,7 @@ class _CloudConfigFormState extends ConsumerState<CloudConfigForm> {
                 // url_launcher 打开链接
               },
               child: Text(
-                '🔑 还没有 Key？点击获取',
+                _strings.knode_app_no_key_hint,
                 style: TextStyle(
                   color: Theme.of(context).colorScheme.primary,
                   decoration: TextDecoration.underline,
