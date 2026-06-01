@@ -269,4 +269,8 @@ mixin class L10nStringsMixin {
   String get reader_highlight_note => LocalizeStringDelegate.get('reader_highlight_note');
   String get cancel => LocalizeStringDelegate.get('cancel');
   String get confirm => LocalizeStringDelegate.get('confirm');
+  String get search => LocalizeStringDelegate.get('search');
+  String get font_size => LocalizeStringDelegate.get('font_size');
+  String get line_spacing => LocalizeStringDelegate.get('line_spacing');
+  String get wiki_reader_settings => LocalizeStringDelegate.get('wiki_reader_settings');
 }

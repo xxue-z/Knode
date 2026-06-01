@@ -1,16 +1,15 @@
-
 /// 词典释义
 class DictionaryDefinition {
   /// 单词
   final String word;
-  
-  /// 词性（可选
+
+  /// 词性（可选）
   final String? partOfSpeech;
-  
+
   /// 释义文本
   final String definition;
-  
-  /// 例句（可选
+
+  /// 例句（可选）
   final String? example;
 
   DictionaryDefinition({
@@ -24,7 +23,7 @@ class DictionaryDefinition {
 /// 词典查询结果
 class DictionaryResult {
   final String word;
-  final List&lt;DictionaryDefinition&gt; definitions;
+  final List<DictionaryDefinition> definitions;
   final String? phonetic;
 
   DictionaryResult({

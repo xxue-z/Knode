@@ -1,7 +1,9 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:core/core.dart' as core;
+import 'package:wiki/gen/strings.dart';
+
+final _strings = const L10nStringsMixin();
 
 /// 词典查询面板
 class DictionaryPanel extends ConsumerStatefulWidget {
@@ -13,10 +15,10 @@ class DictionaryPanel extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState&lt;DictionaryPanel&gt; createState() =&gt; _DictionaryPanelState();
+  ConsumerState<DictionaryPanel> createState() => _DictionaryPanelState();
 }
 
-class _DictionaryPanelState extends ConsumerState&lt;DictionaryPanel&gt; {
+class _DictionaryPanelState extends ConsumerState<DictionaryPanel> {
   final TextEditingController _controller = TextEditingController();
   final core.DictionaryService _dictionaryService = core.SimpleDictionaryService();
   core.DictionaryResult? _result;
@@ -37,7 +39,7 @@ class _DictionaryPanelState extends ConsumerState&lt;DictionaryPanel&gt; {
     super.dispose();
   }
 
-  Future&lt;void&gt; _lookup(String word) async {
+  Future<void> _lookup(String word) async {
     if (word.trim().isEmpty) return;
 
     setState(() {
@@ -56,7 +58,6 @@ class _DictionaryPanelState extends ConsumerState&lt;DictionaryPanel&gt; {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = core.CoreLocalizations.of(context);
     final theme = Theme.of(context);
 
     return Container(
@@ -78,7 +79,7 @@ class _DictionaryPanelState extends ConsumerState&lt;DictionaryPanel&gt; {
                   Icon(Icons.menu_book, color: theme.colorScheme.primary),
                   const SizedBox(width: 8),
                   Text(
-                    l10n.dictionary,
+                    _strings.reader_dictionary,
                     style: theme.textTheme.titleMedium,
                   ),
                 ],
@@ -90,7 +91,7 @@ class _DictionaryPanelState extends ConsumerState&lt;DictionaryPanel&gt; {
               child: TextField(
                 controller: _controller,
                 decoration: InputDecoration(
-                  labelText: l10n.searchWord,
+                  labelText: '搜索单词',
                   border: const OutlineInputBorder(),
                   prefixIcon: const Icon(Icons.search),
                   suffixIcon: _controller.text.isNotEmpty
@@ -98,7 +99,7 @@ class _DictionaryPanelState extends ConsumerState&lt;DictionaryPanel&gt; {
                           icon: const Icon(Icons.clear),
                           onPressed: () {
                             _controller.clear();
-                            setState(() =&gt; _result = null);
+                            setState(() => _result = null);
                           },
                         )
                       : null,
@@ -111,7 +112,7 @@ class _DictionaryPanelState extends ConsumerState&lt;DictionaryPanel&gt; {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: ElevatedButton(
-                onPressed: _isLoading ? null : () =&gt; _lookup(_controller.text),
+                onPressed: _isLoading ? null : () => _lookup(_controller.text),
                 style: ElevatedButton.styleFrom(
                   minimumSize: const Size(double.infinity, 48),
                 ),
@@ -121,7 +122,7 @@ class _DictionaryPanelState extends ConsumerState&lt;DictionaryPanel&gt; {
                         height: 20,
                         child: CircularProgressIndicator(strokeWidth: 2),
                       )
-                    : Text(l10n.search),
+                    : Text(_strings.search),
               ),
             ),
             const SizedBox(height: 16),
@@ -132,7 +133,7 @@ class _DictionaryPanelState extends ConsumerState&lt;DictionaryPanel&gt; {
                       child: Padding(
                         padding: const EdgeInsets.all(32),
                         child: Text(
-                          l10n.wordDefinition,
+                          '输入单词查询释义',
                           textAlign: TextAlign.center,
                           style: theme.textTheme.bodyMedium?.copyWith(
                             color: theme.colorScheme.onSurfaceVariant,

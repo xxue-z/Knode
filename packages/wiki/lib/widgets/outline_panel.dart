@@ -1,12 +1,13 @@
-
 import 'package:flutter/material.dart';
-import 'package:core/core.dart' as core;
+import 'package:wiki/gen/strings.dart';
 import 'package:wiki/utils/heading_extractor.dart';
+
+final _strings = const L10nStringsMixin();
 
 /// 目录/标题导航面板
 class OutlinePanel extends StatelessWidget {
-  final List&lt;HeadingItem&gt; headings;
-  final ValueChanged&lt;HeadingItem&gt; onHeadingTap;
+  final List<HeadingItem> headings;
+  final ValueChanged<HeadingItem> onHeadingTap;
   final int? activeOffset;
 
   const OutlinePanel({
@@ -18,7 +19,6 @@ class OutlinePanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = core.CoreLocalizations.of(context);
     final theme = Theme.of(context);
 
     return Container(
@@ -40,7 +40,7 @@ class OutlinePanel extends StatelessWidget {
                   Icon(Icons.list_outlined, color: theme.colorScheme.primary),
                   const SizedBox(width: 8),
                   Text(
-                    l10n.outline,
+                    '目录',
                     style: theme.textTheme.titleMedium,
                   ),
                 ],
@@ -49,18 +49,18 @@ class OutlinePanel extends StatelessWidget {
             // 标题列表
             Expanded(
               child: headings.isEmpty
-                  ? Center(child: Text(l10n.noHeadings))
+                  ? const Center(child: Text('暂无标题'))
                   : ListView.builder(
                       padding: const EdgeInsets.symmetric(vertical: 8),
                       itemCount: headings.length,
                       itemBuilder: (context, index) {
                         final heading = headings[index];
-                        final isActive = activeOffset != null &amp;&amp;
+                        final isActive = activeOffset != null &&
                             heading.offset == activeOffset;
                         return _HeadingListItem(
                           heading: heading,
                           isActive: isActive,
-                          onTap: () =&gt; onHeadingTap(heading),
+                          onTap: () => onHeadingTap(heading),
                         );
                       },
                     ),
@@ -116,7 +116,7 @@ class _HeadingListItem extends StatelessWidget {
             color: isActive
                 ? theme.colorScheme.onPrimaryContainer
                 : theme.colorScheme.onSurface,
-            fontWeight: level &lt;= 2 ? FontWeight.w500 : FontWeight.normal,
+            fontWeight: level <= 2 ? FontWeight.w500 : FontWeight.normal,
             fontSize: 16 - (level - 1) * 2,
           ),
           maxLines: 2,
