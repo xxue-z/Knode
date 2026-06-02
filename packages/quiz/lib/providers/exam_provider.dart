@@ -1,4 +1,4 @@
-﻿import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:core/models/exam.dart';
 import 'package:core/models/question.dart';
 import 'package:core/database/repositories/exam_repository.dart';
@@ -87,9 +87,15 @@ class ExamSessionState {
       questions.isEmpty ? 0 : answeredCount / questions.length;
 }
 
-class ExamSessionNotifier extends StateNotifier<ExamSessionState> {
-  final ExamRepository _repo;
-  ExamSessionNotifier(this._repo) : super(const ExamSessionState());
+class ExamSessionNotifier extends Notifier<ExamSessionState> {
+  ExamRepository? _repo;
+
+  @override
+  ExamSessionState build() => const ExamSessionState();
+
+  void init(ExamRepository repo) {
+    _repo = repo;
+  }
 
   /// 开始考试，加载题目并初始化计时。
   Future<void> startExam(Exam exam, List<Question> questions) async {
@@ -102,10 +108,11 @@ class ExamSessionNotifier extends StateNotifier<ExamSessionState> {
 
   /// 提交当前题目的答案。
   Future<void> submitAnswer(String userAnswer) async {
+    final repo = _repo;
     final question = state.currentQuestion;
-    if (question == null || state.exam == null) return;
+    if (repo == null || question == null || state.exam == null) return;
 
-    await _repo.submitAnswer(state.exam!.id, question.id, userAnswer);
+    await repo.submitAnswer(state.exam!.id, question.id, userAnswer);
     state = state.copyWith(
       answers: {...state.answers, question.id: userAnswer},
     );
@@ -143,8 +150,9 @@ class ExamSessionNotifier extends StateNotifier<ExamSessionState> {
 
   /// 交卷，完成考试。
   Future<void> finishExam() async {
-    if (state.exam == null || state.isFinished) return;
-    final result = await _repo.finishExam(state.exam!.id);
+    final repo = _repo;
+    if (repo == null || state.exam == null || state.isFinished) return;
+    final result = await repo.finishExam(state.exam!.id);
     state = state.copyWith(isFinished: true, result: result);
   }
 
@@ -155,6 +163,6 @@ class ExamSessionNotifier extends StateNotifier<ExamSessionState> {
 }
 
 final examSessionProvider =
-    StateNotifierProvider<ExamSessionNotifier, ExamSessionState>(
-  (ref) => ExamSessionNotifier(ref.read(examRepositoryProvider)),
+    NotifierProvider<ExamSessionNotifier, ExamSessionState>(
+  ExamSessionNotifier.new,
 );

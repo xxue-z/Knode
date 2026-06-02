@@ -6,8 +6,10 @@ import 'package:core/database/dao/bookmark_dao.dart';
 import 'package:core/database/dao/highlight_dao.dart';
 import 'package:core/services/app_logger.dart';
 
-/// 阅读器状态 Provider
-final readerProvider = AsyncNotifierProvider.family<_ReaderNotifier, ReaderState, int>(_ReaderNotifier.new);
+/// 阅读器状态 Provider（family: docId）
+final readerProvider = AsyncNotifierProvider.family<_ReaderNotifier, ReaderState, int>(
+  (docId) => _ReaderNotifier(docId),
+);
 
 class ReaderState {
   final List<Bookmark> bookmarks;
@@ -33,10 +35,13 @@ class ReaderState {
   }
 }
 
-class _ReaderNotifier extends FamilyAsyncNotifier<ReaderState, int> {
+class _ReaderNotifier extends AsyncNotifier<ReaderState> {
+  final int _docId;
+  _ReaderNotifier(this._docId);
+
   @override
-  Future<ReaderState> build(int docId) async {
-    return await _loadData(docId);
+  Future<ReaderState> build() async {
+    return await _loadData(_docId);
   }
 
   Future<ReaderState> _loadData(int docId) async {

@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:core/extensions/riverpod_compat.dart';
 import 'package:wiki/gen/strings.dart';
 
 import 'package:core/models/category.dart';
@@ -7,10 +8,10 @@ import 'package:wiki/providers/category_provider.dart';
 
 final _strings = const L10nStringsMixin();
 
-/// 层级目录树组件。
+/// 灞傜骇鐩綍鏍戠粍浠躲€?
 ///
-/// 支持无限层级展开/折叠，长按弹出操作菜单（重命名/删除/移动），
-/// 点击类目过滤图谱。
+/// 鏀寔鏃犻檺灞傜骇灞曞紑/鎶樺彔锛岄暱鎸夊脊鍑烘搷浣滆彍鍗曪紙閲嶅懡鍚?鍒犻櫎/绉诲姩锛夛紝
+/// 鐐瑰嚮绫荤洰杩囨护鍥捐氨銆?
 class CategoryTree extends ConsumerStatefulWidget {
   const CategoryTree({
     super.key,
@@ -26,7 +27,7 @@ class CategoryTree extends ConsumerStatefulWidget {
 }
 
 class _CategoryTreeState extends ConsumerState<CategoryTree> {
-  /// 已展开的类目 id 集合。
+  /// 宸插睍寮€鐨勭被鐩?id 闆嗗悎銆?
   final Set<int> _expandedIds = {};
 
   @override
@@ -72,7 +73,7 @@ class _CategoryTreeState extends ConsumerState<CategoryTree> {
             ),
             child: Row(
               children: [
-                // 展开/折叠箭头。
+                // 灞曞紑/鎶樺彔绠ご銆?
                 if (hasChildren)
                   GestureDetector(
                     onTap: () => _toggleExpand(node.category.id),
@@ -87,7 +88,7 @@ class _CategoryTreeState extends ConsumerState<CategoryTree> {
                 else
                   const SizedBox(width: 20),
                 const SizedBox(width: 8),
-                // 类目名称。
+                // 绫荤洰鍚嶇О銆?
                 Expanded(
                   child: Text(
                     node.category.name,
@@ -103,7 +104,7 @@ class _CategoryTreeState extends ConsumerState<CategoryTree> {
                     overflow: TextOverflow.ellipsis,
                   ),
                 ),
-                // 子类目计数。
+                // 瀛愮被鐩鏁般€?
                 if (hasChildren)
                   Text(
                     '${node.children.length}',
@@ -116,7 +117,7 @@ class _CategoryTreeState extends ConsumerState<CategoryTree> {
             ),
           ),
         ),
-        // 子节点（展开时渲染）。
+        // 瀛愯妭鐐癸紙灞曞紑鏃舵覆鏌擄級銆?
         if (hasChildren && isExpanded)
           ...node.children.map(
             (child) => _buildTreeNode(child, depth: depth + 1),

@@ -104,7 +104,7 @@ class ImportService {
 
   /// 使用 file_picker 选择文件并导入。
   Future<Map<String, String>?> pickAndImport() async {
-    final result = await FilePicker.platform.pickFiles(
+    final result = await FilePicker.pickFiles(
       type: FileType.custom,
       allowedExtensions: ['md', 'txt', 'pdf', 'docx'],
     );

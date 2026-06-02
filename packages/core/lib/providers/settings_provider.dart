@@ -1,4 +1,5 @@
 ﻿import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:core/extensions/riverpod_compat.dart';
 import 'package:core/database/dao/settings_dao.dart';
 
 final settingsDaoProvider = Provider<SettingsDao>((ref) => throw UnimplementedError('请在 main.dart 中覆盖'));

@@ -14,5 +14,3 @@ workspace:
 
 dev_dependencies:
   monolith_runner: ^1.0.2
-dependency_overrides:
-  archive: ^4.0.7

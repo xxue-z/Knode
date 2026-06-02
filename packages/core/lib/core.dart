@@ -1,9 +1,9 @@
-/// 知维核心包 - 数据模型、数据库、AI 抽象层
+﻿/// 鐭ョ淮鏍稿績鍖?- 鏁版嵁妯″瀷銆佹暟鎹簱銆丄I 鎶借薄灞?
 ///
-/// 此文件将作为 barrel export，导出 core 包的所有公共 API。
+/// 姝ゆ枃浠跺皢浣滀负 barrel export锛屽鍑?core 鍖呯殑鎵€鏈夊叕鍏?API銆?
 library core;
 
-// ── AI 抽象层 ──────────────────────────────────────────────────────
+// 鈹€鈹€ AI 鎶借薄灞?鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€
 export 'ai/ai_provider.dart';
 export 'ai/ai_provider_factory.dart';
 export 'ai/cloud_ai_provider.dart';
@@ -11,27 +11,27 @@ export 'ai/embedding_service.dart';
 export 'ai/local_ai_provider.dart';
 export 'ai/prompt_manager.dart';
 
-// ── 常量 ────────────────────────────────────────────────────────────
+// 鈹€鈹€ 甯搁噺 鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€
 export 'constants/app_constants.dart';
 export 'constants/db_constants.dart';
 
-// ── 数据库 ──────────────────────────────────────────────────────────
+// 鈹€鈹€ 鏁版嵁搴?鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€
 export 'database/database.dart' hide GradeResult;
 
-// ── 扩展 ────────────────────────────────────────────────────────────
+// 鈹€鈹€ 鎵╁睍 鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€
 export 'extensions/string_extensions.dart';
 
-// ── 数据模型 ────────────────────────────────────────────────────────
+// 鈹€鈹€ 鏁版嵁妯″瀷 鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€
 export 'models/models.dart';
 
-// ── Provider 状态管理 ───────────────────────────────────────────────
+// 鈹€鈹€ Provider 鐘舵€佺鐞?鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€
 export 'providers/database_provider.dart';
 export 'providers/model_provider.dart';
 export 'providers/service_providers.dart' hide localAiProviderRef;
 export 'providers/settings_provider.dart';
 export 'providers/stats_provider.dart';
 
-// ── 业务服务 ────────────────────────────────────────────────────────
+// 鈹€鈹€ 涓氬姟鏈嶅姟 鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€
 export 'services/backup_service.dart';
 export 'services/background_service.dart';
 export 'services/cloud_vendor_service.dart';
@@ -51,18 +51,20 @@ export 'services/tts_service.dart';
 export 'services/vector_store_service.dart';
 export 'services/dictionary_service.dart';
 
-// ── 分词器 ──────────────────────────────────────────────────────────
+// 鈹€鈹€ 鍒嗚瘝鍣?鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€
 export 'tokenizer/ngram_tokenizer.dart';
 export 'tokenizer/stop_words.dart';
 export 'tokenizer/tokenizer.dart';
 
-// ── 主题 ────────────────────────────────────────────────────────────
+// 鈹€鈹€ 涓婚 鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€
 export 'theme/app_theme.dart';
 export 'theme/text_styles.dart';
 
-// ── 工具类 ──────────────────────────────────────────────────────────
+// 鈹€鈹€ 宸ュ叿绫?鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€
 export 'utils/date_utils.dart';
 export 'utils/device_utils.dart';
 export 'utils/file_utils.dart';
 export 'utils/hash_utils.dart';
 export 'utils/json_utils.dart';
+export 'extensions/riverpod_compat.dart';
+export 'utils/markdown_utils.dart';

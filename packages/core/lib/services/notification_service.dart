@@ -1,4 +1,4 @@
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+﻿import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
 
 /// 本地通知服务，封装 flutter_local_notifications。
@@ -6,7 +6,7 @@ class NotificationService {
   final FlutterLocalNotificationsPlugin _plugin = FlutterLocalNotificationsPlugin();
   bool _initialized = false;
 
-  /// 初始化通知权限和插件。
+  /// 初始化通知栏和插件。
   Future<void> init() async {
     if (_initialized) return;
     const androidSettings = AndroidInitializationSettings('@mipmap/ic_launcher');
@@ -15,9 +15,7 @@ class NotificationService {
       requestBadgePermission: true,
       requestSoundPermission: true,
     );
-    await _plugin.initialize(
-      const InitializationSettings(android: androidSettings, iOS: iosSettings),
-    );
+    await _plugin.initialize(settings: const InitializationSettings(android: androidSettings, iOS: iosSettings));
     _initialized = true;
   }
 
@@ -29,10 +27,10 @@ class NotificationService {
   }) async {
     if (!_initialized) await init();
     await _plugin.show(
-      id,
-      title,
-      body,
-      const NotificationDetails(
+      id: id,
+      title: title,
+      body: body,
+      notificationDetails: const NotificationDetails(
         android: AndroidNotificationDetails(
           'knode_channel',
           'Knode 通知',
@@ -54,11 +52,11 @@ class NotificationService {
     if (!_initialized) await init();
     final tzDateTime = tz.TZDateTime.from(scheduledTime, tz.local);
     await _plugin.zonedSchedule(
-      id,
-      title,
-      body,
-      tzDateTime,
-      const NotificationDetails(
+      id: id,
+      title: title,
+      body: body,
+      scheduledDate: tzDateTime,
+      notificationDetails: const NotificationDetails(
         android: AndroidNotificationDetails(
           'knode_scheduled',
           'Knode 定时通知',
@@ -68,14 +66,12 @@ class NotificationService {
         iOS: DarwinNotificationDetails(),
       ),
       androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
-      uiLocalNotificationDateInterpretation:
-          UILocalNotificationDateInterpretation.absoluteTime,
     );
   }
 
   /// 取消指定通知。
   Future<void> cancel(int id) async {
-    await _plugin.cancel(id);
+    await _plugin.cancel(id: id);
   }
 
   /// 取消所有通知。

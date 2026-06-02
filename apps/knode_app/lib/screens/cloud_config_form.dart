@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:core/extensions/riverpod_compat.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:core/models/cloud_vendor.dart';
 import 'package:core/services/cloud_vendor_service.dart';

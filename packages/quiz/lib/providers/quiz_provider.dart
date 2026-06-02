@@ -1,4 +1,4 @@
-﻿import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:core/models/question.dart';
 import 'package:core/models/exam.dart';
 import 'package:core/models/daily_task_config.dart';
@@ -18,7 +18,7 @@ final dailyTaskDaoProvider = Provider<DailyTaskDao>(
   (ref) => throw UnimplementedError('请在 main.dart 中覆盖'),
 );
 
-// ── 答题状态 Provider（StateNotifier 适合同步内存状态） ─────────────
+// ── 答题状态 Provider（Notifier 适合同步内存状态） ─────────────
 
 class QuizState {
   final List<Question> questions;
@@ -49,14 +49,22 @@ class QuizState {
       answers.entries.where((e) => questions[e.key].answer == e.value).length;
 }
 
-class QuizNotifier extends StateNotifier<QuizState> {
-  final QuestionRepository _repo;
-  QuizNotifier(this._repo) : super(const QuizState());
+class QuizNotifier extends Notifier<QuizState> {
+  QuestionRepository? _repo;
+
+  @override
+  QuizState build() => const QuizState();
+
+  void init(QuestionRepository repo) {
+    _repo = repo;
+  }
 
   Future<void> startQuiz({int count = 10, List<int>? questionIds}) async {
+    final repo = _repo;
+    if (repo == null) return;
     final questions = questionIds != null
-        ? await _repo.getByIds(questionIds)
-        : await _repo.getRandom(limit: count);
+        ? await repo.getByIds(questionIds)
+        : await repo.getRandom(limit: count);
     state = QuizState(questions: questions);
   }
 
@@ -74,15 +82,13 @@ class QuizNotifier extends StateNotifier<QuizState> {
     }
   }
 
-  void markWrong(int questionId) => _repo.markWrong(questionId);
+  void markWrong(int questionId) => _repo?.markWrong(questionId);
 
   void reset() => state = const QuizState();
 }
 
 final quizProvider =
-    StateNotifierProvider<QuizNotifier, QuizState>(
-  (ref) => QuizNotifier(ref.read(questionRepositoryProvider)),
-);
+    NotifierProvider<QuizNotifier, QuizState>(QuizNotifier.new);
 
 // ── 每日一测配置 Provider（AsyncNotifier 适合 DB 异步操作） ────────
 

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:core/extensions/riverpod_compat.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:core/providers/model_provider.dart';
 import 'package:core/providers/settings_provider.dart';
@@ -60,7 +61,7 @@ class _ModelDownloadPageState extends ConsumerState<ModelDownloadPage> {
   }
 
   Future<void> _importLocalModel() async {
-    final result = await FilePicker.platform.pickFiles(
+    final result = await FilePicker.pickFiles(
       type: FileType.custom,
       allowedExtensions: ['gguf'],
     );

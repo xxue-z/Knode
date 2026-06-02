@@ -14,18 +14,26 @@ class ChatMessageState {
       ChatMessageState(messages: messages ?? this.messages, isLoading: isLoading ?? this.isLoading);
 }
 
-class ChatNotifier extends StateNotifier<ChatMessageState> {
-  final ConversationRepository _repo;
-  final QaAgent _qaAgent;
+class ChatNotifier extends Notifier<ChatMessageState> {
+  ConversationRepository? _repo;
+  QaAgent? _qaAgent;
   int? _conversationId;
 
-  ChatNotifier(this._repo, this._qaAgent) : super(const ChatMessageState());
+  @override
+  ChatMessageState build() => const ChatMessageState();
+
+  void init(ConversationRepository repo, QaAgent qaAgent) {
+    _repo = repo;
+    _qaAgent = qaAgent;
+  }
 
   void loadConversation(int conversationId) async {
+    final repo = _repo;
+    if (repo == null) return;
     _conversationId = conversationId;
     state = const ChatMessageState(isLoading: true);
     try {
-      final messages = await _repo.getMessages(conversationId);
+      final messages = await repo.getMessages(conversationId);
       state = ChatMessageState(messages: messages);
     } catch (e) {
       state = const ChatMessageState();
@@ -33,21 +41,22 @@ class ChatNotifier extends StateNotifier<ChatMessageState> {
   }
 
   Future<void> sendMessage(String content, {bool enableSearch = false}) async {
+    final repo = _repo;
+    final qaAgent = _qaAgent;
+    if (repo == null || qaAgent == null) return;
     if (_conversationId == null || content.trim().isEmpty) return;
     final convId = _conversationId!;
-    await _repo.addMessage(convId, role: 'user', content: content);
+    await repo.addMessage(convId, role: 'user', content: content);
     state = state.copyWith(isLoading: true);
     try {
-      final response = await _qaAgent.ask(query: content, conversationId: convId, enableSearch: enableSearch);
-      await _repo.addMessage(convId, role: 'assistant', content: response.answer);
+      final response = await qaAgent.ask(query: content, conversationId: convId, enableSearch: enableSearch);
+      await repo.addMessage(convId, role: 'assistant', content: response.answer);
     } catch (e) {
-      await _repo.addMessage(convId, role: 'assistant', content: '${_strings.chat_error}: $e');
+      await repo.addMessage(convId, role: 'assistant', content: '${_strings.chat_error}: $e');
     }
-    final messages = await _repo.getMessages(convId);
+    final messages = await repo.getMessages(convId);
     state = ChatMessageState(messages: messages);
   }
 }
 
-final chatProvider = StateNotifierProvider<ChatNotifier, ChatMessageState>((ref) {
-  throw UnimplementedError(_strings.chat_please_override_in_main_dart);
-});
+final chatProvider = NotifierProvider<ChatNotifier, ChatMessageState>(ChatNotifier.new);

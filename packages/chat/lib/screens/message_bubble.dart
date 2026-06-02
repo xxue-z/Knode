@@ -1,6 +1,7 @@
-﻿import 'dart:convert';
+import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
+import 'package:core/utils/markdown_utils.dart';
 import 'package:core/models/message.dart';
 
 class MessageBubble extends StatelessWidget {
@@ -30,9 +31,8 @@ class MessageBubble extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            MarkdownBody(
+            MarkdownUtils.body(
               data: message.content,
-              selectable: true,
               styleSheet: MarkdownStyleSheet(
                 p: TextStyle(
                   color: isUser ? theme.colorScheme.onPrimary : theme.colorScheme.onSurfaceVariant,

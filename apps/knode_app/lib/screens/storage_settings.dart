@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:core/extensions/riverpod_compat.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:core/providers/settings_provider.dart';
@@ -43,7 +44,7 @@ class _StorageSettingsPageState extends ConsumerState<StorageSettingsPage> {
 
   /// 选择新的存储路径。
   Future<void> _pickNewPath() async {
-    final selected = await FilePicker.platform.getDirectoryPath(
+    final selected = await FilePicker.getDirectoryPath(
       dialogTitle: _strings.knode_app_modify_storage_path,
     );
     if (selected == null) return;

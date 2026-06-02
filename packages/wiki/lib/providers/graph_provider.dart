@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:core/extensions/riverpod_compat.dart';
 
 import 'package:core/models/document.dart';
 import 'package:wiki/widgets/graph_canvas.dart' hide GraphNode, GraphEdge;

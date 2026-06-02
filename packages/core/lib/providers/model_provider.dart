@@ -1,4 +1,4 @@
-import 'dart:async';
+﻿import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:core/gen/strings.dart';
 import 'package:core/models/local_model.dart';
@@ -7,25 +7,26 @@ import 'package:core/services/model_repo_service.dart';
 import 'package:core/services/model_download_service.dart';
 import 'package:core/ai/local_ai_provider.dart';
 import 'settings_provider.dart';
+import 'package:core/extensions/riverpod_compat.dart';
 
 const _strings = L10nStringsMixin();
 
-/// ModelRepoService 实例。
+/// ModelRepoService 瀹炰緥銆?
 final modelRepoServiceProvider = Provider<ModelRepoService>((ref) {
   return ModelRepoService();
 });
 
-/// ModelDownloadService 实例（需要在 main.dart 覆盖 modelsDir）。
+/// ModelDownloadService 瀹炰緥锛堥渶瑕佸湪 main.dart 瑕嗙洊 modelsDir锛夈€?
 final modelDownloadServiceProvider = Provider<ModelDownloadService>((ref) {
-  throw UnimplementedError('请在 main.dart 中覆盖 ModelDownloadService');
+  throw UnimplementedError('璇峰湪 main.dart 涓鐩?ModelDownloadService');
 });
 
-/// LocalAIProvider 实例（需要在 main.dart 覆盖）。
+/// LocalAIProvider 瀹炰緥锛堥渶瑕佸湪 main.dart 瑕嗙洊锛夈€?
 final localAiProviderRef = Provider<LocalAIProvider>((ref) {
   return LocalAIProvider();
 });
 
-/// 本地模型列表状态管理。
+/// 鏈湴妯″瀷鍒楄〃鐘舵€佺鐞嗐€?
 class ModelListNotifier extends AsyncNotifier<List<LocalModel>> {
   StreamSubscription? _downloadSub;
 
@@ -35,7 +36,7 @@ class ModelListNotifier extends AsyncNotifier<List<LocalModel>> {
     return repo.getCachedModels();
   }
 
-  /// 从远程仓库拉取模型列表。
+  /// 浠庤繙绋嬩粨搴撴媺鍙栨ā鍨嬪垪琛ㄣ€?
   Future<void> fetchFromRepo(String url) async {
     state = const AsyncLoading();
     state = await AsyncValue.guard(() async {
@@ -44,7 +45,7 @@ class ModelListNotifier extends AsyncNotifier<List<LocalModel>> {
     });
   }
 
-  /// 开始下载指定模型。
+  /// 寮€濮嬩笅杞芥寚瀹氭ā鍨嬨€?
   Future<void> startDownload(LocalModel model, String mirrorKey) async {
     _updateModel(model.id, (m) => m.copyWith(
       status: ModelStatus.downloading,
@@ -53,7 +54,7 @@ class ModelListNotifier extends AsyncNotifier<List<LocalModel>> {
 
     final service = ref.read(modelDownloadServiceProvider);
 
-    // 监听下载进度
+    // 鐩戝惉涓嬭浇杩涘害
     _downloadSub?.cancel();
     _downloadSub = service.downloadProgress.listen((progress) {
       _updateModel(model.id, (m) => m.copyWith(
@@ -78,19 +79,19 @@ class ModelListNotifier extends AsyncNotifier<List<LocalModel>> {
     }
   }
 
-  /// 取消当前下载。
+  /// 鍙栨秷褰撳墠涓嬭浇銆?
   void cancelDownload() {
     ref.read(modelDownloadServiceProvider).cancelDownload();
   }
 
-  /// 加载模型到内存。
+  /// 鍔犺浇妯″瀷鍒板唴瀛樸€?
   Future<void> loadModel(LocalModel model) async {
-    AppLogger.instance.i('加载模型: ${model.name}', tag: 'ModelProvider');
-    // 先卸载当前已加载的模型
+    AppLogger.instance.i('鍔犺浇妯″瀷: ${model.name}', tag: 'ModelProvider');
+    // 鍏堝嵏杞藉綋鍓嶅凡鍔犺浇鐨勬ā鍨?
     unloadCurrent();
 
     _updateModel(model.id, (m) => m.copyWith(
-      status: ModelStatus.downloading, // 临时状态，UI 不区分
+      status: ModelStatus.downloading, // 涓存椂鐘舵€侊紝UI 涓嶅尯鍒?
       errorMessage: null,
     ));
 
@@ -99,8 +100,8 @@ class ModelListNotifier extends AsyncNotifier<List<LocalModel>> {
       final path = '${ref.read(modelDownloadServiceProvider).modelsDir}/${model.id}.gguf';
       await localAi.loadModel(path);
 
-      // 更新当前模型为 loaded，其他模型降为 downloaded
-      final current = state.valueOrNull ?? [];
+      // 鏇存柊褰撳墠妯″瀷涓?loaded锛屽叾浠栨ā鍨嬮檷涓?downloaded
+      final current = state.valueOrNull ?? <LocalModel>[];
       final updated = current.map((m) {
         if (m.id == model.id) {
           return m.copyWith(status: ModelStatus.loaded);
@@ -112,11 +113,11 @@ class ModelListNotifier extends AsyncNotifier<List<LocalModel>> {
       }).toList();
       state = AsyncData(updated);
 
-      AppLogger.instance.i('模型加载成功: ${model.name}', tag: 'ModelProvider');
-      // 持久化当前模型 ID
+      AppLogger.instance.i('妯″瀷鍔犺浇鎴愬姛: ${model.name}', tag: 'ModelProvider');
+      // 鎸佷箙鍖栧綋鍓嶆ā鍨?ID
       await ref.read(settingsProvider.notifier).set('local_model_id', model.id);
     } catch (e) {
-      AppLogger.instance.e('模型加载失败: ${model.name}', tag: 'ModelProvider', error: e);
+      AppLogger.instance.e('妯″瀷鍔犺浇澶辫触: ${model.name}', tag: 'ModelProvider', error: e);
       _updateModel(model.id, (m) => m.copyWith(
         status: ModelStatus.loadFailed,
         errorMessage: '${_strings.core_loading_failed}: $e',
@@ -124,14 +125,14 @@ class ModelListNotifier extends AsyncNotifier<List<LocalModel>> {
     }
   }
 
-  /// 卸载当前已加载的模型。
+  /// 鍗歌浇褰撳墠宸插姞杞界殑妯″瀷銆?
   void unloadCurrent() {
-    AppLogger.instance.d('卸载当前模型', tag: 'ModelProvider');
+    AppLogger.instance.d('鍗歌浇褰撳墠妯″瀷', tag: 'ModelProvider');
     final localAi = ref.read(localAiProviderRef);
     if (localAi.isLoaded) {
       localAi.dispose();
     }
-    final current = state.valueOrNull ?? [];
+    final current = state.valueOrNull ?? <LocalModel>[];
     final updated = current.map((m) {
       if (m.status == ModelStatus.loaded) {
         return m.copyWith(status: ModelStatus.downloaded);
@@ -143,9 +144,9 @@ class ModelListNotifier extends AsyncNotifier<List<LocalModel>> {
     }
   }
 
-  /// 删除模型文件。
+  /// 鍒犻櫎妯″瀷鏂囦欢銆?
   Future<void> deleteModel(LocalModel model) async {
-    AppLogger.instance.i('删除模型: ${model.id}', tag: 'ModelProvider');
+    AppLogger.instance.i('鍒犻櫎妯″瀷: ${model.id}', tag: 'ModelProvider');
     final service = ref.read(modelDownloadServiceProvider);
     await service.deleteModel(model.id);
     _updateModel(model.id, (m) => m.copyWith(
@@ -155,15 +156,15 @@ class ModelListNotifier extends AsyncNotifier<List<LocalModel>> {
     ));
   }
 
-  /// 导入本地 .gguf 文件。
+  /// 瀵煎叆鏈湴 .gguf 鏂囦欢銆?
   Future<void> importLocalModel(String filePath) async {
-    AppLogger.instance.i('导入模型: $filePath', tag: 'ModelProvider');
+    AppLogger.instance.i('瀵煎叆妯″瀷: $filePath', tag: 'ModelProvider');
     final service = ref.read(modelDownloadServiceProvider);
     final name = await service.importLocalModel(filePath);
-    AppLogger.instance.i('模型导入成功: $name', tag: 'ModelProvider');
+    AppLogger.instance.i('妯″瀷瀵煎叆鎴愬姛: $name', tag: 'ModelProvider');
 
-    // 添加到模型列表
-    final current = state.valueOrNull ?? [];
+    // 娣诲姞鍒版ā鍨嬪垪琛?
+    final current = state.valueOrNull ?? <LocalModel>[];
     final exists = current.any((m) => m.id == name);
     if (!exists) {
       final imported = LocalModel(
@@ -180,9 +181,9 @@ class ModelListNotifier extends AsyncNotifier<List<LocalModel>> {
     }
   }
 
-  /// 更新列表中指定模型。
+  /// 鏇存柊鍒楄〃涓寚瀹氭ā鍨嬨€?
   void _updateModel(String id, LocalModel Function(LocalModel) updater) {
-    final current = state.valueOrNull ?? [];
+    final current = state.valueOrNull ?? <LocalModel>[];
     final updated = current.map((m) {
       if (m.id == id) return updater(m);
       return m;
@@ -191,7 +192,7 @@ class ModelListNotifier extends AsyncNotifier<List<LocalModel>> {
   }
 }
 
-/// 本地模型列表 Provider。
+/// 鏈湴妯″瀷鍒楄〃 Provider銆?
 final modelListProvider =
     AsyncNotifierProvider<ModelListNotifier, List<LocalModel>>(
   ModelListNotifier.new,
