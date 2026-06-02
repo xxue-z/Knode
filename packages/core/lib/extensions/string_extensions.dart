@@ -11,9 +11,9 @@ extension StringExtensions on String {
     return replaceAll(RegExp(r'#+\s'), '')
         .replaceAll(RegExp(r'\*+'), '')
         .replaceAll(RegExp(r'`+'), '')
-        .replaceAll(RegExp(r'\[([^\]]*)\]\([^)]*\)'), r'$1')
         .replaceAll(RegExp(r'!\[([^\]]*)\]\([^)]*\)'), '')
-        .replaceAll(RegExp(r'~~([^~]*)~~'), r'$1')
+        .replaceAllMapped(RegExp(r'\[([^\]]*)\]\([^)]*\)'), (m) => m.group(1)!)
+        .replaceAllMapped(RegExp(r'~~([^~]*)~~'), (m) => m.group(1)!)
         .replaceAll(RegExp(r'\n{2,}'), '\n')
         .trim();
   }
