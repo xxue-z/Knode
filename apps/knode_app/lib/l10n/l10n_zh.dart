@@ -1374,6 +1374,9 @@ class L10nZh extends L10n {
   String get quiz_accuracy => '正确率';
 
   @override
+  String get quiz_add_note => '添加笔记';
+
+  @override
   String get quiz_ai_enabled => '启用 AI 出题';
 
   @override
@@ -1552,6 +1555,9 @@ class L10nZh extends L10n {
   String get quiz_not_answered => '未作答';
 
   @override
+  String get quiz_note_input_hint => '输入笔记内容...';
+
+  @override
   String get quiz_options => '选项';
 
   @override
@@ -1646,6 +1652,9 @@ class L10nZh extends L10n {
   String get quiz_review_wrong_ratio => '温故知新错题比例';
 
   @override
+  String get quiz_save => '保存';
+
+  @override
   String get quiz_save_settings => '保存设置';
 
   @override
@@ -1668,6 +1677,9 @@ class L10nZh extends L10n {
 
   @override
   String get quiz_single_choice => '单选题';
+
+  @override
+  String get quiz_skip => '跳过';
 
   @override
   String get quiz_sort_by_difficulty => '按难度';

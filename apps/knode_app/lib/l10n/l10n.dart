@@ -2773,6 +2773,12 @@ abstract class L10n {
   /// **'正确率'**
   String get quiz_accuracy;
 
+  /// 添加笔记
+  ///
+  /// In zh, this message translates to:
+  /// **'添加笔记'**
+  String get quiz_add_note;
+
   /// 启用 AI 出题
   ///
   /// In zh, this message translates to:
@@ -3121,6 +3127,12 @@ abstract class L10n {
   /// **'未作答'**
   String get quiz_not_answered;
 
+  /// 输入笔记内容...
+  ///
+  /// In zh, this message translates to:
+  /// **'输入笔记内容...'**
+  String get quiz_note_input_hint;
+
   /// 选项
   ///
   /// In zh, this message translates to:
@@ -3301,6 +3313,12 @@ abstract class L10n {
   /// **'温故知新错题比例'**
   String get quiz_review_wrong_ratio;
 
+  /// 保存
+  ///
+  /// In zh, this message translates to:
+  /// **'保存'**
+  String get quiz_save;
+
   /// 保存设置
   ///
   /// In zh, this message translates to:
@@ -3348,6 +3366,12 @@ abstract class L10n {
   /// In zh, this message translates to:
   /// **'单选题'**
   String get quiz_single_choice;
+
+  /// 跳过
+  ///
+  /// In zh, this message translates to:
+  /// **'跳过'**
+  String get quiz_skip;
 
   /// 按难度
   ///

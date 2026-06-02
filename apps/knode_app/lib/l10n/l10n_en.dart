@@ -1418,6 +1418,9 @@ class L10nEn extends L10n {
   String get quiz_accuracy => 'Accuracy';
 
   @override
+  String get quiz_add_note => 'Add Note';
+
+  @override
   String get quiz_ai_enabled => 'Enable AI Question Generation';
 
   @override
@@ -1600,6 +1603,9 @@ class L10nEn extends L10n {
   String get quiz_not_answered => 'Not answered';
 
   @override
+  String get quiz_note_input_hint => 'Enter note content...';
+
+  @override
   String get quiz_options => 'Options';
 
   @override
@@ -1696,6 +1702,9 @@ class L10nEn extends L10n {
   String get quiz_review_wrong_ratio => 'Review Quiz Wrong Ratio';
 
   @override
+  String get quiz_save => 'Save';
+
+  @override
   String get quiz_save_settings => 'Save Settings';
 
   @override
@@ -1718,6 +1727,9 @@ class L10nEn extends L10n {
 
   @override
   String get quiz_single_choice => 'Single Choice';
+
+  @override
+  String get quiz_skip => 'Skip';
 
   @override
   String get quiz_sort_by_difficulty => 'Sort by Difficulty';
