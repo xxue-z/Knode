@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:core/extensions/riverpod_compat.dart';
-import 'package:file_picker/file_picker.dart';
+import 'package:core/utils/file_picker_util.dart';
 import 'package:core/models/cloud_vendor.dart';
 import 'package:core/providers/model_provider.dart';
 import 'package:core/providers/settings_provider.dart';
@@ -18,9 +18,9 @@ import 'package:knode_app/gen/strings.dart';
 final _strings = const L10nStringsMixin();
 const _coreStrings = core_strings.L10nStringsMixin();
 
-/// AI 引擎主设置页面。
+/// AI 寮曟搸涓昏缃〉闈€?
 ///
-/// SegmentedButton 切换「本地模型」和「云端 API」两个 Tab。
+/// SegmentedButton 鍒囨崲銆屾湰鍦版ā鍨嬨€嶅拰銆屼簯绔?API銆嶄袱涓?Tab銆?
 class AiSettingsPage extends ConsumerStatefulWidget {
   const AiSettingsPage({super.key});
 
@@ -41,7 +41,7 @@ class _AiSettingsPageState extends ConsumerState<AiSettingsPage> {
   String _searchApiKey = '';
   String _testResult = '';
 
-  // 默认仓库地址
+  // 榛樿浠撳簱鍦板潃
   static const _defaultModelRepoUrl =
       'https://cdn.jsdelivr.net/gh/xxue-z/Knode@master/.resource/models.json';
   static const _defaultCloudRepoUrl =
@@ -128,13 +128,10 @@ class _AiSettingsPageState extends ConsumerState<AiSettingsPage> {
   }
 
   Future<void> _importLocalModel() async {
-    final result = await FilePicker.pickFiles(
+    final filePath = await FilePickerUtil.pickSingleFile(
       type: FileType.custom,
       allowedExtensions: ['gguf'],
     );
-    if (result == null || result.files.isEmpty) return;
-
-    final filePath = result.files.first.path;
     if (filePath == null) return;
 
     final file = File(filePath);
@@ -266,7 +263,7 @@ class _AiSettingsPageState extends ConsumerState<AiSettingsPage> {
 
   void _testSearchConnection() async {
     setState(() => _testResult = _strings.knode_app_testing);
-    // TODO: 实际测试连接
+    // TODO: 瀹為檯娴嬭瘯杩炴帴
     await Future.delayed(const Duration(seconds: 2));
     setState(() => _testResult = _searchApiKey.isNotEmpty ? _strings.knode_app_connection_success : _strings.knode_app_config_api_key_first);
   }
@@ -278,7 +275,7 @@ class _AiSettingsPageState extends ConsumerState<AiSettingsPage> {
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          // SegmentedButton 切换
+          // SegmentedButton 鍒囨崲
           SegmentedButton<bool>(
             segments: [
               ButtonSegment(value: false, label: Text(_strings.knode_app_local_model), icon: const Icon(Icons.phone_android)),
@@ -410,7 +407,7 @@ class _AiSettingsPageState extends ConsumerState<AiSettingsPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // 云端仓库地址输入框 + 获取按钮
+        // 浜戠浠撳簱鍦板潃杈撳叆妗?+ 鑾峰彇鎸夐挳
         Row(
           children: [
             Expanded(
@@ -434,7 +431,7 @@ class _AiSettingsPageState extends ConsumerState<AiSettingsPage> {
         ),
         const SizedBox(height: 20),
 
-        // 云端配置表单
+        // 浜戠閰嶇疆琛ㄥ崟
         CloudConfigForm(vendors: _cloudVendors),
       ],
     );
@@ -471,3 +468,5 @@ class _AiSettingsPageState extends ConsumerState<AiSettingsPage> {
     );
   }
 }
+
+

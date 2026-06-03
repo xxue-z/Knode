@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:core/extensions/riverpod_compat.dart';
-import 'package:file_picker/file_picker.dart';
+import 'package:core/utils/file_picker_util.dart';
 import 'package:core/providers/model_provider.dart';
 import 'package:core/providers/settings_provider.dart';
 import 'package:core/services/model_download_service.dart';
@@ -61,12 +61,10 @@ class _ModelDownloadPageState extends ConsumerState<ModelDownloadPage> {
   }
 
   Future<void> _importLocalModel() async {
-    final result = await FilePicker.pickFiles(
+    final filePath = await FilePickerUtil.pickSingleFile(
       type: FileType.custom,
       allowedExtensions: ['gguf'],
     );
-    if (result == null || result.files.isEmpty) return;
-    final filePath = result.files.first.path;
     if (filePath == null) return;
 
     // 内存兼容性检查

@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:doc_text_extractor/doc_text_extractor.dart';
-import 'package:file_picker/file_picker.dart';
+import 'package:core/utils/file_picker_util.dart';
 import 'package:path/path.dart' as p;
 
 /// 文件导入服务，将 PDF/DOCX/MD/TXT 转换为 Markdown 存入知识库。
@@ -104,14 +104,11 @@ class ImportService {
 
   /// 使用 file_picker 选择文件并导入。
   Future<Map<String, String>?> pickAndImport() async {
-    final result = await FilePicker.pickFiles(
+    final filePath = await FilePickerUtil.pickSingleFile(
       type: FileType.custom,
       allowedExtensions: ['md', 'txt', 'pdf', 'docx'],
     );
 
-    if (result == null || result.files.isEmpty) return null;
-
-    final filePath = result.files.single.path;
     if (filePath == null) {
       throw Exception('无法获取文件路径');
     }

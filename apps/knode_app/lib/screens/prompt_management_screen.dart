@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:core/extensions/riverpod_compat.dart';
-import 'package:file_picker/file_picker.dart';
+import 'package:core/utils/file_picker_util.dart';
 import 'package:core/ai/prompt_manager.dart';
 import 'package:core/providers/service_providers.dart';
 import 'package:knode_app/gen/strings.dart';
@@ -237,12 +237,10 @@ class _PromptManagementScreenState
     String? jsonString;
 
     if (source == 'file') {
-      final result = await FilePicker.pickFiles(
+      final filePath = await FilePickerUtil.pickSingleFile(
         type: FileType.custom,
         allowedExtensions: ['json'],
       );
-      if (result == null || result.files.isEmpty) return;
-      final filePath = result.files.first.path;
       if (filePath == null) return;
       try {
         jsonString = await File(filePath).readAsString();

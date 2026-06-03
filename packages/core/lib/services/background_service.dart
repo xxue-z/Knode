@@ -45,7 +45,7 @@ class BackgroundService {
       _dailyQuizTask,
       frequency: const Duration(days: 1),
       initialDelay: triggerTime.difference(now),
-      constraints: Constraints(networkType: NetworkType.not_required),
+      constraints: Constraints(networkType: NetworkType.notRequired),
     );
   }
 
@@ -64,7 +64,7 @@ class BackgroundService {
       _periodicExamTask,
       initialDelay: delay,
       inputData: {'examType': examType},
-      constraints: Constraints(networkType: NetworkType.not_required),
+      constraints: Constraints(networkType: NetworkType.notRequired),
     );
   }
 
