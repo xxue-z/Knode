@@ -13,7 +13,7 @@ class ExamTable {
       'time_limit INTEGER, '
       'started_at TEXT, '
       'finished_at TEXT, '
-      "status TEXT DEFAULT 'ongoing', "
+      "status TEXT DEFAULT 'ongoing', created_at TEXT, updated_at TEXT, "
       'config_json TEXT'
       ')';
 }

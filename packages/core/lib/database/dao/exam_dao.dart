@@ -1,4 +1,4 @@
-﻿import 'package:sqflite/sqflite.dart';
+import 'package:sqflite/sqflite.dart';
 import '../app_database.dart';
 import '../tables/exam_table.dart';
 import '../../models/exam.dart';
@@ -7,15 +7,26 @@ class ExamDao {
   Database get _db => AppDatabase.instance.db;
 
   static Exam _fromRow(Map<String, dynamic> r) => Exam(
-    id: r['id'] as int, title: r['title'] as String?,
-    examType: r['exam_type'] as String, questionCount: r['question_count'] as int,
-    obtainedScore: r['obtained_score'] as double?, status: r['status'] as String,
-    createdAt: r['created_at'] as String, updatedAt: r['updated_at'] as String,
+    id: r['id'] as int,
+    title: r['title'] as String?,
+    examType: r['exam_type'] as String,
+    questionCount: r['question_count'] as int?,
+    totalScore: r['total_score'] as double?,
+    obtainedScore: r['obtained_score'] as double?,
+    timeLimit: r['time_limit'] as int?,
+    startedAt: r['started_at'] as String?,
+    finishedAt: r['finished_at'] as String?,
+    status: r['status'] as String,
+    configJson: r['config_json'] as String?,
+    createdAt: r['created_at'] as String?,
+    updatedAt: r['updated_at'] as String?,
   );
 
   static Map<String, dynamic> _toRow(Exam e) => {
     'title': e.title, 'exam_type': e.examType, 'question_count': e.questionCount,
-    'obtained_score': e.obtainedScore, 'status': e.status,
+    'total_score': e.totalScore, 'obtained_score': e.obtainedScore,
+    'time_limit': e.timeLimit, 'started_at': e.startedAt, 'finished_at': e.finishedAt,
+    'status': e.status, 'config_json': e.configJson,
     'created_at': e.createdAt, 'updated_at': e.updatedAt,
   };
 

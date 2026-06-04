@@ -69,7 +69,7 @@ class AppTheme {
         elevation: 2,
       ),
       snackBarTheme: SnackBarThemeData(
-        behavior: SnackBarBehavior.floating,
+        behavior: SnackBarBehavior.fixed,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       ),
       dividerTheme: DividerThemeData(

@@ -40,3 +40,8 @@ scripts:
     name: Get Dependencies
     description: Run dart pub get on all packages
     run: melos exec -- dart pub get
+    
+  gen_l10n:
+    run: melos exec -- flutter gen-l10n
+    select-package:
+      dir-exists: lib/l10n   # 仅对包含 l10n 目录的包执行

@@ -1,16 +1,18 @@
-import 'dart:async';
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:path_provider/path_provider.dart';
 import 'app.dart';
-import 'package:core/database/app_database.dart';
+import 'dart:ui';
+
+import 'package:core/core.dart';
 import 'package:core/services/app_logger.dart';
+import 'package:wiki/wiki.dart';
+import 'package:quiz/quiz.dart';
+import 'providers/locale_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   await AppLogger.instance.init(minLevel: AppLogLevel.debug);
-  AppLogger.instance.i('应用启动', tag: 'Main');
 
   FlutterError.onError = (FlutterErrorDetails details) {
     AppLogger.instance.e(
@@ -34,29 +36,62 @@ void main() async {
 
   try {
     await AppDatabase.instance.init();
-    AppLogger.instance.i('数据库初始化成功', tag: 'Main');
   } catch (e, st) {
-    AppLogger.instance.f(
-      '数据库初始化失败',
-      tag: 'Main',
-      error: e,
-      stackTrace: st,
-    );
-    rethrow;
+    FlutterError.reportError(FlutterErrorDetails(exception: e, stack: st));
   }
+  await loadSavedLocale();
 
-  runZonedGuarded(() {
-    runApp(
-      const ProviderScope(
-        child: KnodeApp(),
-      ),
-    );
-  }, (Object error, StackTrace stack) {
-    AppLogger.instance.f(
-      'Zone 未捕获异常',
-      tag: 'RunZone',
-      error: error,
-      stackTrace: stack,
-    );
-  });
+  // 获取应用文档目录用于文件服务
+  final appDir = await getApplicationDocumentsDirectory();
+  final knowledgeRoot = '${appDir.path}/knowledge';
+  final modelsDir = '${appDir.path}/models';
+
+  runApp(
+    ProviderScope(
+      overrides: [
+        // ── Core Providers ──
+        settingsDaoProvider.overrideWith((ref) => SettingsDao()),
+        aiProviderRef.overrideWith((ref) => LocalAIProvider()),
+        modelDownloadServiceProvider.overrideWith(
+          (ref) => ModelDownloadService(modelsDir),
+        ),
+
+        // ── Wiki Providers ──
+        documentRepositoryProvider.overrideWith(
+          (ref) => DocumentRepository(
+            documentDao: DocumentDao(),
+            readingLogDao: ReadingLogDao(),
+            fileService: FileService(knowledgeRoot),
+            settingsDao: SettingsDao(),
+          ),
+        ),
+        categoryRepositoryProvider.overrideWith(
+          (ref) => CategoryRepository(
+            categoryDao: CategoryDao(),
+            documentDao: DocumentDao(),
+          ),
+        ),
+
+        // ── Quiz Providers ──
+        questionRepositoryProvider.overrideWith(
+          (ref) => QuestionRepository(
+            questionDao: QuestionDao(),
+            wrongDao: WrongQuestionDao(),
+          ),
+        ),
+        examRepositoryProvider.overrideWith(
+          (ref) => ExamRepository(
+            examDao: ExamDao(),
+            answerDao: ExamAnswerDao(),
+            questionDao: QuestionDao(),
+            wrongDao: WrongQuestionDao(),
+            readingLogDao: ReadingLogDao(),
+            documentDao: DocumentDao(),
+          ),
+        ),
+        dailyTaskDaoProvider.overrideWith((ref) => DailyTaskDao()),
+      ],
+      child: const KnodeApp(),
+    ),
+  );
 }

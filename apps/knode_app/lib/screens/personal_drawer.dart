@@ -13,7 +13,7 @@ class PersonalDrawer extends StatelessWidget {
       child: SafeArea(
         child: Column(
           children: [
-            // ���� Header ��������������������������������������������������������������������������������������������
+            // ===== Header =====����������������������������������������������������������������������������������������
             DrawerHeader(
               decoration: BoxDecoration(
                 color: colorScheme.primaryContainer,
@@ -48,7 +48,7 @@ class PersonalDrawer extends StatelessWidget {
               ),
             ),
 
-            // ���� Body (placeholder items) ������������������������������������������������������
+            // ===== Body (placeholder items) =====��������������������������������������������������
             Expanded(
               child: ListView(
                 padding: EdgeInsets.zero,
@@ -86,7 +86,7 @@ class PersonalDrawer extends StatelessWidget {
               ),
             ),
 
-            // ���� Settings (fixed at bottom) ��������������������������������������������������
+            // ===== Settings (fixed at bottom) =====����������������������������������������������
             const Divider(height: 1),
             ListTile(
               leading: const Icon(Icons.settings_rounded),

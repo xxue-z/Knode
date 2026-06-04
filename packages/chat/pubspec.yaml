@@ -1,4 +1,4 @@
-﻿name: chat
+name: chat
 description: 知维 Chat 模块 - AI 对话、RAG 检索
 publish_to: 'none'
 version: 0.1.0
@@ -20,3 +20,6 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^4.0.0
+
+flutter:
+  generate: true

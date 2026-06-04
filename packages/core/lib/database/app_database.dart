@@ -25,7 +25,7 @@ class AppDatabase {
   AppDatabase._();
   static final AppDatabase instance = AppDatabase._();
 
-  static const int _dbVersion = 4;
+  static const int _dbVersion = 5;
   static const String _dbName = 'knode.db';
 
   Database? _database;
@@ -54,7 +54,7 @@ class AppDatabase {
       onUpgrade: _onUpgrade,
       onConfigure: _onConfigure,
     );
-    AppLogger.instance.i('数据库初始化成功: $_dbName', tag: 'Database');
+    AppLogger.instance.i('数据库初始化成功: ', tag: 'Database');
   }
 
   /// Enables foreign keys and other pragmas before any other operation.
@@ -103,6 +103,11 @@ class AppDatabase {
       await db.execute(HighlightTable.createSql);
       await db.execute(HighlightTable.indexSql);
       await db.execute('ALTER TABLE documents ADD COLUMN source_doc_id INTEGER');
+    }
+    if (oldVersion < 5) {
+      AppLogger.instance.i('数据库升级到 v5: exams 表新增 created_at/updated_at 列', tag: 'Database');
+      await db.execute('ALTER TABLE exams ADD COLUMN created_at TEXT');
+      await db.execute('ALTER TABLE exams ADD COLUMN updated_at TEXT');
     }
   }
 
