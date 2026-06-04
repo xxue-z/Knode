@@ -46,19 +46,18 @@ void main() {
       );
 
       expect(find.byIcon(Icons.flash_on), findsOneWidget);
-      expect(find.byIcon(Icons.chevron_right), findsOneWidget);
     });
 
-    testWidgets('QuickCard should handle custom onTap', (tester) async {
-      var tapped = false;
+    testWidgets('QuickCard should handle onNavigateToTab callback', (tester) async {
+      int? navigatedPage;
 
       await tester.pumpWidget(
         ProviderScope(
           child: MaterialApp(
             home: Scaffold(
               body: QuickCard(
-                onTap: () {
-                  tapped = true;
+                onNavigateToTab: (pageIndex) {
+                  navigatedPage = pageIndex;
                 },
               ),
             ),
@@ -69,7 +68,7 @@ void main() {
       await tester.tap(find.byType(InkWell));
       await tester.pumpAndSettle();
 
-      expect(tapped, isTrue);
+      expect(navigatedPage, equals(3));
     });
   });
 }

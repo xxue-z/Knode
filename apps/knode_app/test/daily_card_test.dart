@@ -44,21 +44,6 @@ void main() {
       expect(find.byType(InkWell), findsAtLeast(1));
     });
 
-    testWidgets('DailyCard should have start button', (tester) async {
-      await tester.pumpWidget(
-        ProviderScope(
-          overrides: [dailyConfigProvider.overrideWith(() => _FakeDailyConfigNotifier())],
-          child: const MaterialApp(
-            home: Scaffold(
-              body: DailyCard(),
-            ),
-          ),
-        ),
-      );
-
-      expect(find.byType(FilledButton), findsOneWidget);
-    });
-
     testWidgets('DailyCard should display icon and title', (tester) async {
       await tester.pumpWidget(
         ProviderScope(
@@ -72,6 +57,30 @@ void main() {
       );
 
       expect(find.byIcon(Icons.today), findsOneWidget);
+    });
+
+    testWidgets('DailyCard should handle onNavigateToTab callback', (tester) async {
+      int? navigatedPage;
+
+      await tester.pumpWidget(
+        ProviderScope(
+          overrides: [dailyConfigProvider.overrideWith(() => _FakeDailyConfigNotifier())],
+          child: MaterialApp(
+            home: Scaffold(
+              body: DailyCard(
+                onNavigateToTab: (pageIndex) {
+                  navigatedPage = pageIndex;
+                },
+              ),
+            ),
+          ),
+        ),
+      );
+
+      await tester.tap(find.byType(InkWell));
+      await tester.pumpAndSettle();
+
+      expect(navigatedPage, equals(3));
     });
   });
 }

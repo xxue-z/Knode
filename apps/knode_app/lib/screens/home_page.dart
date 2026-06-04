@@ -13,7 +13,10 @@ const _strings = L10nStringsMixin();
 
 /// 首页，展示每日一测、随机速记、最近成绩、错题本等卡片。
 class HomePage extends ConsumerWidget {
-  const HomePage({super.key});
+  const HomePage({super.key, this.onNavigateToTab});
+
+  /// 切换底部导航 tab 的回调（参数为页面索引：0=Wiki, 1=Home, 2=Chat, 3=Quiz）
+  final void Function(int pageIndex)? onNavigateToTab;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -121,20 +124,21 @@ class HomePage extends ConsumerWidget {
               ),
               const SizedBox(height: 20),
 
-              // 每日一测卡片
-              const DailyCard(),
-              const SizedBox(height: 12),
-
-              // 随机速记卡片
-              const QuickCard(),
-              const SizedBox(height: 12),
-
-              // 最近成绩卡片
-              const ScoreCard(),
-              const SizedBox(height: 12),
-
-              // 错题本卡片
-              const WrongCard(),
+              // 功能入口：2x2 方块网格
+              GridView.count(
+                crossAxisCount: 2,
+                crossAxisSpacing: 12,
+                mainAxisSpacing: 12,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                childAspectRatio: 1.2,
+                children: [
+                  DailyCard(onNavigateToTab: onNavigateToTab),
+                  QuickCard(onNavigateToTab: onNavigateToTab),
+                  ScoreCard(onNavigateToTab: onNavigateToTab),
+                  WrongCard(onNavigateToTab: onNavigateToTab),
+                ],
+              ),
             ],
           ),
         ),

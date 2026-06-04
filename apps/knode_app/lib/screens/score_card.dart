@@ -5,83 +5,88 @@ import 'package:knode_app/gen/strings.dart';
 
 final _strings = const L10nStringsMixin();
 
-/// 首页最近成绩卡片，显示最近 3 次考试成绩。
+/// 首页最近成绩方块卡片，点击跳转到成绩页。
 class ScoreCard extends ConsumerWidget {
-  const ScoreCard({super.key});
+  const ScoreCard({super.key, this.onNavigateToTab});
+  final void Function(int pageIndex)? onNavigateToTab;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final examsAsync = ref.watch(examListProvider);
 
     return Card(
+      clipBehavior: Clip.antiAlias,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      elevation: 1,
       child: InkWell(
-        borderRadius: BorderRadius.circular(12),
-        onTap: () {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(_strings.knode_app_switch_to_quiz_tab)),
-          );
-        },
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Icon(Icons.bar_chart, color: Theme.of(context).colorScheme.primary),
-                  const SizedBox(width: 8),
-                  Text(_strings.knode_app_score_card, style: Theme.of(context).textTheme.titleSmall),
-                ],
-              ),
-              const SizedBox(height: 12),
-              examsAsync.when(
-                data: (exams) {
-                  if (exams.isEmpty) return Text(_strings.knode_app_no_exam_records);
-                  final recent = exams.take(3).toList();
-                  return Column(
-                    children: recent.map((exam) {
-                      final score = exam.obtainedScore ?? 0;
-                      final total = exam.totalScore ?? 100;
-                      final percent = total > 0 ? (score / total * 100).toStringAsFixed(0) : '0';
-                      return Padding(
-                        padding: const EdgeInsets.only(bottom: 4),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                exam.title ?? _strings.knode_app_default_exam_title,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: Theme.of(context).textTheme.bodySmall,
-                              ),
-                            ),
-                            Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                              decoration: BoxDecoration(
-                                color: score >= 60
-                                    ? Colors.green.withValues(alpha: 0.1)
-                                    : Colors.red.withValues(alpha: 0.1),
-                                borderRadius: BorderRadius.circular(4),
-                              ),
-                              child: Text(
-                                '$percent%',
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w600,
-                                  color: score >= 60 ? Colors.green : Colors.red,
-                                ),
-                              ),
-                            ),
-                          ],
+        onTap: () => onNavigateToTab?.call(3), // 暂跳转到 Quiz 页
+        child: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Theme.of(context).colorScheme.surfaceContainerLowest,
+                Theme.of(context).colorScheme.primaryContainer.withValues(alpha: 0.3),
+              ],
+            ),
+          ),
+          child: Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  Icons.bar_chart,
+                  size: 36,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  _strings.knode_app_score_card,
+                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                examsAsync.when(
+                  data: (exams) {
+                    if (exams.isEmpty) {
+                      return Text(
+                        _strings.knode_app_no_exam_records,
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
                         ),
                       );
-                    }).toList(),
-                  );
-                },
-                loading: () => const CircularProgressIndicator(),
-                error: (e, _) => Text('${_strings.knode_app_load_failed}: $e'),
-              ),
-            ],
+                    }
+                    final recent = exams.take(3).toList();
+                    final avgScore = recent.fold<double>(0, (sum, e) {
+                      final s = e.obtainedScore ?? 0;
+                      final t = e.totalScore ?? 100;
+                      return sum + (t > 0 ? s / t * 100 : 0);
+                    }) / recent.length;
+                    return Text(
+                      'Avg ${avgScore.toStringAsFixed(0)}%',
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    );
+                  },
+                  loading: () => Text(
+                    _strings.knode_app_loading,
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    ),
+                  ),
+                  error: (e, _) => Text(
+                    _strings.knode_app_load_failed,
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

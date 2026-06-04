@@ -17,18 +17,44 @@ class AppShell extends ConsumerStatefulWidget {
 
 class _AppShellState extends ConsumerState<AppShell> {
   int _currentIndex = 0;
+  late final List<Widget> _pages;
 
-  // 页面列表（包括隐藏的ChatPage）
-  static final _pages = <Widget>[
-    const WikiPage(),
-    const HomePage(),
-    const ChatPage(), // 保留但隐藏
-    const QuizPage(),
-  ];
+  @override
+  void initState() {
+    super.initState();
+    _pages = <Widget>[
+      const WikiPage(),
+      HomePage(onNavigateToTab: _switchToTab),
+      const ChatPage(), // 保留但隐藏
+      const QuizPage(),
+    ];
+  }
 
   void _onTabChanged(int index) {
     if (index == _currentIndex) return;
     setState(() => _currentIndex = index);
+  }
+
+  /// 供子页面调用，切换到指定 tab 索引
+  void _switchToTab(int pageIndex) {
+    if (pageIndex == _currentIndex) return;
+    final navConfig = ref.read(navConfigProvider);
+    final visibleTabs = navConfig.getVisibleTabs();
+    final tabId = _getTabIdFromPageIndex(pageIndex);
+    final visibleIndex = visibleTabs.indexWhere((t) => t.id == tabId);
+    if (visibleIndex >= 0) {
+      setState(() => _currentIndex = visibleIndex);
+    }
+  }
+
+  String _getTabIdFromPageIndex(int pageIndex) {
+    switch (pageIndex) {
+      case 0: return 'wiki';
+      case 1: return 'home';
+      case 2: return 'chat';
+      case 3: return 'quiz';
+      default: return 'wiki';
+    }
   }
 
   int _getPageIndex(String tabId) {
@@ -68,15 +94,15 @@ class _AppShellState extends ConsumerState<AppShell> {
         ],
       ),
       bottomNavigationBar: NavigationBar(
-        height: 60, // 减小导航栏高度
+        height: 60,
         selectedIndex: _currentIndex.clamp(0, visibleTabs.length - 1),
         onDestinationSelected: (index) => _onTabChanged(index),
-        labelBehavior: NavigationDestinationLabelBehavior.alwaysHide, // 隐藏标签
+        labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
         destinations: visibleTabs.map((tab) {
           return NavigationDestination(
             icon: Icon(tab.icon),
             selectedIcon: Icon(tab.icon),
-            label: '', // 不显示文字
+            label: '',
           );
         }).toList(),
       ),

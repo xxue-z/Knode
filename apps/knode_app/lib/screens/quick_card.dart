@@ -5,48 +5,62 @@ import 'package:knode_app/gen/strings.dart';
 
 final _strings = const L10nStringsMixin();
 
-/// 首页随机速记卡片，点击实时生成题目。
+/// 首页随机速记方块卡片，点击跳转到答题页。
 class QuickCard extends ConsumerWidget {
-  const QuickCard({super.key, this.onTap});
-  final VoidCallback? onTap;
+  const QuickCard({super.key, this.onNavigateToTab});
+  final void Function(int pageIndex)? onNavigateToTab;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Card(
+      clipBehavior: Clip.antiAlias,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      elevation: 1,
       child: InkWell(
-        borderRadius: BorderRadius.circular(12),
-        onTap: onTap ?? () => _startQuickQuiz(context, ref),
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Row(
-            children: [
-              Icon(Icons.flash_on, color: Theme.of(context).colorScheme.tertiary),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(_strings.knode_app_quick_card, style: Theme.of(context).textTheme.titleSmall),
-                    const SizedBox(height: 4),
-                    Text(
-                      _strings.knode_app_based_on_recent,
-                      style: Theme.of(context).textTheme.bodySmall,
-                    ),
-                  ],
+        onTap: () {
+          ref.read(quizProvider.notifier).startQuiz(count: 10);
+          onNavigateToTab?.call(3); // 跳转到 Quiz 页
+        },
+        child: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                Theme.of(context).colorScheme.surfaceContainerLowest,
+                Theme.of(context).colorScheme.tertiaryContainer.withValues(alpha: 0.3),
+              ],
+            ),
+          ),
+          child: Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  Icons.flash_on,
+                  size: 36,
+                  color: Theme.of(context).colorScheme.tertiary,
                 ),
-              ),
-              const Icon(Icons.chevron_right),
-            ],
+                const SizedBox(height: 8),
+                Text(
+                  _strings.knode_app_quick_card,
+                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                Text(
+                  _strings.knode_app_based_on_recent,
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
           ),
         ),
       ),
-    );
-  }
-
-  void _startQuickQuiz(BuildContext context, WidgetRef ref) {
-    ref.read(quizProvider.notifier).startQuiz(count: 10);
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(_strings.knode_app_quiz_started_switch_tab)),
     );
   }
 }
