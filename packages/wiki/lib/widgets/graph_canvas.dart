@@ -6,6 +6,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:vector_math/vector_math_64.dart' as vm;
+import 'package:wiki/utils/graph_theme.dart';
 
 // ---------------------------------------------------------------------------
 // Data Models
@@ -99,6 +100,7 @@ class GraphCanvasPainter extends CustomPainter {
     required this.transform,
     this.highlightedNodeId,
     this.hitAreas,
+    this.brightness = Brightness.light,
   });
 
   final List<GraphNode> nodes;
@@ -106,6 +108,7 @@ class GraphCanvasPainter extends CustomPainter {
   final vm.Matrix4 transform;
   final String? highlightedNodeId;
   final List<Rect>? hitAreas;
+  final Brightness brightness;
 
   // Cached look-up for fast node access.
   Map<String, GraphNode> _nodeMap = {};
@@ -462,6 +465,7 @@ class GraphCanvas extends StatefulWidget {
     this.onNodeDoubleTap,
     this.onCanvasTap,
     this.backgroundColor,
+    this.brightness = Brightness.light,
   });
 
   final List<GraphNode> nodes;
@@ -471,6 +475,7 @@ class GraphCanvas extends StatefulWidget {
   final ValueChanged<GraphNode>? onNodeDoubleTap;
   final VoidCallback? onCanvasTap;
   final Color? backgroundColor;
+  final Brightness brightness;
 
   @override
   State<GraphCanvas> createState() => _GraphCanvasState();
@@ -611,22 +616,60 @@ class _GraphCanvasState extends State<GraphCanvas> {
       edges: widget.edges,
       transform: _controller.transform,
       highlightedNodeId: _highlightedNodeId,
+      brightness: widget.brightness,
     );
 
+    final bgColors = GraphTheme.getBackground(widget.brightness);
+    final starColor = GraphTheme.getStarColor(widget.brightness);
+
     return Container(
-      color: widget.backgroundColor ?? Colors.grey[50],
-      child: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTapDown: _onTapDown,
-        onDoubleTapDown: _onDoubleTapDown,
-        onScaleStart: _onScaleStart,
-        onScaleUpdate: _onScaleUpdate,
-        onScaleEnd: _onScaleEnd,
-        child: CustomPaint(
-          painter: painter,
-          size: Size.infinite,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: widget.backgroundColor != null
+              ? [widget.backgroundColor!, widget.backgroundColor!]
+              : bgColors,
+        ),
+      ),
+      child: CustomPaint(
+        painter: _StarPainter(color: starColor, starCount: 200),
+        child: GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTapDown: _onTapDown,
+          onDoubleTapDown: _onDoubleTapDown,
+          onScaleStart: _onScaleStart,
+          onScaleUpdate: _onScaleUpdate,
+          onScaleEnd: _onScaleEnd,
+          child: CustomPaint(
+            painter: painter,
+            size: Size.infinite,
+          ),
         ),
       ),
     );
   }
+}
+
+class _StarPainter extends CustomPainter {
+  _StarPainter({required this.color, required this.starCount});
+  final Color color;
+  final int starCount;
+  @override
+  void paint(Canvas canvas, Size size) {
+    final random = math.Random(42);
+    for (int i = 0; i < starCount; i++) {
+      final x = random.nextDouble() * size.width;
+      final y = random.nextDouble() * size.height;
+      final radius = random.nextDouble() * 1.5 + 0.5;
+      final opacity = random.nextDouble() * 0.5 + 0.3;
+      final paint = Paint()
+        ..color = color.withOpacity(opacity)
+        ..style = PaintingStyle.fill;
+      canvas.drawCircle(Offset(x, y), radius, paint);
+    }
+  }
+  @override
+  bool shouldRepaint(covariant _StarPainter old) =>
+      old.color != color || old.starCount != starCount;
 }
