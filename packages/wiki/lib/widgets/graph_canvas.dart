@@ -101,6 +101,7 @@ class GraphCanvasPainter extends CustomPainter {
     this.highlightedNodeId,
     this.hitAreas,
     this.brightness = Brightness.light,
+    this.rotation = 0.0,
   });
 
   final List<GraphNode> nodes;
@@ -109,6 +110,7 @@ class GraphCanvasPainter extends CustomPainter {
   final String? highlightedNodeId;
   final List<Rect>? hitAreas;
   final Brightness brightness;
+  final double rotation;
 
   // Cached look-up for fast node access.
   Map<String, GraphNode> _nodeMap = {};
@@ -121,12 +123,28 @@ class GraphCanvasPainter extends CustomPainter {
 
     // Save layer and apply the combined transform.
     uiCanvas.save();
+    
+    // Apply translation and scale
     final matrix4 = vm.Matrix4.compose(
       vm.Vector3(transform[3], transform[7], transform[11]),
       vm.Quaternion.identity(),
       vm.Vector3(transform[0], transform[5], transform[10]),
     );
     uiCanvas.transform(matrix4.storage);
+    
+    // Apply subtle 3D perspective simulation
+    if (rotation.abs() > 0.001) {
+      final centerX = size.width / 2;
+      final centerY = size.height / 2;
+      uiCanvas.translate(centerX, centerY);
+      uiCanvas.rotate(rotation * 0.5);
+      final skew = rotation * 0.15;
+      final matrix = vm.Matrix4.identity()
+        ..setEntry(3, 2, skew)
+        ..setEntry(3, 3, 1.0 - skew.abs() * 0.5);
+      uiCanvas.transform(matrix.storage);
+      uiCanvas.translate(-centerX, -centerY);
+    }
 
     _drawEdges(uiCanvas);
     _drawNodes(uiCanvas);
@@ -406,8 +424,10 @@ class GraphController extends ChangeNotifier {
       : _transform = initialTransform ?? vm.Matrix4.identity();
 
   vm.Matrix4 _transform;
+  double _rotation = 0.0;
 
   vm.Matrix4 get transform => _transform;
+  double get rotation => _rotation;
 
   set transform(vm.Matrix4 value) {
     _transform = value;
@@ -422,25 +442,24 @@ class GraphController extends ChangeNotifier {
 
   void applyScale(double scale, Offset focalPoint) {
     final double clampedScale = scale.clamp(0.1, 10.0);
-    final vm.Vector3 translation = _transform.getTranslation();
-
-    // Translate focal point to local space.
-    final vm.Vector3 focal = vm.Vector3(focalPoint.dx, focalPoint.dy, 0);
     _transform = _transform.clone()
       ..translate(focalPoint.dx, focalPoint.dy)
       ..scale(clampedScale)
       ..translate(-focalPoint.dx, -focalPoint.dy);
+    notifyListeners();
+  }
 
-    // Clamp pan bounds if desired.
+  void applyRotation(double angle) {
+    _rotation = (_rotation + angle).clamp(-0.5, 0.5);
     notifyListeners();
   }
 
   void reset() {
     _transform = vm.Matrix4.identity();
+    _rotation = 0.0;
     notifyListeners();
   }
 
-  /// Convert a screen-space [Offset] into graph-space coordinates.
   vm.Vector3 screenToGraph(Offset screen) {
     final inverse = vm.Matrix4.inverted(_transform);
     final v = vm.Vector4(screen.dx, screen.dy, 0, 1);
@@ -466,6 +485,7 @@ class GraphCanvas extends StatefulWidget {
     this.onCanvasTap,
     this.backgroundColor,
     this.brightness = Brightness.light,
+    this.rotation = 0.0,
   });
 
   final List<GraphNode> nodes;
@@ -476,6 +496,7 @@ class GraphCanvas extends StatefulWidget {
   final VoidCallback? onCanvasTap;
   final Color? backgroundColor;
   final Brightness brightness;
+  final double rotation;
 
   @override
   State<GraphCanvas> createState() => _GraphCanvasState();
@@ -617,6 +638,7 @@ class _GraphCanvasState extends State<GraphCanvas> {
       transform: _controller.transform,
       highlightedNodeId: _highlightedNodeId,
       brightness: widget.brightness,
+      rotation: _controller.rotation,
     );
 
     final bgColors = GraphTheme.getBackground(widget.brightness);
