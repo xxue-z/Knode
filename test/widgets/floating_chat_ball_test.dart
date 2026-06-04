@@ -141,13 +141,23 @@ void main() {
       );
       final initialX = container.read(chatBallNotifierProvider).position.dx;
 
-      // Drag the ball
-      await tester.drag(find.byType(FloatingChatBall), const Offset(50, 50));
+      // Drag the ball to the right side (past center)
+      await tester.drag(find.byType(FloatingChatBall), const Offset(200, 0));
+      await tester.pump(); // Pump once to register the drag
+
+      // Position should be updated during drag
+      final stateDuringDrag = container.read(chatBallNotifierProvider);
+      expect(stateDuringDrag.position.dx, isNot(equals(initialX)));
+
+      // Complete the drag and let snap animation finish
       await tester.pumpAndSettle();
 
-      // Position should be updated
-      final state = container.read(chatBallNotifierProvider);
-      expect(state.position.dx, isNot(equals(initialX)));
+      // After snap, position should be at an edge (0 or screen width - ball size)
+      final stateAfterSnap = container.read(chatBallNotifierProvider);
+      final screenWidth = MediaQuery.of(tester.element(find.byType(FloatingChatBall))).size.width;
+      final ballSize = 56.0;
+      // The ball should have snapped to either left or right edge
+      expect(stateAfterSnap.position.dx, anyOf(equals(0.0), equals(screenWidth - ballSize)));
     });
   });
 }

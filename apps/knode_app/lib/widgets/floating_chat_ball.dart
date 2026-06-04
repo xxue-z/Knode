@@ -14,7 +14,7 @@ class FloatingChatBall extends ConsumerStatefulWidget {
 }
 
 class _FloatingChatBallState extends ConsumerState<FloatingChatBall>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   late AnimationController _pulseController;
   late Animation<double> _pulseAnimation;
   bool _isLongPressing = false;
@@ -108,8 +108,52 @@ class _FloatingChatBallState extends ConsumerState<FloatingChatBall>
   }
 
   void _onPanEnd(DragEndDetails details) {
-    // 拖动结束后保存位置到持久化存储
-    ref.read(chatBallNotifierProvider.notifier).savePosition();
+    // 自动靠边吸附
+    _snapToEdge();
+  }
+
+  void _snapToEdge() {
+    final screenSize = MediaQuery.of(context).size;
+    final ballSize = 56.0;
+    final currentPosition = ref.read(chatBallNotifierProvider).position;
+
+    // 计算悬浮球中心点
+    final centerX = currentPosition.dx + ballSize / 2;
+
+    // 判断应该吸附到左边还是右边
+    final targetX = centerX < screenSize.width / 2
+        ? 0.0 // 吸附到左边缘
+        : screenSize.width - ballSize; // 吸附到右边缘
+
+    // 创建动画控制器实现平滑吸附
+    final startOffset = currentPosition;
+    final endOffset = Offset(targetX, currentPosition.dy);
+
+    late AnimationController controller;
+    late Animation<Offset> animation;
+
+    controller = AnimationController(
+      duration: const Duration(milliseconds: 200),
+      vsync: this,
+    );
+
+    animation = Tween<Offset>(begin: startOffset, end: endOffset).animate(
+      CurvedAnimation(parent: controller, curve: Curves.easeOut),
+    );
+
+    animation.addListener(() {
+      ref.read(chatBallNotifierProvider.notifier).updatePosition(animation.value);
+    });
+
+    animation.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        controller.dispose();
+        // 动画结束后保存位置
+        ref.read(chatBallNotifierProvider.notifier).savePosition();
+      }
+    });
+
+    controller.forward();
   }
 
   void _showChatPanel() {
