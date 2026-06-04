@@ -53,3 +53,7 @@ start_conversation_hint,Send a message to start chatting with AI Assistant,发�
 add_attachment,Add Attachment,添加附件
 voice_input,Voice Input,语音输入
 clear_history_dev,Clear history feature in development,清空对话功能开发中
+chat_panel_title,Chat,对话
+chat_panel_send,Send,发送
+chat_panel_voice_mode,Voice Mode,语音模式
+chat_panel_text_mode,Text Mode,文字模式

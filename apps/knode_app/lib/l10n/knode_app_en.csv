@@ -1,0 +1,13 @@
+id,en,zh
+knode_chat_input_hint,Type a message...,输入消息...
+knode_chat_voice_hint,Hold to talk,按住说话
+knode_chat_fullscreen,Expand to full chat,展开完整聊天
+knode_chat_long_press_record,Long press to record,长按录音
+knode_chat_double_tap_open,Double tap to open full chat,双击打开完整聊天
+knode_chat_drag_move,Drag to move,拖动移动
+knode_settings_chat_ball,Chat Ball Settings,聊天气球设置
+knode_settings_ball_style_icon,Simple Icon,简洁图标
+knode_settings_ball_style_gradient,Gradient,渐变
+knode_settings_ball_style_avatar,Avatar,头像
+knode_settings_change_avatar,Change Avatar,更换头像
+knode_settings_nav_config,Navigation Bar Settings,导航栏设置
