@@ -214,50 +214,129 @@ class GraphCanvasPainter extends CustomPainter {
   void _drawNodes(ui.Canvas canvas) {
     for (final node in nodes) {
       final isHighlighted = node.id == highlightedNodeId;
-      final rect = node.rect;
-
-      // Shadow for highlighted nodes.
-      if (isHighlighted) {
-        final shadowPaint = Paint()
-          ..color = Colors.black26
-          ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 6);
-        canvas.drawRRect(
-          _roundedRect(rect, 10),
-          shadowPaint,
-        );
+      
+      if (node.type == NodeType.category) {
+        _drawCategoryNode(canvas, node, isHighlighted);
+      } else {
+        _drawArticleNode(canvas, node, isHighlighted);
       }
+    }
+  }
 
-      // Body
-      final bodyPaint = Paint()..color = node.color;
-      final rrect = _roundedRect(rect, 10);
-      canvas.drawRRect(rrect, bodyPaint);
+  void _drawCategoryNode(ui.Canvas canvas, GraphNode node, bool isHighlighted) {
+    final center = node.position;
+    final radius = node.width / 2;
 
-      // Border
-      final borderPaint = Paint()
-        ..color = isHighlighted ? Colors.amber : node.borderColor
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = isHighlighted ? 2.5 : node.borderWidth;
-      canvas.drawRRect(rrect, borderPaint);
+    // Outer glow for highlighted nodes
+    if (isHighlighted) {
+      final glowPaint = Paint()
+        ..color = (node.gradientColors?.last ?? node.color).withOpacity(0.4)
+        ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 12);
+      canvas.drawCircle(center, radius + 8, glowPaint);
+    }
 
-      // Label
-      final textPainter = TextPainter(
+    // Gradient fill
+    final gradient = RadialGradient(
+      colors: node.gradientColors ?? [node.color, node.color.withOpacity(0.7)],
+      stops: const [0.0, 1.0],
+    );
+    final paint = Paint()
+      ..shader = gradient.createShader(
+        Rect.fromCircle(center: center, radius: radius),
+      );
+    canvas.drawCircle(center, radius, paint);
+
+    // Border
+    final borderPaint = Paint()
+      ..color = isHighlighted ? Colors.amber : Colors.white.withOpacity(0.3)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = isHighlighted ? 3.0 : 1.5;
+    canvas.drawCircle(center, radius, borderPaint);
+
+    // Label
+    _drawNodeLabel(canvas, node, center, isHighlighted);
+  }
+
+  void _drawArticleNode(ui.Canvas canvas, GraphNode node, bool isHighlighted) {
+    final center = node.position;
+    final radius = node.width / 2;
+
+    // Outer glow ring
+    if (isHighlighted) {
+      final glowPaint = Paint()
+        ..color = node.color.withOpacity(0.3)
+        ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 8);
+      canvas.drawCircle(center, radius + 6, glowPaint);
+    }
+
+    // Outer ring (halo)
+    final outerPaint = Paint()
+      ..color = node.color.withOpacity(isHighlighted ? 0.6 : 0.3)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2.0;
+    canvas.drawCircle(center, radius, outerPaint);
+
+    // Inner solid circle
+    final innerPaint = Paint()..color = node.color;
+    canvas.drawCircle(center, radius * 0.6, innerPaint);
+
+    // Border
+    final borderPaint = Paint()
+      ..color = isHighlighted ? Colors.amber : Colors.white.withOpacity(0.3)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = isHighlighted ? 2.5 : 1.0;
+    canvas.drawCircle(center, radius * 0.6, borderPaint);
+
+    // Label
+    _drawNodeLabel(canvas, node, center, isHighlighted);
+  }
+
+  void _drawNodeLabel(ui.Canvas canvas, GraphNode node, Offset center, bool isHighlighted) {
+    // Main label
+    final labelPainter = TextPainter(
+      text: TextSpan(
+        text: node.label,
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: node.fontSize,
+          fontWeight: isHighlighted ? FontWeight.w700 : FontWeight.w500,
+          shadows: const [
+            Shadow(color: Colors.black54, blurRadius: 4),
+          ],
+        ),
+      ),
+      textDirection: ui.TextDirection.ltr,
+      maxLines: 1,
+    )..layout(maxWidth: node.width * 2);
+
+    labelPainter.paint(
+      canvas,
+      Offset(
+        center.dx - labelPainter.width / 2,
+        center.dy + node.height / 2 + 8,
+      ),
+    );
+
+    // Tags (truncated to 6-8 chars + ellipsis)
+    if (node.tags.isNotEmpty) {
+      final tagText = node.tags.take(2).map((t) => t.length > 8 ? '\...' : t).join(', ');
+      final tagPainter = TextPainter(
         text: TextSpan(
-          text: node.label,
+          text: tagText,
           style: TextStyle(
-            color: node.textColor,
-            fontSize: node.fontSize,
-            fontWeight: isHighlighted ? FontWeight.w700 : FontWeight.w500,
+            color: Colors.white70,
+            fontSize: node.fontSize * 0.75,
           ),
         ),
         textDirection: ui.TextDirection.ltr,
         maxLines: 1,
-      )..layout(maxWidth: rect.width - 16);
+      )..layout(maxWidth: node.width * 2);
 
-      textPainter.paint(
+      tagPainter.paint(
         canvas,
         Offset(
-          rect.left + (rect.width - textPainter.width) / 2,
-          rect.top + (rect.height - textPainter.height) / 2,
+          center.dx - tagPainter.width / 2,
+          center.dy + node.height / 2 + 8 + labelPainter.height + 2,
         ),
       );
     }
