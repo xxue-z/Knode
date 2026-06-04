@@ -93,6 +93,21 @@ class DocumentDao {
     }
   }
 
+  /// 获取所有文档列表。
+  Future<List<Document>> getAll({bool includeDeleted = false}) async {
+    try {
+      final where = includeDeleted ? null : 'is_deleted = 0';
+      final rows = await _db.query(
+        DocumentTable.tableName,
+        where: where,
+        orderBy: 'updated_at DESC',
+      );
+      return rows.map(_fromRow).toList();
+    } on DatabaseException catch (e) {
+      throw StateError('Failed to query all documents: $e');
+    }
+  }
+
   /// 根据 id 获取单个文档，不存在时返回 null。
   Future<Document?> getById(int id) async {
     try {
@@ -128,17 +143,15 @@ class DocumentDao {
   /// 获取最近阅读的文档列表。
   ///
   /// [days] 指定天数范围，[limit] 限制返回数量。
-  Future<List<Document>> getRecentlyRead({
-    int days = 7,
-    int limit = 20,
-  }) async {
+  Future<List<Document>> getRecentlyRead({int days = 7, int limit = 20}) async {
     try {
       final since = DateTime.now()
           .subtract(Duration(days: days))
           .toIso8601String();
       final rows = await _db.query(
         DocumentTable.tableName,
-        where: 'is_deleted = 0 AND last_read_at IS NOT NULL AND last_read_at >= ?',
+        where:
+            'is_deleted = 0 AND last_read_at IS NOT NULL AND last_read_at >= ?',
         whereArgs: [since],
         orderBy: 'last_read_at DESC',
         limit: limit,
@@ -174,10 +187,7 @@ class DocumentDao {
   /// 插入新文档，返回新生成的行 id。
   Future<int> insert(Document document) async {
     try {
-      return await _db.insert(
-        DocumentTable.tableName,
-        _toRow(document),
-      );
+      return await _db.insert(DocumentTable.tableName, _toRow(document));
     } on DatabaseException catch (e) {
       throw StateError('Failed to insert document "${document.title}": $e');
     }
@@ -237,9 +247,7 @@ class DocumentDao {
         whereArgs: [docId],
       );
       if (count == 0) {
-        throw StateError(
-          'Document id=$docId not found, links_to not updated.',
-        );
+        throw StateError('Document id=$docId not found, links_to not updated.');
       }
     } on DatabaseException catch (e) {
       throw StateError('Failed to update links_to for doc id=$docId: $e');
@@ -251,10 +259,7 @@ class DocumentDao {
     try {
       final count = await _db.update(
         DocumentTable.tableName,
-        {
-          'is_deleted': 1,
-          'updated_at': DateTime.now().toIso8601String(),
-        },
+        {'is_deleted': 1, 'updated_at': DateTime.now().toIso8601String()},
         where: 'id = ?',
         whereArgs: [id],
       );
@@ -271,10 +276,7 @@ class DocumentDao {
     try {
       final count = await _db.update(
         DocumentTable.tableName,
-        {
-          'is_deleted': 0,
-          'updated_at': DateTime.now().toIso8601String(),
-        },
+        {'is_deleted': 0, 'updated_at': DateTime.now().toIso8601String()},
         where: 'id = ?',
         whereArgs: [id],
       );
@@ -315,9 +317,7 @@ class DocumentDao {
         );
       });
     } on DatabaseException catch (e) {
-      throw StateError(
-        'Failed to update reading stats for doc id=$docId: $e',
-      );
+      throw StateError('Failed to update reading stats for doc id=$docId: $e');
     }
   }
 
@@ -361,7 +361,12 @@ class DocumentDao {
       );
       return rows.map(_fromRow).toList();
     } on DatabaseException catch (e, st) {
-      AppLogger.instance.e('查询笔记文档失败: sourceDocId=$sourceDocId', tag: 'DocumentDao', error: e, stackTrace: st);
+      AppLogger.instance.e(
+        '查询笔记文档失败: sourceDocId=$sourceDocId',
+        tag: 'DocumentDao',
+        error: e,
+        stackTrace: st,
+      );
       rethrow;
     }
   }

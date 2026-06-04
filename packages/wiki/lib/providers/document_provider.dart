@@ -42,7 +42,7 @@ class DocumentListNotifier extends AsyncNotifier<DocumentListState> {
     final repo = ref.read(documentRepositoryProvider);
     final docs = _categoryId != null
         ? await repo.getByCategory(_categoryId!)
-        : await repo.getRecentlyRead();
+        : await repo.getAll();
     return DocumentListState(documents: docs, filterCategoryId: _categoryId);
   }
 

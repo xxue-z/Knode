@@ -21,7 +21,8 @@ class DocumentBusinessException implements Exception {
 }
 
 /// 文件导入函数类型，由外部注入。
-typedef ImportFileFunction = Future<Map<String, dynamic>> Function(String filePath);
+typedef ImportFileFunction =
+    Future<Map<String, dynamic>> Function(String filePath);
 
 /// 标签生成函数类型，由外部注入。
 typedef GenerateTagsFunction = Future<List<String>> Function(String content);
@@ -47,13 +48,13 @@ class DocumentRepository {
     GenerateTagsFunction? generateTagsFn,
     ParseLinksFunction? parseLinksFn,
     SettingsDao? settingsDao,
-  })  : _documentDao = documentDao,
-        _readingLogDao = readingLogDao,
-        _fileService = fileService,
-        _importFn = importFn,
-        _generateTagsFn = generateTagsFn,
-        _parseLinksFn = parseLinksFn,
-        _settingsDao = settingsDao;
+  }) : _documentDao = documentDao,
+       _readingLogDao = readingLogDao,
+       _fileService = fileService,
+       _importFn = importFn,
+       _generateTagsFn = generateTagsFn,
+       _parseLinksFn = parseLinksFn,
+       _settingsDao = settingsDao;
 
   /// 创建新文档：写入 DB 记录 + 创建 .md 文件。
   Future<Document> createDocument({
@@ -98,7 +99,8 @@ class DocumentRepository {
 
     final result = await _importFn(filePath);
 
-    final title = (result['title'] as String?) ?? _strings.core_unnamed_document;
+    final title =
+        (result['title'] as String?) ?? _strings.core_unnamed_document;
     final content = (result['content'] as String?) ?? '';
     final format = (result['format'] as String?) ?? 'unknown';
 
@@ -147,10 +149,9 @@ class DocumentRepository {
       throw DocumentBusinessException('文档无关联文件: id=$docId');
     }
     await _fileService.writeContent(doc.filePath!, content);
-    await _documentDao.update(doc.copyWith(
-      contentText: content,
-      wordCount: content.length,
-    ));
+    await _documentDao.update(
+      doc.copyWith(contentText: content, wordCount: content.length),
+    );
 
     // 异步触发标签生成和链接解析（仅在内容实际发生变化时）。
     if (doc.contentText != content) {
@@ -187,12 +188,14 @@ class DocumentRepository {
   Future<List<Document>> getByCategory(
     int categoryId, {
     bool includeDeleted = false,
-  }) =>
-      _documentDao.getByCategory(categoryId, includeDeleted: includeDeleted);
+  }) => _documentDao.getByCategory(categoryId, includeDeleted: includeDeleted);
+
+  /// 获取所有文档列表。
+  Future<List<Document>> getAll({bool includeDeleted = false}) =>
+      _documentDao.getAll(includeDeleted: includeDeleted);
 
   /// 搜索文档。
-  Future<List<Document>> search(String query) =>
-      _documentDao.search(query);
+  Future<List<Document>> search(String query) => _documentDao.search(query);
 
   /// 获取最近阅读的文档。
   Future<List<Document>> getRecentlyRead({int days = 7, int limit = 20}) =>
