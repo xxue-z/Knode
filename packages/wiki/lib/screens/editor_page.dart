@@ -183,9 +183,12 @@ class _EditorPageState extends ConsumerState<EditorPage> {
           IconButton(
             icon: const Icon(Icons.save_outlined),
             tooltip: _strings.wiki_save,
-            onPressed: () {
-              _saveTitle();
-              _saveContent();
+            onPressed: () async {
+              await _saveTitle();
+              await _saveContent();
+              if (mounted) {
+                Navigator.pop(context);
+              }
             },
           ),
         ],

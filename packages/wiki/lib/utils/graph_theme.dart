@@ -39,7 +39,7 @@ class GraphTheme {
   ];
 
   /// Light mode star color (rgba(180,190,200,0.7)).
-  static const lightStarColor = Color(0xB4BEC8);
+  static const lightStarColor = Color(0xB3B4BEC8);
 
   /// Dark mode star color (rgba(255,255,255,0.5)).
   static const darkStarColor = Color(0x80FFFFFF);

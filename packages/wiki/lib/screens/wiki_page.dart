@@ -24,18 +24,35 @@ class WikiPage extends ConsumerStatefulWidget {
   ConsumerState<WikiPage> createState() => _WikiPageState();
 }
 
-class _WikiPageState extends ConsumerState<WikiPage> {
+class _WikiPageState extends ConsumerState<WikiPage>
+    with WidgetsBindingObserver {
   String _currentCategoryName = _strings.wiki_all_knowledge;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     // 初始加载所有文档并构建图谱
-    Future.microtask(() {
-      ref.read(documentListProvider.notifier).filterByCategory(null);
-      ref.read(graphProvider.notifier).buildGraph('all');
-    });
+    _loadData();
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      _loadData();
+    }
+  }
+
+  void _loadData() {
+    ref.read(documentListProvider.notifier).filterByCategory(null);
+    ref.read(graphProvider.notifier).buildGraph('all');
   }
 
   static final List<_CategoryEntry> _categories = [
@@ -165,16 +182,17 @@ class _WikiPageState extends ConsumerState<WikiPage> {
 
       if (doc != null) {
         // 刷新文档列表和图谱
-        ref.read(documentListProvider.notifier).filterByCategory(null);
-        ref.read(graphProvider.notifier).buildGraph('all');
+        _loadData();
 
         if (context.mounted) {
-          Navigator.push(
+          await Navigator.push(
             context,
             MaterialPageRoute(
               builder: (_) => EditorPage(docId: doc.id, title: doc.title),
             ),
           );
+          // 从编辑器返回后再次刷新
+          _loadData();
         }
       } else {
         ScaffoldMessenger.of(
@@ -210,18 +228,19 @@ class _WikiPageState extends ConsumerState<WikiPage> {
 
         if (doc != null && context.mounted) {
           // 刷新文档列表和图谱
-          ref.read(documentListProvider.notifier).filterByCategory(null);
-          ref.read(graphProvider.notifier).buildGraph('all');
+          _loadData();
 
           ScaffoldMessenger.of(
             context,
           ).showSnackBar(SnackBar(content: Text('已导入: $title')));
-          Navigator.push(
+          await Navigator.push(
             context,
             MaterialPageRoute(
               builder: (_) => EditorPage(docId: doc.id, title: doc.title),
             ),
           );
+          // 从编辑器返回后再次刷新
+          _loadData();
         }
       }
     } catch (e) {
