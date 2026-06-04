@@ -11,6 +11,12 @@ import 'package:vector_math/vector_math_64.dart' as vm;
 // Data Models
 // ---------------------------------------------------------------------------
 
+/// Node type in the knowledge graph.
+enum NodeType { category, article }
+
+/// Edge type in the knowledge graph.
+enum EdgeType { categoryArticle, articleArticle }
+
 /// A minimal node in the knowledge graph.
 class GraphNode {
   const GraphNode({
@@ -24,6 +30,10 @@ class GraphNode {
     this.borderColor = const Color(0xFF263238),
     this.borderWidth = 1.5,
     this.fontSize = 14.0,
+    this.type = NodeType.category,
+    this.categoryId,
+    this.gradientColors,
+    this.tags = const [],
   });
 
   final String id;
@@ -36,6 +46,10 @@ class GraphNode {
   final Color borderColor;
   final double borderWidth;
   final double fontSize;
+  final NodeType type;
+  final int? categoryId;
+  final List<Color>? gradientColors;
+  final List<String> tags;
 
   /// Bounding rect in graph-space.
   Rect get rect => Rect.fromCenter(
@@ -56,6 +70,8 @@ class GraphEdge {
     this.arrowSize = 8.0,
     this.showArrow = true,
     this.label,
+    this.type = EdgeType.categoryArticle,
+    this.similarity,
   });
 
   final String id;
@@ -66,6 +82,8 @@ class GraphEdge {
   final double arrowSize;
   final bool showArrow;
   final String? label;
+  final EdgeType type;
+  final double? similarity;
 }
 
 // ---------------------------------------------------------------------------
