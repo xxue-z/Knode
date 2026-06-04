@@ -160,6 +160,10 @@ class DocumentRepository {
     }
   }
 
+  /// 更新文档标题。
+  Future<void> updateTitle(int docId, String title) =>
+      _documentDao.updateTitle(docId, title);
+
   /// 删除文档（软删除 + 删除文件）。
   Future<void> deleteDocument(int docId) async {
     final doc = await _documentDao.getById(docId);

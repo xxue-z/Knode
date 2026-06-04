@@ -14,11 +14,7 @@ final _strings = const L10nStringsMixin();
 /// 使用 flutter_quill 实现所见即所得 MD 编辑，
 /// 支持源码模式切换，自动保存（防抖）。
 class EditorPage extends ConsumerStatefulWidget {
-  const EditorPage({
-    super.key,
-    required this.docId,
-    this.title,
-  });
+  const EditorPage({super.key, required this.docId, this.title});
 
   final int docId;
   final String? title;
@@ -39,6 +35,9 @@ class _EditorPageState extends ConsumerState<EditorPage> {
 
   /// 当前标题（可编辑）。
   late TextEditingController _titleController;
+
+  /// 标题是否处于编辑模式。
+  bool _isTitleEditing = false;
 
   /// 源码模式的文本控制器。
   final TextEditingController _sourceController = TextEditingController();
@@ -61,9 +60,9 @@ class _EditorPageState extends ConsumerState<EditorPage> {
       setState(() => _isLoaded = true);
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('${_strings.wiki_error}: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('${_strings.wiki_error}: $e')));
       }
     }
   }
@@ -94,10 +93,21 @@ class _EditorPageState extends ConsumerState<EditorPage> {
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('${_strings.wiki_error}: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('${_strings.wiki_error}: $e')));
       }
+    }
+  }
+
+  Future<void> _saveTitle() async {
+    final newTitle = _titleController.text.trim();
+    if (newTitle.isEmpty || newTitle == widget.title) return;
+    try {
+      final repo = ref.read(documentRepositoryProvider);
+      await repo.updateTitle(widget.docId, newTitle);
+    } catch (e) {
+      // 标题保存失败静默处理
     }
   }
 
@@ -115,20 +125,48 @@ class _EditorPageState extends ConsumerState<EditorPage> {
 
   @override
   Widget build(BuildContext context) {
+    final titleText = _titleController.text.isEmpty
+        ? _strings.wiki_document_title
+        : _titleController.text;
+
     return Scaffold(
       appBar: AppBar(
         title: _isLoaded
-            ? SizedBox(
-                width: 200,
-                child: TextField(
-                  controller: _titleController,
-                  style: const TextStyle(fontSize: 18),
-                  decoration: InputDecoration(
-                    border: InputBorder.none,
-                    hintText: _strings.wiki_document_title,
-                  ),
-                  onChanged: (_) => _onContentChanged(),
-                ),
+            ? GestureDetector(
+                onTap: () {
+                  setState(() => _isTitleEditing = true);
+                },
+                child: _isTitleEditing
+                    ? SizedBox(
+                        width: 220,
+                        child: TextField(
+                          controller: _titleController,
+                          autofocus: true,
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          decoration: const InputDecoration(
+                            border: InputBorder.none,
+                            hintText: '输入标题',
+                            isDense: true,
+                          ),
+                          onChanged: (_) => _onContentChanged(),
+                          onSubmitted: (_) {
+                            setState(() => _isTitleEditing = false);
+                          },
+                          onTapOutside: (_) {
+                            setState(() => _isTitleEditing = false);
+                          },
+                        ),
+                      )
+                    : Text(
+                        titleText,
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
               )
             : Text(_strings.wiki_loading),
         centerTitle: true,
@@ -136,40 +174,45 @@ class _EditorPageState extends ConsumerState<EditorPage> {
           // 模式切换按钮。
           IconButton(
             icon: Icon(_isRichTextMode ? Icons.code : Icons.format_quote),
-            tooltip: _isRichTextMode ? _strings.wiki_switch_to_source : _strings.wiki_switch_to_rich,
+            tooltip: _isRichTextMode
+                ? _strings.wiki_switch_to_source
+                : _strings.wiki_switch_to_rich,
             onPressed: _toggleMode,
           ),
           // 手动保存按钮。
           IconButton(
             icon: const Icon(Icons.save_outlined),
             tooltip: _strings.wiki_save,
-            onPressed: _saveContent,
+            onPressed: () {
+              _saveTitle();
+              _saveContent();
+            },
           ),
         ],
       ),
       body: _isLoaded
           ? _isRichTextMode
-              ? QuillEditorWidget(
-                  content: _sourceController.text,
-                  onChanged: (plainText) {
-                    _sourceController.text = plainText;
-                    _onContentChanged();
-                  },
-                )
-              : Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: TextField(
-                    controller: _sourceController,
-                    maxLines: null,
-                    expands: true,
-                    textAlignVertical: TextAlignVertical.top,
-                    decoration: const InputDecoration(
-                      border: InputBorder.none,
-                      hintText: 'Markdown 源码...',
+                ? QuillEditorWidget(
+                    content: _sourceController.text,
+                    onChanged: (plainText) {
+                      _sourceController.text = plainText;
+                      _onContentChanged();
+                    },
+                  )
+                : Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: TextField(
+                      controller: _sourceController,
+                      maxLines: null,
+                      expands: true,
+                      textAlignVertical: TextAlignVertical.top,
+                      decoration: const InputDecoration(
+                        border: InputBorder.none,
+                        hintText: 'Markdown 源码...',
+                      ),
+                      onChanged: (_) => _onContentChanged(),
                     ),
-                    onChanged: (_) => _onContentChanged(),
-                  ),
-                )
+                  )
           : const Center(child: CircularProgressIndicator()),
     );
   }

@@ -214,6 +214,20 @@ class DocumentDao {
     }
   }
 
+  /// 仅更新文档标题。
+  Future<void> updateTitle(int docId, String title) async {
+    try {
+      await _db.update(
+        DocumentTable.tableName,
+        {'title': title, 'updated_at': DateTime.now().toIso8601String()},
+        where: 'id = ?',
+        whereArgs: [docId],
+      );
+    } on DatabaseException catch (e) {
+      throw StateError('Failed to update title for doc id=$docId: $e');
+    }
+  }
+
   /// 更新文档标签列表。
   Future<void> updateTags(int docId, List<String> tags) async {
     try {
