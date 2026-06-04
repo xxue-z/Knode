@@ -6,10 +6,17 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:vector_math/vector_math_64.dart' as vm;
+import 'package:wiki/utils/graph_theme.dart';
 
 // ---------------------------------------------------------------------------
 // Data Models
 // ---------------------------------------------------------------------------
+
+/// Node type in the knowledge graph.
+enum NodeType { category, article }
+
+/// Edge type in the knowledge graph.
+enum EdgeType { categoryArticle, articleArticle }
 
 /// A minimal node in the knowledge graph.
 class GraphNode {
@@ -24,6 +31,10 @@ class GraphNode {
     this.borderColor = const Color(0xFF263238),
     this.borderWidth = 1.5,
     this.fontSize = 14.0,
+    this.type = NodeType.category,
+    this.categoryId,
+    this.gradientColors,
+    this.tags = const [],
   });
 
   final String id;
@@ -36,6 +47,10 @@ class GraphNode {
   final Color borderColor;
   final double borderWidth;
   final double fontSize;
+  final NodeType type;
+  final int? categoryId;
+  final List<Color>? gradientColors;
+  final List<String> tags;
 
   /// Bounding rect in graph-space.
   Rect get rect => Rect.fromCenter(
@@ -56,6 +71,8 @@ class GraphEdge {
     this.arrowSize = 8.0,
     this.showArrow = true,
     this.label,
+    this.type = EdgeType.categoryArticle,
+    this.similarity,
   });
 
   final String id;
@@ -66,6 +83,8 @@ class GraphEdge {
   final double arrowSize;
   final bool showArrow;
   final String? label;
+  final EdgeType type;
+  final double? similarity;
 }
 
 // ---------------------------------------------------------------------------
@@ -81,6 +100,8 @@ class GraphCanvasPainter extends CustomPainter {
     required this.transform,
     this.highlightedNodeId,
     this.hitAreas,
+    this.brightness = Brightness.light,
+    this.rotation = 0.0,
   });
 
   final List<GraphNode> nodes;
@@ -88,6 +109,8 @@ class GraphCanvasPainter extends CustomPainter {
   final vm.Matrix4 transform;
   final String? highlightedNodeId;
   final List<Rect>? hitAreas;
+  final Brightness brightness;
+  final double rotation;
 
   // Cached look-up for fast node access.
   Map<String, GraphNode> _nodeMap = {};
@@ -100,12 +123,28 @@ class GraphCanvasPainter extends CustomPainter {
 
     // Save layer and apply the combined transform.
     uiCanvas.save();
+    
+    // Apply translation and scale
     final matrix4 = vm.Matrix4.compose(
       vm.Vector3(transform[3], transform[7], transform[11]),
       vm.Quaternion.identity(),
       vm.Vector3(transform[0], transform[5], transform[10]),
     );
     uiCanvas.transform(matrix4.storage);
+    
+    // Apply subtle 3D perspective simulation
+    if (rotation.abs() > 0.001) {
+      final centerX = size.width / 2;
+      final centerY = size.height / 2;
+      uiCanvas.translate(centerX, centerY);
+      uiCanvas.rotate(rotation * 0.5);
+      final skew = rotation * 0.15;
+      final matrix = vm.Matrix4.identity()
+        ..setEntry(3, 2, skew)
+        ..setEntry(3, 3, 1.0 - skew.abs() * 0.5);
+      uiCanvas.transform(matrix.storage);
+      uiCanvas.translate(-centerX, -centerY);
+    }
 
     _drawEdges(uiCanvas);
     _drawNodes(uiCanvas);
@@ -119,43 +158,81 @@ class GraphCanvasPainter extends CustomPainter {
       final target = _nodeMap[edge.targetId];
       if (source == null || target == null) continue;
 
-      final paint = Paint()
-        ..color = edge.color
-        ..strokeWidth = edge.width
-        ..style = PaintingStyle.stroke
-        ..strokeCap = StrokeCap.round;
-
       final start = source.position;
       final end = target.position;
 
-      canvas.drawLine(start, end, paint);
-
-      // Arrowhead
-      if (edge.showArrow) {
-        _drawArrowhead(canvas, start, end, edge.arrowSize, paint);
+      if (edge.type == EdgeType.categoryArticle) {
+        _drawSolidEdge(canvas, start, end, edge);
+      } else {
+        _drawDashedEdge(canvas, start, end, edge);
       }
+    }
+  }
 
-      // Edge label (centred midpoint).
-      if (edge.label != null && edge.label!.isNotEmpty) {
-        final mid = Offset(
-          (start.dx + end.dx) / 2,
-          (start.dy + end.dy) / 2,
-        );
-        final textPainter = TextPainter(
-          text: TextSpan(
-            text: edge.label,
-            style: TextStyle(
-              color: edge.color,
-              fontSize: 11,
-            ),
+  void _drawSolidEdge(ui.Canvas canvas, Offset start, Offset end, GraphEdge edge) {
+    final paint = Paint()
+      ..color = edge.color.withOpacity(0.8)
+      ..strokeWidth = edge.width
+      ..style = PaintingStyle.stroke
+      ..strokeCap = StrokeCap.round;
+
+    canvas.drawLine(start, end, paint);
+
+    if (edge.showArrow) {
+      _drawArrowhead(canvas, start, end, edge.arrowSize, paint);
+    }
+
+    _drawEdgeLabel(canvas, start, end, edge);
+  }
+
+  void _drawDashedEdge(ui.Canvas canvas, Offset start, Offset end, GraphEdge edge) {
+    final dx = end.dx - start.dx;
+    final dy = end.dy - start.dy;
+    final distance = math.sqrt(dx * dx + dy * dy);
+    final dashLength = 8.0;
+    final gapLength = 4.0;
+    final totalLength = dashLength + gapLength;
+    final numDashes = (distance / totalLength).floor();
+
+    final paint = Paint()
+      ..color = edge.color.withOpacity(edge.similarity ?? 0.5)
+      ..strokeWidth = edge.width * 0.8
+      ..style = PaintingStyle.stroke
+      ..strokeCap = StrokeCap.round;
+
+    for (int i = 0; i < numDashes; i++) {
+      final t1 = (i * totalLength) / distance;
+      final t2 = (i * totalLength + dashLength) / distance;
+      
+      final p1 = Offset(start.dx + dx * t1, start.dy + dy * t1);
+      final p2 = Offset(start.dx + dx * t2, start.dy + dy * t2);
+      
+      canvas.drawLine(p1, p2, paint);
+    }
+
+    _drawEdgeLabel(canvas, start, end, edge);
+  }
+
+  void _drawEdgeLabel(ui.Canvas canvas, Offset start, Offset end, GraphEdge edge) {
+    if (edge.label != null && edge.label!.isNotEmpty) {
+      final mid = Offset(
+        (start.dx + end.dx) / 2,
+        (start.dy + end.dy) / 2,
+      );
+      final textPainter = TextPainter(
+        text: TextSpan(
+          text: edge.label,
+          style: TextStyle(
+            color: edge.color,
+            fontSize: 11,
           ),
-          textDirection: ui.TextDirection.ltr,
-        )..layout();
-        textPainter.paint(
-          canvas,
-          mid - Offset(textPainter.width / 2, textPainter.height / 2),
-        );
-      }
+        ),
+        textDirection: ui.TextDirection.ltr,
+      )..layout();
+      textPainter.paint(
+        canvas,
+        mid - Offset(textPainter.width / 2, textPainter.height / 2),
+      );
     }
   }
 
@@ -196,50 +273,129 @@ class GraphCanvasPainter extends CustomPainter {
   void _drawNodes(ui.Canvas canvas) {
     for (final node in nodes) {
       final isHighlighted = node.id == highlightedNodeId;
-      final rect = node.rect;
-
-      // Shadow for highlighted nodes.
-      if (isHighlighted) {
-        final shadowPaint = Paint()
-          ..color = Colors.black26
-          ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 6);
-        canvas.drawRRect(
-          _roundedRect(rect, 10),
-          shadowPaint,
-        );
+      
+      if (node.type == NodeType.category) {
+        _drawCategoryNode(canvas, node, isHighlighted);
+      } else {
+        _drawArticleNode(canvas, node, isHighlighted);
       }
+    }
+  }
 
-      // Body
-      final bodyPaint = Paint()..color = node.color;
-      final rrect = _roundedRect(rect, 10);
-      canvas.drawRRect(rrect, bodyPaint);
+  void _drawCategoryNode(ui.Canvas canvas, GraphNode node, bool isHighlighted) {
+    final center = node.position;
+    final radius = node.width / 2;
 
-      // Border
-      final borderPaint = Paint()
-        ..color = isHighlighted ? Colors.amber : node.borderColor
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = isHighlighted ? 2.5 : node.borderWidth;
-      canvas.drawRRect(rrect, borderPaint);
+    // Outer glow for highlighted nodes
+    if (isHighlighted) {
+      final glowPaint = Paint()
+        ..color = (node.gradientColors?.last ?? node.color).withOpacity(0.4)
+        ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 12);
+      canvas.drawCircle(center, radius + 8, glowPaint);
+    }
 
-      // Label
-      final textPainter = TextPainter(
+    // Gradient fill
+    final gradient = RadialGradient(
+      colors: node.gradientColors ?? [node.color, node.color.withOpacity(0.7)],
+      stops: const [0.0, 1.0],
+    );
+    final paint = Paint()
+      ..shader = gradient.createShader(
+        Rect.fromCircle(center: center, radius: radius),
+      );
+    canvas.drawCircle(center, radius, paint);
+
+    // Border
+    final borderPaint = Paint()
+      ..color = isHighlighted ? Colors.amber : Colors.white.withOpacity(0.3)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = isHighlighted ? 3.0 : 1.5;
+    canvas.drawCircle(center, radius, borderPaint);
+
+    // Label
+    _drawNodeLabel(canvas, node, center, isHighlighted);
+  }
+
+  void _drawArticleNode(ui.Canvas canvas, GraphNode node, bool isHighlighted) {
+    final center = node.position;
+    final radius = node.width / 2;
+
+    // Outer glow ring
+    if (isHighlighted) {
+      final glowPaint = Paint()
+        ..color = node.color.withOpacity(0.3)
+        ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 8);
+      canvas.drawCircle(center, radius + 6, glowPaint);
+    }
+
+    // Outer ring (halo)
+    final outerPaint = Paint()
+      ..color = node.color.withOpacity(isHighlighted ? 0.6 : 0.3)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2.0;
+    canvas.drawCircle(center, radius, outerPaint);
+
+    // Inner solid circle
+    final innerPaint = Paint()..color = node.color;
+    canvas.drawCircle(center, radius * 0.6, innerPaint);
+
+    // Border
+    final borderPaint = Paint()
+      ..color = isHighlighted ? Colors.amber : Colors.white.withOpacity(0.3)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = isHighlighted ? 2.5 : 1.0;
+    canvas.drawCircle(center, radius * 0.6, borderPaint);
+
+    // Label
+    _drawNodeLabel(canvas, node, center, isHighlighted);
+  }
+
+  void _drawNodeLabel(ui.Canvas canvas, GraphNode node, Offset center, bool isHighlighted) {
+    // Main label
+    final labelPainter = TextPainter(
+      text: TextSpan(
+        text: node.label,
+        style: TextStyle(
+          color: Colors.white,
+          fontSize: node.fontSize,
+          fontWeight: isHighlighted ? FontWeight.w700 : FontWeight.w500,
+          shadows: const [
+            Shadow(color: Colors.black54, blurRadius: 4),
+          ],
+        ),
+      ),
+      textDirection: ui.TextDirection.ltr,
+      maxLines: 1,
+    )..layout(maxWidth: node.width * 2);
+
+    labelPainter.paint(
+      canvas,
+      Offset(
+        center.dx - labelPainter.width / 2,
+        center.dy + node.height / 2 + 8,
+      ),
+    );
+
+    // Tags (truncated to 6-8 chars + ellipsis)
+    if (node.tags.isNotEmpty) {
+      final tagText = node.tags.take(2).map((t) => t.length > 8 ? '\...' : t).join(', ');
+      final tagPainter = TextPainter(
         text: TextSpan(
-          text: node.label,
+          text: tagText,
           style: TextStyle(
-            color: node.textColor,
-            fontSize: node.fontSize,
-            fontWeight: isHighlighted ? FontWeight.w700 : FontWeight.w500,
+            color: Colors.white70,
+            fontSize: node.fontSize * 0.75,
           ),
         ),
         textDirection: ui.TextDirection.ltr,
         maxLines: 1,
-      )..layout(maxWidth: rect.width - 16);
+      )..layout(maxWidth: node.width * 2);
 
-      textPainter.paint(
+      tagPainter.paint(
         canvas,
         Offset(
-          rect.left + (rect.width - textPainter.width) / 2,
-          rect.top + (rect.height - textPainter.height) / 2,
+          center.dx - tagPainter.width / 2,
+          center.dy + node.height / 2 + 8 + labelPainter.height + 2,
         ),
       );
     }
@@ -268,8 +424,10 @@ class GraphController extends ChangeNotifier {
       : _transform = initialTransform ?? vm.Matrix4.identity();
 
   vm.Matrix4 _transform;
+  double _rotation = 0.0;
 
   vm.Matrix4 get transform => _transform;
+  double get rotation => _rotation;
 
   set transform(vm.Matrix4 value) {
     _transform = value;
@@ -284,25 +442,24 @@ class GraphController extends ChangeNotifier {
 
   void applyScale(double scale, Offset focalPoint) {
     final double clampedScale = scale.clamp(0.1, 10.0);
-    final vm.Vector3 translation = _transform.getTranslation();
-
-    // Translate focal point to local space.
-    final vm.Vector3 focal = vm.Vector3(focalPoint.dx, focalPoint.dy, 0);
     _transform = _transform.clone()
       ..translate(focalPoint.dx, focalPoint.dy)
       ..scale(clampedScale)
       ..translate(-focalPoint.dx, -focalPoint.dy);
+    notifyListeners();
+  }
 
-    // Clamp pan bounds if desired.
+  void applyRotation(double angle) {
+    _rotation = (_rotation + angle).clamp(-0.5, 0.5);
     notifyListeners();
   }
 
   void reset() {
     _transform = vm.Matrix4.identity();
+    _rotation = 0.0;
     notifyListeners();
   }
 
-  /// Convert a screen-space [Offset] into graph-space coordinates.
   vm.Vector3 screenToGraph(Offset screen) {
     final inverse = vm.Matrix4.inverted(_transform);
     final v = vm.Vector4(screen.dx, screen.dy, 0, 1);
@@ -327,6 +484,8 @@ class GraphCanvas extends StatefulWidget {
     this.onNodeDoubleTap,
     this.onCanvasTap,
     this.backgroundColor,
+    this.brightness = Brightness.light,
+    this.rotation = 0.0,
   });
 
   final List<GraphNode> nodes;
@@ -336,6 +495,8 @@ class GraphCanvas extends StatefulWidget {
   final ValueChanged<GraphNode>? onNodeDoubleTap;
   final VoidCallback? onCanvasTap;
   final Color? backgroundColor;
+  final Brightness brightness;
+  final double rotation;
 
   @override
   State<GraphCanvas> createState() => _GraphCanvasState();
@@ -476,22 +637,61 @@ class _GraphCanvasState extends State<GraphCanvas> {
       edges: widget.edges,
       transform: _controller.transform,
       highlightedNodeId: _highlightedNodeId,
+      brightness: widget.brightness,
+      rotation: _controller.rotation,
     );
 
+    final bgColors = GraphTheme.getBackground(widget.brightness);
+    final starColor = GraphTheme.getStarColor(widget.brightness);
+
     return Container(
-      color: widget.backgroundColor ?? Colors.grey[50],
-      child: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTapDown: _onTapDown,
-        onDoubleTapDown: _onDoubleTapDown,
-        onScaleStart: _onScaleStart,
-        onScaleUpdate: _onScaleUpdate,
-        onScaleEnd: _onScaleEnd,
-        child: CustomPaint(
-          painter: painter,
-          size: Size.infinite,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: widget.backgroundColor != null
+              ? [widget.backgroundColor!, widget.backgroundColor!]
+              : bgColors,
+        ),
+      ),
+      child: CustomPaint(
+        painter: _StarPainter(color: starColor, starCount: 200),
+        child: GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTapDown: _onTapDown,
+          onDoubleTapDown: _onDoubleTapDown,
+          onScaleStart: _onScaleStart,
+          onScaleUpdate: _onScaleUpdate,
+          onScaleEnd: _onScaleEnd,
+          child: CustomPaint(
+            painter: painter,
+            size: Size.infinite,
+          ),
         ),
       ),
     );
   }
+}
+
+class _StarPainter extends CustomPainter {
+  _StarPainter({required this.color, required this.starCount});
+  final Color color;
+  final int starCount;
+  @override
+  void paint(Canvas canvas, Size size) {
+    final random = math.Random(42);
+    for (int i = 0; i < starCount; i++) {
+      final x = random.nextDouble() * size.width;
+      final y = random.nextDouble() * size.height;
+      final radius = random.nextDouble() * 1.5 + 0.5;
+      final opacity = random.nextDouble() * 0.5 + 0.3;
+      final paint = Paint()
+        ..color = color.withOpacity(opacity)
+        ..style = PaintingStyle.fill;
+      canvas.drawCircle(Offset(x, y), radius, paint);
+    }
+  }
+  @override
+  bool shouldRepaint(covariant _StarPainter old) =>
+      old.color != color || old.starCount != starCount;
 }

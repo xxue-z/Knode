@@ -224,22 +224,67 @@ class _WikiPageState extends State<WikiPage> {
         child: LayoutBuilder(
           builder: (context, constraints) {
             return GraphCanvas(
-              nodes: const [
-                GraphNode(id: '1', label: 'All Knowledge', position: Offset(200, 200)),
-                GraphNode(id: '2', label: 'Notes', position: Offset(400, 150), color: Color(0xFF26A69A)),
-                GraphNode(id: '3', label: 'Study', position: Offset(400, 280), color: Color(0xFF5C6BC0)),
-                GraphNode(id: '4', label: 'Work', position: Offset(100, 350), color: Color(0xFFEF5350)),
-                GraphNode(id: '5', label: 'Ideas', position: Offset(300, 380), color: Color(0xFFFFA726)),
+              nodes: [
+                GraphNode(
+                  id: '1',
+                  label: _strings.wiki_all_knowledge,
+                  position: const Offset(300, 300),
+                  width: 120,
+                  height: 120,
+                  type: NodeType.category,
+                  categoryId: 0,
+                  gradientColors: [Color(0xFF90CAF9), Color(0xFF42A5F5), Color(0xFF1565C0)],
+                ),
+                GraphNode(
+                  id: '2',
+                  label: _strings.wiki_notes,
+                  position: const Offset(500, 200),
+                  width: 80,
+                  height: 80,
+                  type: NodeType.category,
+                  categoryId: 1,
+                  gradientColors: [Color(0xFF64B5F6), Color(0xFF1E88E5), Color(0xFF0D47A1)],
+                ),
+                GraphNode(
+                  id: '3',
+                  label: _strings.wiki_study_materials,
+                  position: const Offset(500, 400),
+                  width: 80,
+                  height: 80,
+                  type: NodeType.category,
+                  categoryId: 2,
+                  gradientColors: [Color(0xFF81C784), Color(0xFF43A047), Color(0xFF1B5E20)],
+                ),
+                GraphNode(
+                  id: '4',
+                  label: _strings.wiki_work,
+                  position: const Offset(100, 400),
+                  width: 80,
+                  height: 80,
+                  type: NodeType.category,
+                  categoryId: 3,
+                  gradientColors: [Color(0xFFCE93D8), Color(0xFF8E24AA), Color(0xFF4A148C)],
+                ),
+                GraphNode(
+                  id: '5',
+                  label: _strings.wiki_ideas,
+                  position: const Offset(100, 200),
+                  width: 80,
+                  height: 80,
+                  type: NodeType.category,
+                  categoryId: 4,
+                  gradientColors: [Color(0xFFFFB74D), Color(0xFFFB8C00), Color(0xFFE65100)],
+                ),
               ],
-              edges: const [
-                GraphEdge(id: 'e1', sourceId: '1', targetId: '2'),
-                GraphEdge(id: 'e2', sourceId: '1', targetId: '3'),
-                GraphEdge(id: 'e3', sourceId: '1', targetId: '4'),
-                GraphEdge(id: 'e4', sourceId: '1', targetId: '5'),
+              edges: [
+                GraphEdge(id: 'e1', sourceId: '1', targetId: '2', type: EdgeType.categoryArticle),
+                GraphEdge(id: 'e2', sourceId: '1', targetId: '3', type: EdgeType.categoryArticle),
+                GraphEdge(id: 'e3', sourceId: '1', targetId: '4', type: EdgeType.categoryArticle),
+                GraphEdge(id: 'e4', sourceId: '1', targetId: '5', type: EdgeType.categoryArticle),
               ],
               onNodeTap: (node) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Category: ')),
+                  SnackBar(content: Text('\: ')),
                 );
               },
             );
