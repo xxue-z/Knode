@@ -28,6 +28,16 @@ class _WikiPageState extends ConsumerState<WikiPage> {
   String _currentCategoryName = _strings.wiki_all_knowledge;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
+  @override
+  void initState() {
+    super.initState();
+    // 初始加载所有文档并构建图谱
+    Future.microtask(() {
+      ref.read(documentListProvider.notifier).filterByCategory(null);
+      ref.read(graphProvider.notifier).buildGraph('all');
+    });
+  }
+
   static final List<_CategoryEntry> _categories = [
     _CategoryEntry(
       id: 'all',
@@ -163,12 +173,18 @@ class _WikiPageState extends ConsumerState<WikiPage> {
       if (!context.mounted) return;
 
       if (doc != null) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (_) => EditorPage(docId: doc.id, title: doc.title),
-          ),
-        );
+        // 刷新文档列表和图谱
+        ref.read(documentListProvider.notifier).filterByCategory(null);
+        ref.read(graphProvider.notifier).buildGraph('all');
+
+        if (context.mounted) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => EditorPage(docId: doc.id, title: doc.title),
+            ),
+          );
+        }
       } else {
         ScaffoldMessenger.of(
           context,
@@ -202,6 +218,10 @@ class _WikiPageState extends ConsumerState<WikiPage> {
         );
 
         if (doc != null && context.mounted) {
+          // 刷新文档列表和图谱
+          ref.read(documentListProvider.notifier).filterByCategory(null);
+          ref.read(graphProvider.notifier).buildGraph('all');
+
           ScaffoldMessenger.of(
             context,
           ).showSnackBar(SnackBar(content: Text('已导入: $title')));
