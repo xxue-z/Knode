@@ -4,7 +4,6 @@ import 'package:knode_app/gen/strings.dart';
 import 'package:knode_app/screens/home_page.dart';
 import 'package:knode_app/screens/settings_page.dart';
 import 'package:knode_app/providers/nav_config_provider.dart';
-import 'package:knode_app/providers/theme_provider.dart';
 import 'package:knode_app/widgets/floating_chat_ball.dart';
 import 'package:wiki/screens/wiki_page.dart';
 import 'package:quiz/screens/quiz_page.dart';
@@ -134,7 +133,7 @@ class _AppShellState extends ConsumerState<AppShell> {
           return NavigationDestination(
             icon: Icon(tab.icon),
             selectedIcon: Icon(tab.icon),
-            label: const SizedBox.shrink(), // 不显示文字
+            label: '', // 不显示文字
           );
         }).toList(),
       ),
