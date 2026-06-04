@@ -136,6 +136,7 @@ class _WikiPageState extends ConsumerState<WikiPage> {
             hintText: '输入文档标题',
             border: OutlineInputBorder(),
           ),
+          onSubmitted: (_) => Navigator.pop(ctx, controller.text.trim()),
         ),
         actions: [
           TextButton(
@@ -150,20 +151,34 @@ class _WikiPageState extends ConsumerState<WikiPage> {
       ),
     );
 
-    if (result != null && result.isNotEmpty && context.mounted) {
+    if (result == null || result.isEmpty || !context.mounted) return;
+
+    try {
       final notifier = ref.read(documentListProvider.notifier);
       final doc = await notifier.createDocument(
         categoryId: 1,
         title: result,
         initialContent: '# $result\n\n',
       );
-      if (doc != null && context.mounted) {
+      if (!context.mounted) return;
+
+      if (doc != null) {
         Navigator.push(
           context,
           MaterialPageRoute(
             builder: (_) => EditorPage(docId: doc.id, title: doc.title),
           ),
         );
+      } else {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('创建文档失败，请重试')));
+      }
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('创建文档失败: $e')));
       }
     }
   }
