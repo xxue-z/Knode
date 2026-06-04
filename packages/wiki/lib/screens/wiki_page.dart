@@ -116,15 +116,6 @@ class _WikiPageState extends ConsumerState<WikiPage> {
                 _importFile(context);
               },
             ),
-            ListTile(
-              leading: const Icon(Icons.account_tree_outlined),
-              title: Text(_strings.wiki_create_node),
-              subtitle: const Text('在知识图谱中创建节点'),
-              onTap: () {
-                Navigator.pop(ctx);
-                _showCreateNodeDialog(context);
-              },
-            ),
             const SizedBox(height: 8),
           ],
         ),
@@ -240,41 +231,6 @@ class _WikiPageState extends ConsumerState<WikiPage> {
         ).showSnackBar(SnackBar(content: Text('导入失败: $e')));
       }
     }
-  }
-
-  void _showCreateNodeDialog(BuildContext context) {
-    final controller = TextEditingController();
-    showDialog<bool>(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        title: Text(_strings.wiki_create_node),
-        content: TextField(
-          controller: controller,
-          autofocus: true,
-          decoration: InputDecoration(
-            hintText: _strings.wiki_node_name,
-            border: const OutlineInputBorder(),
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx),
-            child: Text(_strings.wiki_cancel),
-          ),
-          FilledButton(
-            onPressed: () {
-              Navigator.pop(ctx);
-              if (controller.text.isNotEmpty) {
-                ScaffoldMessenger.of(
-                  context,
-                ).showSnackBar(SnackBar(content: Text(': ')));
-              }
-            },
-            child: Text(_strings.wiki_confirm),
-          ),
-        ],
-      ),
-    );
   }
 
   void _showCategoryManager(BuildContext context) {
@@ -553,6 +509,7 @@ class _WikiPageState extends ConsumerState<WikiPage> {
             return GraphCanvas(
               nodes: nodes,
               edges: edges,
+              brightness: Theme.of(context).brightness,
               onNodeTap: (node) {
                 ScaffoldMessenger.of(
                   context,
