@@ -30,6 +30,7 @@ export 'providers/model_provider.dart';
 export 'providers/service_providers.dart' hide localAiProviderRef;
 export 'providers/settings_provider.dart';
 export 'providers/stats_provider.dart';
+export 'providers/theme_provider.dart';
 
 // 鈹€鈹€ 涓氬姟鏈嶅姟 鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€
 export 'services/backup_service.dart';

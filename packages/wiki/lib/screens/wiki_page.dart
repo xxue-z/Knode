@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:core/providers/theme_provider.dart';
 import 'package:wiki/gen/strings.dart';
+import 'package:wiki/theme/wiki_theme.dart';
 
 final _strings = const L10nStringsMixin();
 
@@ -7,14 +10,14 @@ final _strings = const L10nStringsMixin();
 ///
 /// 包含 [GraphCanvas] 画布和右侧类目面板入口（EndDrawer）。
 /// 使用 Material 3 组件，响应式适配手机与平板布局。
-class WikiPage extends StatefulWidget {
+class WikiPage extends ConsumerStatefulWidget {
   const WikiPage({super.key});
 
   @override
-  State<WikiPage> createState() => _WikiPageState();
+  ConsumerState<WikiPage> createState() => _WikiPageState();
 }
 
-class _WikiPageState extends State<WikiPage> {
+class _WikiPageState extends ConsumerState<WikiPage> {
   /// 当前选中的类目名称，显示在 AppBar 标题。
   String _currentCategoryName = _strings.wiki_all_knowledge;
 
@@ -140,53 +143,65 @@ class _WikiPageState extends State<WikiPage> {
 
   @override
   Widget build(BuildContext context) {
+    final themeMode = ref.watch(themeNotifierProvider);
+    final isDark = themeMode == ThemeMode.dark;
+    final theme = WikiTheme.of(isDark: isDark);
+
     final screenWidth = MediaQuery.sizeOf(context).width;
 
     // 响应式：平板（>= 600px）时 Drawer 宽度取屏幕 40%，否则取 75%。
     final drawerWidth =
         screenWidth >= 600 ? screenWidth * 0.4 : screenWidth * 0.75;
 
-    return Scaffold(
-      key: _scaffoldKey,
-      appBar: AppBar(
-        title: Text(_currentCategoryName),
-        centerTitle: true,
-        actions: [
-          // 右侧类目面板入口按钮（显式入口，配合右滑手势使用）。
-          IconButton(
-            icon: const Icon(Icons.account_tree_outlined),
-            tooltip: _strings.wiki_category_panel,
-            onPressed: _openCategoryPanel,
-          ),
-        ],
-      ),
-      // GraphCanvas 作为主画布区域。
-      body: SafeArea(
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            return _GraphCanvasPlaceholder(
-              maxWidth: constraints.maxWidth,
-              maxHeight: constraints.maxHeight,
-            );
-          },
+    return Theme(
+      data: Theme.of(context).copyWith(
+        colorScheme: Theme.of(context).colorScheme.copyWith(
+          primary: theme.primaryColor,
+          surface: theme.backgroundColor,
         ),
       ),
-      // 右侧类目面板（EndDrawer），支持右滑触发。
-      endDrawer: _CategoryDrawer(
-        categories: _categories,
-        selectedId: 'all',
-        width: drawerWidth,
-        onSelected: _onCategorySelected,
-        onManage: () => _showCategoryManager(context),
-      ),
-      endDrawerEnableOpenDragGesture: true,
-      // 浮动按钮：快速添加新节点。
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          _showCreateNodeDialog(context);
-        },
-        tooltip: _strings.wiki_create_node,
-        child: const Icon(Icons.add),
+      child: Scaffold(
+        key: _scaffoldKey,
+        appBar: AppBar(
+          title: Text(_currentCategoryName),
+          centerTitle: true,
+          actions: [
+            // 右侧类目面板入口按钮（显式入口，配合右滑手势使用）。
+            IconButton(
+              icon: const Icon(Icons.account_tree_outlined),
+              tooltip: _strings.wiki_category_panel,
+              onPressed: _openCategoryPanel,
+            ),
+          ],
+        ),
+        // GraphCanvas 作为主画布区域。
+        body: SafeArea(
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              return _GraphCanvasPlaceholder(
+                maxWidth: constraints.maxWidth,
+                maxHeight: constraints.maxHeight,
+              );
+            },
+          ),
+        ),
+        // 右侧类目面板（EndDrawer），支持右滑触发。
+        endDrawer: _CategoryDrawer(
+          categories: _categories,
+          selectedId: 'all',
+          width: drawerWidth,
+          onSelected: _onCategorySelected,
+          onManage: () => _showCategoryManager(context),
+        ),
+        endDrawerEnableOpenDragGesture: true,
+        // 浮动按钮：快速添加新节点。
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            _showCreateNodeDialog(context);
+          },
+          tooltip: _strings.wiki_create_node,
+          child: const Icon(Icons.add),
+        ),
       ),
     );
   }
