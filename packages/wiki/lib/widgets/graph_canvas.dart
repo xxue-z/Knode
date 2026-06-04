@@ -137,43 +137,81 @@ class GraphCanvasPainter extends CustomPainter {
       final target = _nodeMap[edge.targetId];
       if (source == null || target == null) continue;
 
-      final paint = Paint()
-        ..color = edge.color
-        ..strokeWidth = edge.width
-        ..style = PaintingStyle.stroke
-        ..strokeCap = StrokeCap.round;
-
       final start = source.position;
       final end = target.position;
 
-      canvas.drawLine(start, end, paint);
-
-      // Arrowhead
-      if (edge.showArrow) {
-        _drawArrowhead(canvas, start, end, edge.arrowSize, paint);
+      if (edge.type == EdgeType.categoryArticle) {
+        _drawSolidEdge(canvas, start, end, edge);
+      } else {
+        _drawDashedEdge(canvas, start, end, edge);
       }
+    }
+  }
 
-      // Edge label (centred midpoint).
-      if (edge.label != null && edge.label!.isNotEmpty) {
-        final mid = Offset(
-          (start.dx + end.dx) / 2,
-          (start.dy + end.dy) / 2,
-        );
-        final textPainter = TextPainter(
-          text: TextSpan(
-            text: edge.label,
-            style: TextStyle(
-              color: edge.color,
-              fontSize: 11,
-            ),
+  void _drawSolidEdge(ui.Canvas canvas, Offset start, Offset end, GraphEdge edge) {
+    final paint = Paint()
+      ..color = edge.color.withOpacity(0.8)
+      ..strokeWidth = edge.width
+      ..style = PaintingStyle.stroke
+      ..strokeCap = StrokeCap.round;
+
+    canvas.drawLine(start, end, paint);
+
+    if (edge.showArrow) {
+      _drawArrowhead(canvas, start, end, edge.arrowSize, paint);
+    }
+
+    _drawEdgeLabel(canvas, start, end, edge);
+  }
+
+  void _drawDashedEdge(ui.Canvas canvas, Offset start, Offset end, GraphEdge edge) {
+    final dx = end.dx - start.dx;
+    final dy = end.dy - start.dy;
+    final distance = math.sqrt(dx * dx + dy * dy);
+    final dashLength = 8.0;
+    final gapLength = 4.0;
+    final totalLength = dashLength + gapLength;
+    final numDashes = (distance / totalLength).floor();
+
+    final paint = Paint()
+      ..color = edge.color.withOpacity(edge.similarity ?? 0.5)
+      ..strokeWidth = edge.width * 0.8
+      ..style = PaintingStyle.stroke
+      ..strokeCap = StrokeCap.round;
+
+    for (int i = 0; i < numDashes; i++) {
+      final t1 = (i * totalLength) / distance;
+      final t2 = (i * totalLength + dashLength) / distance;
+      
+      final p1 = Offset(start.dx + dx * t1, start.dy + dy * t1);
+      final p2 = Offset(start.dx + dx * t2, start.dy + dy * t2);
+      
+      canvas.drawLine(p1, p2, paint);
+    }
+
+    _drawEdgeLabel(canvas, start, end, edge);
+  }
+
+  void _drawEdgeLabel(ui.Canvas canvas, Offset start, Offset end, GraphEdge edge) {
+    if (edge.label != null && edge.label!.isNotEmpty) {
+      final mid = Offset(
+        (start.dx + end.dx) / 2,
+        (start.dy + end.dy) / 2,
+      );
+      final textPainter = TextPainter(
+        text: TextSpan(
+          text: edge.label,
+          style: TextStyle(
+            color: edge.color,
+            fontSize: 11,
           ),
-          textDirection: ui.TextDirection.ltr,
-        )..layout();
-        textPainter.paint(
-          canvas,
-          mid - Offset(textPainter.width / 2, textPainter.height / 2),
-        );
-      }
+        ),
+        textDirection: ui.TextDirection.ltr,
+      )..layout();
+      textPainter.paint(
+        canvas,
+        mid - Offset(textPainter.width / 2, textPainter.height / 2),
+      );
     }
   }
 
