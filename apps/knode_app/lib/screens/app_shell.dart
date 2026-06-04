@@ -127,8 +127,10 @@ class _AppShellState extends ConsumerState<AppShell> {
       ),
       drawer: _buildDrawer(context),
       bottomNavigationBar: NavigationBar(
+        height: 60, // 减小导航栏高度
         selectedIndex: _currentIndex.clamp(0, visibleTabs.length - 1),
         onDestinationSelected: (index) => _onTabChanged(index),
+        labelBehavior: NavigationDestinationLabelBehavior.alwaysHide, // 隐藏标签
         destinations: visibleTabs.map((tab) {
           return NavigationDestination(
             icon: Icon(tab.icon),

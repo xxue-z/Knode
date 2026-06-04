@@ -5,6 +5,7 @@ import 'package:knode_app/utils/preferences_util.dart';
 void main() {
   group('PreferencesUtil', () {
     setUp(() {
+      PreferencesUtil.clearCache(); // 清除缓存
       SharedPreferences.setMockInitialValues({});
     });
 
