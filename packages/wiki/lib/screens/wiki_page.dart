@@ -174,7 +174,8 @@ class _WikiPageState extends ConsumerState<WikiPage> {
           context,
         ).showSnackBar(const SnackBar(content: Text('创建文档失败，请重试')));
       }
-    } catch (e) {
+    } catch (e, stack) {
+      debugPrint('创建文档异常: $e\n$stack');
       if (context.mounted) {
         ScaffoldMessenger.of(
           context,

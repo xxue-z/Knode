@@ -5,9 +5,7 @@ import 'package:core/database/repositories/document_repository.dart';
 
 /// 文档仓库 Provider（由外部注入依赖）。
 final documentRepositoryProvider = Provider<DocumentRepository>((ref) {
-  throw UnimplementedError(
-    '请在 main.dart 中覆盖 documentRepositoryProvider',
-  );
+  throw UnimplementedError('请在 main.dart 中覆盖 documentRepositoryProvider');
 });
 
 /// 文档列表状态。
@@ -45,10 +43,7 @@ class DocumentListNotifier extends AsyncNotifier<DocumentListState> {
     final docs = _categoryId != null
         ? await repo.getByCategory(_categoryId!)
         : await repo.getRecentlyRead();
-    return DocumentListState(
-      documents: docs,
-      filterCategoryId: _categoryId,
-    );
+    return DocumentListState(documents: docs, filterCategoryId: _categoryId);
   }
 
   /// 按类目过滤文档。
@@ -67,10 +62,7 @@ class DocumentListNotifier extends AsyncNotifier<DocumentListState> {
     state = await AsyncValue.guard(() async {
       final repo = ref.read(documentRepositoryProvider);
       final docs = await repo.search(query);
-      return DocumentListState(
-        documents: docs,
-        searchQuery: query,
-      );
+      return DocumentListState(documents: docs, searchQuery: query);
     });
   }
 
@@ -80,22 +72,14 @@ class DocumentListNotifier extends AsyncNotifier<DocumentListState> {
     required String title,
     String? initialContent,
   }) async {
-    Document? newDoc;
-    state = await AsyncValue.guard(() async {
-      final repo = ref.read(documentRepositoryProvider);
-      newDoc = await repo.createDocument(
-        categoryId: categoryId,
-        title: title,
-        initialContent: initialContent,
-      );
-      final docs = _categoryId != null
-          ? await repo.getByCategory(_categoryId!)
-          : await repo.getRecentlyRead();
-      return DocumentListState(
-        documents: docs,
-        filterCategoryId: _categoryId,
-      );
-    });
+    final repo = ref.read(documentRepositoryProvider);
+    final newDoc = await repo.createDocument(
+      categoryId: categoryId,
+      title: title,
+      initialContent: initialContent,
+    );
+    // 刷新列表
+    ref.invalidateSelf();
     return newDoc;
   }
 
@@ -107,10 +91,7 @@ class DocumentListNotifier extends AsyncNotifier<DocumentListState> {
       final docs = _categoryId != null
           ? await repo.getByCategory(_categoryId!)
           : await repo.getRecentlyRead();
-      return DocumentListState(
-        documents: docs,
-        filterCategoryId: _categoryId,
-      );
+      return DocumentListState(documents: docs, filterCategoryId: _categoryId);
     });
   }
 
@@ -122,10 +103,7 @@ class DocumentListNotifier extends AsyncNotifier<DocumentListState> {
       final docs = _categoryId != null
           ? await repo.getByCategory(_categoryId!)
           : await repo.getRecentlyRead();
-      return DocumentListState(
-        documents: docs,
-        filterCategoryId: _categoryId,
-      );
+      return DocumentListState(documents: docs, filterCategoryId: _categoryId);
     });
   }
 
@@ -137,10 +115,7 @@ class DocumentListNotifier extends AsyncNotifier<DocumentListState> {
       final docs = _categoryId != null
           ? await repo.getByCategory(_categoryId!)
           : await repo.getRecentlyRead();
-      return DocumentListState(
-        documents: docs,
-        filterCategoryId: _categoryId,
-      );
+      return DocumentListState(documents: docs, filterCategoryId: _categoryId);
     });
   }
 }
@@ -148,5 +123,5 @@ class DocumentListNotifier extends AsyncNotifier<DocumentListState> {
 /// 文档列表 Provider。
 final documentListProvider =
     AsyncNotifierProvider<DocumentListNotifier, DocumentListState>(
-  DocumentListNotifier.new,
-);
+      DocumentListNotifier.new,
+    );
