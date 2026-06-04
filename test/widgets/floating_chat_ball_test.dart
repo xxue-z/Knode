@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:knode_app/widgets/floating_chat_ball.dart';
+import 'package:knode_app/widgets/chat_panel.dart';
 import 'package:knode_app/providers/chat_ball_provider.dart';
 
 void main() {
@@ -25,7 +26,7 @@ void main() {
       expect(find.byIcon(Icons.chat), findsOneWidget);
     });
 
-    testWidgets('toggles expanded state on tap', (tester) async {
+    testWidgets('shows chat panel on single tap', (tester) async {
       await tester.pumpWidget(
         ProviderScope(
           child: MaterialApp(
@@ -40,25 +41,16 @@ void main() {
         ),
       );
 
-      // Initial state - not expanded
       final container = ProviderScope.containerOf(
         tester.element(find.byType(FloatingChatBall)),
       );
-      expect(container.read(chatBallNotifierProvider).isExpanded, isFalse);
 
-      // Tap to expand - need to advance past double-tap timeout (300ms)
-      // since onDoubleTap is on the same GestureDetector
+      // Tap to show chat panel
       await tester.tap(find.byType(FloatingChatBall));
       await tester.pump(const Duration(milliseconds: 500));
 
-      // Should be expanded
-      expect(container.read(chatBallNotifierProvider).isExpanded, isTrue);
-
-      // Tap again to collapse
-      await tester.tap(find.byType(FloatingChatBall));
-      await tester.pump(const Duration(milliseconds: 500));
-
-      expect(container.read(chatBallNotifierProvider).isExpanded, isFalse);
+      // Should show bottom sheet with ChatPanel
+      expect(find.byType(ChatPanel), findsOneWidget);
     });
 
     testWidgets('shows pulse animation when hasUnread is true', (tester) async {

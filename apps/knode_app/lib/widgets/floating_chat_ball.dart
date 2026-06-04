@@ -1,9 +1,11 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:knode_app/providers/chat_ball_provider.dart';
 import 'package:knode_app/widgets/chat_ball_style.dart';
 import 'package:knode_app/widgets/chat_panel.dart';
 import 'package:knode_app/widgets/voice_panel.dart';
+import 'package:chat/screens/chat_page.dart';
 
 /// 全局悬浮球组件
 class FloatingChatBall extends ConsumerStatefulWidget {
@@ -18,6 +20,9 @@ class _FloatingChatBallState extends ConsumerState<FloatingChatBall>
   late AnimationController _pulseController;
   late Animation<double> _pulseAnimation;
   bool _isLongPressing = false;
+  bool _isDragging = false;
+  Timer? _doubleTapTimer;
+  DateTime? _lastTapTime;
 
   @override
   void initState() {
@@ -40,18 +45,52 @@ class _FloatingChatBallState extends ConsumerState<FloatingChatBall>
   @override
   void dispose() {
     _pulseController.dispose();
+    _doubleTapTimer?.cancel();
     super.dispose();
   }
 
-  void _onTap() {
-    if (_isLongPressing) return;
-    ref.read(chatBallNotifierProvider.notifier).toggleExpanded();
+  void _onTapDown(TapDownDetails details) {
+    // 记录点击时间，用于区分单击和双击
+  }
+
+  void _onTapUp(TapUpDetails details) {
+    if (_isLongPressing || _isDragging) return;
+
+    final now = DateTime.now();
+    final lastTap = _lastTapTime;
+
+    if (lastTap != null && now.difference(lastTap).inMilliseconds < 300) {
+      // 双击
+      _doubleTapTimer?.cancel();
+      _doubleTapTimer = null;
+      _lastTapTime = null;
+      _onDoubleTap();
+    } else {
+      // 可能是单击，等待300ms确认不是双击
+      _lastTapTime = now;
+      _doubleTapTimer?.cancel();
+      _doubleTapTimer = Timer(const Duration(milliseconds: 300), () {
+        if (_lastTapTime == now) {
+          _onSingleTap();
+        }
+      });
+    }
+  }
+
+  void _onSingleTap() {
+    if (_isLongPressing || _isDragging) return;
+
     // 清除未读状态
     ref.read(chatBallNotifierProvider.notifier).setHasUnread(false);
+
+    // 显示半屏聊天窗口
+    _showChatPanel();
   }
 
   void _onLongPressStart(LongPressStartDetails details) {
+    if (_isDragging) return;
     setState(() => _isLongPressing = true);
+    _doubleTapTimer?.cancel();
     _showVoicePanel();
   }
 
@@ -60,7 +99,19 @@ class _FloatingChatBallState extends ConsumerState<FloatingChatBall>
   }
 
   void _onDoubleTap() {
-    _navigateToFullChat();
+    if (_isLongPressing || _isDragging) return;
+
+    // 关闭半屏窗口
+    final isExpanded = ref.read(chatBallNotifierProvider).isExpanded;
+    if (isExpanded) {
+      ref.read(chatBallNotifierProvider.notifier).toggleExpanded();
+    }
+
+    // 导航到完整Chat页面
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => const ChatPage()),
+    );
   }
 
   void _showVoicePanel() {
@@ -78,13 +129,10 @@ class _FloatingChatBallState extends ConsumerState<FloatingChatBall>
     );
   }
 
-  void _navigateToFullChat() {
-    // 关闭半屏窗口
-    final isExpanded = ref.read(chatBallNotifierProvider).isExpanded;
-    if (isExpanded) {
-      ref.read(chatBallNotifierProvider.notifier).toggleExpanded();
-    }
-    // TODO: 导航到完整Chat页面
+  void _onPanStart(DragStartDetails details) {
+    setState(() => _isDragging = true);
+    _doubleTapTimer?.cancel();
+    _lastTapTime = null;
   }
 
   void _onPanUpdate(DragUpdateDetails details) {
@@ -108,6 +156,7 @@ class _FloatingChatBallState extends ConsumerState<FloatingChatBall>
   }
 
   void _onPanEnd(DragEndDetails details) {
+    setState(() => _isDragging = false);
     // 自动靠边吸附
     _snapToEdge();
   }
@@ -164,7 +213,7 @@ class _FloatingChatBallState extends ConsumerState<FloatingChatBall>
       builder: (context) => ChatPanel(
         onFullScreen: () {
           Navigator.pop(context);
-          _navigateToFullChat();
+          _onDoubleTap();
         },
         onClose: () {
           Navigator.pop(context);
@@ -190,10 +239,11 @@ class _FloatingChatBallState extends ConsumerState<FloatingChatBall>
       left: chatBallState.position.dx,
       top: chatBallState.position.dy,
       child: GestureDetector(
-        onTap: _onTap,
-        onDoubleTap: _onDoubleTap,
+        onTapDown: _onTapDown,
+        onTapUp: _onTapUp,
         onLongPressStart: _onLongPressStart,
         onLongPressEnd: _onLongPressEnd,
+        onPanStart: _onPanStart,
         onPanUpdate: _onPanUpdate,
         onPanEnd: _onPanEnd,
         child: Stack(
