@@ -32,6 +32,11 @@ class FileService {
   /// 写入文档内容。
   Future<void> writeContent(String fileName, String content) async {
     final file = File(_docPath(fileName));
+    // 确保父目录存在
+    final dir = file.parent;
+    if (!await dir.exists()) {
+      await dir.create(recursive: true);
+    }
     await file.writeAsString(content);
   }
 
@@ -66,6 +71,11 @@ class FileService {
       throw FileSystemException('Source file not found', sourcePath);
     }
     final dest = File(_docPath(destFileName));
+    // 确保父目录存在
+    final dir = dest.parent;
+    if (!await dir.exists()) {
+      await dir.create(recursive: true);
+    }
     await source.copy(dest.path);
     return dest.path;
   }
