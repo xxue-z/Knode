@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:core/providers/theme_provider.dart';
 import 'package:wiki/gen/strings.dart';
-import 'package:wiki/theme/wiki_theme.dart';
+import 'package:wiki/widgets/graph_canvas.dart';
+import 'package:wiki/providers/category_provider.dart';
 
 final _strings = const L10nStringsMixin();
 
@@ -10,29 +10,21 @@ final _strings = const L10nStringsMixin();
 ///
 /// 包含 [GraphCanvas] 画布和右侧类目面板入口（EndDrawer）。
 /// 使用 Material 3 组件，响应式适配手机与平板布局。
-class WikiPage extends ConsumerStatefulWidget {
+class WikiPage extends StatefulWidget {
   const WikiPage({super.key});
 
   @override
-  ConsumerState<WikiPage> createState() => _WikiPageState();
+  State<WikiPage> createState() => _WikiPageState();
 }
 
-class _WikiPageState extends ConsumerState<WikiPage> {
-  /// 当前选中的类目名称，显示在 AppBar 标题。
+class _WikiPageState extends State<WikiPage> {
   String _currentCategoryName = _strings.wiki_all_knowledge;
-
-  /// 全局 Key 用于控制 EndDrawer（右侧类目面板）。
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  /// 模拟的类目列表，后续从数据库加载。
   static final List<_CategoryEntry> _categories = [
     _CategoryEntry(id: 'all', name: _strings.wiki_all_knowledge, icon: Icons.home_outlined),
     _CategoryEntry(id: 'notes', name: _strings.wiki_notes, icon: Icons.note_outlined),
-    _CategoryEntry(
-      id: 'study',
-      name: _strings.wiki_study_materials,
-      icon: Icons.menu_book_outlined,
-    ),
+    _CategoryEntry(id: 'study', name: _strings.wiki_study_materials, icon: Icons.menu_book_outlined),
     _CategoryEntry(id: 'work', name: _strings.wiki_work, icon: Icons.work_outline),
     _CategoryEntry(id: 'ideas', name: _strings.wiki_ideas, icon: Icons.lightbulb_outline),
   ];
@@ -72,7 +64,7 @@ class _WikiPageState extends ConsumerState<WikiPage> {
               Navigator.pop(ctx);
               if (controller.text.isNotEmpty) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('${_strings.wiki_create_node}: ${controller.text} - ${_strings.wiki_feature_development}')),
+                  SnackBar(content: Text(': ')),
                 );
               }
             },
@@ -104,7 +96,7 @@ class _WikiPageState extends ConsumerState<WikiPage> {
                     icon: const Icon(Icons.add),
                     onPressed: () {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('${_strings.wiki_add_category} ${_strings.wiki_feature_development}')),
+                        SnackBar(content: Text(_strings.wiki_add_category)),
                       );
                     },
                   ),
@@ -127,7 +119,7 @@ class _WikiPageState extends ConsumerState<WikiPage> {
                             icon: const Icon(Icons.edit_outlined),
                             onPressed: () {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text('${_strings.wiki_edit_category}: ${cat.name} - ${_strings.wiki_feature_development}')),
+                                SnackBar(content: Text(': ')),
                               );
                             },
                           ),
@@ -143,121 +135,69 @@ class _WikiPageState extends ConsumerState<WikiPage> {
 
   @override
   Widget build(BuildContext context) {
-    final themeMode = ref.watch(themeNotifierProvider);
-    final isDark = themeMode == ThemeMode.dark;
-    final theme = WikiTheme.of(isDark: isDark);
-
     final screenWidth = MediaQuery.sizeOf(context).width;
+    final drawerWidth = screenWidth >= 600 ? screenWidth * 0.4 : screenWidth * 0.75;
 
-    // 响应式：平板（>= 600px）时 Drawer 宽度取屏幕 40%，否则取 75%。
-    final drawerWidth =
-        screenWidth >= 600 ? screenWidth * 0.4 : screenWidth * 0.75;
-
-    return Theme(
-      data: Theme.of(context).copyWith(
-        colorScheme: Theme.of(context).colorScheme.copyWith(
-          primary: theme.primaryColor,
-          surface: theme.backgroundColor,
-        ),
-      ),
-      child: Scaffold(
-        key: _scaffoldKey,
-        appBar: AppBar(
-          title: Text(_currentCategoryName),
-          centerTitle: true,
-          actions: [
-            // 右侧类目面板入口按钮（显式入口，配合右滑手势使用）。
-            IconButton(
-              icon: const Icon(Icons.account_tree_outlined),
-              tooltip: _strings.wiki_category_panel,
-              onPressed: _openCategoryPanel,
-            ),
-          ],
-        ),
-        // GraphCanvas 作为主画布区域。
-        body: SafeArea(
-          child: LayoutBuilder(
-            builder: (context, constraints) {
-              return _GraphCanvasPlaceholder(
-                maxWidth: constraints.maxWidth,
-                maxHeight: constraints.maxHeight,
-              );
-            },
-          ),
-        ),
-        // 右侧类目面板（EndDrawer），支持右滑触发。
-        endDrawer: _CategoryDrawer(
-          categories: _categories,
-          selectedId: 'all',
-          width: drawerWidth,
-          onSelected: _onCategorySelected,
-          onManage: () => _showCategoryManager(context),
-        ),
-        endDrawerEnableOpenDragGesture: true,
-        // 浮动按钮：快速添加新节点。
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            _showCreateNodeDialog(context);
-          },
-          tooltip: _strings.wiki_create_node,
-          child: const Icon(Icons.add),
-        ),
-      ),
-    );
-  }
-}
-
-// ---------------------------------------------------------------------------
-// GraphCanvas 占位组件
-//
-// 当 graph/graph_canvas.dart 实现完成后，替换此占位为真正的 GraphCanvas。
-// ---------------------------------------------------------------------------
-
-class _GraphCanvasPlaceholder extends StatelessWidget {
-  const _GraphCanvasPlaceholder({
-    required this.maxWidth,
-    required this.maxHeight,
-  });
-
-  final double maxWidth;
-  final double maxHeight;
-
-  @override
-  Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-    final textTheme = Theme.of(context).textTheme;
-
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(
-            Icons.hub_outlined,
-            size: 64,
-            color: colorScheme.onSurfaceVariant.withValues(alpha: 0.4),
-          ),
-          const SizedBox(height: 16),
-          Text(
-            _strings.wiki_knowledge_graph,
-            style: textTheme.titleMedium?.copyWith(
-              color: colorScheme.onSurfaceVariant,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            _strings.wiki_graph_canvas_pending,
-            style: textTheme.bodySmall?.copyWith(
-              color: colorScheme.onSurfaceVariant.withValues(alpha: 0.6),
-            ),
+    return Scaffold(
+      key: _scaffoldKey,
+      appBar: AppBar(
+        title: Text(_currentCategoryName),
+        centerTitle: true,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.account_tree_outlined),
+            tooltip: _strings.wiki_category_panel,
+            onPressed: _openCategoryPanel,
           ),
         ],
       ),
+      body: SafeArea(
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            return GraphCanvas(
+              nodes: const [
+                GraphNode(id: '1', label: 'All Knowledge', position: Offset(200, 200)),
+                GraphNode(id: '2', label: 'Notes', position: Offset(400, 150), color: Color(0xFF26A69A)),
+                GraphNode(id: '3', label: 'Study', position: Offset(400, 280), color: Color(0xFF5C6BC0)),
+                GraphNode(id: '4', label: 'Work', position: Offset(100, 350), color: Color(0xFFEF5350)),
+                GraphNode(id: '5', label: 'Ideas', position: Offset(300, 380), color: Color(0xFFFFA726)),
+              ],
+              edges: const [
+                GraphEdge(id: 'e1', sourceId: '1', targetId: '2'),
+                GraphEdge(id: 'e2', sourceId: '1', targetId: '3'),
+                GraphEdge(id: 'e3', sourceId: '1', targetId: '4'),
+                GraphEdge(id: 'e4', sourceId: '1', targetId: '5'),
+              ],
+              onNodeTap: (node) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Category: ')),
+                );
+              },
+            );
+          },
+        ),
+      ),
+      endDrawer: _CategoryDrawer(
+        categories: _categories,
+        selectedId: 'all',
+        width: drawerWidth,
+        onSelected: _onCategorySelected,
+        onManage: () => _showCategoryManager(context),
+      ),
+      endDrawerEnableOpenDragGesture: true,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          _showCreateNodeDialog(context);
+        },
+        tooltip: _strings.wiki_create_node,
+        child: const Icon(Icons.add),
+      ),
     );
   }
 }
 
 // ---------------------------------------------------------------------------
-// 类目面板（右侧 Drawer）
+// Category Panel (Right Drawer)
 // ---------------------------------------------------------------------------
 
 class _CategoryDrawer extends StatelessWidget {
@@ -286,7 +226,6 @@ class _CategoryDrawer extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // 面板标题
             Padding(
               padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
               child: Text(
@@ -297,7 +236,6 @@ class _CategoryDrawer extends StatelessWidget {
               ),
             ),
             const Divider(height: 1),
-            // 类目列表
             Expanded(
               child: ListView.builder(
                 padding: const EdgeInsets.symmetric(vertical: 8),
@@ -308,22 +246,17 @@ class _CategoryDrawer extends StatelessWidget {
                   return ListTile(
                     leading: Icon(
                       cat.icon,
-                      color: isSelected
-                          ? colorScheme.primary
-                          : colorScheme.onSurfaceVariant,
+                      color: isSelected ? colorScheme.primary : colorScheme.onSurfaceVariant,
                     ),
                     title: Text(
                       cat.name,
                       style: textTheme.bodyLarge?.copyWith(
-                        color: isSelected
-                            ? colorScheme.primary
-                            : colorScheme.onSurface,
+                        color: isSelected ? colorScheme.primary : colorScheme.onSurface,
                         fontWeight: isSelected ? FontWeight.w600 : null,
                       ),
                     ),
                     selected: isSelected,
-                    selectedTileColor:
-                        colorScheme.primaryContainer.withValues(alpha: 0.3),
+                    selectedTileColor: colorScheme.primaryContainer.withValues(alpha: 0.3),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
@@ -333,7 +266,6 @@ class _CategoryDrawer extends StatelessWidget {
               ),
             ),
             const Divider(height: 1),
-            // 底部操作
             Padding(
               padding: const EdgeInsets.all(16),
               child: OutlinedButton.icon(
@@ -353,7 +285,7 @@ class _CategoryDrawer extends StatelessWidget {
 }
 
 // ---------------------------------------------------------------------------
-// 类目数据模型（页面内部使用）
+// Category Data Model (Page Internal)
 // ---------------------------------------------------------------------------
 
 class _CategoryEntry {

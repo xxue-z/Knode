@@ -2,10 +2,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:core/models/exam.dart';
 import 'package:core/models/question.dart';
 import 'package:core/database/repositories/exam_repository.dart';
+import 'package:quiz/providers/quiz_provider.dart' show examRepositoryProvider;
 
-final examRepositoryProvider = Provider<ExamRepository>(
-  (ref) => throw UnimplementedError('请在 main.dart 中覆盖'),
-);
 
 // ── 考试列表 Provider ──────────────────────────────────────────────
 

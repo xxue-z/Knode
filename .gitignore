@@ -36,6 +36,7 @@ pubspec.lock
 *.ipa
 *.app
 /.docs
+.docs/
 
 # Temporary analysis output
 _analyze_*.txt
@@ -93,3 +94,4 @@ run_analyze.ps1
 run_tests.ps1
 test_output.json
 debug-unit-test-error.md
+/.superpowers/*

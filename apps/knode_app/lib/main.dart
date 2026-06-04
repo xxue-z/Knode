@@ -5,6 +5,7 @@ import 'app.dart';
 import 'dart:ui';
 
 import 'package:core/core.dart';
+import 'package:chat/providers/conversation_provider.dart';
 import 'package:core/services/app_logger.dart';
 import 'package:wiki/wiki.dart';
 import 'package:quiz/quiz.dart';
@@ -90,6 +91,14 @@ void main() async {
           ),
         ),
         dailyTaskDaoProvider.overrideWith((ref) => DailyTaskDao()),
+
+        // ── Chat Providers ──
+        conversationRepositoryProvider.overrideWith(
+          (ref) => ConversationRepository(
+            convDao: ConversationDao(),
+            msgDao: MessageDao(),
+          ),
+        ),
       ],
       child: const KnodeApp(),
     ),
