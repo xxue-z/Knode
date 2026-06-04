@@ -1,17 +1,11 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:logger/logger.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
 
-enum AppLogLevel {
-  verbose,
-  debug,
-  info,
-  warning,
-  error,
-  fatal,
-}
+enum AppLogLevel { verbose, debug, info, warning, error, fatal }
 
 class LogEntry {
   final DateTime timestamp;
@@ -94,37 +88,64 @@ class AppLogger {
     _logger = Logger(
       filter: _AppLogFilter(minLevel: _minLevel),
       printer: SimplePrinter(printTime: true, colors: false),
-      output: MultiOutput([
-        ConsoleOutput(),
-        _fileOutput,
-      ]),
+      output: MultiOutput([ConsoleOutput(), _fileOutput]),
     );
+
+    // 全局拦截 debugPrint，统一走 AppLogger 输出到控制台+文件
+    debugPrint = (String? message, {int? wrapWidth}) {
+      if (message == null || message.isEmpty) return;
+      _logger.d(message);
+    };
 
     await _rotateIfNeeded();
   }
 
   void v(String message, {String? tag, Object? error, StackTrace? stackTrace}) {
-    _logger.t(_formatMessage(message, tag), error: error, stackTrace: stackTrace);
+    _logger.t(
+      _formatMessage(message, tag),
+      error: error,
+      stackTrace: stackTrace,
+    );
   }
 
   void d(String message, {String? tag, Object? error, StackTrace? stackTrace}) {
-    _logger.d(_formatMessage(message, tag), error: error, stackTrace: stackTrace);
+    _logger.d(
+      _formatMessage(message, tag),
+      error: error,
+      stackTrace: stackTrace,
+    );
   }
 
   void i(String message, {String? tag, Object? error, StackTrace? stackTrace}) {
-    _logger.i(_formatMessage(message, tag), error: error, stackTrace: stackTrace);
+    _logger.i(
+      _formatMessage(message, tag),
+      error: error,
+      stackTrace: stackTrace,
+    );
   }
 
   void w(String message, {String? tag, Object? error, StackTrace? stackTrace}) {
-    _logger.w(_formatMessage(message, tag), error: error, stackTrace: stackTrace);
+    _logger.w(
+      _formatMessage(message, tag),
+      error: error,
+      stackTrace: stackTrace,
+    );
   }
 
   void e(String message, {String? tag, Object? error, StackTrace? stackTrace}) {
-    _logger.e(_formatMessage(message, tag), error: error, stackTrace: stackTrace);
+    _logger.e(
+      _formatMessage(message, tag),
+      error: error,
+      stackTrace: stackTrace,
+    );
   }
 
   void f(String message, {String? tag, Object? error, StackTrace? stackTrace}) {
-    _logger.f(_formatMessage(message, tag), error: error, stackTrace: stackTrace);
+    _logger.f(
+      _formatMessage(message, tag),
+      error: error,
+      stackTrace: stackTrace,
+    );
   }
 
   String _formatMessage(String message, String? tag) {
@@ -235,12 +256,13 @@ class _AppLogFilter extends LogFilter {
 
   @override
   bool shouldLog(LogEvent event) {
-    return event.level.index >= Level.values
-        .firstWhere(
-          (l) => l.name == minLevel.name,
-          orElse: () => Level.debug,
-        )
-        .index;
+    return event.level.index >=
+        Level.values
+            .firstWhere(
+              (l) => l.name == minLevel.name,
+              orElse: () => Level.debug,
+            )
+            .index;
   }
 }
 
@@ -260,7 +282,8 @@ class FileOutput extends LogOutput {
   void _writeToFile(String line) {
     try {
       final now = DateTime.now();
-      final fileName = 'app_${now.year}${now.month.toString().padLeft(2, '0')}${now.day.toString().padLeft(2, '0')}.log';
+      final fileName =
+          'app_${now.year}${now.month.toString().padLeft(2, '0')}${now.day.toString().padLeft(2, '0')}.log';
       final file = File('$logDirPath/$fileName');
 
       if (_currentFile?.path != file.path) {
