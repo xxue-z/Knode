@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:core/providers/theme_provider.dart';
 import 'package:quiz/gen/strings.dart';
+import 'package:quiz/theme/quiz_theme.dart';
 import '../../providers/exam_provider.dart';
 import 'exam_page.dart';
 
@@ -9,16 +11,28 @@ const _strings = L10nStringsMixin();
 /// 测验页面骨架
 ///
 /// 占位页面，后续 P3 阶段会填充测验入口卡片（每日一测、随机速记、月考等）。
-class QuizPage extends StatelessWidget {
+class QuizPage extends ConsumerWidget {
   const QuizPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(_strings.quiz_quiz),
+  Widget build(BuildContext context, WidgetRef ref) {
+    final themeMode = ref.watch(themeNotifierProvider);
+    final isDark = themeMode == ThemeMode.dark;
+    final theme = QuizTheme.of(isDark: isDark);
+
+    return Theme(
+      data: Theme.of(context).copyWith(
+        colorScheme: Theme.of(context).colorScheme.copyWith(
+          primary: theme.primaryColor,
+          surface: theme.backgroundColor,
+        ),
       ),
-      body: const _QuizBody(),
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(_strings.quiz_quiz),
+        ),
+        body: const _QuizBody(),
+      ),
     );
   }
 }

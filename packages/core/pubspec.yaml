@@ -30,6 +30,7 @@ dependencies:
   archive: ^4.0.9
   flutter_markdown_plus: ^1.0.7
   markdown: ^7.3.0
+  shared_preferences: ^2.2.0
 
 flutter:
   assets:
