@@ -5,6 +5,7 @@ import 'package:knode_app/screens/daily_card.dart';
 import 'package:knode_app/screens/quick_card.dart';
 import 'package:knode_app/screens/score_card.dart';
 import 'package:knode_app/screens/wrong_card.dart';
+import 'package:knode_app/screens/settings_page.dart';
 import 'package:knode_app/screens/theme/home_theme.dart';
 import 'package:knode_app/providers/theme_provider.dart';
 
@@ -45,6 +46,57 @@ class HomePage extends ConsumerWidget {
                   ),
                 ),
               ),
+            ),
+          ),
+        ),
+        drawer: Drawer(
+          child: SafeArea(
+            child: Column(
+              children: [
+                const SizedBox(height: 24),
+                CircleAvatar(
+                  radius: 36,
+                  backgroundColor:
+                      Theme.of(context).colorScheme.primaryContainer,
+                  child: Icon(
+                    Icons.person,
+                    size: 36,
+                    color: Theme.of(context).colorScheme.onPrimaryContainer,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                Text(
+                  'Knode User',
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                const Divider(height: 32),
+                ListTile(
+                  leading: const Icon(Icons.bookmark_border),
+                  title: Text(_strings.knode_app_favorites),
+                  onTap: () => Navigator.of(context).pop(),
+                ),
+                ListTile(
+                  leading: const Icon(Icons.history),
+                  title: Text(_strings.knode_app_browse_history),
+                  onTap: () => Navigator.of(context).pop(),
+                ),
+                ListTile(
+                  leading: const Icon(Icons.cloud_upload_outlined),
+                  title: Text(_strings.knode_app_cloud_sync),
+                  onTap: () => Navigator.of(context).pop(),
+                ),
+                const Spacer(),
+                const Divider(),
+                ListTile(
+                  leading: const Icon(Icons.settings),
+                  title: Text(_strings.knode_app_settings),
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (_) => const SettingsPage()));
+                  },
+                ),
+              ],
             ),
           ),
         ),

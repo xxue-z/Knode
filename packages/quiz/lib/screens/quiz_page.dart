@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:core/providers/theme_provider.dart';
 import 'package:quiz/gen/strings.dart';
 import 'package:quiz/theme/quiz_theme.dart';
+import 'package:knode_app/screens/settings_page.dart';
 import '../../providers/exam_provider.dart';
 import 'exam_page.dart';
 
@@ -30,6 +31,74 @@ class QuizPage extends ConsumerWidget {
       child: Scaffold(
         appBar: AppBar(
           title: Text(_strings.quiz_quiz),
+          leading: Builder(
+            builder: (context) => GestureDetector(
+              onTap: () => Scaffold.of(context).openDrawer(),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: CircleAvatar(
+                  backgroundColor:
+                      Theme.of(context).colorScheme.primaryContainer,
+                  child: Icon(
+                    Icons.person,
+                    color:
+                        Theme.of(context).colorScheme.onPrimaryContainer,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+        drawer: Drawer(
+          child: SafeArea(
+            child: Column(
+              children: [
+                const SizedBox(height: 24),
+                CircleAvatar(
+                  radius: 36,
+                  backgroundColor:
+                      Theme.of(context).colorScheme.primaryContainer,
+                  child: Icon(
+                    Icons.person,
+                    size: 36,
+                    color: Theme.of(context).colorScheme.onPrimaryContainer,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                Text(
+                  'Knode User',
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+                const Divider(height: 32),
+                ListTile(
+                  leading: const Icon(Icons.bookmark_border),
+                  title: const Text('Favorites'),
+                  onTap: () => Navigator.of(context).pop(),
+                ),
+                ListTile(
+                  leading: const Icon(Icons.history),
+                  title: const Text('History'),
+                  onTap: () => Navigator.of(context).pop(),
+                ),
+                ListTile(
+                  leading: const Icon(Icons.cloud_upload_outlined),
+                  title: const Text('Cloud Sync'),
+                  onTap: () => Navigator.of(context).pop(),
+                ),
+                const Spacer(),
+                const Divider(),
+                ListTile(
+                  leading: const Icon(Icons.settings),
+                  title: const Text('Settings'),
+                  onTap: () {
+                    Navigator.of(context).pop();
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (_) => const SettingsPage()));
+                  },
+                ),
+              ],
+            ),
+          ),
         ),
         body: const _QuizBody(),
       ),

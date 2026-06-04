@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wiki/gen/strings.dart';
 import 'package:wiki/widgets/graph_canvas.dart';
 import 'package:wiki/providers/category_provider.dart';
+import 'package:knode_app/screens/settings_page.dart';
 
 final _strings = const L10nStringsMixin();
 
@@ -143,6 +144,23 @@ class _WikiPageState extends State<WikiPage> {
       appBar: AppBar(
         title: Text(_currentCategoryName),
         centerTitle: true,
+        leading: Builder(
+          builder: (context) => GestureDetector(
+            onTap: () => Scaffold.of(context).openDrawer(),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: CircleAvatar(
+                backgroundColor:
+                    Theme.of(context).colorScheme.primaryContainer,
+                child: Icon(
+                  Icons.person,
+                  color:
+                      Theme.of(context).colorScheme.onPrimaryContainer,
+                ),
+              ),
+            ),
+          ),
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.account_tree_outlined),
@@ -150,6 +168,57 @@ class _WikiPageState extends State<WikiPage> {
             onPressed: _openCategoryPanel,
           ),
         ],
+      ),
+      drawer: Drawer(
+        child: SafeArea(
+          child: Column(
+            children: [
+              const SizedBox(height: 24),
+              CircleAvatar(
+                radius: 36,
+                backgroundColor:
+                    Theme.of(context).colorScheme.primaryContainer,
+                child: Icon(
+                  Icons.person,
+                  size: 36,
+                  color: Theme.of(context).colorScheme.onPrimaryContainer,
+                ),
+              ),
+              const SizedBox(height: 12),
+              Text(
+                'Knode User',
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+              const Divider(height: 32),
+              ListTile(
+                leading: const Icon(Icons.bookmark_border),
+                title: Text(_strings.wiki_all_knowledge),
+                onTap: () => Navigator.of(context).pop(),
+              ),
+              ListTile(
+                leading: const Icon(Icons.history),
+                title: Text(_strings.wiki_notes),
+                onTap: () => Navigator.of(context).pop(),
+              ),
+              ListTile(
+                leading: const Icon(Icons.cloud_upload_outlined),
+                title: Text(_strings.wiki_study_materials),
+                onTap: () => Navigator.of(context).pop(),
+              ),
+              const Spacer(),
+              const Divider(),
+              ListTile(
+                leading: const Icon(Icons.settings),
+                title: const Text('Settings'),
+                onTap: () {
+                  Navigator.of(context).pop();
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (_) => const SettingsPage()));
+                },
+              ),
+            ],
+          ),
+        ),
       ),
       body: SafeArea(
         child: LayoutBuilder(
