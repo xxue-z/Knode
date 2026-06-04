@@ -380,7 +380,7 @@ class GraphCanvasPainter extends CustomPainter {
 
     // Border
     final borderPaint = Paint()
-      ..color = isHighlighted ? Colors.amber : Colors.white.withOpacity(0.3)
+      ..color = isHighlighted ? Colors.amber : GraphTheme.getBorderColor(brightness)
       ..style = PaintingStyle.stroke
       ..strokeWidth = isHighlighted ? 3.0 : 1.5;
     canvas.drawCircle(center, radius, borderPaint);
@@ -414,7 +414,7 @@ class GraphCanvasPainter extends CustomPainter {
 
     // Border
     final borderPaint = Paint()
-      ..color = isHighlighted ? Colors.amber : Colors.white.withOpacity(0.3)
+      ..color = isHighlighted ? Colors.amber : GraphTheme.getBorderColor(brightness)
       ..style = PaintingStyle.stroke
       ..strokeWidth = isHighlighted ? 2.5 : 1.0;
     canvas.drawCircle(center, radius * 0.6, borderPaint);
@@ -434,10 +434,10 @@ class GraphCanvasPainter extends CustomPainter {
       text: TextSpan(
         text: node.label,
         style: TextStyle(
-          color: Colors.white,
+          color: GraphTheme.get_nodeTextColor(brightness),
           fontSize: node.fontSize,
           fontWeight: isHighlighted ? FontWeight.w700 : FontWeight.w500,
-          shadows: const [Shadow(color: Colors.black54, blurRadius: 4)],
+          shadows: [Shadow(color: GraphTheme.getLabelShadowColor(brightness), blurRadius: 4)],
         ),
       ),
       textDirection: ui.TextDirection.ltr,
@@ -462,7 +462,7 @@ class GraphCanvasPainter extends CustomPainter {
         text: TextSpan(
           text: tagText,
           style: TextStyle(
-            color: Colors.white70,
+            color: GraphTheme.getTagColor(brightness),
             fontSize: node.fontSize * 0.75,
           ),
         ),

@@ -3553,6 +3553,12 @@ abstract class L10n {
   /// **'AI 讲解失败'**
   String get wiki_ai_explanation_failed;
 
+  /// 全部文档
+  ///
+  /// In zh, this message translates to:
+  /// **'全部文档'**
+  String get wiki_all_documents;
+
   /// 全部知识
   ///
   /// In zh, this message translates to:
@@ -3955,6 +3961,12 @@ abstract class L10n {
   /// **'Markdown 源码...'**
   String get wiki_markdown_source;
 
+  /// 分钟
+  ///
+  /// In zh, this message translates to:
+  /// **'分钟'**
+  String get wiki_min;
+
   /// 移动到
   ///
   /// In zh, this message translates to:
@@ -4338,6 +4350,18 @@ abstract class L10n {
   /// In zh, this message translates to:
   /// **'目录'**
   String get wiki_toc;
+
+  /// 今天阅读
+  ///
+  /// In zh, this message translates to:
+  /// **'今天阅读'**
+  String get wiki_today_reading;
+
+  /// 总阅读
+  ///
+  /// In zh, this message translates to:
+  /// **'总阅读'**
+  String get wiki_total_reading;
 
   /// 朗读
   ///

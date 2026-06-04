@@ -1149,6 +1149,22 @@ final class L10nHelper {
         // No Placeholders
         return l10n.wiki_node_name;
       },
+      'wiki_all_documents': (source) {
+        // No Placeholders
+        return l10n.wiki_all_documents;
+      },
+      'wiki_today_reading': (source) {
+        // No Placeholders
+        return l10n.wiki_today_reading;
+      },
+      'wiki_total_reading': (source) {
+        // No Placeholders
+        return l10n.wiki_total_reading;
+      },
+      'wiki_min': (source) {
+        // No Placeholders
+        return l10n.wiki_min;
+      },
       'wiki_notes': (source) {
         // No Placeholders
         return l10n.wiki_notes;

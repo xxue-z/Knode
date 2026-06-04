@@ -1774,6 +1774,9 @@ class L10nZh extends L10n {
   String get wiki_ai_explanation_failed => 'AI 讲解失败';
 
   @override
+  String get wiki_all_documents => '全部文档';
+
+  @override
   String get wiki_all_knowledge => '全部知识';
 
   @override
@@ -1977,6 +1980,9 @@ class L10nZh extends L10n {
   String get wiki_markdown_source => 'Markdown 源码...';
 
   @override
+  String get wiki_min => '分钟';
+
+  @override
   String get wiki_move_to => '移动到';
 
   @override
@@ -2167,6 +2173,12 @@ class L10nZh extends L10n {
 
   @override
   String get wiki_toc => '目录';
+
+  @override
+  String get wiki_today_reading => '今天阅读';
+
+  @override
+  String get wiki_total_reading => '总阅读';
 
   @override
   String get wiki_tts => '朗读';

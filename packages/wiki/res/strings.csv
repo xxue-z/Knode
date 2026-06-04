@@ -146,3 +146,7 @@ reader_ask_ai,Ask AI,问问AI
 reader_full_text_search,Full Text Search,全文搜索
 reader_kb_search,Knowledge Base Search,知识库搜索
 reader_highlight_note,Highlight / Note,划重点
+all_documents,All Documents,全部文档
+today_reading,Todays Reading,今天阅读
+total_reading,Total Reading,总阅读
+min,min,分钟

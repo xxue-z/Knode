@@ -2406,6 +2406,10 @@
   "@wiki_ai_explanation_failed": {
     "description": "AI 讲解失败"
   },
+  "wiki_all_documents": "全部文档",
+  "@wiki_all_documents": {
+    "description": "全部文档"
+  },
   "wiki_all_knowledge": "全部知识",
   "@wiki_all_knowledge": {
     "description": "全部知识"
@@ -2679,6 +2683,10 @@
   "@wiki_markdown_source": {
     "description": "Markdown 源码..."
   },
+  "wiki_min": "分钟",
+  "@wiki_min": {
+    "description": "分钟"
+  },
   "wiki_move_to": "移动到",
   "@wiki_move_to": {
     "description": "移动到"
@@ -2935,6 +2943,14 @@
   "@wiki_toc": {
     "description": "目录"
   },
+  "wiki_today_reading": "今天阅读",
+  "@wiki_today_reading": {
+    "description": "今天阅读"
+  },
+  "wiki_total_reading": "总阅读",
+  "@wiki_total_reading": {
+    "description": "总阅读"
+  },
   "wiki_tts": "朗读",
   "@wiki_tts": {
     "description": "朗读"
@@ -2950,6 +2966,22 @@
   "wiki_wiki": "知识库",
   "@wiki_wiki": {
     "description": "知识库"
+  },
+  "wiki_all_documents": "全部文档",
+  "@wiki_all_documents": {
+    "description": "全部文档"
+  },
+  "wiki_min": "分钟",
+  "@wiki_min": {
+    "description": "分钟"
+  },
+  "wiki_today_reading": "今天阅读",
+  "@wiki_today_reading": {
+    "description": "今天阅读"
+  },
+  "wiki_total_reading": "总阅读",
+  "@wiki_total_reading": {
+    "description": "总阅读"
   },
   "wiki_work": "工作",
   "@wiki_work": {

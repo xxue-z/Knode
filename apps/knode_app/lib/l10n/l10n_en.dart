@@ -1824,6 +1824,9 @@ class L10nEn extends L10n {
   String get wiki_ai_explanation_failed => 'AI explanation failed';
 
   @override
+  String get wiki_all_documents => 'All Documents';
+
+  @override
   String get wiki_all_knowledge => 'All Knowledge';
 
   @override
@@ -2027,6 +2030,9 @@ class L10nEn extends L10n {
   String get wiki_markdown_source => 'Markdown source...';
 
   @override
+  String get wiki_min => 'min';
+
+  @override
   String get wiki_move_to => 'Move To';
 
   @override
@@ -2220,6 +2226,12 @@ class L10nEn extends L10n {
 
   @override
   String get wiki_toc => 'Table of Contents';
+
+  @override
+  String get wiki_today_reading => 'Todays Reading';
+
+  @override
+  String get wiki_total_reading => 'Total Reading';
 
   @override
   String get wiki_tts => 'TTS';

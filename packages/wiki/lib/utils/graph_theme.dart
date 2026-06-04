@@ -61,4 +61,45 @@ class GraphTheme {
   static Color getStarColor(Brightness brightness) {
     return brightness == Brightness.dark ? darkStarColor : lightStarColor;
   }
+
+  /// Node text color based on brightness.
+  static Color getTextColor(Brightness brightness) {
+    return brightness == Brightness.dark ? Colors.white : Colors.white;
+  }
+
+  /// Node border color based on brightness.
+  static Color getBorderColor(Brightness brightness) {
+    return brightness == Brightness.dark
+        ? Colors.white.withOpacity(0.3)
+        : Colors.black.withOpacity(0.15);
+  }
+
+  /// Node label text shadow color based on brightness.
+  static Color getLabelShadowColor(Brightness brightness) {
+    return brightness == Brightness.dark ? Colors.black54 : Colors.black26;
+  }
+
+  /// Default node fill color based on brightness.
+  static Color getDefaultNodeColor(Brightness brightness) {
+    return brightness == Brightness.dark
+        ? const Color(0xFF37474F)
+        : const Color(0xFF546E7A);
+  }
+
+  /// Default node text color (for node fill on gradient).
+  static Color get_nodeTextColor(Brightness brightness) {
+    return Colors.white;
+  }
+
+  /// Edge color based on brightness.
+  static Color getEdgeColor(Brightness brightness) {
+    return brightness == Brightness.dark
+        ? const Color(0xFF78909C)
+        : const Color(0xFF546E7A);
+  }
+
+  /// Tag text color based on brightness.
+  static Color getTagColor(Brightness brightness) {
+    return brightness == Brightness.dark ? Colors.white70 : Colors.white70;
+  }
 }

@@ -23,8 +23,8 @@ class _AppShellState extends ConsumerState<AppShell> {
   void initState() {
     super.initState();
     _pages = <Widget>[
-      const WikiPage(),
       HomePage(onNavigateToTab: _switchToTab),
+      const WikiPage(),
       const ChatPage(), // 保留但隐藏
       const QuizPage(),
     ];
@@ -49,19 +49,19 @@ class _AppShellState extends ConsumerState<AppShell> {
 
   String _getTabIdFromPageIndex(int pageIndex) {
     switch (pageIndex) {
-      case 0: return 'wiki';
-      case 1: return 'home';
+      case 0: return 'home';
+      case 1: return 'wiki';
       case 2: return 'chat';
       case 3: return 'quiz';
-      default: return 'wiki';
+      default: return 'home';
     }
   }
 
   int _getPageIndex(String tabId) {
     switch (tabId) {
-      case 'wiki':
-        return 0;
       case 'home':
+        return 0;
+      case 'wiki':
         return 1;
       case 'chat':
         return 2;
@@ -80,7 +80,7 @@ class _AppShellState extends ConsumerState<AppShell> {
     // 找到当前可见标签对应的页面索引
     final currentTabId = visibleTabs.isNotEmpty
         ? visibleTabs[_currentIndex.clamp(0, visibleTabs.length - 1)].id
-        : 'wiki';
+        : 'home';
     final pageIndex = _getPageIndex(currentTabId);
 
     return Scaffold(

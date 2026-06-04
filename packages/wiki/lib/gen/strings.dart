@@ -43,6 +43,10 @@ mixin class L10nStringsMixin {
   String get wiki_ai_explanation_failed =>
       LocalizeStringDelegate.get('wiki_ai_explanation_failed');
 
+  /// 全部文档
+  String get wiki_all_documents =>
+      LocalizeStringDelegate.get('wiki_all_documents');
+
   /// 全部知识
   String get wiki_all_knowledge =>
       LocalizeStringDelegate.get('wiki_all_knowledge');
@@ -286,6 +290,9 @@ mixin class L10nStringsMixin {
   String get wiki_markdown_source =>
       LocalizeStringDelegate.get('wiki_markdown_source');
 
+  /// 分钟
+  String get wiki_min => LocalizeStringDelegate.get('wiki_min');
+
   /// 移动到
   String get wiki_move_to => LocalizeStringDelegate.get('wiki_move_to');
 
@@ -511,6 +518,14 @@ mixin class L10nStringsMixin {
 
   /// 目录
   String get wiki_toc => LocalizeStringDelegate.get('wiki_toc');
+
+  /// 今天阅读
+  String get wiki_today_reading =>
+      LocalizeStringDelegate.get('wiki_today_reading');
+
+  /// 总阅读
+  String get wiki_total_reading =>
+      LocalizeStringDelegate.get('wiki_total_reading');
 
   /// 朗读
   String get wiki_tts => LocalizeStringDelegate.get('wiki_tts');

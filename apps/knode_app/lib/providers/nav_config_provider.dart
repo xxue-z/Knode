@@ -46,8 +46,8 @@ class NavConfigNotifier extends Notifier<NavConfig> {
   @override
   NavConfig build() => const NavConfig(
           items: [
-            NavItem(id: 'wiki', label: 'Wiki', icon: Icons.menu_book),
             NavItem(id: 'home', label: 'Home', icon: Icons.home),
+            NavItem(id: 'wiki', label: 'Wiki', icon: Icons.menu_book),
             NavItem(id: 'chat', label: 'Chat', icon: Icons.chat, isVisible: false),
             NavItem(id: 'quiz', label: 'Quiz', icon: Icons.quiz),
           ],
