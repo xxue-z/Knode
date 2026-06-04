@@ -33,8 +33,8 @@ class _WikiPageState extends ConsumerState<WikiPage>
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    // 初始加载所有文档并构建图谱
-    _loadData();
+    // 延迟加载，避免在 widget tree 构建期间修改 provider
+    Future.microtask(_loadData);
   }
 
   @override
