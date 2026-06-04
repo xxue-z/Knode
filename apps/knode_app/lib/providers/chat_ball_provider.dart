@@ -68,7 +68,11 @@ class ChatBallNotifier extends Notifier<ChatBallState> {
 
   void updatePosition(Offset position) {
     state = state.copyWith(position: position);
-    PreferencesUtil.savePosition(position.dx, position.dy);
+  }
+
+  /// 拖动结束后保存位置到持久化存储
+  void savePosition() {
+    PreferencesUtil.savePosition(state.position.dx, state.position.dy);
   }
 
   Future<void> restoreState() async {

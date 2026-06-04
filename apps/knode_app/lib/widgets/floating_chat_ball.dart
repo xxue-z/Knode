@@ -101,9 +101,15 @@ class _FloatingChatBallState extends ConsumerState<FloatingChatBall>
       screenSize.height - ballSize - bottomOffset,
     );
 
+    // 只更新内存中的位置，不保存到持久化存储
     ref.read(chatBallNotifierProvider.notifier).updatePosition(
           Offset(clampedX, clampedY),
         );
+  }
+
+  void _onPanEnd(DragEndDetails details) {
+    // 拖动结束后保存位置到持久化存储
+    ref.read(chatBallNotifierProvider.notifier).savePosition();
   }
 
   void _showChatPanel() {
@@ -145,6 +151,7 @@ class _FloatingChatBallState extends ConsumerState<FloatingChatBall>
         onLongPressStart: _onLongPressStart,
         onLongPressEnd: _onLongPressEnd,
         onPanUpdate: _onPanUpdate,
+        onPanEnd: _onPanEnd,
         child: Stack(
           children: [
             // 脉冲动画
