@@ -1,47 +1,54 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:knode_app/gen/strings.dart';
 import 'package:knode_app/screens/home_page.dart';
-import 'package:wiki/screens/wiki_page.dart';
-import 'package:chat/screens/chat_page.dart';
-import 'package:quiz/screens/quiz_page.dart';
 import 'package:knode_app/screens/settings_page.dart';
+import 'package:knode_app/providers/nav_config_provider.dart';
+import 'package:knode_app/providers/theme_provider.dart';
+import 'package:knode_app/widgets/floating_chat_ball.dart';
+import 'package:wiki/screens/wiki_page.dart';
+import 'package:quiz/screens/quiz_page.dart';
+import 'package:chat/screens/chat_page.dart';
 
 final _strings = const L10nStringsMixin();
 
 /// Root scaffold of the Knode knowledge-management app.
-///
-/// Provides a top [AppBar] with an avatar-triggered [Drawer],
-/// an [IndexedStack] for tab-page persistence, and a Material 3
-/// [BottomNavigationBar] with four destinations.
-class AppShell extends StatefulWidget {
+class AppShell extends ConsumerStatefulWidget {
   const AppShell({super.key});
 
   @override
-  State<AppShell> createState() => _AppShellState();
+  ConsumerState<AppShell> createState() => _AppShellState();
 }
 
-class _AppShellState extends State<AppShell> {
+class _AppShellState extends ConsumerState<AppShell> {
   int _currentIndex = 0;
 
-  List<String> get _tabTitles => [_strings.knode_app_home, 'Wiki', 'Chat', 'Quiz'];
-
-  static const _tabIcons = <IconData>[
-    Icons.home,
-    Icons.menu_book,
-    Icons.chat,
-    Icons.quiz,
-  ];
-
+  // 页面列表（包括隐藏的ChatPage）
   static final _pages = <Widget>[
-    const HomePage(),
     const WikiPage(),
-    const ChatPage(),
+    const HomePage(),
+    const ChatPage(), // 保留但隐藏
     const QuizPage(),
   ];
 
   void _onTabChanged(int index) {
     if (index == _currentIndex) return;
     setState(() => _currentIndex = index);
+  }
+
+  int _getPageIndex(String tabId) {
+    switch (tabId) {
+      case 'wiki':
+        return 0;
+      case 'home':
+        return 1;
+      case 'chat':
+        return 2;
+      case 'quiz':
+        return 3;
+      default:
+        return 0;
+    }
   }
 
   Drawer _buildDrawer(BuildContext context) {
@@ -88,7 +95,8 @@ class _AppShellState extends State<AppShell> {
               title: Text(_strings.knode_app_settings),
               onTap: () {
                 Navigator.of(context).pop();
-                Navigator.push(context, MaterialPageRoute(builder: (_) => const SettingsPage()));
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (_) => const SettingsPage()));
               },
             ),
           ],
@@ -99,58 +107,36 @@ class _AppShellState extends State<AppShell> {
 
   @override
   Widget build(BuildContext context) {
+    final navConfig = ref.watch(navConfigProvider);
+    final visibleTabs = navConfig.getVisibleTabs();
+
+    // 找到当前可见标签对应的页面索引
+    final currentTabId = visibleTabs.isNotEmpty
+        ? visibleTabs[_currentIndex.clamp(0, visibleTabs.length - 1)].id
+        : 'wiki';
+    final pageIndex = _getPageIndex(currentTabId);
+
     return Scaffold(
-      appBar: AppBar(
-        title: Text(_tabTitles[_currentIndex]),
-        leading: Builder(
-          builder: (context) => GestureDetector(
-            onTap: () => Scaffold.of(context).openDrawer(),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: CircleAvatar(
-                backgroundColor:
-                    Theme.of(context).colorScheme.primaryContainer,
-                child: Icon(
-                  Icons.person,
-                  color:
-                      Theme.of(context).colorScheme.onPrimaryContainer,
-                ),
-              ),
-            ),
+      body: Stack(
+        children: [
+          IndexedStack(
+            index: pageIndex,
+            children: _pages,
           ),
-        ),
+          const FloatingChatBall(),
+        ],
       ),
       drawer: _buildDrawer(context),
-      body: IndexedStack(
-        index: _currentIndex,
-        children: _pages,
-      ),
       bottomNavigationBar: NavigationBar(
-        selectedIndex: _currentIndex,
-        onDestinationSelected: _onTabChanged,
-        destinations: List.generate(
-          _tabTitles.length,
-          (i) => NavigationDestination(
-            icon: Icon(_tabIcons[i]),
-            label: _tabTitles[i],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _PlaceholderPage extends StatelessWidget {
-  const _PlaceholderPage({required this.label});
-
-  final String label;
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        label,
-        style: Theme.of(context).textTheme.headlineMedium,
+        selectedIndex: _currentIndex.clamp(0, visibleTabs.length - 1),
+        onDestinationSelected: (index) => _onTabChanged(index),
+        destinations: visibleTabs.map((tab) {
+          return NavigationDestination(
+            icon: Icon(tab.icon),
+            selectedIcon: Icon(tab.icon),
+            label: const SizedBox.shrink(), // 不显示文字
+          );
+        }).toList(),
       ),
     );
   }
