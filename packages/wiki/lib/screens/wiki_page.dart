@@ -4,7 +4,10 @@ import 'package:wiki/gen/strings.dart';
 import 'package:wiki/widgets/graph_canvas.dart';
 import 'package:wiki/widgets/graph_edge.dart' show EdgeType;
 import 'package:wiki/providers/category_provider.dart';
+import 'package:wiki/providers/document_provider.dart';
 import 'package:wiki/providers/graph_provider.dart' hide GraphNode, GraphEdge;
+import 'package:wiki/services/import_service.dart';
+import 'package:wiki/screens/editor_page.dart';
 import 'package:wiki/utils/graph_theme.dart';
 import 'package:knode_app/screens/settings_page.dart';
 
@@ -62,6 +65,145 @@ class _WikiPageState extends ConsumerState<WikiPage> {
 
   void _openCategoryPanel() {
     _scaffoldKey.currentState?.openEndDrawer();
+  }
+
+  /// Shows the create/add menu with options for new document, import, and node.
+  void _showCreateMenu(BuildContext context) {
+    showModalBottomSheet<void>(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      ),
+      builder: (ctx) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const SizedBox(height: 8),
+            Container(
+              width: 40,
+              height: 4,
+              decoration: BoxDecoration(
+                color: Colors.grey.shade300,
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+            const SizedBox(height: 16),
+            ListTile(
+              leading: const Icon(Icons.note_add_outlined),
+              title: const Text('新建文档'),
+              subtitle: const Text('创建空白 Markdown 文档'),
+              onTap: () {
+                Navigator.pop(ctx);
+                _createNewDocument(context);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.upload_file_outlined),
+              title: const Text('导入文件'),
+              subtitle: const Text('支持 PDF、Word、Markdown、TXT'),
+              onTap: () {
+                Navigator.pop(ctx);
+                _importFile(context);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.account_tree_outlined),
+              title: Text(_strings.wiki_create_node),
+              subtitle: const Text('在知识图谱中创建节点'),
+              onTap: () {
+                Navigator.pop(ctx);
+                _showCreateNodeDialog(context);
+              },
+            ),
+            const SizedBox(height: 8),
+          ],
+        ),
+      ),
+    );
+  }
+
+  /// Creates a new blank Markdown document and opens the editor.
+  Future<void> _createNewDocument(BuildContext context) async {
+    final controller = TextEditingController();
+    final result = await showDialog<String>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('新建文档'),
+        content: TextField(
+          controller: controller,
+          autofocus: true,
+          decoration: const InputDecoration(
+            hintText: '输入文档标题',
+            border: OutlineInputBorder(),
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text(_strings.wiki_cancel),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(ctx, controller.text.trim()),
+            child: Text(_strings.wiki_confirm),
+          ),
+        ],
+      ),
+    );
+
+    if (result != null && result.isNotEmpty && context.mounted) {
+      final notifier = ref.read(documentListProvider.notifier);
+      final doc = await notifier.createDocument(
+        categoryId: 1,
+        title: result,
+        initialContent: '# $result\n\n',
+      );
+      if (doc != null && context.mounted) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => EditorPage(docId: doc.id, title: doc.title),
+          ),
+        );
+      }
+    }
+  }
+
+  /// Imports a file (PDF/Word/MD/TXT) and creates a document from it.
+  Future<void> _importFile(BuildContext context) async {
+    try {
+      final service = ImportService();
+      final result = await service.pickAndImport();
+
+      if (result != null && context.mounted) {
+        final title = result['title'] ?? '导入文档';
+        final content = result['content'] ?? '';
+
+        final notifier = ref.read(documentListProvider.notifier);
+        final doc = await notifier.createDocument(
+          categoryId: 1,
+          title: title,
+          initialContent: content,
+        );
+
+        if (doc != null && context.mounted) {
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text('已导入: $title')));
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => EditorPage(docId: doc.id, title: doc.title),
+            ),
+          );
+        }
+      }
+    } catch (e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('导入失败: $e')));
+      }
+    }
   }
 
   void _showCreateNodeDialog(BuildContext context) {
@@ -394,9 +536,9 @@ class _WikiPageState extends ConsumerState<WikiPage> {
       endDrawerEnableOpenDragGesture: true,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          _showCreateNodeDialog(context);
+          _showCreateMenu(context);
         },
-        tooltip: _strings.wiki_create_node,
+        tooltip: '新建',
         child: const Icon(Icons.add),
       ),
     );
