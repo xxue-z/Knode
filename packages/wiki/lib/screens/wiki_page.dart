@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wiki/gen/strings.dart';
 import 'package:wiki/widgets/graph_canvas.dart';
+import 'package:wiki/widgets/graph_edge.dart' show EdgeType;
 import 'package:wiki/providers/category_provider.dart';
+import 'package:wiki/providers/graph_provider.dart' hide GraphNode, GraphEdge;
+import 'package:wiki/utils/graph_theme.dart';
 import 'package:knode_app/screens/settings_page.dart';
 
 final _strings = const L10nStringsMixin();
@@ -11,23 +14,43 @@ final _strings = const L10nStringsMixin();
 ///
 /// 包含 [GraphCanvas] 画布和右侧类目面板入口（EndDrawer）。
 /// 使用 Material 3 组件，响应式适配手机与平板布局。
-class WikiPage extends StatefulWidget {
+class WikiPage extends ConsumerStatefulWidget {
   const WikiPage({super.key});
 
   @override
-  State<WikiPage> createState() => _WikiPageState();
+  ConsumerState<WikiPage> createState() => _WikiPageState();
 }
 
-class _WikiPageState extends State<WikiPage> {
+class _WikiPageState extends ConsumerState<WikiPage> {
   String _currentCategoryName = _strings.wiki_all_knowledge;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   static final List<_CategoryEntry> _categories = [
-    _CategoryEntry(id: 'all', name: _strings.wiki_all_knowledge, icon: Icons.home_outlined),
-    _CategoryEntry(id: 'notes', name: _strings.wiki_notes, icon: Icons.note_outlined),
-    _CategoryEntry(id: 'study', name: _strings.wiki_study_materials, icon: Icons.menu_book_outlined),
-    _CategoryEntry(id: 'work', name: _strings.wiki_work, icon: Icons.work_outline),
-    _CategoryEntry(id: 'ideas', name: _strings.wiki_ideas, icon: Icons.lightbulb_outline),
+    _CategoryEntry(
+      id: 'all',
+      name: _strings.wiki_all_knowledge,
+      icon: Icons.home_outlined,
+    ),
+    _CategoryEntry(
+      id: 'notes',
+      name: _strings.wiki_notes,
+      icon: Icons.note_outlined,
+    ),
+    _CategoryEntry(
+      id: 'study',
+      name: _strings.wiki_study_materials,
+      icon: Icons.menu_book_outlined,
+    ),
+    _CategoryEntry(
+      id: 'work',
+      name: _strings.wiki_work,
+      icon: Icons.work_outline,
+    ),
+    _CategoryEntry(
+      id: 'ideas',
+      name: _strings.wiki_ideas,
+      icon: Icons.lightbulb_outline,
+    ),
   ];
 
   void _onCategorySelected(_CategoryEntry category) {
@@ -64,9 +87,9 @@ class _WikiPageState extends State<WikiPage> {
             onPressed: () {
               Navigator.pop(ctx);
               if (controller.text.isNotEmpty) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(': ')),
-                );
+                ScaffoldMessenger.of(
+                  context,
+                ).showSnackBar(SnackBar(content: Text(': ')));
               }
             },
             child: Text(_strings.wiki_confirm),
@@ -92,7 +115,10 @@ class _WikiPageState extends State<WikiPage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(_strings.wiki_manage_categories, style: Theme.of(context).textTheme.titleMedium),
+                  Text(
+                    _strings.wiki_manage_categories,
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
                   IconButton(
                     icon: const Icon(Icons.add),
                     onPressed: () {
@@ -119,9 +145,9 @@ class _WikiPageState extends State<WikiPage> {
                         : IconButton(
                             icon: const Icon(Icons.edit_outlined),
                             onPressed: () {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text(': ')),
-                              );
+                              ScaffoldMessenger.of(
+                                context,
+                              ).showSnackBar(SnackBar(content: Text(': ')));
                             },
                           ),
                   );
@@ -134,10 +160,134 @@ class _WikiPageState extends State<WikiPage> {
     );
   }
 
+  // Demo data used as fallback when the graph provider has no data.
+  List<GraphNode> _demoNodes() {
+    return [
+      GraphNode(
+        id: '1',
+        label: _strings.wiki_all_knowledge,
+        position: const Offset(300, 300),
+        width: 120,
+        height: 120,
+        type: NodeType.category,
+        categoryId: 0,
+        gradientColors: GraphTheme.getGradientForCategory(0),
+      ),
+      GraphNode(
+        id: '2',
+        label: _strings.wiki_notes,
+        position: const Offset(200, 400),
+        width: 80,
+        height: 80,
+        type: NodeType.category,
+        categoryId: 1,
+        gradientColors: GraphTheme.getGradientForCategory(1),
+      ),
+      GraphNode(
+        id: '3',
+        label: _strings.wiki_study_materials,
+        position: const Offset(400, 400),
+        width: 80,
+        height: 80,
+        type: NodeType.category,
+        categoryId: 2,
+        gradientColors: GraphTheme.getGradientForCategory(2),
+      ),
+      GraphNode(
+        id: '4',
+        label: _strings.wiki_work,
+        position: const Offset(200, 200),
+        width: 80,
+        height: 80,
+        type: NodeType.category,
+        categoryId: 3,
+        gradientColors: GraphTheme.getGradientForCategory(3),
+      ),
+      GraphNode(
+        id: '5',
+        label: _strings.wiki_ideas,
+        position: const Offset(400, 200),
+        width: 80,
+        height: 80,
+        type: NodeType.category,
+        categoryId: 4,
+        gradientColors: GraphTheme.getGradientForCategory(4),
+      ),
+    ];
+  }
+
+  List<GraphEdge> _demoEdges() {
+    return [
+      GraphEdge(
+        id: 'e1',
+        sourceId: '1',
+        targetId: '2',
+        type: EdgeType.reference,
+      ),
+      GraphEdge(
+        id: 'e2',
+        sourceId: '1',
+        targetId: '3',
+        type: EdgeType.reference,
+      ),
+      GraphEdge(
+        id: 'e3',
+        sourceId: '1',
+        targetId: '4',
+        type: EdgeType.reference,
+      ),
+      GraphEdge(
+        id: 'e4',
+        sourceId: '1',
+        targetId: '5',
+        type: EdgeType.reference,
+      ),
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.sizeOf(context).width;
-    final drawerWidth = screenWidth >= 600 ? screenWidth * 0.4 : screenWidth * 0.75;
+    final drawerWidth = screenWidth >= 600
+        ? screenWidth * 0.4
+        : screenWidth * 0.75;
+    final graphState = ref.watch(graphProvider);
+
+    // Use provider data when available, fall back to demo data.
+    final providerNodes = graphState.value?.nodes;
+    final providerEdges = graphState.value?.edges;
+    final nodes = providerNodes != null
+        ? providerNodes
+              .map(
+                (n) => GraphNode(
+                  id: n.id,
+                  label: n.title,
+                  position: n.position,
+                  type: n.categoryId != null
+                      ? NodeType.category
+                      : NodeType.article,
+                  categoryId: n.categoryId,
+                  gradientColors: n.categoryId != null
+                      ? GraphTheme.getGradientForCategory(n.categoryId!)
+                      : null,
+                  tags: n.tags,
+                ),
+              )
+              .toList()
+        : _demoNodes();
+    final edges = providerEdges != null
+        ? providerEdges
+              .map(
+                (e) => GraphEdge(
+                  id: '${e.sourceId}-${e.targetId}',
+                  sourceId: e.sourceId,
+                  targetId: e.targetId,
+                  type: e.type,
+                  similarity: e.similarity,
+                ),
+              )
+              .toList()
+        : _demoEdges();
 
     return Scaffold(
       key: _scaffoldKey,
@@ -150,12 +300,10 @@ class _WikiPageState extends State<WikiPage> {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: CircleAvatar(
-                backgroundColor:
-                    Theme.of(context).colorScheme.primaryContainer,
+                backgroundColor: Theme.of(context).colorScheme.primaryContainer,
                 child: Icon(
                   Icons.person,
-                  color:
-                      Theme.of(context).colorScheme.onPrimaryContainer,
+                  color: Theme.of(context).colorScheme.onPrimaryContainer,
                 ),
               ),
             ),
@@ -176,8 +324,7 @@ class _WikiPageState extends State<WikiPage> {
               const SizedBox(height: 24),
               CircleAvatar(
                 radius: 36,
-                backgroundColor:
-                    Theme.of(context).colorScheme.primaryContainer,
+                backgroundColor: Theme.of(context).colorScheme.primaryContainer,
                 child: Icon(
                   Icons.person,
                   size: 36,
@@ -212,8 +359,10 @@ class _WikiPageState extends State<WikiPage> {
                 title: const Text('Settings'),
                 onTap: () {
                   Navigator.of(context).pop();
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (_) => const SettingsPage()));
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => const SettingsPage()),
+                  );
                 },
               ),
             ],
@@ -224,68 +373,12 @@ class _WikiPageState extends State<WikiPage> {
         child: LayoutBuilder(
           builder: (context, constraints) {
             return GraphCanvas(
-              nodes: [
-                GraphNode(
-                  id: '1',
-                  label: _strings.wiki_all_knowledge,
-                  position: const Offset(300, 300),
-                  width: 120,
-                  height: 120,
-                  type: NodeType.category,
-                  categoryId: 0,
-                  gradientColors: [Color(0xFF90CAF9), Color(0xFF42A5F5), Color(0xFF1565C0)],
-                ),
-                GraphNode(
-                  id: '2',
-                  label: _strings.wiki_notes,
-                  position: const Offset(500, 200),
-                  width: 80,
-                  height: 80,
-                  type: NodeType.category,
-                  categoryId: 1,
-                  gradientColors: [Color(0xFF64B5F6), Color(0xFF1E88E5), Color(0xFF0D47A1)],
-                ),
-                GraphNode(
-                  id: '3',
-                  label: _strings.wiki_study_materials,
-                  position: const Offset(500, 400),
-                  width: 80,
-                  height: 80,
-                  type: NodeType.category,
-                  categoryId: 2,
-                  gradientColors: [Color(0xFF81C784), Color(0xFF43A047), Color(0xFF1B5E20)],
-                ),
-                GraphNode(
-                  id: '4',
-                  label: _strings.wiki_work,
-                  position: const Offset(100, 400),
-                  width: 80,
-                  height: 80,
-                  type: NodeType.category,
-                  categoryId: 3,
-                  gradientColors: [Color(0xFFCE93D8), Color(0xFF8E24AA), Color(0xFF4A148C)],
-                ),
-                GraphNode(
-                  id: '5',
-                  label: _strings.wiki_ideas,
-                  position: const Offset(100, 200),
-                  width: 80,
-                  height: 80,
-                  type: NodeType.category,
-                  categoryId: 4,
-                  gradientColors: [Color(0xFFFFB74D), Color(0xFFFB8C00), Color(0xFFE65100)],
-                ),
-              ],
-              edges: [
-                GraphEdge(id: 'e1', sourceId: '1', targetId: '2', type: EdgeType.categoryArticle),
-                GraphEdge(id: 'e2', sourceId: '1', targetId: '3', type: EdgeType.categoryArticle),
-                GraphEdge(id: 'e3', sourceId: '1', targetId: '4', type: EdgeType.categoryArticle),
-                GraphEdge(id: 'e4', sourceId: '1', targetId: '5', type: EdgeType.categoryArticle),
-              ],
+              nodes: nodes,
+              edges: edges,
               onNodeTap: (node) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('\: ')),
-                );
+                ScaffoldMessenger.of(
+                  context,
+                ).showSnackBar(SnackBar(content: Text('\: ')));
               },
             );
           },
@@ -360,17 +453,23 @@ class _CategoryDrawer extends StatelessWidget {
                   return ListTile(
                     leading: Icon(
                       cat.icon,
-                      color: isSelected ? colorScheme.primary : colorScheme.onSurfaceVariant,
+                      color: isSelected
+                          ? colorScheme.primary
+                          : colorScheme.onSurfaceVariant,
                     ),
                     title: Text(
                       cat.name,
                       style: textTheme.bodyLarge?.copyWith(
-                        color: isSelected ? colorScheme.primary : colorScheme.onSurface,
+                        color: isSelected
+                            ? colorScheme.primary
+                            : colorScheme.onSurface,
                         fontWeight: isSelected ? FontWeight.w600 : null,
                       ),
                     ),
                     selected: isSelected,
-                    selectedTileColor: colorScheme.primaryContainer.withValues(alpha: 0.3),
+                    selectedTileColor: colorScheme.primaryContainer.withValues(
+                      alpha: 0.3,
+                    ),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),

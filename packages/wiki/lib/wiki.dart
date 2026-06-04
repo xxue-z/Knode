@@ -21,10 +21,10 @@ export 'providers/tag_provider.dart';
 export 'providers/reader_provider.dart';
 
 // ── Widgets ──
-export 'widgets/graph_canvas.dart' hide GraphNode, GraphEdge, GraphController;
-export 'widgets/graph_controller.dart';
+export 'widgets/graph_canvas.dart' hide GraphNode, GraphEdge;
 export 'widgets/graph_edge.dart';
 export 'widgets/graph_node.dart';
+export 'widgets/node_label.dart';
 export 'widgets/tag_chip_list.dart';
 export 'widgets/tag_editor_dialog.dart';
 export 'widgets/markdown_reader.dart';

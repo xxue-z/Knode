@@ -1,4 +1,4 @@
-﻿import 'dart:math' as math;
+import 'dart:math' as math;
 import 'dart:ui' as ui;
 
 import 'package:flutter/foundation.dart';
@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:vector_math/vector_math_64.dart' as vm;
 import 'package:wiki/utils/graph_theme.dart';
+import 'package:wiki/widgets/graph_edge.dart' show EdgeType;
 
 // ---------------------------------------------------------------------------
 // Data Models
@@ -14,9 +15,6 @@ import 'package:wiki/utils/graph_theme.dart';
 
 /// Node type in the knowledge graph.
 enum NodeType { category, article }
-
-/// Edge type in the knowledge graph.
-enum EdgeType { categoryArticle, articleArticle }
 
 /// A minimal node in the knowledge graph.
 class GraphNode {
@@ -53,11 +51,8 @@ class GraphNode {
   final List<String> tags;
 
   /// Bounding rect in graph-space.
-  Rect get rect => Rect.fromCenter(
-        center: position,
-        width: width,
-        height: height,
-      );
+  Rect get rect =>
+      Rect.fromCenter(center: position, width: width, height: height);
 }
 
 /// An edge connecting two nodes.
@@ -71,7 +66,7 @@ class GraphEdge {
     this.arrowSize = 8.0,
     this.showArrow = true,
     this.label,
-    this.type = EdgeType.categoryArticle,
+    this.type = EdgeType.reference,
     this.similarity,
   });
 
@@ -102,6 +97,8 @@ class GraphCanvasPainter extends CustomPainter {
     this.hitAreas,
     this.brightness = Brightness.light,
     this.rotation = 0.0,
+    this.dockedNodes = const {},
+    this.dockPositions = const {},
   });
 
   final List<GraphNode> nodes;
@@ -112,18 +109,22 @@ class GraphCanvasPainter extends CustomPainter {
   final Brightness brightness;
   final double rotation;
 
+  /// Map of nodeId → whether the node is currently docked to an edge.
+  final Map<String, bool> dockedNodes;
+
+  /// Map of nodeId → screen-space position where the dock marker is drawn.
+  final Map<String, Offset> dockPositions;
+
   // Cached look-up for fast node access.
   Map<String, GraphNode> _nodeMap = {};
 
   @override
   void paint(Canvas uiCanvas, Size size) {
-    _nodeMap = {
-      for (final n in nodes) n.id: n,
-    };
+    _nodeMap = {for (final n in nodes) n.id: n};
 
     // Save layer and apply the combined transform.
     uiCanvas.save();
-    
+
     // Apply translation and scale
     final matrix4 = vm.Matrix4.compose(
       vm.Vector3(transform[3], transform[7], transform[11]),
@@ -131,7 +132,7 @@ class GraphCanvasPainter extends CustomPainter {
       vm.Vector3(transform[0], transform[5], transform[10]),
     );
     uiCanvas.transform(matrix4.storage);
-    
+
     // Apply subtle 3D perspective simulation
     if (rotation.abs() > 0.001) {
       final centerX = size.width / 2;
@@ -161,15 +162,22 @@ class GraphCanvasPainter extends CustomPainter {
       final start = source.position;
       final end = target.position;
 
-      if (edge.type == EdgeType.categoryArticle) {
+      if (edge.type == EdgeType.reference) {
         _drawSolidEdge(canvas, start, end, edge);
-      } else {
+      } else if (edge.type == EdgeType.tagSimilarity) {
         _drawDashedEdge(canvas, start, end, edge);
+      } else {
+        _drawDottedEdge(canvas, start, end, edge);
       }
     }
   }
 
-  void _drawSolidEdge(ui.Canvas canvas, Offset start, Offset end, GraphEdge edge) {
+  void _drawSolidEdge(
+    ui.Canvas canvas,
+    Offset start,
+    Offset end,
+    GraphEdge edge,
+  ) {
     final paint = Paint()
       ..color = edge.color.withOpacity(0.8)
       ..strokeWidth = edge.width
@@ -185,7 +193,12 @@ class GraphCanvasPainter extends CustomPainter {
     _drawEdgeLabel(canvas, start, end, edge);
   }
 
-  void _drawDashedEdge(ui.Canvas canvas, Offset start, Offset end, GraphEdge edge) {
+  void _drawDashedEdge(
+    ui.Canvas canvas,
+    Offset start,
+    Offset end,
+    GraphEdge edge,
+  ) {
     final dx = end.dx - start.dx;
     final dy = end.dy - start.dy;
     final distance = math.sqrt(dx * dx + dy * dy);
@@ -203,29 +216,55 @@ class GraphCanvasPainter extends CustomPainter {
     for (int i = 0; i < numDashes; i++) {
       final t1 = (i * totalLength) / distance;
       final t2 = (i * totalLength + dashLength) / distance;
-      
+
       final p1 = Offset(start.dx + dx * t1, start.dy + dy * t1);
       final p2 = Offset(start.dx + dx * t2, start.dy + dy * t2);
-      
+
       canvas.drawLine(p1, p2, paint);
     }
 
     _drawEdgeLabel(canvas, start, end, edge);
   }
 
-  void _drawEdgeLabel(ui.Canvas canvas, Offset start, Offset end, GraphEdge edge) {
+  void _drawDottedEdge(
+    ui.Canvas canvas,
+    Offset start,
+    Offset end,
+    GraphEdge edge,
+  ) {
+    final dx = end.dx - start.dx;
+    final dy = end.dy - start.dy;
+    final distance = math.sqrt(dx * dx + dy * dy);
+    final dotSpacing = 6.0;
+    final numDots = (distance / dotSpacing).floor();
+
+    final paint = Paint()
+      ..color = edge.color.withOpacity(0.6)
+      ..strokeWidth = edge.width * 0.6
+      ..style = PaintingStyle.fill
+      ..strokeCap = StrokeCap.round;
+
+    for (int i = 0; i <= numDots; i++) {
+      final t = i / numDots;
+      final p = Offset(start.dx + dx * t, start.dy + dy * t);
+      canvas.drawCircle(p, 1.5, paint);
+    }
+
+    _drawEdgeLabel(canvas, start, end, edge);
+  }
+
+  void _drawEdgeLabel(
+    ui.Canvas canvas,
+    Offset start,
+    Offset end,
+    GraphEdge edge,
+  ) {
     if (edge.label != null && edge.label!.isNotEmpty) {
-      final mid = Offset(
-        (start.dx + end.dx) / 2,
-        (start.dy + end.dy) / 2,
-      );
+      final mid = Offset((start.dx + end.dx) / 2, (start.dy + end.dy) / 2);
       final textPainter = TextPainter(
         text: TextSpan(
           text: edge.label,
-          style: TextStyle(
-            color: edge.color,
-            fontSize: 11,
-          ),
+          style: TextStyle(color: edge.color, fontSize: 11),
         ),
         textDirection: ui.TextDirection.ltr,
       )..layout();
@@ -272,14 +311,46 @@ class GraphCanvasPainter extends CustomPainter {
 
   void _drawNodes(ui.Canvas canvas) {
     for (final node in nodes) {
-      final isHighlighted = node.id == highlightedNodeId;
-      
-      if (node.type == NodeType.category) {
-        _drawCategoryNode(canvas, node, isHighlighted);
+      final isDocked = dockedNodes[node.id] == true;
+
+      if (isDocked) {
+        _drawDockMarker(canvas, node);
       } else {
-        _drawArticleNode(canvas, node, isHighlighted);
+        final isHighlighted = node.id == highlightedNodeId;
+        if (node.type == NodeType.category) {
+          _drawCategoryNode(canvas, node, isHighlighted);
+        } else {
+          _drawArticleNode(canvas, node, isHighlighted);
+        }
       }
     }
+  }
+
+  /// Draws a ） shaped arc marker for docked nodes at the screen edge.
+  void _drawDockMarker(ui.Canvas canvas, GraphNode node) {
+    final center = dockPositions[node.id] ?? node.position;
+    final color = node.gradientColors?.last ?? node.color;
+
+    // Arc shape
+    final arcPaint = ui.Paint()
+      ..color = color.withOpacity(0.7)
+      ..style = ui.PaintingStyle.stroke
+      ..strokeWidth = 2.0
+      ..strokeCap = ui.StrokeCap.round;
+
+    final path = ui.Path()
+      ..addArc(
+        Rect.fromCenter(center: center, width: 16.0, height: 24.0),
+        -math.pi / 3,
+        math.pi * 2 / 3,
+      );
+    canvas.drawPath(path, arcPaint);
+
+    // Dot next to arc
+    final dotPaint = ui.Paint()
+      ..color = color
+      ..style = ui.PaintingStyle.fill;
+    canvas.drawCircle(center + const Offset(4, 0), 2.0, dotPaint);
   }
 
   void _drawCategoryNode(ui.Canvas canvas, GraphNode node, bool isHighlighted) {
@@ -295,10 +366,12 @@ class GraphCanvasPainter extends CustomPainter {
     }
 
     // Gradient fill
-    final gradient = RadialGradient(
-      colors: node.gradientColors ?? [node.color, node.color.withOpacity(0.7)],
-      stops: const [0.0, 1.0],
-    );
+    final colors =
+        node.gradientColors ?? [node.color, node.color.withOpacity(0.7)];
+    final stops = colors.length == 1
+        ? [0.0]
+        : [for (int i = 0; i < colors.length; i++) i / (colors.length - 1)];
+    final gradient = RadialGradient(colors: colors, stops: stops);
     final paint = Paint()
       ..shader = gradient.createShader(
         Rect.fromCircle(center: center, radius: radius),
@@ -350,7 +423,12 @@ class GraphCanvasPainter extends CustomPainter {
     _drawNodeLabel(canvas, node, center, isHighlighted);
   }
 
-  void _drawNodeLabel(ui.Canvas canvas, GraphNode node, Offset center, bool isHighlighted) {
+  void _drawNodeLabel(
+    ui.Canvas canvas,
+    GraphNode node,
+    Offset center,
+    bool isHighlighted,
+  ) {
     // Main label
     final labelPainter = TextPainter(
       text: TextSpan(
@@ -359,9 +437,7 @@ class GraphCanvasPainter extends CustomPainter {
           color: Colors.white,
           fontSize: node.fontSize,
           fontWeight: isHighlighted ? FontWeight.w700 : FontWeight.w500,
-          shadows: const [
-            Shadow(color: Colors.black54, blurRadius: 4),
-          ],
+          shadows: const [Shadow(color: Colors.black54, blurRadius: 4)],
         ),
       ),
       textDirection: ui.TextDirection.ltr,
@@ -378,7 +454,10 @@ class GraphCanvasPainter extends CustomPainter {
 
     // Tags (truncated to 6-8 chars + ellipsis)
     if (node.tags.isNotEmpty) {
-      final tagText = node.tags.take(2).map((t) => t.length > 8 ? '\...' : t).join(', ');
+      final tagText = node.tags
+          .take(2)
+          .map((t) => t.length > 8 ? '\...' : t)
+          .join(', ');
       final tagPainter = TextPainter(
         text: TextSpan(
           text: tagText,
@@ -409,8 +488,11 @@ class GraphCanvasPainter extends CustomPainter {
   bool shouldRepaint(covariant GraphCanvasPainter oldDelegate) {
     return oldDelegate.transform != transform ||
         oldDelegate.highlightedNodeId != highlightedNodeId ||
+        oldDelegate.rotation != rotation ||
         !listEquals(oldDelegate.nodes, nodes) ||
-        !listEquals(oldDelegate.edges, edges);
+        !listEquals(oldDelegate.edges, edges) ||
+        !mapEquals(oldDelegate.dockedNodes, dockedNodes) ||
+        !mapEquals(oldDelegate.dockPositions, dockPositions);
   }
 }
 
@@ -421,7 +503,7 @@ class GraphCanvasPainter extends CustomPainter {
 /// Manages the pan / zoom [Matrix4] state for the graph canvas.
 class GraphController extends ChangeNotifier {
   GraphController({vm.Matrix4? initialTransform})
-      : _transform = initialTransform ?? vm.Matrix4.identity();
+    : _transform = initialTransform ?? vm.Matrix4.identity();
 
   vm.Matrix4 _transform;
   double _rotation = 0.0;
@@ -435,8 +517,7 @@ class GraphController extends ChangeNotifier {
   }
 
   void applyTranslation(double dx, double dy) {
-    _transform = _transform.clone()
-      ..translate(dx, dy);
+    _transform = _transform.clone()..translate(dx, dy);
     notifyListeners();
   }
 
@@ -514,6 +595,12 @@ class _GraphCanvasState extends State<GraphCanvas> {
   double _baseScale = 1.0;
   vm.Vector3 _baseTranslation = vm.Vector3.zero();
   Offset? _lastFocalPoint;
+  double _lastRotation = 0.0;
+
+  // Edge docking state
+  static const double _edgeThreshold = 30.0;
+  final Map<String, bool> _dockedNodes = {};
+  final Map<String, Offset> _dockPositions = {};
 
   @override
   void initState() {
@@ -567,6 +654,42 @@ class _GraphCanvasState extends State<GraphCanvas> {
   }
 
   // -----------------------------------------------------------------------
+  // Edge docking
+  // -----------------------------------------------------------------------
+
+  /// Whether [position] is within [_edgeThreshold] pixels of any screen edge.
+  bool isNearEdge(Offset position, Size screenSize) {
+    return position.dx < _edgeThreshold ||
+        position.dx > screenSize.width - _edgeThreshold ||
+        position.dy < _edgeThreshold ||
+        position.dy > screenSize.height - _edgeThreshold;
+  }
+
+  /// Clamp [position] to within [_edgeThreshold] of the screen bounds.
+  Offset getDockPosition(Offset position, Size screenSize) {
+    return Offset(
+      position.dx.clamp(_edgeThreshold, screenSize.width - _edgeThreshold),
+      position.dy.clamp(_edgeThreshold, screenSize.height - _edgeThreshold),
+    );
+  }
+
+  void _updateDockState(Offset focalPoint, Size screenSize) {
+    for (final node in widget.nodes) {
+      final nodeScreen = _controller.screenToGraph(focalPoint);
+      final nodePos = Offset(nodeScreen.x, nodeScreen.y);
+      if (isNearEdge(nodePos, screenSize)) {
+        if (!_dockedNodes.containsKey(node.id)) {
+          _dockedNodes[node.id] = true;
+          _dockPositions[node.id] = getDockPosition(nodePos, screenSize);
+        }
+      } else {
+        _dockedNodes.remove(node.id);
+        _dockPositions.remove(node.id);
+      }
+    }
+  }
+
+  // -----------------------------------------------------------------------
   // Gesture handlers
   // -----------------------------------------------------------------------
 
@@ -588,15 +711,28 @@ class _GraphCanvasState extends State<GraphCanvas> {
     } else if (details.pointerCount >= 2) {
       // Pinch-to-zoom
       final double newScale = _baseScale * details.scale;
-      final double scaleFactor = newScale / _controller.transform.getMaxScaleOnAxis();
+      final double scaleFactor =
+          newScale / _controller.transform.getMaxScaleOnAxis();
       if (scaleFactor != 1.0) {
         _controller.applyScale(scaleFactor, details.focalPoint);
       }
+
+      // Two-finger rotation
+      final double rotationDelta = details.rotation - _lastRotation;
+      if (rotationDelta.abs() > 0.001) {
+        _controller.applyRotation(rotationDelta);
+        _lastRotation = details.rotation;
+      }
+
+      // Update edge docking
+      final screenSize = MediaQuery.of(context).size;
+      _updateDockState(details.focalPoint, screenSize);
     }
   }
 
   void _onScaleEnd(ScaleEndDetails details) {
     _lastFocalPoint = null;
+    _lastRotation = 0.0;
   }
 
   void _onTapDown(TapDownDetails details) {
@@ -639,6 +775,8 @@ class _GraphCanvasState extends State<GraphCanvas> {
       highlightedNodeId: _highlightedNodeId,
       brightness: widget.brightness,
       rotation: _controller.rotation,
+      dockedNodes: _dockedNodes,
+      dockPositions: _dockPositions,
     );
 
     final bgColors = GraphTheme.getBackground(widget.brightness);
@@ -663,10 +801,7 @@ class _GraphCanvasState extends State<GraphCanvas> {
           onScaleStart: _onScaleStart,
           onScaleUpdate: _onScaleUpdate,
           onScaleEnd: _onScaleEnd,
-          child: CustomPaint(
-            painter: painter,
-            size: Size.infinite,
-          ),
+          child: CustomPaint(painter: painter, size: Size.infinite),
         ),
       ),
     );
@@ -691,6 +826,7 @@ class _StarPainter extends CustomPainter {
       canvas.drawCircle(Offset(x, y), radius, paint);
     }
   }
+
   @override
   bool shouldRepaint(covariant _StarPainter old) =>
       old.color != color || old.starCount != starCount;

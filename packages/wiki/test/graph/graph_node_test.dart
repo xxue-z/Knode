@@ -1,6 +1,7 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:wiki/widgets/graph_canvas.dart';
+import 'package:wiki/widgets/graph_edge.dart' show EdgeType;
 
 void main() {
   group('GraphNode', () {
@@ -35,11 +36,7 @@ void main() {
     });
 
     test('default node type is category', () {
-      final node = GraphNode(
-        id: '3',
-        label: 'Test',
-        position: Offset.zero,
-      );
+      final node = GraphNode(id: '3', label: 'Test', position: Offset.zero);
 
       expect(node.type, equals(NodeType.category));
       expect(node.tags, isEmpty);
@@ -61,39 +58,35 @@ void main() {
   });
 
   group('GraphEdge', () {
-    test('create category-article edge', () {
+    test('create reference edge', () {
       final edge = GraphEdge(
         id: 'e1',
         sourceId: '1',
         targetId: '2',
-        type: EdgeType.categoryArticle,
+        type: EdgeType.reference,
       );
 
-      expect(edge.type, equals(EdgeType.categoryArticle));
+      expect(edge.type, equals(EdgeType.reference));
       expect(edge.similarity, isNull);
     });
 
-    test('create article-article edge with similarity', () {
+    test('create tag-similarity edge with similarity', () {
       final edge = GraphEdge(
         id: 'e2',
         sourceId: '2',
         targetId: '3',
-        type: EdgeType.articleArticle,
+        type: EdgeType.tagSimilarity,
         similarity: 0.65,
       );
 
-      expect(edge.type, equals(EdgeType.articleArticle));
+      expect(edge.type, equals(EdgeType.tagSimilarity));
       expect(edge.similarity, equals(0.65));
     });
 
-    test('default edge type is categoryArticle', () {
-      final edge = GraphEdge(
-        id: 'e3',
-        sourceId: '1',
-        targetId: '2',
-      );
+    test('default edge type is reference', () {
+      final edge = GraphEdge(id: 'e3', sourceId: '1', targetId: '2');
 
-      expect(edge.type, equals(EdgeType.categoryArticle));
+      expect(edge.type, equals(EdgeType.reference));
       expect(edge.similarity, isNull);
     });
   });

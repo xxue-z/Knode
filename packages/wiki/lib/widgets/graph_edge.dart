@@ -109,7 +109,42 @@ class EdgeStyle {
         return categoryCluster;
     }
   }
-}// ---------------------------------------------------------------------------
+
+  /// Dynamic style for category-to-article edges using [categoryColor].
+  static EdgeStyle categoryArticle(Color categoryColor) => EdgeStyle(
+    color: categoryColor.withOpacity(0.3),
+    strokeWidth: 1.5,
+    dashPattern: [],
+  );
+
+  /// Dynamic style for article-to-article edges that varies opacity and dash
+  /// pattern based on [similarity] (0.0–1.0).
+  ///
+  /// - similarity > 0.7 → solid, opacity 0.6
+  /// - similarity > 0.5 → dashed, opacity 0.4
+  /// - otherwise        → dashed, opacity 0.2
+  static EdgeStyle articleArticle(Color color, double similarity) {
+    if (similarity > 0.7) {
+      return EdgeStyle(
+        color: color.withOpacity(0.6),
+        strokeWidth: 1.5,
+        dashPattern: [],
+      );
+    } else if (similarity > 0.5) {
+      return EdgeStyle(
+        color: color.withOpacity(0.4),
+        strokeWidth: 1.0,
+        dashPattern: [4.0, 3.0],
+      );
+    } else {
+      return EdgeStyle(
+        color: color.withOpacity(0.2),
+        strokeWidth: 1.0,
+        dashPattern: [4.0, 3.0],
+      );
+    }
+  }
+} // ---------------------------------------------------------------------------
 // Painter
 // ---------------------------------------------------------------------------
 
@@ -182,10 +217,7 @@ class GraphEdgePainter extends CustomPainter {
     final uu = u * u;
     final uuu = uu * u;
     final ttt = tt * t;
-    return p0 * uuu +
-        p1 * (3 * uu * t) +
-        p2 * (3 * u * tt) +
-        p3 * ttt;
+    return p0 * uuu + p1 * (3 * uu * t) + p2 * (3 * u * tt) + p3 * ttt;
   }
 
   @override

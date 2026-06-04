@@ -27,19 +27,23 @@ class GraphService {
       // 降级策略：tags 为空且非手动编辑时，使用分词结果。
       final tags = doc.tags.isNotEmpty
           ? doc.tags
-          : (doc.manualTags == 0 ? _fallbackTokenize(doc.contentText ?? '') : <String>[]);
+          : (doc.manualTags == 0
+                ? _fallbackTokenize(doc.contentText ?? '')
+                : <String>[]);
 
-      nodes.add(GraphResultNode(
-        id: doc.id.toString(),
-        title: doc.title,
-        summary: doc.summary,
-        categoryId: doc.categoryId,
-        position: Offset(
-          rng.nextDouble() * spread - spread / 2,
-          rng.nextDouble() * spread - spread / 2,
+      nodes.add(
+        GraphResultNode(
+          id: doc.id.toString(),
+          title: doc.title,
+          summary: doc.summary,
+          categoryId: doc.categoryId,
+          position: Offset(
+            rng.nextDouble() * spread - spread / 2,
+            rng.nextDouble() * spread - spread / 2,
+          ),
+          tags: tags,
         ),
-        tags: tags,
-      ));
+      );
     }
 
     // Build edges.
@@ -56,11 +60,7 @@ class GraphService {
     // 3) Reference edges from document.linksTo field.
     edges.addAll(computeReferenceEdges(documents));
 
-    return GraphResult(
-      nodes: nodes,
-      edges: edges,
-      isClusterMode: useCluster,
-    );
+    return GraphResult(nodes: nodes, edges: edges, isClusterMode: useCluster);
   }
 
   /// 从文档标签计算相似度连线。
@@ -75,12 +75,14 @@ class GraphService {
         final tagsB = documents[j].tags.toSet();
         final similarity = jaccardSimilarity(tagsA, tagsB);
         if (similarity > threshold) {
-          edges.add(GraphResultEdge(
-            sourceId: documents[i].id.toString(),
-            targetId: documents[j].id.toString(),
-            type: EdgeType.tagSimilarity,
-            similarity: similarity,
-          ));
+          edges.add(
+            GraphResultEdge(
+              sourceId: documents[i].id.toString(),
+              targetId: documents[j].id.toString(),
+              type: EdgeType.tagSimilarity,
+              similarity: similarity,
+            ),
+          );
         }
       }
     }
@@ -88,17 +90,17 @@ class GraphService {
   }
 
   /// 从 documents.linksTo 字段构建引用关系连线。
-  static List<GraphResultEdge> computeReferenceEdges(
-    List<Document> documents,
-  ) {
+  static List<GraphResultEdge> computeReferenceEdges(List<Document> documents) {
     final edges = <GraphResultEdge>[];
     for (final doc in documents) {
       for (final targetId in doc.linksTo) {
-        edges.add(GraphResultEdge(
-          sourceId: doc.id.toString(),
-          targetId: targetId.toString(),
-          type: EdgeType.reference,
-        ));
+        edges.add(
+          GraphResultEdge(
+            sourceId: doc.id.toString(),
+            targetId: targetId.toString(),
+            type: EdgeType.reference,
+          ),
+        );
       }
     }
     return edges;
@@ -118,11 +120,13 @@ class GraphService {
     }
     for (final group in categoryGroups.values) {
       for (int i = 0; i < group.length - 1; i++) {
-        edges.add(GraphResultEdge(
-          sourceId: group[i].id,
-          targetId: group[i + 1].id,
-          type: EdgeType.categoryCluster,
-        ));
+        edges.add(
+          GraphResultEdge(
+            sourceId: group[i].id,
+            targetId: group[i + 1].id,
+            type: EdgeType.categoryCluster,
+          ),
+        );
       }
     }
     return edges;
@@ -134,6 +138,48 @@ class GraphService {
     final intersection = a.intersection(b).length;
     final union = a.union(b).length;
     return union == 0 ? 0.0 : intersection / union;
+  }
+
+  /// Compute cross-category similarity by aggregating tags from all documents
+  /// in each category and computing Jaccard similarity.
+  static double computeCategorySimilarity(
+    List<Document> categoryA,
+    List<Document> categoryB,
+  ) {
+    final allTagsA = categoryA.expand((d) => d.tags).toSet();
+    final allTagsB = categoryB.expand((d) => d.tags).toSet();
+    return jaccardSimilarity(allTagsA, allTagsB);
+  }
+
+  /// Build a symmetric matrix of cross-category similarities.
+  ///
+  /// Returns `Map<categoryId, Map<neighborCategoryId, similarity>>`.
+  static Map<int, Map<int, double>> computeCategoryMatrix(
+    List<Document> documents,
+  ) {
+    final categoryDocs = <int, List<Document>>{};
+    for (final doc in documents) {
+      final catId = doc.categoryId;
+      if (catId == null) continue;
+      categoryDocs.putIfAbsent(catId, () => []).add(doc);
+    }
+
+    final matrix = <int, Map<int, double>>{};
+    final categoryIds = categoryDocs.keys.toList();
+
+    for (int i = 0; i < categoryIds.length; i++) {
+      matrix[categoryIds[i]] = {};
+      for (int j = i + 1; j < categoryIds.length; j++) {
+        final similarity = computeCategorySimilarity(
+          categoryDocs[categoryIds[i]]!,
+          categoryDocs[categoryIds[j]]!,
+        );
+        matrix[categoryIds[i]]![categoryIds[j]] = similarity;
+        matrix[categoryIds[j]]![categoryIds[i]] = similarity;
+      }
+    }
+
+    return matrix;
   }
 
   /// 降级分词：简单的中文/英文分词。
