@@ -138,7 +138,7 @@ class _WikiPageState extends ConsumerState<WikiPage>
       builder: (ctx) => StatefulBuilder(
         builder: (ctx, setDialogState) {
           return AlertDialog(
-            title: Text(_strings.wiki_add_document),
+            title: Text(_strings.wiki_new_document),
             content: SizedBox(
               width: double.maxFinite,
               child: Column(
@@ -659,6 +659,7 @@ class _WikiPageState extends ConsumerState<WikiPage>
 
     return Scaffold(
       key: _scaffoldKey,
+      backgroundColor: Colors.transparent,
       appBar: AppBar(
         title: Text(_getCategoryName()),
         centerTitle: true,
@@ -687,18 +688,14 @@ class _WikiPageState extends ConsumerState<WikiPage>
       ),
       drawer: _WikiDrawer(documents: ref.watch(documentListProvider).value?.documents ?? []),
       body: SafeArea(
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            return GraphCanvas(
-              nodes: nodes,
-              edges: edges,
-              brightness: Theme.of(context).brightness,
-              onNodeTap: (node) {
-                ScaffoldMessenger.of(
-                  context,
-                ).showSnackBar(SnackBar(content: Text(': ')));
-              },
-            );
+        child: GraphCanvas(
+          nodes: nodes,
+          edges: edges,
+          brightness: Theme.of(context).brightness,
+          onNodeTap: (node) {
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text(': ')));
           },
         ),
       ),

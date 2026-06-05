@@ -1,4 +1,4 @@
-import 'dart:math' as math;
+﻿import 'dart:math' as math;
 import 'dart:ui' as ui;
 
 import 'package:flutter/foundation.dart';
@@ -768,32 +768,27 @@ class _GraphCanvasState extends State<GraphCanvas> {
 
   @override
   Widget build(BuildContext context) {
+    final brightness = Theme.of(context).brightness;
     final painter = GraphCanvasPainter(
       nodes: widget.nodes,
       edges: widget.edges,
       transform: _controller.transform,
       highlightedNodeId: _highlightedNodeId,
-      brightness: widget.brightness,
+      brightness: brightness,
       rotation: _controller.rotation,
       dockedNodes: _dockedNodes,
       dockPositions: _dockPositions,
     );
 
-    final bgColors = GraphTheme.getBackground(widget.brightness);
-    final starColor = GraphTheme.getStarColor(widget.brightness);
+    final bgColors = GraphTheme.getBackground(brightness);
+    final starColor = GraphTheme.getStarColor(brightness);
+
+    final bgColor = bgColors.first;
 
     return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: widget.backgroundColor != null
-              ? [widget.backgroundColor!, widget.backgroundColor!]
-              : bgColors,
-        ),
-      ),
+      color: bgColor,
       child: CustomPaint(
-        painter: _StarPainter(color: starColor, starCount: 200),
+        painter: _StarPainter(color: starColor, starCount: 200, brightness: brightness),
         child: GestureDetector(
           behavior: HitTestBehavior.opaque,
           onTapDown: _onTapDown,
@@ -809,25 +804,144 @@ class _GraphCanvasState extends State<GraphCanvas> {
 }
 
 class _StarPainter extends CustomPainter {
-  _StarPainter({required this.color, required this.starCount});
+  _StarPainter({
+    required this.color,
+    required this.starCount,
+    required this.brightness,
+  });
   final Color color;
   final int starCount;
+  final Brightness brightness;
+
   @override
   void paint(Canvas canvas, Size size) {
     final random = math.Random(42);
-    for (int i = 0; i < starCount; i++) {
+    final isDark = brightness == Brightness.dark;
+
+    // Generate bright star positions once, share across methods
+    final brightCount = (starCount * 0.08).toInt().clamp(8, 30);
+    final brightStars = <Offset>[];
+    for (int i = 0; i < brightCount; i++) {
+      brightStars.add(Offset(
+        random.nextDouble() * size.width,
+        random.nextDouble() * size.height,
+      ));
+    }
+
+    _drawBackgroundStars(canvas, size, random);
+    _drawMidStars(canvas, size, random);
+    _drawConstellations(canvas, brightStars, isDark);
+    _drawBrightStars(canvas, brightStars, random);
+    _drawVignette(canvas, size);
+  }
+
+
+
+  void _drawBackgroundStars(Canvas canvas, Size size, math.Random random) {
+    final count = (starCount * 1.5).toInt();
+    final paint = Paint()..style = PaintingStyle.fill;
+    for (int i = 0; i < count; i++) {
       final x = random.nextDouble() * size.width;
       final y = random.nextDouble() * size.height;
-      final radius = random.nextDouble() * 1.5 + 0.5;
-      final opacity = random.nextDouble() * 0.5 + 0.3;
-      final paint = Paint()
-        ..color = color.withOpacity(opacity)
-        ..style = PaintingStyle.fill;
+      final radius = random.nextDouble() * 0.8 + 0.3;
+      final opacity = random.nextDouble() * 0.3 + 0.15;
+      paint.color = color.withOpacity(opacity);
       canvas.drawCircle(Offset(x, y), radius, paint);
     }
   }
 
+  void _drawMidStars(Canvas canvas, Size size, math.Random random) {
+    final count = (starCount * 0.4).toInt();
+    final paint = Paint()..style = PaintingStyle.fill;
+    for (int i = 0; i < count; i++) {
+      final x = random.nextDouble() * size.width;
+      final y = random.nextDouble() * size.height;
+      final radius = random.nextDouble() * 1.0 + 0.8;
+      final opacity = random.nextDouble() * 0.35 + 0.35;
+      paint.color = color.withOpacity(opacity);
+      canvas.drawCircle(Offset(x, y), radius, paint);
+    }
+  }
+
+  /// Draw faint constellation-like lines between nearby bright stars.
+  void _drawConstellations(Canvas canvas, List<Offset> brightStars, bool isDark) {
+    if (brightStars.length < 3) return;
+
+    // Connect stars that are within a distance threshold
+    final maxDist = 180.0;
+    final lineOpacity = isDark ? 0.08 : 0.12;
+    final linePaint = Paint()
+      ..color = color.withOpacity(lineOpacity)
+      ..strokeWidth = 0.6
+      ..style = PaintingStyle.stroke;
+
+    for (int i = 0; i < brightStars.length; i++) {
+      // Connect each star to its 1-2 nearest neighbors only
+      final distances = <MapEntry<int, double>>[];
+      for (int j = i + 1; j < brightStars.length; j++) {
+        final d = (brightStars[i] - brightStars[j]).distance;
+        if (d < maxDist) {
+          distances.add(MapEntry(j, d));
+        }
+      }
+      distances.sort((a, b) => a.value.compareTo(b.value));
+
+      // Connect to at most 2 nearest neighbors
+      final connectCount = distances.length.clamp(0, 2);
+      for (int k = 0; k < connectCount; k++) {
+        final j = distances[k].key;
+        canvas.drawLine(brightStars[i], brightStars[j], linePaint);
+      }
+    }
+  }
+
+  void _drawBrightStars(Canvas canvas, List<Offset> brightStars, math.Random random) {
+    final paint = Paint()..style = PaintingStyle.fill;
+    final glowPaint = Paint()..style = PaintingStyle.fill;
+
+    for (int i = 0; i < brightStars.length; i++) {
+      final center = brightStars[i];
+      final coreRadius = random.nextDouble() * 1.2 + 1.5;
+      final glowRadius = coreRadius * (3.0 + random.nextDouble() * 2.0);
+
+      // Soft glow halo
+      glowPaint.shader = ui.Gradient.radial(
+        center,
+        glowRadius,
+        [
+          color.withOpacity(0.35),
+          color.withOpacity(0.0),
+        ],
+        [0.0, 1.0],
+      );
+      canvas.drawCircle(center, glowRadius, glowPaint);
+
+      // Bright core
+      paint.color = color.withOpacity(0.85);
+      canvas.drawCircle(center, coreRadius, paint);
+    }
+  }
+
+  void _drawVignette(Canvas canvas, Size size) {
+    final center = Offset(size.width / 2, size.height / 2);
+    final radius = size.shortestSide * 0.75;
+    final vignettePaint = Paint()
+      ..shader = ui.Gradient.radial(
+        center,
+        radius,
+        [
+          const Color(0x00000000),
+          const Color(0x0A000000),
+        ],
+        [0.5, 1.0],
+      );
+    canvas.drawRect(
+      Rect.fromLTWH(0, 0, size.width, size.height),
+      vignettePaint,
+    );
+  }
+
   @override
   bool shouldRepaint(covariant _StarPainter old) =>
-      old.color != color || old.starCount != starCount;
+      old.color != color || old.starCount != starCount || old.brightness != brightness;
 }
