@@ -107,14 +107,14 @@ class _SettingsTile extends StatelessWidget {
   final String title;
   final String subtitle;
   final VoidCallback? onTap;
-  const _SettingsTile({required this.icon, required this.title, required this.subtitle, this.onTap});
+  const _SettingsTile({required this.icon, required this.title, this.subtitle = '', this.onTap});
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       leading: Icon(icon),
       title: Text(title),
-      subtitle: Text(subtitle),
+      subtitle: subtitle.isNotEmpty ? Text(subtitle) : null,
       trailing: const Icon(Icons.chevron_right),
       onTap: onTap,
     );
