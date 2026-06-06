@@ -53,7 +53,7 @@ class _ChatPanelState extends ConsumerState<ChatPanel> {
         height: panelHeight,
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.surface,
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+          borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withValues(alpha: 0.2),
@@ -109,7 +109,7 @@ class _ChatPanelState extends ConsumerState<ChatPanel> {
             // 消息列表区域
             const Expanded(
               child: Center(
-                child: Text('消息列表区域'),
+                child: SizedBox.shrink(),
               ),
             ),
             // 输入区域

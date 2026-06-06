@@ -1,144 +1,127 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:chat/gen/strings.dart';
-import 'package:chat/screens/archive_dialog.dart';
+import 'package:chat/providers/chat_provider.dart';
+import 'package:chat/screens/chat_drawer.dart';
 import 'package:chat/screens/message_input.dart';
+import 'package:chat/screens/message_bubble.dart';
+import 'package:core/models/conversation.dart';
+import 'package:core/providers/settings_provider.dart';
+import 'package:core/extensions/riverpod_compat.dart';
+
 
 const _strings = L10nStringsMixin();
 
-/// Chat page skeleton for P2 implementation.
-///
-/// Currently a placeholder that reserves space for:
-/// - Message list area (scrollable)
-/// - Message input bar at the bottom
-/// Future P2 work will populate these with conversation UI, message bubbles,
-/// and a functional text/voice input field.
-class ChatPage extends StatelessWidget {
+class ChatPage extends ConsumerStatefulWidget {
   const ChatPage({super.key});
 
-  void _showConversationMenu(BuildContext context) {
-    showModalBottomSheet<void>(
-      context: context,
-      builder: (_) => SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ListTile(
-              leading: const Icon(Icons.history),
-              title: Text(_strings.chat_history_sessions),
-              onTap: () {
-                Navigator.pop(context);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(_strings.chat_history_sessions)),
-                );
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.archive_outlined),
-              title: Text(_strings.chat_archive),
-              onTap: () {
-                Navigator.pop(context);
-                showDialog<bool>(
-                  context: context,
-                  builder: (_) => ArchiveDialog(
-                    conversationId: 0,
-                    conversationTitle: _strings.chat_current_session,
-                    messages: [],
-                    categories: [],
-                  ),
-                );
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.delete_outline),
-              title: Text(_strings.chat_clear_history),
-              onTap: () {
-                Navigator.pop(context);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(_strings.chat_clear_history)),
-                );
-              },
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
   @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final isWide = constraints.maxWidth >= 600;
-        final horizontalPadding = isWide ? constraints.maxWidth * 0.1 : 0.0;
-
-        return Scaffold(
-          appBar: AppBar(
-            title: Text(_strings.chat_ai_assistant),
-            centerTitle: true,
-            actions: [
-              IconButton(
-                icon: const Icon(Icons.more_vert),
-                onPressed: () => _showConversationMenu(context),
-              ),
-            ],
-          ),
-          body: Padding(
-            padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
-            child: Column(
-              children: [
-                // --- Message list area ---
-                const Expanded(
-                  child: _MessageListPlaceholder(),
-                ),
-                // --- Input bar area ---
-                MessageInput(
-                  onSend: (text) {
-                    // TODO: 发送消息到 ChatNotifier
-                  },
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
+  ConsumerState<ChatPage> createState() => _ChatPageState();
 }
 
-/// Placeholder widget for the scrollable message list.
-///
-/// Will be replaced by a [ListView] of message bubbles in P2.
-class _MessageListPlaceholder extends StatelessWidget {
-  const _MessageListPlaceholder();
+class _ChatPageState extends ConsumerState<ChatPage> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  Conversation? _currentConversation;
 
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(
-            Icons.chat_bubble_outline,
-            size: 64,
-            color: Theme.of(context).colorScheme.onSurfaceVariant,
+  void _openDrawer() {
+    _scaffoldKey.currentState?.openEndDrawer();
+  }
+
+  void _loadConversation(Conversation conv) {
+    setState(() => _currentConversation = conv);
+    ref.read(chatProvider.notifier).loadConversation(conv.id);
+  }
+
+  bool _isModelConfigured() {
+    final settings = ref.read(settingsProvider).valueOrNull ?? {};
+    final aiType = settings['ai_type'] ?? 'cloud';
+    if (aiType == 'cloud') {
+      final apiKey = settings['cloud_api_key'] ?? '';
+      return apiKey.isNotEmpty;
+    } else {
+      final localModel = settings['local_model_id'] ?? '';
+      return localModel.isNotEmpty;
+    }
+  }
+
+  void _showModelConfigGuide() {
+    showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('模型未配置'),
+        content: const Text('请先在设置中配置AI模型（云端API或本地模型），然后才能开始对话。'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('取消'),
           ),
-          const SizedBox(height: 16),
-          Text(
-            _strings.chat_no_conversations_yet,
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
-                ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            _strings.chat_start_conversation_hint,
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
-                ),
+          FilledButton(
+            onPressed: () {
+              Navigator.pop(ctx);
+              Navigator.push(context, MaterialPageRoute(builder: (_) => const Scaffold(body: Center(child: Text('请在设置中配置AI模型')))));
+            },
+            child: const Text('去配置'),
           ),
         ],
       ),
     );
   }
+
+  @override
+  Widget build(BuildContext context) {
+    final chatState = ref.watch(chatProvider);
+
+    return Scaffold(
+      key: _scaffoldKey,
+      endDrawer: ChatDrawer(
+        onConversationSelected: _loadConversation,
+      ),
+      appBar: AppBar(
+        title: Text(_currentConversation?.title ?? _strings.chat_ai_assistant),
+        centerTitle: true,
+        actions: [
+          IconButton(icon: const Icon(Icons.menu), onPressed: _openDrawer),
+        ],
+      ),
+      body: Column(children: [
+        Expanded(
+          child: chatState.messages.isEmpty
+              ? _MessageListPlaceholder()
+              : ListView.builder(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  itemCount: chatState.messages.length,
+                  itemBuilder: (context, index) {
+                    final msg = chatState.messages[index];
+                    return MessageBubble(message: msg);
+                  },
+                ),
+        ),
+        if (chatState.isLoading) const LinearProgressIndicator(),
+        MessageInput(
+          onSend: (text) {
+            if (!_isModelConfigured()) {
+              _showModelConfigGuide();
+              return;
+            }
+            ref.read(chatProvider.notifier).sendMessage(text);
+          },
+        ),
+      ]),
+    );
+  }
 }
 
+class _MessageListPlaceholder extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(mainAxisSize: MainAxisSize.min, children: [
+        Icon(Icons.chat_bubble_outline, size: 64, color: Theme.of(context).colorScheme.onSurfaceVariant),
+        const SizedBox(height: 16),
+        Text(_strings.chat_no_conversations_yet, style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant)),
+        const SizedBox(height: 8),
+        Text(_strings.chat_start_conversation_hint, style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant)),
+      ]),
+    );
+  }
+}
