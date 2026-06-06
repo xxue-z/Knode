@@ -64,7 +64,7 @@ class _ChatPageState extends ConsumerState<ChatPage> {
             ref.read(chatProvider.notifier).sendMessage(text);
           },
         ),
-      ],
+      ]),
     );
   }
 }

@@ -70,10 +70,10 @@ class _ChatDrawerState extends ConsumerState<ChatDrawer> {
     final convRepo = ref.read(conversationRepositoryProvider);
     final messages = await convRepo.getMessages(conv.id);
     final messageMaps = messages.map((m) => {'role': m.role, 'content': m.content}).toList();
-    final categories = ref.read(categoryListProvider);
+    final categoriesAsync = ref.read(categoryListProvider);
     if (!mounted) return;
     final result = await showDialog<Map<String, dynamic>>(context: context, builder: (_) => ArchiveDialog(
-      conversationId: conv.id, conversationTitle: conv.title, messages: messageMaps, categories: categories,
+      conversationId: conv.id, conversationTitle: conv.title, messages: messageMaps, categories: categoriesAsync.value?.allCategories ?? [],
     ));
     if (result != null && mounted) {
       try {
