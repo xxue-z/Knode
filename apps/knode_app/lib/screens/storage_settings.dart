@@ -47,7 +47,7 @@ class _StorageSettingsPageState extends ConsumerState<StorageSettingsPage> {
       _currentPath = savedPath;
     } else {
       final dir = await getApplicationDocumentsDirectory();
-      _currentPath = '${dir.path}' + '/knode_wiki';
+      _currentPath = '${dir.path}/knode_wiki';
     }
     setState(() => _isLoading = false);
   }
@@ -66,7 +66,7 @@ class _StorageSettingsPageState extends ConsumerState<StorageSettingsPage> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(${_strings.knode_app_clear_cache_failed} + ': ' + ${e}),
+            content: Text('${_strings.knode_app_clear_cache_failed}: $e'),
             backgroundColor: Colors.red,
           ),
         );
@@ -89,7 +89,7 @@ class _StorageSettingsPageState extends ConsumerState<StorageSettingsPage> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(${_strings.knode_app_clear_resources_failed} + ': ' + ${e}),
+            content: Text('${_strings.knode_app_clear_resources_failed}: $e'),
             backgroundColor: Colors.red,
           ),
         );
@@ -157,7 +157,7 @@ class _StorageSettingsPageState extends ConsumerState<StorageSettingsPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(_strings.knode_app_storage_overview,
-            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600));
+            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
         const SizedBox(height: 12),
         ClipRRect(
           borderRadius: BorderRadius.circular(6),
@@ -168,7 +168,7 @@ class _StorageSettingsPageState extends ConsumerState<StorageSettingsPage> {
                 Expanded(
                   flex: (appFraction * 1000).toInt().clamp(1, 1000),
                   child: Tooltip(
-                    message: ${_strings.knode_app_this_app_used} + ': ' + ${_appUsedGB.toStringAsFixed(1)} + ' GB',
+                    message: _strings.knode_app_this_app_used + ': ' + _appUsedGB.toStringAsFixed(1) + ' GB',
                     child: Container(
                       color: colorScheme.primary,
                       alignment: Alignment.center,
@@ -181,7 +181,7 @@ class _StorageSettingsPageState extends ConsumerState<StorageSettingsPage> {
                 Expanded(
                   flex: (otherFraction * 1000).toInt().clamp(1, 1000),
                   child: Tooltip(
-                    message: ${_strings.knode_app_other_apps_used} + ': ' + ${_otherAppsUsedGB.toStringAsFixed(0)} + ' GB',
+                    message: _strings.knode_app_other_apps_used + ': ' + _otherAppsUsedGB.toStringAsFixed(0) + ' GB',
                     child: Container(
                       color: colorScheme.secondary,
                       alignment: Alignment.center,
@@ -194,7 +194,7 @@ class _StorageSettingsPageState extends ConsumerState<StorageSettingsPage> {
                 Expanded(
                   flex: (remainFraction * 1000).toInt().clamp(1, 1000),
                   child: Tooltip(
-                    message: ${_strings.knode_app_free_space} + ': ' + ${_remainingGB.toStringAsFixed(1)} + ' GB',
+                    message: _strings.knode_app_free_space + ': ' + _remainingGB.toStringAsFixed(1) + ' GB',
                     child: Container(
                       color: colorScheme.surfaceContainerHighest,
                       alignment: Alignment.center,
@@ -218,7 +218,7 @@ class _StorageSettingsPageState extends ConsumerState<StorageSettingsPage> {
           const SizedBox(width: 12),
           _legendDot(colorScheme.surfaceContainerHighest), const SizedBox(width: 4),
           Text(_strings.knode_app_free_space, style: const TextStyle(fontSize: 11)),
-        ]);
+        ]),
       ],
     );
   }
@@ -234,8 +234,8 @@ class _StorageSettingsPageState extends ConsumerState<StorageSettingsPage> {
         child: Row(children: [
           Icon(Icons.storage_outlined, size: 20, color: colorScheme.primary),
           const SizedBox(width: 12),
-          Text(${_strings.knode_app_knode_used} + ': ', style: const TextStyle(fontSize: 14)),
-          Text(${(_knodeUsedMB / 1024).toStringAsFixed(1)} + ' GB',
+          Text(_strings.knode_app_knode_used + ': ', style: const TextStyle(fontSize: 14)),
+          Text((_knodeUsedMB / 1024).toStringAsFixed(1) + ' GB',
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: colorScheme.primary)),
           const SizedBox(width: 12),
           Container(
@@ -259,8 +259,8 @@ class _StorageSettingsPageState extends ConsumerState<StorageSettingsPage> {
     required bool isClearing,
   }) {
     final sizeText = sizeMB >= 1024
-        ? ${(sizeMB / 1024).toStringAsFixed(1)} + ' GB'
-        : ${sizeMB.toStringAsFixed(0)} + ' MB';
+        ? (sizeMB / 1024).toStringAsFixed(1) + ' GB'
+        : sizeMB.toStringAsFixed(0) + ' MB';
     return Card(
       margin: const EdgeInsets.only(bottom: 12),
       child: Padding(
