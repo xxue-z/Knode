@@ -109,7 +109,7 @@ class _ChatPanelState extends ConsumerState<ChatPanel> {
             // 消息列表区域
             const Expanded(
               child: Center(
-                child: Text('消息列表区域'),
+                child: SizedBox.shrink(),
               ),
             ),
             // 输入区域
