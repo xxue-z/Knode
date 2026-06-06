@@ -4575,4 +4575,55 @@ L10n lookupL10n(Locale locale) {
     'on GitHub with a reproducible sample app and the gen-l10n configuration '
     'that was used.',
   );
+  /// 缓存
+  String get knode_app_cache => '';
+
+  /// 缓存是使用过程中产生的临时数据，清理缓存不影响app使用
+  String get knode_app_cache_description => '';
+
+  /// 缓存已清理
+  String get knode_app_cache_cleared => '';
+
+  /// 清理缓存失败
+  String get knode_app_clear_cache_failed => '';
+
+  /// 清理
+  String get knode_app_clean => '';
+
+  /// 资源文件
+  String get knode_app_resource_files => '';
+
+  /// 包含app运行时所需要的资源文件
+  String get knode_app_resource_files_description => '';
+
+  /// 资源文件已清理
+  String get knode_app_resources_cleared => '';
+
+  /// 清理资源文件失败
+  String get knode_app_clear_resources_failed => '';
+
+  /// 必要文件
+  String get knode_app_essential_files => '';
+
+  /// app运行的必要文件,不能清理
+  String get knode_app_essential_files_description => '';
+
+  /// 存储空间
+  String get knode_app_storage_overview => '';
+
+  /// 本App已用
+  String get knode_app_this_app_used => '';
+
+  /// 其他App已用
+  String get knode_app_other_apps_used => '';
+
+  /// 剩余空间
+  String get knode_app_free_space => '';
+
+  /// Knode已用空间
+  String get knode_app_knode_used => '';
+
+  /// 占手机{percent}%存储空间
+  String knode_app_storage_percentage({required String percent}) => '';
+
 }
