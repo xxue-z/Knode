@@ -52,13 +52,13 @@ class _WikiPageState extends ConsumerState<WikiPage>
   }
 
   Future<void> _loadData() async {
-    final docNotifier = ref.read(documentListProvider.notifier);
-    await docNotifier.build();
-    final docState = ref.read(documentListProvider).value;
-    if (docState != null && docState.documents.isNotEmpty) {
-      final graphNotifier = ref.read(graphProvider.notifier);
-      graphNotifier.buildGraphFromDocs(docState.documents);
-    }
+    // 直接从仓库读取最新文档列表，绕过 provider 缓存
+    final repo = ref.read(documentRepositoryProvider);
+    final docs = await repo.getAll();
+    // 刷新文档列表 provider（异步，不等待）
+    ref.read(documentListProvider.notifier).filterByCategory(null);
+    // 用最新数据构建图谱
+    ref.read(graphProvider.notifier).buildGraphFromDocs(docs);
   }
 
 
