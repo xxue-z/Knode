@@ -627,7 +627,17 @@ class L10nEn extends L10n {
   String get knode_app_backup_settings => 'Backup Settings';
 
   @override
+  String get knode_app_backup_type_local => 'Local';
+
+  @override
+  String get knode_app_backup_type_webdav => 'WebDAV';
+
+  @override
   String get knode_app_based_on_recent => 'Based on recent reading';
+
+  @override
+  String get knode_app_both_not_configured =>
+      'No backup target configured, please configure WebDAV or local backup';
 
   @override
   String get knode_app_bottom_navigation => 'Bottom Navigation';
@@ -862,10 +872,39 @@ class L10nEn extends L10n {
   String get knode_app_loading => 'Loading...';
 
   @override
+  String get knode_app_local_backup => 'Local Backup';
+
+  @override
+  String get knode_app_local_backup_config_needed =>
+      'Please configure local backup directory';
+
+  @override
+  String knode_app_local_backup_last_backup(String time) {
+    return 'Local Last Backup: $time';
+  }
+
+  @override
+  String get knode_app_local_backup_not_configured =>
+      'Local backup not configured';
+
+  @override
+  String get knode_app_local_backup_path => 'Local Backup Path';
+
+  @override
+  String get knode_app_local_backup_path_subtitle =>
+      'Select directory for local backups';
+
+  @override
+  String get knode_app_local_backup_subtitle => 'Backup to local storage';
+
+  @override
   String get knode_app_local_model => 'Local Model';
 
   @override
   String get knode_app_local_model_label => 'Local Model';
+
+  @override
+  String get knode_app_local_restore => 'Local Restore';
 
   @override
   String get knode_app_log_all => 'All';
@@ -992,10 +1031,16 @@ class L10nEn extends L10n {
   String get knode_app_no_key_hint => 'Don\'t have a Key? Click to get one';
 
   @override
+  String get knode_app_no_local_backup => 'No local backup available';
+
+  @override
   String get knode_app_no_models => 'No models';
 
   @override
   String get knode_app_no_templates => 'No templates';
+
+  @override
+  String get knode_app_no_webdav_backup => 'No WebDAV backup available';
 
   @override
   String get knode_app_no_wrong_cards => 'No wrong cards yet';
@@ -1166,6 +1211,9 @@ class L10nEn extends L10n {
   String get knode_app_search_api_key => 'Search API Key';
 
   @override
+  String get knode_app_select_restore_source => 'Select Restore Source';
+
+  @override
   String get knode_app_select_restore_version => 'Select Restore Version';
 
   @override
@@ -1303,7 +1351,18 @@ class L10nEn extends L10n {
   String get knode_app_webdav => 'WebDAV';
 
   @override
+  String knode_app_webdav_last_backup(String time) {
+    return 'WebDAV Last Backup: $time';
+  }
+
+  @override
   String get knode_app_webdav_not_configured => 'WebDAV not configured';
+
+  @override
+  String get knode_app_webdav_restore => 'WebDAV Restore';
+
+  @override
+  String get knode_app_webdav_server => 'WebDAV Server';
 
   @override
   String get knode_app_webdav_subtitle => 'WebDAV / Local Backup';
@@ -1905,6 +1964,9 @@ class L10nEn extends L10n {
 
   @override
   String get wiki_document => 'Document';
+
+  @override
+  String get wiki_document_name => 'Document Name';
 
   @override
   String get wiki_document_title => 'Document Title';

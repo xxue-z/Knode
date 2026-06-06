@@ -37,7 +37,7 @@ class SettingsPage extends ConsumerWidget {
               onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const PromptManagementScreen())),
             ),
           ]),
-          _Section(title: _strings.knode_app_backup_settings, children: [
+          _Section(title: _strings.knode_app_storage_settings, children: [
             _SettingsTile(
               icon: Icons.backup_outlined,
               title: _strings.knode_app_backup_settings,

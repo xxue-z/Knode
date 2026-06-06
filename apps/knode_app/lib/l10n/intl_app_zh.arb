@@ -815,6 +815,14 @@
   "@knode_app_backup_settings": {
     "description": "备份设置"
   },
+  "knode_app_backup_type_local": "本地",
+  "@knode_app_backup_type_local": {
+    "description": "本地"
+  },
+  "knode_app_backup_type_webdav": "WebDAV",
+  "@knode_app_backup_type_webdav": {
+    "description": "WebDAV"
+  },
   "knode_app_based_on_recent": "基于最近阅读文件出题",
   "@knode_app_based_on_recent": {
     "description": "基于最近阅读文件出题"
@@ -1780,6 +1788,10 @@
   "knode_app_webdav_restore": "WebDAV 恢复",
   "@knode_app_webdav_restore": {
     "description": "WebDAV 恢复"
+  },
+  "knode_app_webdav_server": "WebDAV 服务器",
+  "@knode_app_webdav_server": {
+    "description": "WebDAV 服务器"
   },
   "knode_app_webdav_subtitle": "WebDAV / 本地备份",
   "@knode_app_webdav_subtitle": {

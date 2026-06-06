@@ -612,7 +612,16 @@ class L10nZh extends L10n {
   String get knode_app_backup_settings => '备份设置';
 
   @override
+  String get knode_app_backup_type_local => '本地';
+
+  @override
+  String get knode_app_backup_type_webdav => 'WebDAV';
+
+  @override
   String get knode_app_based_on_recent => '基于最近阅读文件出题';
+
+  @override
+  String get knode_app_both_not_configured => '未配置备份目标，请配置 WebDAV 或本地备份';
 
   @override
   String get knode_app_bottom_navigation => '底部导航';
@@ -840,10 +849,36 @@ class L10nZh extends L10n {
   String get knode_app_loading => '加载中...';
 
   @override
+  String get knode_app_local_backup => '本地备份';
+
+  @override
+  String get knode_app_local_backup_config_needed => '请配置本地备份目录';
+
+  @override
+  String knode_app_local_backup_last_backup(String time) {
+    return '本地上次备份: $time';
+  }
+
+  @override
+  String get knode_app_local_backup_not_configured => '未配置本地备份';
+
+  @override
+  String get knode_app_local_backup_path => '本地备份路径';
+
+  @override
+  String get knode_app_local_backup_path_subtitle => '选择本地备份目录';
+
+  @override
+  String get knode_app_local_backup_subtitle => '备份到本地存储';
+
+  @override
   String get knode_app_local_model => '本地模型';
 
   @override
   String get knode_app_local_model_label => '本地模型';
+
+  @override
+  String get knode_app_local_restore => '本地恢复';
 
   @override
   String get knode_app_log_all => '全部';
@@ -969,10 +1004,16 @@ class L10nZh extends L10n {
   String get knode_app_no_key_hint => '还没有 Key？点击获取';
 
   @override
+  String get knode_app_no_local_backup => '无可用本地备份';
+
+  @override
   String get knode_app_no_models => '暂无模型';
 
   @override
   String get knode_app_no_templates => '暂无模板';
+
+  @override
+  String get knode_app_no_webdav_backup => '无可用 WebDAV 备份';
 
   @override
   String get knode_app_no_wrong_cards => '暂无错题';
@@ -1136,6 +1177,9 @@ class L10nZh extends L10n {
   String get knode_app_search_api_key => '搜索 API Key';
 
   @override
+  String get knode_app_select_restore_source => '选择恢复来源';
+
+  @override
   String get knode_app_select_restore_version => '选择恢复版本';
 
   @override
@@ -1266,7 +1310,18 @@ class L10nZh extends L10n {
   String get knode_app_webdav => 'WebDAV';
 
   @override
+  String knode_app_webdav_last_backup(String time) {
+    return 'WebDAV 上次备份: $time';
+  }
+
+  @override
   String get knode_app_webdav_not_configured => 'WebDAV 未配置';
+
+  @override
+  String get knode_app_webdav_restore => 'WebDAV 恢复';
+
+  @override
+  String get knode_app_webdav_server => 'WebDAV 服务器';
 
   @override
   String get knode_app_webdav_subtitle => 'WebDAV / 本地备份';
@@ -1855,6 +1910,9 @@ class L10nZh extends L10n {
 
   @override
   String get wiki_document => '文档';
+
+  @override
+  String get wiki_document_name => '文档名称';
 
   @override
   String get wiki_document_title => '文档标题';

@@ -106,6 +106,14 @@ mixin class L10nStringsMixin {
   String get knode_app_backup_settings =>
       LocalizeStringDelegate.get('knode_app_backup_settings');
 
+  /// 本地
+  String get knode_app_backup_type_local =>
+      LocalizeStringDelegate.get('knode_app_backup_type_local');
+
+  /// WebDAV
+  String get knode_app_backup_type_webdav =>
+      LocalizeStringDelegate.get('knode_app_backup_type_webdav');
+
   /// 基于最近阅读文件出题
   String get knode_app_based_on_recent =>
       LocalizeStringDelegate.get('knode_app_based_on_recent');
@@ -1015,6 +1023,10 @@ mixin class L10nStringsMixin {
   /// WebDAV 恢复
   String get knode_app_webdav_restore =>
       LocalizeStringDelegate.get('knode_app_webdav_restore');
+
+  /// WebDAV 服务器
+  String get knode_app_webdav_server =>
+      LocalizeStringDelegate.get('knode_app_webdav_server');
 
   /// WebDAV &#x2F; 本地备份
   String get knode_app_webdav_subtitle =>

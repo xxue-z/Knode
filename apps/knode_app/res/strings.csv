@@ -1,5 +1,7 @@
 id,en,zh
 archive_title,Conversation Archive,会话归档
+backup_type_local,Local,本地
+backup_type_webdav,WebDAV,WebDAV
 user_label,User,用户
 ai_label,AI,AI
 session_n_messages,Conversation has {n} messages,会话共 {n} 条消息
@@ -12,6 +14,7 @@ progress_downloading,Downloading...,正在下载...
 progress_decompressing,Decompressing...,正在解压...
 progress_restore_complete,Restore complete,恢复完成
 unnamed_document,Unnamed Document,未命名文档
+webdav_server,WebDAV Server,WebDAV 服务器
 welcome_back,Welcome Back,欢迎回来
 daily_encouragement,Keep learning today!,今天也要坚持学习哦
 no_key_hint,Don't have a Key? Click to get one,还没有 Key？点击获取

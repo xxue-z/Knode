@@ -1285,11 +1285,29 @@ abstract class L10n {
   /// **'备份设置'**
   String get knode_app_backup_settings;
 
+  /// 本地
+  ///
+  /// In zh, this message translates to:
+  /// **'本地'**
+  String get knode_app_backup_type_local;
+
+  /// WebDAV
+  ///
+  /// In zh, this message translates to:
+  /// **'WebDAV'**
+  String get knode_app_backup_type_webdav;
+
   /// 基于最近阅读文件出题
   ///
   /// In zh, this message translates to:
   /// **'基于最近阅读文件出题'**
   String get knode_app_based_on_recent;
+
+  /// 未配置备份目标，请配置 WebDAV 或本地备份
+  ///
+  /// In zh, this message translates to:
+  /// **'未配置备份目标，请配置 WebDAV 或本地备份'**
+  String get knode_app_both_not_configured;
 
   /// 底部导航
   ///
@@ -1729,6 +1747,48 @@ abstract class L10n {
   /// **'加载中...'**
   String get knode_app_loading;
 
+  /// 本地备份
+  ///
+  /// In zh, this message translates to:
+  /// **'本地备份'**
+  String get knode_app_local_backup;
+
+  /// 请配置本地备份目录
+  ///
+  /// In zh, this message translates to:
+  /// **'请配置本地备份目录'**
+  String get knode_app_local_backup_config_needed;
+
+  /// 本地上次备份: {time}
+  ///
+  /// In zh, this message translates to:
+  /// **'本地上次备份: {time}'**
+  String knode_app_local_backup_last_backup(String time);
+
+  /// 未配置本地备份
+  ///
+  /// In zh, this message translates to:
+  /// **'未配置本地备份'**
+  String get knode_app_local_backup_not_configured;
+
+  /// 本地备份路径
+  ///
+  /// In zh, this message translates to:
+  /// **'本地备份路径'**
+  String get knode_app_local_backup_path;
+
+  /// 选择本地备份目录
+  ///
+  /// In zh, this message translates to:
+  /// **'选择本地备份目录'**
+  String get knode_app_local_backup_path_subtitle;
+
+  /// 备份到本地存储
+  ///
+  /// In zh, this message translates to:
+  /// **'备份到本地存储'**
+  String get knode_app_local_backup_subtitle;
+
   /// 本地模型
   ///
   /// In zh, this message translates to:
@@ -1740,6 +1800,12 @@ abstract class L10n {
   /// In zh, this message translates to:
   /// **'本地模型'**
   String get knode_app_local_model_label;
+
+  /// 本地恢复
+  ///
+  /// In zh, this message translates to:
+  /// **'本地恢复'**
+  String get knode_app_local_restore;
 
   /// 全部
   ///
@@ -1975,6 +2041,12 @@ abstract class L10n {
   /// **'还没有 Key？点击获取'**
   String get knode_app_no_key_hint;
 
+  /// 无可用本地备份
+  ///
+  /// In zh, this message translates to:
+  /// **'无可用本地备份'**
+  String get knode_app_no_local_backup;
+
   /// 暂无模型
   ///
   /// In zh, this message translates to:
@@ -1986,6 +2058,12 @@ abstract class L10n {
   /// In zh, this message translates to:
   /// **'暂无模板'**
   String get knode_app_no_templates;
+
+  /// 无可用 WebDAV 备份
+  ///
+  /// In zh, this message translates to:
+  /// **'无可用 WebDAV 备份'**
+  String get knode_app_no_webdav_backup;
 
   /// 暂无错题
   ///
@@ -2305,6 +2383,12 @@ abstract class L10n {
   /// **'搜索 API Key'**
   String get knode_app_search_api_key;
 
+  /// 选择恢复来源
+  ///
+  /// In zh, this message translates to:
+  /// **'选择恢复来源'**
+  String get knode_app_select_restore_source;
+
   /// 选择恢复版本
   ///
   /// In zh, this message translates to:
@@ -2557,11 +2641,29 @@ abstract class L10n {
   /// **'WebDAV'**
   String get knode_app_webdav;
 
+  /// WebDAV 上次备份: {time}
+  ///
+  /// In zh, this message translates to:
+  /// **'WebDAV 上次备份: {time}'**
+  String knode_app_webdav_last_backup(String time);
+
   /// WebDAV 未配置
   ///
   /// In zh, this message translates to:
   /// **'WebDAV 未配置'**
   String get knode_app_webdav_not_configured;
+
+  /// WebDAV 恢复
+  ///
+  /// In zh, this message translates to:
+  /// **'WebDAV 恢复'**
+  String get knode_app_webdav_restore;
+
+  /// WebDAV 服务器
+  ///
+  /// In zh, this message translates to:
+  /// **'WebDAV 服务器'**
+  String get knode_app_webdav_server;
 
   /// WebDAV / 本地备份
   ///
@@ -3714,6 +3816,12 @@ abstract class L10n {
   /// In zh, this message translates to:
   /// **'文档'**
   String get wiki_document;
+
+  /// 文档名称
+  ///
+  /// In zh, this message translates to:
+  /// **'文档名称'**
+  String get wiki_document_name;
 
   /// 文档标题
   ///
