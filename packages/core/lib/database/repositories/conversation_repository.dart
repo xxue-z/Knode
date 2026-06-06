@@ -1,4 +1,4 @@
-﻿import '../dao/conversation_dao.dart';
+import '../dao/conversation_dao.dart';
 import '../dao/message_dao.dart';
 import '../../models/conversation.dart';
 import '../../models/message.dart';
@@ -26,6 +26,7 @@ class ConversationRepository {
       : _convDao = convDao, _msgDao = msgDao, _summarizeFn = summarizeFn;
 
   Future<List<Conversation>> getAll({String status = 'active'}) => _convDao.getAll(status: status);
+  Future<List<Conversation>> getArchived() => _convDao.getAll(status: 'archived');
   Future<Conversation?> getById(int id) => _convDao.getById(id);
   Future<List<Message>> getMessages(int conversationId, {int? limit, int offset = 0}) => _msgDao.getByConversation(conversationId, limit: limit, offset: offset);
 
@@ -81,6 +82,18 @@ class ConversationRepository {
 
     // 返回归档信息，由调用方（ArchiveDialog）创建 Document 记录
     return conversationId;
+  }
+
+  Future<void> archiveConversation(int id, int wikiFileId) async {
+    final conv = await _convDao.getById(id);
+    if (conv == null) throw ConversationBusinessException(': id=');
+    await _convDao.archive(id, wikiFileId);
+  }
+
+  Future<void> unlinkWikiFile(int id) async {
+    final conv = await _convDao.getById(id);
+    if (conv == null) throw ConversationBusinessException(': id=');
+    await _convDao.update(conv.copyWith(wikiFileId: null, updatedAt: DateTime.now().toIso8601String()));
   }
 
   /// 切换会话的联网搜索状态。

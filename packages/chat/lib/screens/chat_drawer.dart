@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:chat/gen/strings.dart';
 import 'package:chat/providers/conversation_provider.dart';
+import 'package:chat/providers/chat_provider.dart';
 import 'package:core/models/conversation.dart';
 import 'package:wiki/providers/category_provider.dart';
+import 'package:wiki/providers/document_provider.dart';
+import 'package:wiki/screens/reader_page.dart';
 import 'package:chat/screens/archive_dialog.dart';
 
 const _strings = L10nStringsMixin();
@@ -63,30 +66,42 @@ class _ChatDrawerState extends ConsumerState<ChatDrawer> {
     ));
   }
 
-  void _archiveConversation(Conversation conv) async {
-    final repo = ref.read(conversationRepositoryProvider);
-    final messages = await repo.getMessages(conv.id);
-    final messageMaps = messages.map((m) => {"role": m.role, "content": m.content}).toList();
+  Future<void> _archiveConversation(Conversation conv) async {
+    final convRepo = ref.read(conversationRepositoryProvider);
+    final messages = await convRepo.getMessages(conv.id);
+    final messageMaps = messages.map((m) => {'role': m.role, 'content': m.content}).toList();
     final categories = ref.read(categoryListProvider);
     if (!mounted) return;
     final result = await showDialog<Map<String, dynamic>>(context: context, builder: (_) => ArchiveDialog(
       conversationId: conv.id, conversationTitle: conv.title, messages: messageMaps, categories: categories,
     ));
     if (result != null && mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(_strings.chat_archive + ": " + (conv.title ?? ""))));
+      try {
+        final docRepo = ref.read(documentRepositoryProvider);
+        final doc = await docRepo.createDocument(
+          categoryId: result['categoryId'] as int,
+          title: result['title'] as String,
+          initialContent: result['content'] as String,
+        );
+        await ref.read(conversationListProvider.notifier).archive(conv.id, doc.id);
+        if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(_strings.chat_archive + ': ' + (conv.title ?? ''))));
+      } catch (e) {
+        if (mounted) ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(_strings.chat_archive_failed + ': ' + e.toString())));
+      }
     }
   }
 
-  void _deleteArchivedConversation(Conversation conv) async {
+  Future<void> _deleteArchivedConversation(Conversation conv) async {
     final confirmed = await showDialog<bool>(context: context, builder: (_) => AlertDialog(
       title: Text(_strings.chat_delete_conversation),
-      content: Text("确认删除归档会话 " + (conv.title ?? "") + "？"),
+      content: Text('确认删除归档会话 ' + (conv.title ?? '') + '？归档生成的文章不会被删除。'),
       actions: [
         TextButton(onPressed: () => Navigator.pop(context, false), child: Text(_strings.chat_cancel)),
         TextButton(onPressed: () => Navigator.pop(context, true), child: Text(_strings.chat_confirm)),
       ],
     ));
     if (confirmed == true && mounted) {
+      await ref.read(conversationListProvider.notifier).unlinkWikiFile(conv.id);
       await ref.read(conversationListProvider.notifier).delete(conv.id);
     }
   }
@@ -94,7 +109,9 @@ class _ChatDrawerState extends ConsumerState<ChatDrawer> {
   void _openWikiFile(Conversation conv) {
     if (conv.wikiFileId != null) {
       Navigator.pop(context);
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("打开文件: " + (conv.title ?? ""))));
+      Navigator.push(context, MaterialPageRoute(
+        builder: (_) => ReaderPage(docId: conv.wikiFileId!, title: conv.title),
+      ));
     }
   }
 }
@@ -114,7 +131,7 @@ class _TabButton extends StatelessWidget {
       ),
       child: Center(child: Text(label, style: TextStyle(
         color: isSelected ? Theme.of(context).colorScheme.onPrimaryContainer : Theme.of(context).colorScheme.onSurface,
-        fontWeight: isSelected ? FontWeight.bold : FontWeight.normal, 
+        fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
       ))),
     ));
   }
@@ -159,18 +176,19 @@ class _ArchivedConversationList extends ConsumerWidget {
   final ValueChanged<Conversation> onDelete;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final convListAsync = ref.watch(conversationListProvider);
-    return convListAsync.when(
-      data: (conversations) {
-        final archived = conversations.where((c) => c.status != "active").toList();
-        if (archived.isEmpty) return const Center(child: Text("暂无归档会话"));
+    final archivedAsync = ref.watch(archivedConversationListProvider);
+    return archivedAsync.when(
+      data: (archived) {
+        if (archived.isEmpty) return const Center(child: Text('暂无归档会话'));
         return ListView.separated(itemCount: archived.length, separatorBuilder: (_, __) => const Divider(height: 1),
           itemBuilder: (context, index) {
             final conv = archived[index];
             return ListTile(
               leading: const Icon(Icons.archive_outlined),
-              title: Text(conv.title ?? "归档会话", maxLines: 1, overflow: TextOverflow.ellipsis),
-              subtitle: conv.wikiFileId != null ? Text("关联文件 ID: " + conv.wikiFileId.toString(), style: Theme.of(context).textTheme.bodySmall) : null,
+              title: Text(conv.title ?? '归档会话', maxLines: 1, overflow: TextOverflow.ellipsis),
+              subtitle: conv.wikiFileId != null
+                  ? Text('关联文档 ID: ' + conv.wikiFileId.toString(), style: Theme.of(context).textTheme.bodySmall)
+                  : null,
               onTap: () => onOpenFile(conv),
               trailing: IconButton(icon: const Icon(Icons.delete_outline, size: 20), tooltip: _strings.chat_delete_conversation, onPressed: () => onDelete(conv)),
             );
