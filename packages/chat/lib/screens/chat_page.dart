@@ -6,6 +6,9 @@ import 'package:chat/screens/chat_drawer.dart';
 import 'package:chat/screens/message_input.dart';
 import 'package:chat/screens/message_bubble.dart';
 import 'package:core/models/conversation.dart';
+import 'package:core/providers/settings_provider.dart';
+import 'package:core/extensions/riverpod_compat.dart';
+
 
 const _strings = L10nStringsMixin();
 
@@ -27,6 +30,41 @@ class _ChatPageState extends ConsumerState<ChatPage> {
   void _loadConversation(Conversation conv) {
     setState(() => _currentConversation = conv);
     ref.read(chatProvider.notifier).loadConversation(conv.id);
+  }
+
+  bool _isModelConfigured() {
+    final settings = ref.read(settingsProvider).valueOrNull ?? {};
+    final aiType = settings['ai_type'] ?? 'cloud';
+    if (aiType == 'cloud') {
+      final apiKey = settings['cloud_api_key'] ?? '';
+      return apiKey.isNotEmpty;
+    } else {
+      final localModel = settings['local_model_id'] ?? '';
+      return localModel.isNotEmpty;
+    }
+  }
+
+  void _showModelConfigGuide() {
+    showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('模型未配置'),
+        content: const Text('请先在设置中配置AI模型（云端API或本地模型），然后才能开始对话。'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('取消'),
+          ),
+          FilledButton(
+            onPressed: () {
+              Navigator.pop(ctx);
+              Navigator.push(context, MaterialPageRoute(builder: (_) => const Scaffold(body: Center(child: Text('请在设置中配置AI模型')))));
+            },
+            child: const Text('去配置'),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -61,6 +99,10 @@ class _ChatPageState extends ConsumerState<ChatPage> {
         if (chatState.isLoading) const LinearProgressIndicator(),
         MessageInput(
           onSend: (text) {
+            if (!_isModelConfigured()) {
+              _showModelConfigGuide();
+              return;
+            }
             ref.read(chatProvider.notifier).sendMessage(text);
           },
         ),
