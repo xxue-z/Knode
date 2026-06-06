@@ -95,3 +95,4 @@ run_tests.ps1
 test_output.json
 debug-unit-test-error.md
 /.superpowers/*
+/li10.bat
