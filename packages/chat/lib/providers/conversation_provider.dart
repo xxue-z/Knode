@@ -14,6 +14,11 @@ class ConversationListNotifier extends AsyncNotifier<List<Conversation>> {
     return repo.getAll();
   }
 
+  Future<List<Conversation>> getArchived() async {
+    final repo = ref.read(conversationRepositoryProvider);
+    return repo.getArchived();
+  }
+
   Future<Conversation> create({String? title}) async {
     final repo = ref.read(conversationRepositoryProvider);
     final conv = await repo.createConversation(title: title);
@@ -24,6 +29,18 @@ class ConversationListNotifier extends AsyncNotifier<List<Conversation>> {
   Future<void> rename(int id, String title) async {
     final repo = ref.read(conversationRepositoryProvider);
     await repo.rename(id, title);
+    ref.invalidateSelf();
+  }
+
+  Future<void> archive(int id, int wikiFileId) async {
+    final repo = ref.read(conversationRepositoryProvider);
+    await repo.archiveConversation(id, wikiFileId);
+    ref.invalidateSelf();
+  }
+
+  Future<void> unlinkWikiFile(int id) async {
+    final repo = ref.read(conversationRepositoryProvider);
+    await repo.unlinkWikiFile(id);
     ref.invalidateSelf();
   }
 
@@ -43,3 +60,8 @@ class ConversationListNotifier extends AsyncNotifier<List<Conversation>> {
 final conversationListProvider = AsyncNotifierProvider<ConversationListNotifier, List<Conversation>>(
   ConversationListNotifier.new,
 );
+
+final archivedConversationListProvider = FutureProvider<List<Conversation>>((ref) async {
+  final repo = ref.read(conversationRepositoryProvider);
+  return repo.getArchived();
+});

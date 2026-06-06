@@ -161,21 +161,14 @@ class _FloatingChatBallState extends ConsumerState<FloatingChatBall>
       return;
     }
 
-    final ballPos = _getBallScreenPosition();
     final screenSize = MediaQuery.of(context).size;
-    final ballSize = 56.0;
-
-    // 悬浮球中心 X
-    final ballCenterX = ballPos.dx + ballSize / 2;
 
     // 面板宽度：屏幕宽度减去两侧边距
     final panelWidth = screenSize.width - 32.0;
-    // 面板左边界：以球为中心居中，但不超出屏幕
-    var panelLeft = ballCenterX - panelWidth / 2;
-    panelLeft = panelLeft.clamp(16.0, screenSize.width - panelWidth - 16.0);
-
-    // 面板顶部：悬浮球上方留 12px 间距
-    final panelTop = ballPos.dy - 12.0;
+    // 面板水平居中
+    final panelLeft = (screenSize.width - panelWidth) / 2;
+    // 面板垂直居中
+    final panelTop = screenSize.height / 2;
 
     // 初始化动画控制器
     _panelAnimController = AnimationController(
@@ -193,8 +186,6 @@ class _FloatingChatBallState extends ConsumerState<FloatingChatBall>
 
     _panelOverlay = OverlayEntry(
       builder: (context) => _PanelOverlayWidget(
-        ballPosition: ballPos,
-        ballSize: ballSize,
         panelLeft: panelLeft,
         panelTop: panelTop,
         panelWidth: panelWidth,
@@ -399,8 +390,6 @@ class _FloatingChatBallState extends ConsumerState<FloatingChatBall>
 /// floating ball and expanding upward with a scale + fade animation.
 class _PanelOverlayWidget extends StatelessWidget {
   const _PanelOverlayWidget({
-    required this.ballPosition,
-    required this.ballSize,
     required this.panelLeft,
     required this.panelTop,
     required this.panelWidth,
@@ -410,8 +399,6 @@ class _PanelOverlayWidget extends StatelessWidget {
     required this.onFullScreen,
   });
 
-  final Offset ballPosition;
-  final double ballSize;
   final double panelLeft;
   final double panelTop;
   final double panelWidth;
@@ -423,13 +410,10 @@ class _PanelOverlayWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
-    // 面板最大高度：从 panelTop 向上到屏幕顶部，留 16px 边距
-    final maxPanelHeight = panelTop - 16.0;
-    // 面板高度：屏幕高度的 50%，但不超过 maxPanelHeight
-    final panelHeight = (screenHeight * 0.5).clamp(200.0, maxPanelHeight).toDouble();
+    final panelHeight = (screenHeight * 0.5).clamp(200.0, 500.0).toDouble();
 
-    // 面板实际顶部：从 panelTop 向上展开
-    final actualTop = panelTop - panelHeight;
+    // 垂直居中
+    final actualTop = (screenHeight - panelHeight) / 2;
 
     return Stack(
       children: [
@@ -451,22 +435,11 @@ class _PanelOverlayWidget extends StatelessWidget {
             builder: (context, child) {
               return Transform.scale(
                 scale: scaleAnimation.value,
-                alignment: Alignment.bottomCenter,
+                alignment: Alignment.center,
                 child: Opacity(opacity: opacityAnimation.value, child: child),
               );
             },
             child: ChatPanel(onFullScreen: onFullScreen, onClose: onClose),
-          ),
-        ),
-        // 小三角指向悬浮球
-        Positioned(
-          left: ballPosition.dx + ballSize / 2 - 8,
-          top: actualTop + panelHeight - 2,
-          child: CustomPaint(
-            size: const Size(16, 10),
-            painter: _BubbleTrianglePainter(
-              color: Theme.of(context).colorScheme.surface,
-            ),
           ),
         ),
       ],
@@ -474,30 +447,3 @@ class _PanelOverlayWidget extends StatelessWidget {
   }
 }
 
-// ---------------------------------------------------------------------------
-// Triangle painter for the bubble pointer
-// ---------------------------------------------------------------------------
-
-class _BubbleTrianglePainter extends CustomPainter {
-  const _BubbleTrianglePainter({required this.color});
-  final Color color;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = color
-      ..style = PaintingStyle.fill;
-
-    final path = Path()
-      ..moveTo(0, 0)
-      ..lineTo(size.width, 0)
-      ..lineTo(size.width / 2, size.height)
-      ..close();
-
-    canvas.drawPath(path, paint);
-  }
-
-  @override
-  bool shouldRepaint(covariant _BubbleTrianglePainter old) =>
-      old.color != color;
-}

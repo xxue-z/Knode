@@ -1,144 +1,85 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:chat/gen/strings.dart';
-import 'package:chat/screens/archive_dialog.dart';
+import 'package:chat/providers/chat_provider.dart';
+import 'package:chat/screens/chat_drawer.dart';
 import 'package:chat/screens/message_input.dart';
+import 'package:chat/screens/message_bubble.dart';
+import 'package:core/models/conversation.dart';
 
 const _strings = L10nStringsMixin();
 
-/// Chat page skeleton for P2 implementation.
-///
-/// Currently a placeholder that reserves space for:
-/// - Message list area (scrollable)
-/// - Message input bar at the bottom
-/// Future P2 work will populate these with conversation UI, message bubbles,
-/// and a functional text/voice input field.
-class ChatPage extends StatelessWidget {
+class ChatPage extends ConsumerStatefulWidget {
   const ChatPage({super.key});
 
-  void _showConversationMenu(BuildContext context) {
-    showModalBottomSheet<void>(
-      context: context,
-      builder: (_) => SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ListTile(
-              leading: const Icon(Icons.history),
-              title: Text(_strings.chat_history_sessions),
-              onTap: () {
-                Navigator.pop(context);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(_strings.chat_history_sessions)),
-                );
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.archive_outlined),
-              title: Text(_strings.chat_archive),
-              onTap: () {
-                Navigator.pop(context);
-                showDialog<bool>(
-                  context: context,
-                  builder: (_) => ArchiveDialog(
-                    conversationId: 0,
-                    conversationTitle: _strings.chat_current_session,
-                    messages: [],
-                    categories: [],
-                  ),
-                );
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.delete_outline),
-              title: Text(_strings.chat_clear_history),
-              onTap: () {
-                Navigator.pop(context);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(_strings.chat_clear_history)),
-                );
-              },
-            ),
-          ],
-        ),
-      ),
-    );
+  @override
+  ConsumerState<ChatPage> createState() => _ChatPageState();
+}
+
+class _ChatPageState extends ConsumerState<ChatPage> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  Conversation? _currentConversation;
+
+  void _openDrawer() {
+    _scaffoldKey.currentState?.openEndDrawer();
+  }
+
+  void _loadConversation(Conversation conv) {
+    setState(() => _currentConversation = conv);
+    ref.read(chatProvider.notifier).loadConversation(conv.id);
   }
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final isWide = constraints.maxWidth >= 600;
-        final horizontalPadding = isWide ? constraints.maxWidth * 0.1 : 0.0;
+    final chatState = ref.watch(chatProvider);
 
-        return Scaffold(
-          appBar: AppBar(
-            title: Text(_strings.chat_ai_assistant),
-            centerTitle: true,
-            actions: [
-              IconButton(
-                icon: const Icon(Icons.more_vert),
-                onPressed: () => _showConversationMenu(context),
-              ),
-            ],
-          ),
-          body: Padding(
-            padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
-            child: Column(
-              children: [
-                // --- Message list area ---
-                const Expanded(
-                  child: _MessageListPlaceholder(),
-                ),
-                // --- Input bar area ---
-                MessageInput(
-                  onSend: (text) {
-                    // TODO: 发送消息到 ChatNotifier
+    return Scaffold(
+      key: _scaffoldKey,
+      endDrawer: ChatDrawer(
+        onConversationSelected: _loadConversation,
+      ),
+      appBar: AppBar(
+        title: Text(_currentConversation?.title ?? _strings.chat_ai_assistant),
+        centerTitle: true,
+        actions: [
+          IconButton(icon: const Icon(Icons.menu), onPressed: _openDrawer),
+        ],
+      ),
+      body: Column(children: [
+        Expanded(
+          child: chatState.messages.isEmpty
+              ? _MessageListPlaceholder()
+              : ListView.builder(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  itemCount: chatState.messages.length,
+                  itemBuilder: (context, index) {
+                    final msg = chatState.messages[index];
+                    return MessageBubble(message: msg);
                   },
                 ),
-              ],
-            ),
-          ),
-        );
-      },
+        ),
+        if (chatState.isLoading) const LinearProgressIndicator(),
+        MessageInput(
+          onSend: (text) {
+            ref.read(chatProvider.notifier).sendMessage(text);
+          },
+        ),
+      ],
     );
   }
 }
 
-/// Placeholder widget for the scrollable message list.
-///
-/// Will be replaced by a [ListView] of message bubbles in P2.
 class _MessageListPlaceholder extends StatelessWidget {
-  const _MessageListPlaceholder();
-
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(
-            Icons.chat_bubble_outline,
-            size: 64,
-            color: Theme.of(context).colorScheme.onSurfaceVariant,
-          ),
-          const SizedBox(height: 16),
-          Text(
-            _strings.chat_no_conversations_yet,
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
-                ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            _strings.chat_start_conversation_hint,
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
-                ),
-          ),
-        ],
-      ),
+      child: Column(mainAxisSize: MainAxisSize.min, children: [
+        Icon(Icons.chat_bubble_outline, size: 64, color: Theme.of(context).colorScheme.onSurfaceVariant),
+        const SizedBox(height: 16),
+        Text(_strings.chat_no_conversations_yet, style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant)),
+        const SizedBox(height: 8),
+        Text(_strings.chat_start_conversation_hint, style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant)),
+      ]),
     );
   }
 }
-
