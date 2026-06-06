@@ -3153,5 +3153,25 @@
   "knode_app_clear_resources_failed": "清理资源文件失败",
   "@knode_app_clear_resources_failed": {
     "description": "清理资源文件失败"
+  },
+  "knode_app_daily_quiz": "每日一测",
+  "@knode_app_daily_quiz": {
+    "description": "每日一测"
+  },
+  "knode_app_random_flashcard": "随机速记",
+  "@knode_app_random_flashcard": {
+    "description": "随机速记"
+  },
+  "knode_app_wrong_review": "错题重练",
+  "@knode_app_wrong_review": {
+    "description": "错题重练"
+  },
+  "knode_app_ai_quiz": "AI出题",
+  "@knode_app_ai_quiz": {
+    "description": "AI出题"
+  },
+  "knode_app_exam_settings": "大考设置",
+  "@knode_app_exam_settings": {
+    "description": "大考设置"
   }
 }

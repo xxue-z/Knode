@@ -4626,4 +4626,16 @@ L10n lookupL10n(Locale locale) {
   /// 占手机{percent}%存储空间
   String knode_app_storage_percentage({required String percent}) => '';
 
+  /// 随机速记
+  String get knode_app_random_flashcard => '';
+
+  /// 错题重练
+  String get knode_app_wrong_review => '';
+
+  /// AI出题
+  String get knode_app_ai_quiz => '';
+
+  /// 大考设置
+  String get knode_app_exam_settings => '';
+
 }

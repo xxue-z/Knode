@@ -2324,4 +2324,16 @@ class L10nZh extends L10n {
   @override
   String knode_app_storage_percentage({required String percent}) =>
       LocalizeStringDelegate.get('knode_app_storage_percentage', arguments: [percent]);
+  @override
+  String get knode_app_random_flashcard => '随机速记';
+
+  @override
+  String get knode_app_wrong_review => '错题重练';
+
+  @override
+  String get knode_app_ai_quiz => 'AI出题';
+
+  @override
+  String get knode_app_exam_settings => '大考设置';
+
 }

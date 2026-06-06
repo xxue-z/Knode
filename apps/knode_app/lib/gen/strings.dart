@@ -1137,4 +1137,20 @@ mixin class L10nStringsMixin {
         'knode_app_storage_percentage',
         arguments: [percent],
       );
+
+  /// 随机速记
+  String get knode_app_random_flashcard =>
+      LocalizeStringDelegate.get('knode_app_random_flashcard');
+
+  /// 错题重练
+  String get knode_app_wrong_review =>
+      LocalizeStringDelegate.get('knode_app_wrong_review');
+
+  /// AI出题
+  String get knode_app_ai_quiz =>
+      LocalizeStringDelegate.get('knode_app_ai_quiz');
+
+  /// 大考设置
+  String get knode_app_exam_settings =>
+      LocalizeStringDelegate.get('knode_app_exam_settings');
 }

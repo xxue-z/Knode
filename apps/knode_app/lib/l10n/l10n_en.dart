@@ -2381,4 +2381,16 @@ class L10nEn extends L10n {
   @override
   String knode_app_storage_percentage({required String percent}) =>
       LocalizeStringDelegate.get('knode_app_storage_percentage', arguments: [percent]);
+  @override
+  String get knode_app_random_flashcard => 'Random Flashcard';
+
+  @override
+  String get knode_app_wrong_review => 'Wrong Answer Review';
+
+  @override
+  String get knode_app_ai_quiz => 'AI Quiz';
+
+  @override
+  String get knode_app_exam_settings => 'Exam Settings';
+
 }
