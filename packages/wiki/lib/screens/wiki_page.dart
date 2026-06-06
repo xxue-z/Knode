@@ -149,7 +149,7 @@ class _WikiPageState extends ConsumerState<WikiPage>
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  // Category selector (searchable dropdown)
+                  // Category selector (dropdown)
                   Consumer(
                     builder: (ctx, ref, _) {
                       final catState = ref.watch(categoryListProvider);
@@ -158,135 +158,91 @@ class _WikiPageState extends ConsumerState<WikiPage>
                           final categories = state.allCategories
                               .where((c) => c.parentId == 0)
                               .toList()
-                            ..sort(
-                                (a, b) => a.sortOrder.compareTo(b.sortOrder));
-                          final searchText =
-                              categorySearchController.text.toLowerCase();
-                          final filtered = searchText.isEmpty
-                              ? categories
-                              : categories
-                                  .where((c) => c.name
-                                      .toLowerCase()
-                                      .contains(searchText))
-                                  .toList();
-                          final showCreateNew = searchText.isNotEmpty &&
-                              !categories.any((c) =>
-                                  c.name.toLowerCase() == searchText);
-
-                          return Column(
-                            mainAxisSize: MainAxisSize.min,
+                            ..sort((a, b) => a.sortOrder.compareTo(b.sortOrder));
+                          return Row(
                             children: [
-                              TextField(
-                                controller: categorySearchController,
-                                decoration: InputDecoration(
-                                  labelText: _strings.wiki_category,
-                                  hintText: _strings.wiki_search,
-                                  prefixIcon: const Icon(
-                                      Icons.folder_outlined),
-                                  border: const OutlineInputBorder(),
-                                  suffixIcon: categorySearchController
-                                          .text.isNotEmpty
-                                      ? IconButton(
-                                          icon: const Icon(Icons.clear,
-                                              size: 18),
-                                          onPressed: () {
-                                            categorySearchController.clear();
-                                            setDialogState(() {});
-                                          },
-                                        )
-                                      : null,
+                              Expanded(
+                                child: DropdownButton<int>(
+                                  isExpanded: true,
+                                  value: selectedCategoryId,
+                                  hint: Text(_strings.wiki_category),
+                                  items: [
+                                    const DropdownMenuItem<int>(
+                                      value: 0,
+                                      child: Text('未选择类目'),
+                                    ),
+                                    ...categories.map((c) => DropdownMenuItem<int>(
+                                          value: c.id,
+                                          child: Text(c.name),
+                                        )),
+                                  ],
+                                  onChanged: (v) {
+                                    setDialogState(() {
+                                      selectedCategoryId = v;
+                                    });
+                                  },
                                 ),
-                                onChanged: (_) => setDialogState(() {}),
                               ),
-                              const SizedBox(height: 8),
-                              if (filtered.isNotEmpty)
-                                ConstrainedBox(
-                                  constraints:
-                                      const BoxConstraints(maxHeight: 180),
-                                  child: ListView.builder(
-                                    shrinkWrap: true,
-                                    itemCount: filtered.length,
-                                    itemBuilder: (ctx, index) {
-                                      final cat = filtered[index];
-                                      final isSelected =
-                                          selectedCategoryId == cat.id;
-                                      return ListTile(
-                                        dense: true,
-                                        leading: Icon(
-                                          isSelected
-                                              ? Icons.check_circle
-                                              : Icons.circle_outlined,
-                                          size: 18,
-                                          color: isSelected
-                                              ? Theme.of(ctx)
-                                                  .colorScheme
-                                                  .primary
-                                              : null,
+                              const SizedBox(width: 8),
+                              IconButton(
+                                icon: const Icon(Icons.add_circle_outline, size: 20),
+                                tooltip: '新增类目',
+                                onPressed: () async {
+                                  final newName = await showDialog<String>(
+                                    context: ctx,
+                                    builder: (dctx) {
+                                      final ctrl = TextEditingController();
+                                      return AlertDialog(
+                                        title: const Text('新增类目'),
+                                        content: TextField(
+                                          controller: ctrl,
+                                          autofocus: true,
+                                          decoration: const InputDecoration(
+                                            hintText: '输入类目名称',
+                                            border: OutlineInputBorder(),
+                                          ),
+                                          onSubmitted: (_) => Navigator.pop(dctx, ctrl.text.trim()),
                                         ),
-                                        title: Text(cat.name),
-                                        onTap: () {
-                                          setDialogState(() {
-                                            selectedCategoryId = cat.id;
-                                            categorySearchController.text =
-                                                cat.name;
-                                          });
-                                        },
+                                        actions: [
+                                          TextButton(onPressed: () => Navigator.pop(dctx), child: Text(_strings.wiki_cancel)),
+                                          FilledButton(
+                                            onPressed: () => Navigator.pop(dctx, ctrl.text.trim()),
+                                            child: Text(_strings.wiki_confirm),
+                                          ),
+                                        ],
                                       );
                                     },
-                                  ),
-                                ),
-                              if (showCreateNew)
-                                ListTile(
-                                  dense: true,
-                                  leading: const Icon(Icons.add_circle_outline,
-                                      size: 18),
-                                  title: Text(
-                                      '创建类目: "${categorySearchController.text}"'),
-                                  onTap: () async {
-                                    final newName =
-                                        categorySearchController.text.trim();
-                                    if (newName.isEmpty) return;
-                                    final notifier = ref.read(
-                                        categoryListProvider.notifier);
+                                  );
+                                  if (newName != null && newName.isNotEmpty) {
+                                    final notifier = ref.read(categoryListProvider.notifier);
                                     await notifier.add(newName, 0);
-                                    if (!ctx.mounted) return;
-                                    final newState = ref
-                                        .read(categoryListProvider)
-                                        .value;
-                                    if (newState != null) {
-                                      final newCat = newState.allCategories
-                                          .where((c) =>
-                                              c.name == newName &&
-                                              c.parentId == 0)
+                                    // Read the fresh state after await
+                                    final freshState = ref.read(categoryListProvider).value;
+                                    if (freshState != null) {
+                                      final newCat = freshState.allCategories
+                                          .where((c) => c.name == newName && c.parentId == 0)
                                           .toList();
                                       if (newCat.isNotEmpty) {
                                         setDialogState(() {
                                           selectedCategoryId = newCat.first.id;
-                                          categorySearchController.text =
-                                              newName;
                                         });
                                       }
                                     }
-                                  },
-                                ),
-                              if (filtered.isEmpty && !showCreateNew)
-                                const Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 8),
-                                  child: Text('暂无类目'),
-                                ),
+                                  }
+                                },
+                              ),
                             ],
                           );
                         },
                         loading: () => const Padding(
                           padding: EdgeInsets.all(16),
-                          child:
-                              CircularProgressIndicator(strokeWidth: 2),
+                          child: CircularProgressIndicator(strokeWidth: 2),
                         ),
                         error: (e, _) => Text('加载失败: $e'),
                       );
                     },
                   ),
-                  const SizedBox(height: 12),
+                                    const SizedBox(height: 12),
                   // Title input
                   TextField(
                     controller: titleController,

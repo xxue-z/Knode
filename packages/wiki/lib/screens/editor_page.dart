@@ -140,10 +140,11 @@ class _EditorPageState extends ConsumerState<EditorPage> {
                 },
                 child: _isTitleEditing
                     ? SizedBox(
-                        width: 160,
+                        width: 140,
                         child: TextField(
                           controller: _titleController,
                           autofocus: true,
+                          maxLines: 1,
                           style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w600,
@@ -152,6 +153,7 @@ class _EditorPageState extends ConsumerState<EditorPage> {
                             border: InputBorder.none,
                             hintText: '输入文档名称',
                             isDense: true,
+                            contentPadding: EdgeInsets.symmetric(horizontal: 4, vertical: 2),
                           ),
                           onChanged: (_) => _onContentChanged(),
                           onSubmitted: (_) {
