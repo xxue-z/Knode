@@ -649,6 +649,9 @@ class L10nEn extends L10n {
   String get knode_app_cancel => 'Cancel';
 
   @override
+  String get knode_app_check_update => 'Check Update';
+
+  @override
   String get knode_app_checksum_failed =>
       'File checksum failed - please re-download';
 
@@ -1004,6 +1007,9 @@ class L10nEn extends L10n {
   String get knode_app_modify_storage_path => 'Modify Storage Path';
 
   @override
+  String get knode_app_module_settings => 'Module Settings';
+
+  @override
   String get knode_app_multiple_choice_suffix => '(Multiple Choice)';
 
   @override
@@ -1142,6 +1148,9 @@ class L10nEn extends L10n {
 
   @override
   String get knode_app_quiz_due_review => 'due for review';
+
+  @override
+  String get knode_app_quiz_settings => 'Quiz Settings';
 
   @override
   String get knode_app_quiz_started_switch_tab =>
@@ -1283,6 +1292,9 @@ class L10nEn extends L10n {
   String get knode_app_storage_settings => 'Storage Settings';
 
   @override
+  String get knode_app_storage_space => 'Storage Space';
+
+  @override
   String get knode_app_storage_usage => 'Storage Usage';
 
   @override
@@ -1375,6 +1387,9 @@ class L10nEn extends L10n {
 
   @override
   String get knode_app_welcome_back => 'Welcome Back';
+
+  @override
+  String get knode_app_wiki_settings => 'Wiki Settings';
 
   @override
   String get knode_app_wrong_card => 'Wrong Card';

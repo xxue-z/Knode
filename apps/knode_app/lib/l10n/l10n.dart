@@ -1327,6 +1327,12 @@ abstract class L10n {
   /// **'取消'**
   String get knode_app_cancel;
 
+  /// 检查更新
+  ///
+  /// In zh, this message translates to:
+  /// **'检查更新'**
+  String get knode_app_check_update;
+
   /// 文件校验失败，请重新下载
   ///
   /// In zh, this message translates to:
@@ -1987,6 +1993,12 @@ abstract class L10n {
   /// **'修改存储路径'**
   String get knode_app_modify_storage_path;
 
+  /// 模块设置
+  ///
+  /// In zh, this message translates to:
+  /// **'模块设置'**
+  String get knode_app_module_settings;
+
   /// （多选）
   ///
   /// In zh, this message translates to:
@@ -2263,6 +2275,12 @@ abstract class L10n {
   /// **'道待复习'**
   String get knode_app_quiz_due_review;
 
+  /// 测验设置
+  ///
+  /// In zh, this message translates to:
+  /// **'测验设置'**
+  String get knode_app_quiz_settings;
+
   /// 速记已开始，请切换到[测验]标签查看
   ///
   /// In zh, this message translates to:
@@ -2509,6 +2527,12 @@ abstract class L10n {
   /// **'存储设置'**
   String get knode_app_storage_settings;
 
+  /// 存储空间
+  ///
+  /// In zh, this message translates to:
+  /// **'存储空间'**
+  String get knode_app_storage_space;
+
   /// 存储用量
   ///
   /// In zh, this message translates to:
@@ -2688,6 +2712,12 @@ abstract class L10n {
   /// In zh, this message translates to:
   /// **'欢迎回来'**
   String get knode_app_welcome_back;
+
+  /// Wiki 设置
+  ///
+  /// In zh, this message translates to:
+  /// **'Wiki 设置'**
+  String get knode_app_wiki_settings;
 
   /// 错题卡片
   ///

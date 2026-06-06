@@ -133,6 +133,10 @@ mixin class L10nStringsMixin {
   /// 取消
   String get knode_app_cancel => LocalizeStringDelegate.get('knode_app_cancel');
 
+  /// 检查更新
+  String get knode_app_check_update =>
+      LocalizeStringDelegate.get('knode_app_check_update');
+
   /// 文件校验失败，请重新下载
   String get knode_app_checksum_failed =>
       LocalizeStringDelegate.get('knode_app_checksum_failed');
@@ -573,6 +577,10 @@ mixin class L10nStringsMixin {
   String get knode_app_modify_storage_path =>
       LocalizeStringDelegate.get('knode_app_modify_storage_path');
 
+  /// 模块设置
+  String get knode_app_module_settings =>
+      LocalizeStringDelegate.get('knode_app_module_settings');
+
   /// （多选）
   String get knode_app_multiple_choice_suffix =>
       LocalizeStringDelegate.get('knode_app_multiple_choice_suffix');
@@ -756,6 +764,10 @@ mixin class L10nStringsMixin {
   String get knode_app_quiz_due_review =>
       LocalizeStringDelegate.get('knode_app_quiz_due_review');
 
+  /// 测验设置
+  String get knode_app_quiz_settings =>
+      LocalizeStringDelegate.get('knode_app_quiz_settings');
+
   /// 速记已开始，请切换到[测验]标签查看
   String get knode_app_quiz_started_switch_tab =>
       LocalizeStringDelegate.get('knode_app_quiz_started_switch_tab');
@@ -922,6 +934,10 @@ mixin class L10nStringsMixin {
   String get knode_app_storage_settings =>
       LocalizeStringDelegate.get('knode_app_storage_settings');
 
+  /// 存储空间
+  String get knode_app_storage_space =>
+      LocalizeStringDelegate.get('knode_app_storage_space');
+
   /// 存储用量
   String get knode_app_storage_usage =>
       LocalizeStringDelegate.get('knode_app_storage_usage');
@@ -1042,6 +1058,10 @@ mixin class L10nStringsMixin {
   /// 欢迎回来
   String get knode_app_welcome_back =>
       LocalizeStringDelegate.get('knode_app_welcome_back');
+
+  /// Wiki 设置
+  String get knode_app_wiki_settings =>
+      LocalizeStringDelegate.get('knode_app_wiki_settings');
 
   /// 错题卡片
   String get knode_app_wrong_card =>

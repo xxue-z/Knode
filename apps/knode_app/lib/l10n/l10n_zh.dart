@@ -633,6 +633,9 @@ class L10nZh extends L10n {
   String get knode_app_cancel => '取消';
 
   @override
+  String get knode_app_check_update => '检查更新';
+
+  @override
   String get knode_app_checksum_failed => '文件校验失败，请重新下载';
 
   @override
@@ -977,6 +980,9 @@ class L10nZh extends L10n {
   String get knode_app_modify_storage_path => '修改存储路径';
 
   @override
+  String get knode_app_module_settings => '模块设置';
+
+  @override
   String get knode_app_multiple_choice_suffix => '（多选）';
 
   @override
@@ -1115,6 +1121,9 @@ class L10nZh extends L10n {
   String get knode_app_quiz_due_review => '道待复习';
 
   @override
+  String get knode_app_quiz_settings => '测验设置';
+
+  @override
   String get knode_app_quiz_started_switch_tab => '速记已开始，请切换到[测验]标签查看';
 
   @override
@@ -1244,6 +1253,9 @@ class L10nZh extends L10n {
   String get knode_app_storage_settings => '存储设置';
 
   @override
+  String get knode_app_storage_space => '存储空间';
+
+  @override
   String get knode_app_storage_usage => '存储用量';
 
   @override
@@ -1334,6 +1346,9 @@ class L10nZh extends L10n {
 
   @override
   String get knode_app_welcome_back => '欢迎回来';
+
+  @override
+  String get knode_app_wiki_settings => 'Wiki 设置';
 
   @override
   String get knode_app_wrong_card => '错题卡片';
