@@ -140,6 +140,10 @@ mixin class L10nStringsMixin {
   /// 文档
   String get wiki_document => LocalizeStringDelegate.get('wiki_document');
 
+  /// 文档名称
+  String get wiki_document_name =>
+      LocalizeStringDelegate.get('wiki_document_name');
+
   /// 文档标题
   String get wiki_document_title =>
       LocalizeStringDelegate.get('wiki_document_title');

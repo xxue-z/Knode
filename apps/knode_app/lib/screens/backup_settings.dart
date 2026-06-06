@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:core/extensions/riverpod_compat.dart';
+import 'package:core/utils/file_picker_util.dart';
 import 'package:core/providers/settings_provider.dart';
 import 'package:core/services/backup_service.dart';
+import 'package:core/services/local_backup_service.dart';
 import 'package:core/models/backup_snapshot.dart';
 import 'package:knode_app/gen/strings.dart';
 
@@ -16,19 +18,24 @@ class BackupSettingsPage extends ConsumerStatefulWidget {
 }
 
 class _BackupSettingsPageState extends ConsumerState<BackupSettingsPage> {
+  // WebDAV 控制器
   final _urlController = TextEditingController();
   final _userController = TextEditingController();
   final _passController = TextEditingController();
   final _backupService = BackupService();
+  final _localBackupService = LocalBackupService();
+
   bool _isTesting = false;
   bool _isBacking = false;
   bool _isRestoring = false;
   String _backupFrequency = 'daily';
-  List<BackupSnapshot> _snapshots = [];
+  List<BackupSnapshot> _webdavSnapshots = [];
+  List<BackupSnapshot> _localSnapshots = [];
   bool _isLoadingSnapshots = false;
   double _backupProgress = -1;
   String _backupProgressMessage = '';
   int _keepCount = 5;
+  String _localBackupPath = '';
 
   @override
   void initState() {
@@ -41,12 +48,13 @@ class _BackupSettingsPageState extends ConsumerState<BackupSettingsPage> {
       setState(() {
         _backupFrequency = s['webdav_frequency'] ?? 'daily';
         _keepCount = int.tryParse(s['backup_keep_count'] ?? '5') ?? 5;
+        _localBackupPath = s['local_backup_path'] ?? '';
       });
       _loadSnapshots();
     });
   }
 
-  void _configure() {
+  void _configureWebDav() {
     _backupService.configure(
       url: _urlController.text,
       user: _userController.text,
@@ -54,26 +62,48 @@ class _BackupSettingsPageState extends ConsumerState<BackupSettingsPage> {
     );
   }
 
+  bool get _isWebDavConfigured => _urlController.text.isNotEmpty && _userController.text.isNotEmpty;
+  bool get _isLocalBackupConfigured => _localBackupPath.isNotEmpty;
+  bool get _isAnyBackupConfigured => _isWebDavConfigured || _isLocalBackupConfigured;
+
   Future<void> _loadSnapshots() async {
-    if (_urlController.text.isEmpty) return;
     setState(() => _isLoadingSnapshots = true);
-    _configure();
-    try {
-      final snapshots = await _backupService.listBackups();
-      if (mounted) setState(() => _snapshots = snapshots);
-    } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('${_strings.knode_app_get_backup_list_failed}: $e'), backgroundColor: Colors.red),
-        );
+
+    // 加载 WebDAV 快照
+    if (_isWebDavConfigured) {
+      _configureWebDav();
+      try {
+        final snapshots = await _backupService.listBackups();
+        if (mounted) setState(() => _webdavSnapshots = snapshots);
+      } catch (e) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(': '), backgroundColor: Colors.red),
+          );
+        }
       }
     }
+
+    // 加载本地快照
+    if (_isLocalBackupConfigured) {
+      try {
+        final snapshots = await _localBackupService.listBackups(_localBackupPath);
+        if (mounted) setState(() => _localSnapshots = snapshots);
+      } catch (e) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(': '), backgroundColor: Colors.red),
+          );
+        }
+      }
+    }
+
     setState(() => _isLoadingSnapshots = false);
   }
 
   Future<void> _testConnection() async {
     setState(() => _isTesting = true);
-    _configure();
+    _configureWebDav();
     final ok = await _backupService.testConnection();
     setState(() => _isTesting = false);
     if (mounted) {
@@ -86,45 +116,85 @@ class _BackupSettingsPageState extends ConsumerState<BackupSettingsPage> {
     }
   }
 
-  Future<void> _backup() async {
+  Future<void> _backupNow() async {
+    if (!_isAnyBackupConfigured) {
+      _showConfigureDialog();
+      return;
+    }
+
     setState(() {
       _isBacking = true;
       _backupProgress = 0;
       _backupProgressMessage = _strings.knode_app_packing_files;
     });
-    _configure();
-    try {
-      final s = ref.read(settingsProvider).valueOrNull ?? {};
-      final dbPath = s['db_path'] ?? 'knode.db';
-      final wikiRoot = s['wiki_root'] ?? 'wiki_root';
-      await _backupService.backup(
-        dbPath: dbPath,
-        wikiRoot: wikiRoot,
-        onProgress: (percent, message) {
-          if (mounted) {
-            setState(() {
-              _backupProgress = percent;
-              _backupProgressMessage = message;
-            });
-          }
-        },
-      );
-      if (_keepCount > 0) {
-        await _backupService.autoCleanup(keepCount: _keepCount);
-      }
-      await _loadSnapshots();
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(_strings.knode_app_backup_complete), backgroundColor: Colors.green),
+
+    final s = ref.read(settingsProvider).valueOrNull ?? {};
+    final dbPath = s['db_path'] ?? 'knode.db';
+    final wikiRoot = s['wiki_root'] ?? 'wiki_root';
+
+    // WebDAV 备份
+    if (_isWebDavConfigured) {
+      _configureWebDav();
+      try {
+        await _backupService.backup(
+          dbPath: dbPath,
+          wikiRoot: wikiRoot,
+          onProgress: (percent, message) {
+            if (mounted) {
+              setState(() {
+                _backupProgress = percent * 0.5;
+                _backupProgressMessage = 'WebDAV: ';
+              });
+            }
+          },
         );
-      }
-    } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('${_strings.knode_app_backup_failed}: $e'), backgroundColor: Colors.red),
-        );
+        if (_keepCount > 0) {
+          await _backupService.autoCleanup(keepCount: _keepCount);
+        }
+      } catch (e) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(': '), backgroundColor: Colors.red),
+          );
+        }
       }
     }
+
+    // 本地备份
+    if (_isLocalBackupConfigured) {
+      try {
+        await _localBackupService.backup(
+          dbPath: dbPath,
+          wikiRoot: wikiRoot,
+          backupRoot: _localBackupPath,
+          onProgress: (percent, message) {
+            if (mounted) {
+              setState(() {
+                _backupProgress = _isWebDavConfigured ? 0.5 + percent * 0.5 : percent;
+                _backupProgressMessage = 'Local: ';
+              });
+            }
+          },
+        );
+        if (_keepCount > 0) {
+          await _localBackupService.autoCleanup(_localBackupPath, keepCount: _keepCount);
+        }
+      } catch (e) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(': '), backgroundColor: Colors.red),
+          );
+        }
+      }
+    }
+
+    await _loadSnapshots();
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(_strings.knode_app_backup_complete), backgroundColor: Colors.green),
+      );
+    }
+
     setState(() {
       _isBacking = false;
       _backupProgress = -1;
@@ -132,13 +202,35 @@ class _BackupSettingsPageState extends ConsumerState<BackupSettingsPage> {
   }
 
   Future<void> _restore() async {
-    if (_snapshots.isEmpty) await _loadSnapshots();
-
-    final selected = await showDialog<BackupSnapshot>(
+    // 弹窗选择恢复来源
+    final source = await showDialog<String>(
       context: context,
-      builder: (_) => _SnapshotPickerDialog(snapshots: _snapshots),
+      builder: (_) => _RestoreSourceDialog(
+        isWebDavConfigured: _isWebDavConfigured,
+        isLocalConfigured: _isLocalBackupConfigured,
+        webdavSnapshots: _webdavSnapshots,
+        localSnapshots: _localSnapshots,
+      ),
     );
-    if (selected == null) return;
+
+    if (source == null) return;
+
+    BackupSnapshot? selectedSnapshot;
+    if (source == 'webdav') {
+      if (_webdavSnapshots.isEmpty) await _loadSnapshots();
+      selectedSnapshot = await showDialog<BackupSnapshot>(
+        context: context,
+        builder: (_) => _SnapshotPickerDialog(snapshots: _webdavSnapshots, title: _strings.knode_app_webdav_restore),
+      );
+    } else if (source == 'local') {
+      if (_localSnapshots.isEmpty) await _loadSnapshots();
+      selectedSnapshot = await showDialog<BackupSnapshot>(
+        context: context,
+        builder: (_) => _SnapshotPickerDialog(snapshots: _localSnapshots, title: _strings.knode_app_local_restore),
+      );
+    }
+
+    if (selectedSnapshot == null) return;
 
     final confirm = await showDialog<bool>(
       context: context,
@@ -152,35 +244,57 @@ class _BackupSettingsPageState extends ConsumerState<BackupSettingsPage> {
           ),
           FilledButton(
             onPressed: () => Navigator.pop(context, true),
-            child: Text(_strings.knode_app_restore),
+            child: Text(_strings.knode_app_confirm_restore),
           ),
         ],
       ),
     );
+
     if (confirm != true) return;
 
     setState(() {
       _isRestoring = true;
       _backupProgress = 0;
+      _backupProgressMessage = _strings.knode_app_downloading;
     });
-    _configure();
+
+    final s = ref.read(settingsProvider).valueOrNull ?? {};
+    final dbPath = s['db_path'] ?? 'knode.db';
+    final wikiRoot = s['wiki_root'] ?? 'wiki_root';
+
     try {
-      final s = ref.read(settingsProvider).valueOrNull ?? {};
-      final dbPath = s['db_path'] ?? 'knode.db';
-      final wikiRoot = s['wiki_root'] ?? 'wiki_root';
-      await _backupService.restore(
-        dbPath: dbPath,
-        wikiRoot: wikiRoot,
-        snapshot: selected,
-        onProgress: (percent, message) {
-          if (mounted) {
-            setState(() {
-              _backupProgress = percent;
-              _backupProgressMessage = message;
-            });
-          }
-        },
-      );
+      if (source == 'webdav') {
+        _configureWebDav();
+        await _backupService.restore(
+          dbPath: dbPath,
+          wikiRoot: wikiRoot,
+          snapshot: selectedSnapshot,
+          onProgress: (percent, message) {
+            if (mounted) {
+              setState(() {
+                _backupProgress = percent;
+                _backupProgressMessage = message;
+              });
+            }
+          },
+        );
+      } else {
+        await _localBackupService.restore(
+          dbPath: dbPath,
+          wikiRoot: wikiRoot,
+          backupRoot: _localBackupPath,
+          snapshot: selectedSnapshot,
+          onProgress: (percent, message) {
+            if (mounted) {
+              setState(() {
+                _backupProgress = percent;
+                _backupProgressMessage = message;
+              });
+            }
+          },
+        );
+      }
+
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(_strings.knode_app_restore_complete), backgroundColor: Colors.green),
@@ -189,21 +303,23 @@ class _BackupSettingsPageState extends ConsumerState<BackupSettingsPage> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('${_strings.knode_app_restore_failed}: $e'), backgroundColor: Colors.red),
+          SnackBar(content: Text(': '), backgroundColor: Colors.red),
         );
       }
     }
+
     setState(() {
       _isRestoring = false;
       _backupProgress = -1;
     });
   }
 
-  Future<void> _deleteSnapshot(BackupSnapshot snapshot) async {
+  Future<void> _deleteSnapshot(BackupSnapshot snapshot, bool isWebDav) async {
     final confirm = await showDialog<bool>(
       context: context,
       builder: (_) => AlertDialog(
-        title: Text(_strings.knode_app_delete_backup_confirm),
+        title: Text(_strings.knode_app_delete),
+        content: Text(': ?'),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, false),
@@ -216,194 +332,57 @@ class _BackupSettingsPageState extends ConsumerState<BackupSettingsPage> {
         ],
       ),
     );
+
     if (confirm != true) return;
 
-    _configure();
     try {
-      await _backupService.deleteBackup(snapshot);
-      await _loadSnapshots();
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(_strings.knode_app_success), backgroundColor: Colors.green),
-        );
+      if (isWebDav) {
+        _configureWebDav();
+        await _backupService.deleteBackup(snapshot);
+      } else {
+        await _localBackupService.deleteBackup(snapshot);
       }
+      await _loadSnapshots();
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('${_strings.knode_app_delete_failed}: $e'), backgroundColor: Colors.red),
+          SnackBar(content: Text(': '), backgroundColor: Colors.red),
         );
       }
     }
   }
 
-  Future<void> _save() async {
-    final notifier = ref.read(settingsProvider.notifier);
-    await notifier.set('webdav_url', _urlController.text);
-    await notifier.set('webdav_user', _userController.text);
-    await notifier.set('webdav_pass', _passController.text);
-    await notifier.set('webdav_frequency', _backupFrequency);
-    await notifier.set('backup_keep_count', _keepCount.toString());
-    if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(_strings.knode_app_save_success), backgroundColor: Colors.green),
-      );
-    }
-  }
-
-  @override
-  void dispose() {
-    _urlController.dispose();
-    _userController.dispose();
-    _passController.dispose();
-    _backupService.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final isOperating = _isBacking || _isRestoring;
-
-    return Scaffold(
-      appBar: AppBar(title: Text(_strings.knode_app_webdav + ' ' + _strings.knode_app_backup), centerTitle: true),
-      body: ListView(
-        padding: const EdgeInsets.all(16),
-        children: [
-          TextField(
-            controller: _urlController,
-            decoration: InputDecoration(
-              labelText: 'WebDAV URL',
-              border: const OutlineInputBorder(),
-              hintText: 'https://example.com/dav',
-            ),
+  void _showConfigureDialog() {
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: Text(_strings.knode_app_both_not_configured),
+        content: Text(_strings.knode_app_both_not_configured),
+        actions: [
+          FilledButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(_strings.knode_app_confirm),
           ),
-          const SizedBox(height: 12),
-          TextField(
-            controller: _userController,
-            decoration: InputDecoration(
-              labelText: _strings.knode_app_user,
-              border: const OutlineInputBorder(),
-            ),
-          ),
-          const SizedBox(height: 12),
-          TextField(
-            controller: _passController,
-            obscureText: true,
-            decoration: InputDecoration(
-              labelText: _strings.knode_app_password,
-              border: const OutlineInputBorder(),
-            ),
-          ),
-          const SizedBox(height: 16),
-
-          Row(
-            children: [
-              OutlinedButton(
-                onPressed: _isTesting ? null : _testConnection,
-                child: _isTesting
-                    ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2))
-                    : Text(_strings.knode_app_test_connection),
-              ),
-              const SizedBox(width: 12),
-              FilledButton(onPressed: _save, child: Text(_strings.knode_app_save)),
-            ],
-          ),
-          const Divider(height: 32),
-
-          ListTile(
-            title: Text(_strings.knode_app_backup_frequency),
-            subtitle: Text(_frequencyLabel(_backupFrequency)),
-            trailing: const Icon(Icons.chevron_right),
-            onTap: _showFrequencySelector,
-          ),
-
-          ListTile(
-            title: Text(_strings.knode_app_keep_backup_count),
-            subtitle: Text(_strings.knode_app_keep_backup_desc(n: _keepCount.toString())),
-            trailing: DropdownButton<int>(
-              value: _keepCount,
-              items: [3, 5, 10, 20, -1].map((n) => DropdownMenuItem(
-                value: n,
-                child: Text(n == -1 ? _strings.knode_app_no_cleanup : '$n'),
-              )).toList(),
-              onChanged: (v) {
-                if (v != null) {
-                  setState(() => _keepCount = v);
-                }
-              },
-            ),
-          ),
-
-          const Divider(height: 32),
-
-          if (_backupProgress >= 0) ...[
-            LinearProgressIndicator(value: _backupProgress),
-            const SizedBox(height: 8),
-            Text(_backupProgressMessage, style: Theme.of(context).textTheme.bodySmall),
-            const SizedBox(height: 16),
-          ],
-
-          Text(_strings.knode_app_manual_operation, style: Theme.of(context).textTheme.titleSmall),
-          const SizedBox(height: 12),
-          Row(
-            children: [
-              Expanded(
-                child: OutlinedButton.icon(
-                  onPressed: isOperating ? null : _backup,
-                  icon: _isBacking
-                      ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2))
-                      : const Icon(Icons.cloud_upload),
-                  label: Text(_strings.knode_app_backup_now),
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: OutlinedButton.icon(
-                  onPressed: isOperating ? null : _restore,
-                  icon: _isRestoring
-                      ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2))
-                      : const Icon(Icons.cloud_download),
-                  label: Text(_strings.knode_app_restore),
-                ),
-              ),
-            ],
-          ),
-
-          const Divider(height: 32),
-
-          Row(
-            children: [
-              Text(_strings.knode_app_backup_history, style: Theme.of(context).textTheme.titleSmall),
-              const Spacer(),
-              IconButton(
-                icon: const Icon(Icons.refresh),
-                onPressed: _isLoadingSnapshots ? null : _loadSnapshots,
-              ),
-            ],
-          ),
-          const SizedBox(height: 8),
-
-          if (_isLoadingSnapshots)
-            const Center(child: CircularProgressIndicator())
-          else if (_snapshots.isEmpty)
-            Text(_strings.knode_app_no_backups, style: const TextStyle(color: Colors.grey))
-          else
-            ...List.generate(_snapshots.length, (i) {
-              final s = _snapshots[i];
-              return Card(
-                child: ListTile(
-                  leading: const Icon(Icons.archive_outlined),
-                  title: Text(s.createdAt.toString().substring(0, 19)),
-                  subtitle: Text(s.sizeFormatted),
-                  trailing: IconButton(
-                    icon: const Icon(Icons.delete_outline, color: Colors.red),
-                    onPressed: () => _deleteSnapshot(s),
-                  ),
-                ),
-              );
-            }),
         ],
       ),
     );
+  }
+
+  Future<void> _pickLocalBackupPath() async {
+    final selected = await FilePickerUtil.pickDirectory(
+      dialogTitle: _strings.knode_app_local_backup_path,
+    );
+    if (selected == null) return;
+
+    setState(() => _localBackupPath = selected);
+    await ref.read(settingsProvider.notifier).set('local_backup_path', selected);
+    await _loadSnapshots();
+
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(_strings.knode_app_storage_path_updated)),
+      );
+    }
   }
 
   void _showFrequencySelector() {
@@ -445,6 +424,7 @@ class _BackupSettingsPageState extends ConsumerState<BackupSettingsPage> {
 
   void _setFrequency(String freq) {
     setState(() => _backupFrequency = freq);
+    ref.read(settingsProvider.notifier).set('backup_frequency', freq);
     Navigator.pop(context);
   }
 
@@ -460,18 +440,331 @@ class _BackupSettingsPageState extends ConsumerState<BackupSettingsPage> {
         return freq;
     }
   }
+
+  String _formatDateTime(DateTime? dt) {
+    if (dt == null) return '-';
+    return dt.toString().substring(0, 19);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final isOperating = _isBacking || _isRestoring;
+
+    return Scaffold(
+      appBar: AppBar(title: Text(_strings.knode_app_backup_settings), centerTitle: true),
+      body: ListView(
+        padding: const EdgeInsets.all(16),
+        children: [
+          // 备份频率
+          Card(
+            child: ListTile(
+              leading: const Icon(Icons.schedule),
+              title: Text(_strings.knode_app_backup_frequency_label),
+              subtitle: Text(_frequencyLabel(_backupFrequency)),
+              trailing: const Icon(Icons.chevron_right),
+              onTap: _showFrequencySelector,
+            ),
+          ),
+          const SizedBox(height: 16),
+
+          // WebDAV 配置
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      const Icon(Icons.cloud_outlined),
+                      const SizedBox(width: 8),
+                      Text(_strings.knode_app_webdav, style: Theme.of(context).textTheme.titleMedium),
+                      const Spacer(),
+                      if (_isWebDavConfigured)
+                        const Icon(Icons.check_circle, color: Colors.green, size: 20)
+                      else
+                        const Icon(Icons.info_outline, color: Colors.orange, size: 20),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+                  TextField(
+                    controller: _urlController,
+                    decoration: InputDecoration(
+                      labelText: _strings.knode_app_api_base_url,
+                      hintText: 'https://your-webdav-server.com/dav',
+                      border: const OutlineInputBorder(),
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  TextField(
+                    controller: _userController,
+                    decoration: InputDecoration(
+                      labelText: _strings.knode_app_user,
+                      border: const OutlineInputBorder(),
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  TextField(
+                    controller: _passController,
+                    obscureText: true,
+                    decoration: InputDecoration(
+                      labelText: _strings.knode_app_password,
+                      border: const OutlineInputBorder(),
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: OutlinedButton.icon(
+                          onPressed: _isTesting ? null : _testConnection,
+                          icon: _isTesting
+                              ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2))
+                              : const Icon(Icons.wifi_find),
+                          label: Text(_strings.knode_app_test_connection),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 16),
+
+          // 本地备份配置
+          Card(
+            child: ListTile(
+              leading: const Icon(Icons.folder_outlined),
+              title: Text(_strings.knode_app_local_backup_path),
+              subtitle: Text(
+                _localBackupPath.isEmpty ? _strings.knode_app_local_backup_not_configured : _localBackupPath,
+                style: const TextStyle(fontSize: 12),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (_isLocalBackupConfigured)
+                    const Icon(Icons.check_circle, color: Colors.green, size: 20)
+                  else
+                    const Icon(Icons.info_outline, color: Colors.orange, size: 20),
+                  const SizedBox(width: 8),
+                  const Icon(Icons.chevron_right),
+                ],
+              ),
+              onTap: _pickLocalBackupPath,
+            ),
+          ),
+          const SizedBox(height: 24),
+
+          // 上次备份时间
+          if (_isWebDavConfigured || _isLocalBackupConfigured) ...[
+            Card(
+              color: Theme.of(context).colorScheme.surfaceContainerHighest,
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(_strings.knode_app_backup_history, style: Theme.of(context).textTheme.titleSmall),
+                    const SizedBox(height: 8),
+                    if (_isWebDavConfigured)
+                      Text(_strings.knode_app_webdav_last_backup(
+                        time: _formatDateTime(_webdavSnapshots.isNotEmpty ? _webdavSnapshots.first.createdAt : null),
+                      )),
+                    if (_isLocalBackupConfigured)
+                      Text(_strings.knode_app_local_backup_last_backup(
+                        time: _formatDateTime(_localSnapshots.isNotEmpty ? _localSnapshots.first.createdAt : null),
+                      )),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+          ],
+
+          // 立即备份和恢复按钮
+          Row(
+            children: [
+              Expanded(
+                child: OutlinedButton.icon(
+                  onPressed: isOperating ? null : _backupNow,
+                  icon: _isBacking
+                      ? SizedBox(
+                          width: 16,
+                          height: 16,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2,
+                            value: _backupProgress >= 0 ? _backupProgress : null,
+                          ),
+                        )
+                      : const Icon(Icons.cloud_upload),
+                  label: Text(_isBacking ? _backupProgressMessage : _strings.knode_app_backup_now),
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: OutlinedButton.icon(
+                  onPressed: isOperating ? null : _restore,
+                  icon: _isRestoring
+                      ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2))
+                      : const Icon(Icons.cloud_download),
+                  label: Text(_strings.knode_app_restore),
+                ),
+              ),
+            ],
+          ),
+
+          const Divider(height: 32),
+
+          // WebDAV 备份历史
+          if (_isWebDavConfigured) ...[
+            Row(
+              children: [
+                const Icon(Icons.cloud_outlined, size: 20),
+                const SizedBox(width: 8),
+                Text(_strings.knode_app_webdav, style: Theme.of(context).textTheme.titleSmall),
+                const Spacer(),
+                IconButton(
+                  icon: const Icon(Icons.refresh),
+                  onPressed: _isLoadingSnapshots ? null : _loadSnapshots,
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            if (_isLoadingSnapshots)
+              const Center(child: CircularProgressIndicator())
+            else if (_webdavSnapshots.isEmpty)
+              Text(_strings.knode_app_no_backups, style: const TextStyle(color: Colors.grey))
+            else
+              ...List.generate(_webdavSnapshots.length, (i) {
+                final s = _webdavSnapshots[i];
+                return Card(
+                  child: ListTile(
+                    leading: const Icon(Icons.archive_outlined),
+                    title: Text(s.createdAt.toString().substring(0, 19)),
+                    subtitle: Text(s.sizeFormatted),
+                    trailing: IconButton(
+                      icon: const Icon(Icons.delete_outline, color: Colors.red),
+                      onPressed: () => _deleteSnapshot(s, true),
+                    ),
+                  ),
+                );
+              }),
+            const SizedBox(height: 16),
+          ],
+
+          // 本地备份历史
+          if (_isLocalBackupConfigured) ...[
+            Row(
+              children: [
+                const Icon(Icons.folder_outlined, size: 20),
+                const SizedBox(width: 8),
+                Text(_strings.knode_app_local_backup, style: Theme.of(context).textTheme.titleSmall),
+                const Spacer(),
+                IconButton(
+                  icon: const Icon(Icons.refresh),
+                  onPressed: _isLoadingSnapshots ? null : _loadSnapshots,
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            if (_isLoadingSnapshots)
+              const Center(child: CircularProgressIndicator())
+            else if (_localSnapshots.isEmpty)
+              Text(_strings.knode_app_no_backups, style: const TextStyle(color: Colors.grey))
+            else
+              ...List.generate(_localSnapshots.length, (i) {
+                final s = _localSnapshots[i];
+                return Card(
+                  child: ListTile(
+                    leading: const Icon(Icons.archive_outlined),
+                    title: Text(s.createdAt.toString().substring(0, 19)),
+                    subtitle: Text(s.sizeFormatted),
+                    trailing: IconButton(
+                      icon: const Icon(Icons.delete_outline, color: Colors.red),
+                      onPressed: () => _deleteSnapshot(s, false),
+                    ),
+                  ),
+                );
+              }),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+class _RestoreSourceDialog extends StatelessWidget {
+  final bool isWebDavConfigured;
+  final bool isLocalConfigured;
+  final List<BackupSnapshot> webdavSnapshots;
+  final List<BackupSnapshot> localSnapshots;
+
+  const _RestoreSourceDialog({
+    required this.isWebDavConfigured,
+    required this.isLocalConfigured,
+    required this.webdavSnapshots,
+    required this.localSnapshots,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text(_strings.knode_app_select_restore_source),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (isWebDavConfigured)
+            ListTile(
+              leading: const Icon(Icons.cloud_outlined),
+              title: Text(_strings.knode_app_webdav_restore),
+              subtitle: Text(
+                webdavSnapshots.isNotEmpty
+                    ? ': '
+                    : _strings.knode_app_no_webdav_backup,
+              ),
+              onTap: () => Navigator.pop(context, 'webdav'),
+            ),
+          if (isLocalConfigured)
+            ListTile(
+              leading: const Icon(Icons.folder_outlined),
+              title: Text(_strings.knode_app_local_restore),
+              subtitle: Text(
+                localSnapshots.isNotEmpty
+                    ? ': '
+                    : _strings.knode_app_no_local_backup,
+              ),
+              onTap: () => Navigator.pop(context, 'local'),
+            ),
+          if (!isWebDavConfigured && !isLocalConfigured)
+            Text(_strings.knode_app_both_not_configured),
+        ],
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: Text(_strings.knode_app_cancel),
+        ),
+      ],
+    );
+  }
 }
 
 class _SnapshotPickerDialog extends StatelessWidget {
   static const _strings = L10nStringsMixin();
 
   final List<BackupSnapshot> snapshots;
-  const _SnapshotPickerDialog({required this.snapshots});
+  final String title;
+
+  const _SnapshotPickerDialog({required this.snapshots, required this.title});
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text(_strings.knode_app_select_restore_version),
+      title: Text(title),
       content: SizedBox(
         width: double.maxFinite,
         child: snapshots.isEmpty

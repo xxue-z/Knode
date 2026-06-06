@@ -287,8 +287,8 @@ class _WikiPageState extends ConsumerState<WikiPage>
                     controller: titleController,
                     autofocus: true,
                     decoration: InputDecoration(
-                      labelText: _strings.wiki_document_title,
-                      hintText: '输入文档标题',
+                      labelText: _strings.wiki_document_name,
+                      hintText: '输入文档名称',
                       prefixIcon: const Icon(Icons.description_outlined),
                       border: const OutlineInputBorder(),
                     ),
@@ -338,7 +338,7 @@ class _WikiPageState extends ConsumerState<WikiPage>
       final doc = await notifier.createDocument(
         categoryId: categoryId,
         title: title,
-        initialContent: '# $title\n\n',
+        initialContent: '',
       );
       if (!context.mounted) return;
 
@@ -349,7 +349,7 @@ class _WikiPageState extends ConsumerState<WikiPage>
           await Navigator.push(
             context,
             MaterialPageRoute<void>(
-              builder: (_) => EditorPage(docId: doc.id, title: doc.title),
+              builder: (_) => EditorPage(docId: doc.id, title: doc.title, startInSourceMode: true),
             ),
           );
           _loadData();

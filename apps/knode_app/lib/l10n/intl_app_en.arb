@@ -819,6 +819,10 @@
   "@knode_app_based_on_recent": {
     "description": "基于最近阅读文件出题"
   },
+  "knode_app_both_not_configured": "No backup target configured, please configure WebDAV or local backup",
+  "@knode_app_both_not_configured": {
+    "description": "未配置备份目标，请配置 WebDAV 或本地备份"
+  },
   "knode_app_bottom_navigation": "Bottom Navigation",
   "@knode_app_bottom_navigation": {
     "description": "底部导航"
@@ -1129,6 +1133,39 @@
   "@knode_app_loading": {
     "description": "加载中..."
   },
+  "knode_app_local_backup": "Local Backup",
+  "@knode_app_local_backup": {
+    "description": "本地备份"
+  },
+  "knode_app_local_backup_config_needed": "Please configure local backup directory",
+  "@knode_app_local_backup_config_needed": {
+    "description": "请配置本地备份目录"
+  },
+  "knode_app_local_backup_last_backup": "Local Last Backup: {time}",
+  "@knode_app_local_backup_last_backup": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    },
+    "description": "本地上次备份: {time}"
+  },
+  "knode_app_local_backup_not_configured": "Local backup not configured",
+  "@knode_app_local_backup_not_configured": {
+    "description": "未配置本地备份"
+  },
+  "knode_app_local_backup_path": "Local Backup Path",
+  "@knode_app_local_backup_path": {
+    "description": "本地备份路径"
+  },
+  "knode_app_local_backup_path_subtitle": "Select directory for local backups",
+  "@knode_app_local_backup_path_subtitle": {
+    "description": "选择本地备份目录"
+  },
+  "knode_app_local_backup_subtitle": "Backup to local storage",
+  "@knode_app_local_backup_subtitle": {
+    "description": "备份到本地存储"
+  },
   "knode_app_local_model": "Local Model",
   "@knode_app_local_model": {
     "description": "本地模型"
@@ -1136,6 +1173,10 @@
   "knode_app_local_model_label": "Local Model",
   "@knode_app_local_model_label": {
     "description": "本地模型"
+  },
+  "knode_app_local_restore": "Local Restore",
+  "@knode_app_local_restore": {
+    "description": "本地恢复"
   },
   "knode_app_log_all": "All",
   "@knode_app_log_all": {
@@ -1308,6 +1349,10 @@
   "@knode_app_no_key_hint": {
     "description": "还没有 Key？点击获取"
   },
+  "knode_app_no_local_backup": "No local backup available",
+  "@knode_app_no_local_backup": {
+    "description": "无可用本地备份"
+  },
   "knode_app_no_models": "No models",
   "@knode_app_no_models": {
     "description": "暂无模型"
@@ -1315,6 +1360,10 @@
   "knode_app_no_templates": "No templates",
   "@knode_app_no_templates": {
     "description": "暂无模板"
+  },
+  "knode_app_no_webdav_backup": "No WebDAV backup available",
+  "@knode_app_no_webdav_backup": {
+    "description": "无可用 WebDAV 备份"
   },
   "knode_app_no_wrong_cards": "No wrong cards yet",
   "@knode_app_no_wrong_cards": {
@@ -1533,6 +1582,10 @@
   "@knode_app_search_api_key": {
     "description": "搜索 API Key"
   },
+  "knode_app_select_restore_source": "Select Restore Source",
+  "@knode_app_select_restore_source": {
+    "description": "选择恢复来源"
+  },
   "knode_app_select_restore_version": "Select Restore Version",
   "@knode_app_select_restore_version": {
     "description": "选择恢复版本"
@@ -1711,9 +1764,22 @@
   "@knode_app_webdav": {
     "description": "WebDAV"
   },
+  "knode_app_webdav_last_backup": "WebDAV Last Backup: {time}",
+  "@knode_app_webdav_last_backup": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    },
+    "description": "WebDAV 上次备份: {time}"
+  },
   "knode_app_webdav_not_configured": "WebDAV not configured",
   "@knode_app_webdav_not_configured": {
     "description": "WebDAV 未配置"
+  },
+  "knode_app_webdav_restore": "WebDAV Restore",
+  "@knode_app_webdav_restore": {
+    "description": "WebDAV 恢复"
   },
   "knode_app_webdav_subtitle": "WebDAV / Local Backup",
   "@knode_app_webdav_subtitle": {
@@ -2519,6 +2585,10 @@
   "@wiki_document": {
     "description": "文档"
   },
+  "wiki_document_name": "Document Name",
+  "@wiki_document_name": {
+    "description": "文档名称"
+  },
   "wiki_document_title": "Document Title",
   "@wiki_document_title": {
     "description": "文档标题"
@@ -2966,18 +3036,6 @@
   "wiki_wiki": "Wiki",
   "@wiki_wiki": {
     "description": "知识库"
-  },
-  "wiki_min": "min",
-  "@wiki_min": {
-    "description": "分钟"
-  },
-  "wiki_today_reading": "Todays Reading",
-  "@wiki_today_reading": {
-    "description": "今天阅读"
-  },
-  "wiki_total_reading": "Total Reading",
-  "@wiki_total_reading": {
-    "description": "总阅读"
   },
   "wiki_work": "Work",
   "@wiki_work": {

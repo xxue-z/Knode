@@ -6,7 +6,7 @@ import 'package:knode_app/screens/backup_settings.dart';
 import 'package:knode_app/screens/prompt_management_screen.dart';
 import 'package:knode_app/screens/log_viewer_screen.dart';
 
-final _strings = const L10nStringsMixin();
+const _strings = L10nStringsMixin();
 
 class SettingsPage extends ConsumerWidget {
   const SettingsPage({super.key});
@@ -37,13 +37,7 @@ class SettingsPage extends ConsumerWidget {
               onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const PromptManagementScreen())),
             ),
           ]),
-          _Section(title: _strings.knode_app_storage_settings, children: [
-            _SettingsTile(
-              icon: Icons.folder_outlined,
-              title: _strings.knode_app_storage_path,
-              subtitle: _strings.knode_app_storage_path_subtitle,
-              onTap: () {},
-            ),
+          _Section(title: _strings.knode_app_backup_settings, children: [
             _SettingsTile(
               icon: Icons.backup_outlined,
               title: _strings.knode_app_backup_settings,

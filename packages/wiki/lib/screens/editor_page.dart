@@ -14,10 +14,11 @@ final _strings = const L10nStringsMixin();
 /// 使用 flutter_quill 实现所见即所得 MD 编辑，
 /// 支持源码模式切换，自动保存（防抖）。
 class EditorPage extends ConsumerStatefulWidget {
-  const EditorPage({super.key, required this.docId, this.title});
+  const EditorPage({super.key, required this.docId, this.title, this.startInSourceMode = false});
 
   final int docId;
   final String? title;
+  final bool startInSourceMode;
 
   @override
   ConsumerState<EditorPage> createState() => _EditorPageState();
@@ -49,6 +50,7 @@ class _EditorPageState extends ConsumerState<EditorPage> {
   void initState() {
     super.initState();
     _titleController = TextEditingController(text: widget.title ?? '');
+    _isRichTextMode = !widget.startInSourceMode;
     _loadContent();
   }
 
@@ -138,7 +140,7 @@ class _EditorPageState extends ConsumerState<EditorPage> {
                 },
                 child: _isTitleEditing
                     ? SizedBox(
-                        width: 220,
+                        width: 160,
                         child: TextField(
                           controller: _titleController,
                           autofocus: true,
@@ -148,7 +150,7 @@ class _EditorPageState extends ConsumerState<EditorPage> {
                           ),
                           decoration: const InputDecoration(
                             border: InputBorder.none,
-                            hintText: '输入标题',
+                            hintText: '输入文档名称',
                             isDense: true,
                           ),
                           onChanged: (_) => _onContentChanged(),

@@ -819,6 +819,10 @@
   "@knode_app_based_on_recent": {
     "description": "基于最近阅读文件出题"
   },
+  "knode_app_both_not_configured": "未配置备份目标，请配置 WebDAV 或本地备份",
+  "@knode_app_both_not_configured": {
+    "description": "未配置备份目标，请配置 WebDAV 或本地备份"
+  },
   "knode_app_bottom_navigation": "底部导航",
   "@knode_app_bottom_navigation": {
     "description": "底部导航"
@@ -1129,6 +1133,39 @@
   "@knode_app_loading": {
     "description": "加载中..."
   },
+  "knode_app_local_backup": "本地备份",
+  "@knode_app_local_backup": {
+    "description": "本地备份"
+  },
+  "knode_app_local_backup_config_needed": "请配置本地备份目录",
+  "@knode_app_local_backup_config_needed": {
+    "description": "请配置本地备份目录"
+  },
+  "knode_app_local_backup_last_backup": "本地上次备份: {time}",
+  "@knode_app_local_backup_last_backup": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    },
+    "description": "本地上次备份: {time}"
+  },
+  "knode_app_local_backup_not_configured": "未配置本地备份",
+  "@knode_app_local_backup_not_configured": {
+    "description": "未配置本地备份"
+  },
+  "knode_app_local_backup_path": "本地备份路径",
+  "@knode_app_local_backup_path": {
+    "description": "本地备份路径"
+  },
+  "knode_app_local_backup_path_subtitle": "选择本地备份目录",
+  "@knode_app_local_backup_path_subtitle": {
+    "description": "选择本地备份目录"
+  },
+  "knode_app_local_backup_subtitle": "备份到本地存储",
+  "@knode_app_local_backup_subtitle": {
+    "description": "备份到本地存储"
+  },
   "knode_app_local_model": "本地模型",
   "@knode_app_local_model": {
     "description": "本地模型"
@@ -1136,6 +1173,10 @@
   "knode_app_local_model_label": "本地模型",
   "@knode_app_local_model_label": {
     "description": "本地模型"
+  },
+  "knode_app_local_restore": "本地恢复",
+  "@knode_app_local_restore": {
+    "description": "本地恢复"
   },
   "knode_app_log_all": "全部",
   "@knode_app_log_all": {
@@ -1308,6 +1349,10 @@
   "@knode_app_no_key_hint": {
     "description": "还没有 Key？点击获取"
   },
+  "knode_app_no_local_backup": "无可用本地备份",
+  "@knode_app_no_local_backup": {
+    "description": "无可用本地备份"
+  },
   "knode_app_no_models": "暂无模型",
   "@knode_app_no_models": {
     "description": "暂无模型"
@@ -1315,6 +1360,10 @@
   "knode_app_no_templates": "暂无模板",
   "@knode_app_no_templates": {
     "description": "暂无模板"
+  },
+  "knode_app_no_webdav_backup": "无可用 WebDAV 备份",
+  "@knode_app_no_webdav_backup": {
+    "description": "无可用 WebDAV 备份"
   },
   "knode_app_no_wrong_cards": "暂无错题",
   "@knode_app_no_wrong_cards": {
@@ -1533,6 +1582,10 @@
   "@knode_app_search_api_key": {
     "description": "搜索 API Key"
   },
+  "knode_app_select_restore_source": "选择恢复来源",
+  "@knode_app_select_restore_source": {
+    "description": "选择恢复来源"
+  },
   "knode_app_select_restore_version": "选择恢复版本",
   "@knode_app_select_restore_version": {
     "description": "选择恢复版本"
@@ -1711,9 +1764,22 @@
   "@knode_app_webdav": {
     "description": "WebDAV"
   },
+  "knode_app_webdav_last_backup": "WebDAV 上次备份: {time}",
+  "@knode_app_webdav_last_backup": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    },
+    "description": "WebDAV 上次备份: {time}"
+  },
   "knode_app_webdav_not_configured": "WebDAV 未配置",
   "@knode_app_webdav_not_configured": {
     "description": "WebDAV 未配置"
+  },
+  "knode_app_webdav_restore": "WebDAV 恢复",
+  "@knode_app_webdav_restore": {
+    "description": "WebDAV 恢复"
   },
   "knode_app_webdav_subtitle": "WebDAV / 本地备份",
   "@knode_app_webdav_subtitle": {
@@ -2519,6 +2585,10 @@
   "@wiki_document": {
     "description": "文档"
   },
+  "wiki_document_name": "文档名称",
+  "@wiki_document_name": {
+    "description": "文档名称"
+  },
   "wiki_document_title": "文档标题",
   "@wiki_document_title": {
     "description": "文档标题"
@@ -2966,22 +3036,6 @@
   "wiki_wiki": "知识库",
   "@wiki_wiki": {
     "description": "知识库"
-  },
-  "wiki_all_documents": "全部文档",
-  "@wiki_all_documents": {
-    "description": "全部文档"
-  },
-  "wiki_min": "分钟",
-  "@wiki_min": {
-    "description": "分钟"
-  },
-  "wiki_today_reading": "今天阅读",
-  "@wiki_today_reading": {
-    "description": "今天阅读"
-  },
-  "wiki_total_reading": "总阅读",
-  "@wiki_total_reading": {
-    "description": "总阅读"
   },
   "wiki_work": "工作",
   "@wiki_work": {

@@ -25,6 +25,7 @@ class _QuillEditorWidgetState extends State<QuillEditorWidget> {
   late QuillController _controller;
   late final FocusNode _focusNode;
   late final ScrollController _scrollController;
+  final ScrollController _toolbarScrollController = ScrollController();
 
   @override
   void initState() {
@@ -257,6 +258,7 @@ class _QuillEditorWidgetState extends State<QuillEditorWidget> {
     _controller.dispose();
     _focusNode.dispose();
     _scrollController.dispose();
+    _toolbarScrollController.dispose();
     super.dispose();
   }
 
@@ -264,10 +266,6 @@ class _QuillEditorWidgetState extends State<QuillEditorWidget> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        QuillSimpleToolbar(
-          controller: _controller,
-        ),
-        const Divider(height: 1),
         Expanded(
           child: QuillEditor(
             controller: _controller,
@@ -277,6 +275,20 @@ class _QuillEditorWidgetState extends State<QuillEditorWidget> {
               padding: EdgeInsets.all(16),
               autoFocus: false,
               expands: true,
+            ),
+          ),
+        ),
+        const Divider(height: 1),
+        Scrollbar(
+          controller: _toolbarScrollController,
+          thumbVisibility: true,
+          scrollbarOrientation: ScrollbarOrientation.bottom,
+          child: SingleChildScrollView(
+            controller: _toolbarScrollController,
+            scrollDirection: Axis.horizontal,
+            padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+            child: QuillSimpleToolbar(
+              controller: _controller,
             ),
           ),
         ),

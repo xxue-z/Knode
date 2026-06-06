@@ -110,6 +110,10 @@ mixin class L10nStringsMixin {
   String get knode_app_based_on_recent =>
       LocalizeStringDelegate.get('knode_app_based_on_recent');
 
+  /// 未配置备份目标，请配置 WebDAV 或本地备份
+  String get knode_app_both_not_configured =>
+      LocalizeStringDelegate.get('knode_app_both_not_configured');
+
   /// 底部导航
   String get knode_app_bottom_navigation =>
       LocalizeStringDelegate.get('knode_app_bottom_navigation');
@@ -393,6 +397,37 @@ mixin class L10nStringsMixin {
   String get knode_app_loading =>
       LocalizeStringDelegate.get('knode_app_loading');
 
+  /// 本地备份
+  String get knode_app_local_backup =>
+      LocalizeStringDelegate.get('knode_app_local_backup');
+
+  /// 请配置本地备份目录
+  String get knode_app_local_backup_config_needed =>
+      LocalizeStringDelegate.get('knode_app_local_backup_config_needed');
+
+  /// 本地上次备份: {time}
+  String knode_app_local_backup_last_backup({required String time}) =>
+      LocalizeStringDelegate.get(
+        'knode_app_local_backup_last_backup',
+        arguments: [time],
+      );
+
+  /// 未配置本地备份
+  String get knode_app_local_backup_not_configured =>
+      LocalizeStringDelegate.get('knode_app_local_backup_not_configured');
+
+  /// 本地备份路径
+  String get knode_app_local_backup_path =>
+      LocalizeStringDelegate.get('knode_app_local_backup_path');
+
+  /// 选择本地备份目录
+  String get knode_app_local_backup_path_subtitle =>
+      LocalizeStringDelegate.get('knode_app_local_backup_path_subtitle');
+
+  /// 备份到本地存储
+  String get knode_app_local_backup_subtitle =>
+      LocalizeStringDelegate.get('knode_app_local_backup_subtitle');
+
   /// 本地模型
   String get knode_app_local_model =>
       LocalizeStringDelegate.get('knode_app_local_model');
@@ -400,6 +435,10 @@ mixin class L10nStringsMixin {
   /// 本地模型
   String get knode_app_local_model_label =>
       LocalizeStringDelegate.get('knode_app_local_model_label');
+
+  /// 本地恢复
+  String get knode_app_local_restore =>
+      LocalizeStringDelegate.get('knode_app_local_restore');
 
   /// 全部
   String get knode_app_log_all =>
@@ -562,6 +601,10 @@ mixin class L10nStringsMixin {
   String get knode_app_no_key_hint =>
       LocalizeStringDelegate.get('knode_app_no_key_hint');
 
+  /// 无可用本地备份
+  String get knode_app_no_local_backup =>
+      LocalizeStringDelegate.get('knode_app_no_local_backup');
+
   /// 暂无模型
   String get knode_app_no_models =>
       LocalizeStringDelegate.get('knode_app_no_models');
@@ -569,6 +612,10 @@ mixin class L10nStringsMixin {
   /// 暂无模板
   String get knode_app_no_templates =>
       LocalizeStringDelegate.get('knode_app_no_templates');
+
+  /// 无可用 WebDAV 备份
+  String get knode_app_no_webdav_backup =>
+      LocalizeStringDelegate.get('knode_app_no_webdav_backup');
 
   /// 暂无错题
   String get knode_app_no_wrong_cards =>
@@ -779,6 +826,10 @@ mixin class L10nStringsMixin {
   String get knode_app_search_api_key =>
       LocalizeStringDelegate.get('knode_app_search_api_key');
 
+  /// 选择恢复来源
+  String get knode_app_select_restore_source =>
+      LocalizeStringDelegate.get('knode_app_select_restore_source');
+
   /// 选择恢复版本
   String get knode_app_select_restore_version =>
       LocalizeStringDelegate.get('knode_app_select_restore_version');
@@ -950,9 +1001,20 @@ mixin class L10nStringsMixin {
   /// WebDAV
   String get knode_app_webdav => LocalizeStringDelegate.get('knode_app_webdav');
 
+  /// WebDAV 上次备份: {time}
+  String knode_app_webdav_last_backup({required String time}) =>
+      LocalizeStringDelegate.get(
+        'knode_app_webdav_last_backup',
+        arguments: [time],
+      );
+
   /// WebDAV 未配置
   String get knode_app_webdav_not_configured =>
       LocalizeStringDelegate.get('knode_app_webdav_not_configured');
+
+  /// WebDAV 恢复
+  String get knode_app_webdav_restore =>
+      LocalizeStringDelegate.get('knode_app_webdav_restore');
 
   /// WebDAV &#x2F; 本地备份
   String get knode_app_webdav_subtitle =>

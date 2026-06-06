@@ -232,12 +232,26 @@ multiple_choice_suffix,(Multiple Choice),（多选）
 options_label,Options:,选项:
 not_answered,Not answered,未作答
 storage_migration_hint_1,New documents will be saved to the new location,新文档将保存到新位置
-storage_migration_hint_2,Migration copies existing .md files to the new directory,迁移会将已有 .md 文件复制到新目录
-storage_migration_hint_3,Original files are not deleted - clean them manually,原文件不会被删除，请手动清理
+storage_migration_hint_2,Migration copies existing .md files to the new directory,"迁移会将已有 .md 文件复制到新目录"
+storage_migration_hint_3,Original files are not deleted - clean them manually,"原文件不会被删除，请手动清理"
 api_protocol,API Protocol,API 协议
 model_name_label,Model,模型
 share_logs_subject,Knode App Logs,知维应用日志
 mirror_not_found,Mirror "{key}" not found,镜像 "{key}" 不存在
-checksum_failed,File checksum failed - please re-download,文件校验失败，请重新下载
+checksum_failed,"File checksum failed - please re-download","文件校验失败，请重新下载"
 source_not_found,Source file not found: {path},源文件不存在: {path}
 gguf_only,Only .gguf files are supported,仅支持 .gguf 格式文件
+local_restore,Local Restore,本地恢复
+both_not_configured,"No backup target configured, please configure WebDAV or local backup","未配置备份目标，请配置 WebDAV 或本地备份"
+local_backup_path,Local Backup Path,本地备份路径
+local_backup_path_subtitle,Select directory for local backups,选择本地备份目录
+local_backup_not_configured,Local backup not configured,未配置本地备份
+local_backup_config_needed,Please configure local backup directory,请配置本地备份目录
+local_backup,Local Backup,本地备份
+local_backup_subtitle,Backup to local storage,备份到本地存储
+local_backup_last_backup,Local Last Backup: {time},本地上次备份: {time}
+webdav_last_backup,WebDAV Last Backup: {time},WebDAV 上次备份: {time}
+webdav_restore,"WebDAV Restore","WebDAV 恢复"
+no_webdav_backup,No WebDAV backup available,无可用 WebDAV 备份
+no_local_backup,"No local backup available","无可用本地备份"
+select_restore_source,"Select Restore Source","选择恢复来源"
