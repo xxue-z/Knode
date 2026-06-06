@@ -18,7 +18,7 @@ class ChatPanel extends ConsumerStatefulWidget {
 }
 
 class _ChatPanelState extends ConsumerState<ChatPanel> {
-  double _heightRatio = 0.5;
+  double _heightRatio = 0.4;
   final TextEditingController _textController = TextEditingController();
 
   @override
@@ -30,7 +30,7 @@ class _ChatPanelState extends ConsumerState<ChatPanel> {
   void _onDragVertical(DragUpdateDetails details) {
     setState(() {
       final delta = details.delta.dy / MediaQuery.of(context).size.height;
-      _heightRatio = (_heightRatio - delta).clamp(0.3, 0.7);
+      _heightRatio = (_heightRatio - delta).clamp(0.3, 0.5);
     });
   }
 
@@ -76,7 +76,7 @@ class _ChatPanelState extends ConsumerState<ChatPanel> {
             ),
             // 标题栏
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -85,15 +85,20 @@ class _ChatPanelState extends ConsumerState<ChatPanel> {
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                   Row(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       IconButton(
-                        icon: const Icon(Icons.fullscreen),
+                        icon: const Icon(Icons.fullscreen, size: 20),
                         tooltip: '展开完整聊天',
                         onPressed: widget.onFullScreen,
+                        constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
+                        padding: const EdgeInsets.all(4),
                       ),
                       IconButton(
-                        icon: const Icon(Icons.close),
+                        icon: const Icon(Icons.close, size: 20),
                         onPressed: widget.onClose,
+                        constraints: const BoxConstraints(minWidth: 32, minHeight: 32),
+                        padding: const EdgeInsets.all(4),
                       ),
                     ],
                   ),
@@ -119,7 +124,8 @@ class _ChatPanelState extends ConsumerState<ChatPanel> {
     final chatBallState = ref.watch(chatBallNotifierProvider);
     final isVoiceMode = chatBallState.inputMode == 'voice';
 
-    return Container(
+    return Material(
+      child: Container(
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
@@ -176,6 +182,7 @@ class _ChatPanelState extends ConsumerState<ChatPanel> {
             ),
           ],
         ),
+      ),
       ),
     );
   }

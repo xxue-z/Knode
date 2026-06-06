@@ -426,7 +426,7 @@ class _PanelOverlayWidget extends StatelessWidget {
     // 面板最大高度：从 panelTop 向上到屏幕顶部，留 16px 边距
     final maxPanelHeight = panelTop - 16.0;
     // 面板高度：屏幕高度的 50%，但不超过 maxPanelHeight
-    final panelHeight = (screenHeight * 0.5).clamp(200.0, maxPanelHeight);
+    final panelHeight = (screenHeight * 0.5).clamp(200.0, maxPanelHeight).toDouble();
 
     // 面板实际顶部：从 panelTop 向上展开
     final actualTop = panelTop - panelHeight;
