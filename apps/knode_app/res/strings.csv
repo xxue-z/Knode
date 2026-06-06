@@ -69,9 +69,9 @@ loading,Loading...,加载中...
 error,Error,错误
 success,Success,成功
 web_search,Web Search,联网搜索
-web_search_subtitle,"Search provider, API Key config","搜索服务商、API Key 配置"
+web_search_subtitle,"Search provider, API Key config",搜索服务商、API Key 配置
 ai_engine,AI Engine,AI 引擎
-ai_engine_subtitle,"Local model management, cloud API config","本地模型管理、云端 API 配置"
+ai_engine_subtitle,"Local model management, cloud API config",本地模型管理、云端 API 配置
 storage_path,Storage Path,存储路径
 storage_path_subtitle,Manage knowledge base file storage location,管理知识库文件存储位置
 select_search_provider,Select Search Provider,选择搜索服务商
@@ -90,7 +90,7 @@ available_memory,Available Memory: {memory} MB,可用内存: {memory} MB
 cloud_model_repo_url,Cloud Model Repository URL,云模型仓库地址
 no_models,No models,暂无模型
 fetch_or_import_hint,Fetch repository or import local file,请获取仓库或导入本地文件
-fetch_failed_use_cache,"Fetch failed, using cached data","获取失败，使用已缓存数据"
+fetch_failed_use_cache,"Fetch failed, using cached data",获取失败，使用已缓存数据
 import_success,Import successful,导入成功
 import_failed,Import failed,导入失败
 load_failed,Load failed,加载失败
@@ -182,7 +182,7 @@ log_detail,Log Detail,日志详情
 log_error_info,Error Info,错误信息
 log_stack_trace,Stack Trace,堆栈跟踪
 modify_storage_path,Modify Storage Path,修改存储路径
-migrate_files_confirm,"Change storage path to:\n{path}\n\nMigrate existing files?","将存储路径修改为:\n{path}\n\n是否迁移已有文件？"
+migrate_files_confirm,Change storage path to:\n{path}\n\nMigrate existing files?,将存储路径修改为:\n{path}\n\n是否迁移已有文件？
 path_only,Path Only,仅修改路径
 migrate_and_change,Migrate & Change,修改并迁移
 storage_path_updated,Storage path updated,存储路径已更新
@@ -195,7 +195,7 @@ enable_micro_server_desc,Access via browser when enabled,开启后可通过浏�
 port,Port,端口号
 switch_to_quiz_tab,Switch to Quiz tab to view exam history,请切换到[测验]标签查看考试历史
 no_exam_records,No exam records,暂无考试记录
-quiz_started_switch_tab,"Quiz started, switch to Quiz tab","速记已开始，请切换到[测验]标签查看"
+quiz_started_switch_tab,"Quiz started, switch to Quiz tab",速记已开始，请切换到[测验]标签查看
 available_memory_label,Available Memory,可用内存
 model_repo_url_label,Model Repository URL,模型仓库地址
 load_label,Load,加载
@@ -216,7 +216,7 @@ weekly_label,Weekly,每周
 local_model_label,Local Model,本地模型
 cloud_api_label,Cloud API,云端 API
 cloud_model_repo_url_label,Cloud Model Repository URL,云模型仓库地址
-daily_quiz_started,"Daily quiz started, switch to Quiz tab","每日一测已开始，请切换到[测验]标签查看"
+daily_quiz_started,"Daily quiz started, switch to Quiz tab",每日一测已开始，请切换到[测验]标签查看
 tap_to_start,Tap to start,点击开始练习
 start_practice,Start Practice,开始练习
 favorites,Favorites,收藏夹
@@ -235,17 +235,17 @@ multiple_choice_suffix,(Multiple Choice),（多选）
 options_label,Options:,选项:
 not_answered,Not answered,未作答
 storage_migration_hint_1,New documents will be saved to the new location,新文档将保存到新位置
-storage_migration_hint_2,Migration copies existing .md files to the new directory,"迁移会将已有 .md 文件复制到新目录"
-storage_migration_hint_3,Original files are not deleted - clean them manually,"原文件不会被删除，请手动清理"
+storage_migration_hint_2,Migration copies existing .md files to the new directory,迁移会将已有 .md 文件复制到新目录
+storage_migration_hint_3,Original files are not deleted - clean them manually,原文件不会被删除，请手动清理
 api_protocol,API Protocol,API 协议
 model_name_label,Model,模型
 share_logs_subject,Knode App Logs,知维应用日志
-mirror_not_found,Mirror "{key}" not found,镜像 "{key}" 不存在
-checksum_failed,"File checksum failed - please re-download","文件校验失败，请重新下载"
+mirror_not_found,"Mirror ""{key}"" not found","镜像 ""{key}"" 不存在"
+checksum_failed,File checksum failed - please re-download,文件校验失败，请重新下载
 source_not_found,Source file not found: {path},源文件不存在: {path}
 gguf_only,Only .gguf files are supported,仅支持 .gguf 格式文件
 local_restore,Local Restore,本地恢复
-both_not_configured,"No backup target configured, please configure WebDAV or local backup","未配置备份目标，请配置 WebDAV 或本地备份"
+both_not_configured,"No backup target configured, please configure WebDAV or local backup",未配置备份目标，请配置 WebDAV 或本地备份
 local_backup_path,Local Backup Path,本地备份路径
 local_backup_path_subtitle,Select directory for local backups,选择本地备份目录
 local_backup_not_configured,Local backup not configured,未配置本地备份
@@ -254,7 +254,12 @@ local_backup,Local Backup,本地备份
 local_backup_subtitle,Backup to local storage,备份到本地存储
 local_backup_last_backup,Local Last Backup: {time},本地上次备份: {time}
 webdav_last_backup,WebDAV Last Backup: {time},WebDAV 上次备份: {time}
-webdav_restore,"WebDAV Restore","WebDAV 恢复"
+webdav_restore,WebDAV Restore,WebDAV 恢复
 no_webdav_backup,No WebDAV backup available,无可用 WebDAV 备份
-no_local_backup,"No local backup available","无可用本地备份"
-select_restore_source,"Select Restore Source","选择恢复来源"
+no_local_backup,No local backup available,无可用本地备份
+select_restore_source,Select Restore Source,选择恢复来源
+module_settings,Module Settings,模块设置
+wiki_settings,Wiki Settings,Wiki 设置
+quiz_settings,Quiz Settings,测验设置
+storage_space,Storage Space,存储空间
+check_update,Check Update,检查更新

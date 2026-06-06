@@ -843,6 +843,10 @@
   "@knode_app_cancel": {
     "description": "取消"
   },
+  "knode_app_check_update": "检查更新",
+  "@knode_app_check_update": {
+    "description": "检查更新"
+  },
   "knode_app_checksum_failed": "文件校验失败，请重新下载",
   "@knode_app_checksum_failed": {
     "description": "文件校验失败，请重新下载"
@@ -1321,6 +1325,10 @@
   "@knode_app_modify_storage_path": {
     "description": "修改存储路径"
   },
+  "knode_app_module_settings": "模块设置",
+  "@knode_app_module_settings": {
+    "description": "模块设置"
+  },
   "knode_app_multiple_choice_suffix": "（多选）",
   "@knode_app_multiple_choice_suffix": {
     "description": "（多选）"
@@ -1505,6 +1513,10 @@
   "@knode_app_quiz_due_review": {
     "description": "道待复习"
   },
+  "knode_app_quiz_settings": "测验设置",
+  "@knode_app_quiz_settings": {
+    "description": "测验设置"
+  },
   "knode_app_quiz_started_switch_tab": "速记已开始，请切换到[测验]标签查看",
   "@knode_app_quiz_started_switch_tab": {
     "description": "速记已开始，请切换到[测验]标签查看"
@@ -1684,6 +1696,10 @@
   "@knode_app_storage_settings": {
     "description": "存储设置"
   },
+  "knode_app_storage_space": "存储空间",
+  "@knode_app_storage_space": {
+    "description": "存储空间"
+  },
   "knode_app_storage_usage": "存储用量",
   "@knode_app_storage_usage": {
     "description": "存储用量"
@@ -1808,6 +1824,10 @@
   "knode_app_welcome_back": "欢迎回来",
   "@knode_app_welcome_back": {
     "description": "欢迎回来"
+  },
+  "knode_app_wiki_settings": "Wiki 设置",
+  "@knode_app_wiki_settings": {
+    "description": "Wiki 设置"
   },
   "knode_app_wrong_card": "错题卡片",
   "@knode_app_wrong_card": {
