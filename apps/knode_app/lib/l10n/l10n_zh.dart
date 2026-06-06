@@ -556,6 +556,9 @@ class L10nZh extends L10n {
   String get knode_app_ai_label => 'AI';
 
   @override
+  String get knode_app_ai_quiz => 'AI出题';
+
+  @override
   String get knode_app_ai_settings => 'AI 设置';
 
   @override
@@ -630,6 +633,15 @@ class L10nZh extends L10n {
   String get knode_app_browse_history => '浏览历史';
 
   @override
+  String get knode_app_cache => '缓存';
+
+  @override
+  String get knode_app_cache_cleared => '缓存已清理';
+
+  @override
+  String get knode_app_cache_description => '缓存是使用过程中产生的临时数据，清理缓存不影响app使用';
+
+  @override
   String get knode_app_cancel => '取消';
 
   @override
@@ -639,7 +651,16 @@ class L10nZh extends L10n {
   String get knode_app_checksum_failed => '文件校验失败，请重新下载';
 
   @override
+  String get knode_app_clean => '清理';
+
+  @override
   String get knode_app_clear_cache => '清除缓存';
+
+  @override
+  String get knode_app_clear_cache_failed => '清理缓存失败';
+
+  @override
+  String get knode_app_clear_resources_failed => '清理资源文件失败';
 
   @override
   String get knode_app_cloud_api => '云端 API';
@@ -749,6 +770,15 @@ class L10nZh extends L10n {
   String get knode_app_error => '错误';
 
   @override
+  String get knode_app_essential_files => '必要文件';
+
+  @override
+  String get knode_app_essential_files_description => 'app运行的必要文件，不能清理';
+
+  @override
+  String get knode_app_exam_settings => '考试设置';
+
+  @override
   String get knode_app_export_data => '导出数据';
 
   @override
@@ -780,6 +810,9 @@ class L10nZh extends L10n {
 
   @override
   String get knode_app_font_size_label => '字号';
+
+  @override
+  String get knode_app_free_space => '剩余空间';
 
   @override
   String get knode_app_get_backup_list_failed => '获取备份列表失败';
@@ -826,6 +859,9 @@ class L10nZh extends L10n {
   String knode_app_keep_backup_desc(String n) {
     return '自动清理时保留最近 $n 个备份';
   }
+
+  @override
+  String get knode_app_knode_used => 'Knode已用空间';
 
   @override
   String get knode_app_language => '语言';
@@ -1040,6 +1076,9 @@ class L10nZh extends L10n {
   String get knode_app_original_template_changed => '原始模板已有变更';
 
   @override
+  String get knode_app_other_apps_used => '其他App已用';
+
+  @override
   String get knode_app_packing_files => '正在打包文件...';
 
   @override
@@ -1118,13 +1157,49 @@ class L10nZh extends L10n {
   String get knode_app_quick_card => '快捷卡片';
 
   @override
+  String get knode_app_quiz_ai_enabled => '启用 AI 出题';
+
+  @override
+  String get knode_app_quiz_ai_fixed_ratio => '固定 AI 比例';
+
+  @override
+  String get knode_app_quiz_ai_ratio_fixed => '固定AI比例';
+
+  @override
+  String get knode_app_quiz_ai_ratio_mode => 'AI 出题比例模式';
+
+  @override
+  String get knode_app_quiz_ai_ratio_smart => '智能AI比例';
+
+  @override
   String get knode_app_quiz_due_review => '道待复习';
+
+  @override
+  String get knode_app_quiz_monthly_count => '月考题目数量';
+
+  @override
+  String get knode_app_quiz_monthly_exam_2 => '月度考试';
+
+  @override
+  String get knode_app_quiz_quarterly_count => '季考题目数量';
+
+  @override
+  String get knode_app_quiz_save_settings => '保存设置';
 
   @override
   String get knode_app_quiz_settings => '测验设置';
 
   @override
+  String get knode_app_quiz_settings_saved => '设置已保存';
+
+  @override
   String get knode_app_quiz_started_switch_tab => '速记已开始，请切换到[测验]标签查看';
+
+  @override
+  String get knode_app_quiz_variant_enabled => '启用变种出题';
+
+  @override
+  String get knode_app_quiz_yearly_count => '年考题目数量';
 
   @override
   String get knode_app_rate_us => '评价应用';
@@ -1143,6 +1218,15 @@ class L10nZh extends L10n {
 
   @override
   String get knode_app_reset_success => '重置成功';
+
+  @override
+  String get knode_app_resource_files => '资源文件';
+
+  @override
+  String get knode_app_resource_files_description => '包含app运行时所需要的资源文件';
+
+  @override
+  String get knode_app_resources_cleared => '资源文件已清理';
 
   @override
   String get knode_app_restore => '恢复';
@@ -1241,6 +1325,9 @@ class L10nZh extends L10n {
   String get knode_app_storage_migration_hint_3 => '原文件不会被删除，请手动清理';
 
   @override
+  String get knode_app_storage_overview => '存储空间';
+
+  @override
   String get knode_app_storage_path => '存储路径';
 
   @override
@@ -1248,6 +1335,11 @@ class L10nZh extends L10n {
 
   @override
   String get knode_app_storage_path_updated => '存储路径已更新';
+
+  @override
+  String knode_app_storage_percentage(String percent) {
+    return '占有$percent存储空间';
+  }
 
   @override
   String get knode_app_storage_settings => '存储设置';
@@ -1278,6 +1370,9 @@ class L10nZh extends L10n {
 
   @override
   String get knode_app_theme => '主题';
+
+  @override
+  String get knode_app_this_app_used => '本App已用';
 
   @override
   String get knode_app_unnamed_document => '未命名文档';
@@ -2273,67 +2368,4 @@ class L10nZh extends L10n {
 
   @override
   String get wiki_zoom_out => '缩小';
-  @override
-  String get knode_app_cache => '缓存';
-
-  @override
-  String get knode_app_cache_description => '缓存是使用过程中产生的临时数据，清理缓存不影响app使用';
-
-  @override
-  String get knode_app_cache_cleared => '缓存已清理';
-
-  @override
-  String get knode_app_clear_cache_failed => '清理缓存失败';
-
-  @override
-  String get knode_app_clean => '清理';
-
-  @override
-  String get knode_app_resource_files => '资源文件';
-
-  @override
-  String get knode_app_resource_files_description => '包含app运行时所需要的资源文件';
-
-  @override
-  String get knode_app_resources_cleared => '资源文件已清理';
-
-  @override
-  String get knode_app_clear_resources_failed => '清理资源文件失败';
-
-  @override
-  String get knode_app_essential_files => '必要文件';
-
-  @override
-  String get knode_app_essential_files_description => 'app运行的必要文件,不能清理';
-
-  @override
-  String get knode_app_storage_overview => '存储空间';
-
-  @override
-  String get knode_app_this_app_used => '本App已用';
-
-  @override
-  String get knode_app_other_apps_used => '其他App已用';
-
-  @override
-  String get knode_app_free_space => '剩余空间';
-
-  @override
-  String get knode_app_knode_used => 'Knode已用空间';
-
-  @override
-  String knode_app_storage_percentage({required String percent}) =>
-      LocalizeStringDelegate.get('knode_app_storage_percentage', arguments: [percent]);
-  @override
-  String get knode_app_random_flashcard => '随机速记';
-
-  @override
-  String get knode_app_wrong_review => '错题重练';
-
-  @override
-  String get knode_app_ai_quiz => 'AI出题';
-
-  @override
-  String get knode_app_exam_settings => '大考设置';
-
 }

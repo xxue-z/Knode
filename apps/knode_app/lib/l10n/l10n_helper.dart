@@ -776,6 +776,10 @@ final class L10nHelper {
         // No Placeholders
         return l10n.knode_app_ai_label;
       },
+      'knode_app_ai_quiz': (source) {
+        // No Placeholders
+        return l10n.knode_app_ai_quiz;
+      },
       'knode_app_ai_settings': (source) {
         // No Placeholders
         return l10n.knode_app_ai_settings;
@@ -875,6 +879,18 @@ final class L10nHelper {
         // No Placeholders
         return l10n.knode_app_browse_history;
       },
+      'knode_app_cache': (source) {
+        // No Placeholders
+        return l10n.knode_app_cache;
+      },
+      'knode_app_cache_cleared': (source) {
+        // No Placeholders
+        return l10n.knode_app_cache_cleared;
+      },
+      'knode_app_cache_description': (source) {
+        // No Placeholders
+        return l10n.knode_app_cache_description;
+      },
       'knode_app_cancel': (source) {
         // No Placeholders
         return l10n.knode_app_cancel;
@@ -887,9 +903,21 @@ final class L10nHelper {
         // No Placeholders
         return l10n.knode_app_checksum_failed;
       },
+      'knode_app_clean': (source) {
+        // No Placeholders
+        return l10n.knode_app_clean;
+      },
       'knode_app_clear_cache': (source) {
         // No Placeholders
         return l10n.knode_app_clear_cache;
+      },
+      'knode_app_clear_cache_failed': (source) {
+        // No Placeholders
+        return l10n.knode_app_clear_cache_failed;
+      },
+      'knode_app_clear_resources_failed': (source) {
+        // No Placeholders
+        return l10n.knode_app_clear_resources_failed;
       },
       'knode_app_cloud_api': (source) {
         // No Placeholders
@@ -1036,6 +1064,18 @@ final class L10nHelper {
         // No Placeholders
         return l10n.knode_app_error;
       },
+      'knode_app_essential_files': (source) {
+        // No Placeholders
+        return l10n.knode_app_essential_files;
+      },
+      'knode_app_essential_files_description': (source) {
+        // No Placeholders
+        return l10n.knode_app_essential_files_description;
+      },
+      'knode_app_exam_settings': (source) {
+        // No Placeholders
+        return l10n.knode_app_exam_settings;
+      },
       'knode_app_export_data': (source) {
         // No Placeholders
         return l10n.knode_app_export_data;
@@ -1079,6 +1119,10 @@ final class L10nHelper {
       'knode_app_font_size_label': (source) {
         // No Placeholders
         return l10n.knode_app_font_size_label;
+      },
+      'knode_app_free_space': (source) {
+        // No Placeholders
+        return l10n.knode_app_free_space;
       },
       'knode_app_get_backup_list_failed': (source) {
         // No Placeholders
@@ -1141,6 +1185,10 @@ final class L10nHelper {
         String n = source.arguments[index];
         index++;
         return l10n.knode_app_keep_backup_desc(n);
+      },
+      'knode_app_knode_used': (source) {
+        // No Placeholders
+        return l10n.knode_app_knode_used;
       },
       'knode_app_language': (source) {
         // No Placeholders
@@ -1426,6 +1474,10 @@ final class L10nHelper {
         // No Placeholders
         return l10n.knode_app_original_template_changed;
       },
+      'knode_app_other_apps_used': (source) {
+        // No Placeholders
+        return l10n.knode_app_other_apps_used;
+      },
       'knode_app_packing_files': (source) {
         // No Placeholders
         return l10n.knode_app_packing_files;
@@ -1530,17 +1582,65 @@ final class L10nHelper {
         // No Placeholders
         return l10n.knode_app_quick_card;
       },
+      'knode_app_quiz_ai_enabled': (source) {
+        // No Placeholders
+        return l10n.knode_app_quiz_ai_enabled;
+      },
+      'knode_app_quiz_ai_fixed_ratio': (source) {
+        // No Placeholders
+        return l10n.knode_app_quiz_ai_fixed_ratio;
+      },
+      'knode_app_quiz_ai_ratio_fixed': (source) {
+        // No Placeholders
+        return l10n.knode_app_quiz_ai_ratio_fixed;
+      },
+      'knode_app_quiz_ai_ratio_mode': (source) {
+        // No Placeholders
+        return l10n.knode_app_quiz_ai_ratio_mode;
+      },
+      'knode_app_quiz_ai_ratio_smart': (source) {
+        // No Placeholders
+        return l10n.knode_app_quiz_ai_ratio_smart;
+      },
       'knode_app_quiz_due_review': (source) {
         // No Placeholders
         return l10n.knode_app_quiz_due_review;
+      },
+      'knode_app_quiz_monthly_count': (source) {
+        // No Placeholders
+        return l10n.knode_app_quiz_monthly_count;
+      },
+      'knode_app_quiz_monthly_exam_2': (source) {
+        // No Placeholders
+        return l10n.knode_app_quiz_monthly_exam_2;
+      },
+      'knode_app_quiz_quarterly_count': (source) {
+        // No Placeholders
+        return l10n.knode_app_quiz_quarterly_count;
+      },
+      'knode_app_quiz_save_settings': (source) {
+        // No Placeholders
+        return l10n.knode_app_quiz_save_settings;
       },
       'knode_app_quiz_settings': (source) {
         // No Placeholders
         return l10n.knode_app_quiz_settings;
       },
+      'knode_app_quiz_settings_saved': (source) {
+        // No Placeholders
+        return l10n.knode_app_quiz_settings_saved;
+      },
       'knode_app_quiz_started_switch_tab': (source) {
         // No Placeholders
         return l10n.knode_app_quiz_started_switch_tab;
+      },
+      'knode_app_quiz_variant_enabled': (source) {
+        // No Placeholders
+        return l10n.knode_app_quiz_variant_enabled;
+      },
+      'knode_app_quiz_yearly_count': (source) {
+        // No Placeholders
+        return l10n.knode_app_quiz_yearly_count;
       },
       'knode_app_rate_us': (source) {
         // No Placeholders
@@ -1565,6 +1665,18 @@ final class L10nHelper {
       'knode_app_reset_success': (source) {
         // No Placeholders
         return l10n.knode_app_reset_success;
+      },
+      'knode_app_resource_files': (source) {
+        // No Placeholders
+        return l10n.knode_app_resource_files;
+      },
+      'knode_app_resource_files_description': (source) {
+        // No Placeholders
+        return l10n.knode_app_resource_files_description;
+      },
+      'knode_app_resources_cleared': (source) {
+        // No Placeholders
+        return l10n.knode_app_resources_cleared;
       },
       'knode_app_restore': (source) {
         // No Placeholders
@@ -1695,6 +1807,10 @@ final class L10nHelper {
         // No Placeholders
         return l10n.knode_app_storage_migration_hint_3;
       },
+      'knode_app_storage_overview': (source) {
+        // No Placeholders
+        return l10n.knode_app_storage_overview;
+      },
       'knode_app_storage_path': (source) {
         // No Placeholders
         return l10n.knode_app_storage_path;
@@ -1706,6 +1822,13 @@ final class L10nHelper {
       'knode_app_storage_path_updated': (source) {
         // No Placeholders
         return l10n.knode_app_storage_path_updated;
+      },
+      'knode_app_storage_percentage': (source) {
+        // Has Placeholders
+        var index = 0;
+        String percent = source.arguments[index];
+        index++;
+        return l10n.knode_app_storage_percentage(percent);
       },
       'knode_app_storage_settings': (source) {
         // No Placeholders
@@ -1746,6 +1869,10 @@ final class L10nHelper {
       'knode_app_theme': (source) {
         // No Placeholders
         return l10n.knode_app_theme;
+      },
+      'knode_app_this_app_used': (source) {
+        // No Placeholders
+        return l10n.knode_app_this_app_used;
       },
       'knode_app_unnamed_document': (source) {
         // No Placeholders

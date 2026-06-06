@@ -1177,6 +1177,12 @@ abstract class L10n {
   /// **'AI'**
   String get knode_app_ai_label;
 
+  /// AI出题
+  ///
+  /// In zh, this message translates to:
+  /// **'AI出题'**
+  String get knode_app_ai_quiz;
+
   /// AI 设置
   ///
   /// In zh, this message translates to:
@@ -1321,6 +1327,24 @@ abstract class L10n {
   /// **'浏览历史'**
   String get knode_app_browse_history;
 
+  /// 缓存
+  ///
+  /// In zh, this message translates to:
+  /// **'缓存'**
+  String get knode_app_cache;
+
+  /// 缓存已清理
+  ///
+  /// In zh, this message translates to:
+  /// **'缓存已清理'**
+  String get knode_app_cache_cleared;
+
+  /// 缓存是使用过程中产生的临时数据，清理缓存不影响app使用
+  ///
+  /// In zh, this message translates to:
+  /// **'缓存是使用过程中产生的临时数据，清理缓存不影响app使用'**
+  String get knode_app_cache_description;
+
   /// 取消
   ///
   /// In zh, this message translates to:
@@ -1339,11 +1363,29 @@ abstract class L10n {
   /// **'文件校验失败，请重新下载'**
   String get knode_app_checksum_failed;
 
+  /// 清理
+  ///
+  /// In zh, this message translates to:
+  /// **'清理'**
+  String get knode_app_clean;
+
   /// 清除缓存
   ///
   /// In zh, this message translates to:
   /// **'清除缓存'**
   String get knode_app_clear_cache;
+
+  /// 清理缓存失败
+  ///
+  /// In zh, this message translates to:
+  /// **'清理缓存失败'**
+  String get knode_app_clear_cache_failed;
+
+  /// 清理资源文件失败
+  ///
+  /// In zh, this message translates to:
+  /// **'清理资源文件失败'**
+  String get knode_app_clear_resources_failed;
 
   /// 云端 API
   ///
@@ -1555,6 +1597,24 @@ abstract class L10n {
   /// **'错误'**
   String get knode_app_error;
 
+  /// 必要文件
+  ///
+  /// In zh, this message translates to:
+  /// **'必要文件'**
+  String get knode_app_essential_files;
+
+  /// app运行的必要文件，不能清理
+  ///
+  /// In zh, this message translates to:
+  /// **'app运行的必要文件，不能清理'**
+  String get knode_app_essential_files_description;
+
+  /// 考试设置
+  ///
+  /// In zh, this message translates to:
+  /// **'考试设置'**
+  String get knode_app_exam_settings;
+
   /// 导出数据
   ///
   /// In zh, this message translates to:
@@ -1620,6 +1680,12 @@ abstract class L10n {
   /// In zh, this message translates to:
   /// **'字号'**
   String get knode_app_font_size_label;
+
+  /// 剩余空间
+  ///
+  /// In zh, this message translates to:
+  /// **'剩余空间'**
+  String get knode_app_free_space;
 
   /// 获取备份列表失败
   ///
@@ -1704,6 +1770,12 @@ abstract class L10n {
   /// In zh, this message translates to:
   /// **'自动清理时保留最近 {n} 个备份'**
   String knode_app_keep_backup_desc(String n);
+
+  /// Knode已用空间
+  ///
+  /// In zh, this message translates to:
+  /// **'Knode已用空间'**
+  String get knode_app_knode_used;
 
   /// 语言
   ///
@@ -2113,6 +2185,12 @@ abstract class L10n {
   /// **'原始模板已有变更'**
   String get knode_app_original_template_changed;
 
+  /// 其他App已用
+  ///
+  /// In zh, this message translates to:
+  /// **'其他App已用'**
+  String get knode_app_other_apps_used;
+
   /// 正在打包文件...
   ///
   /// In zh, this message translates to:
@@ -2269,11 +2347,65 @@ abstract class L10n {
   /// **'快捷卡片'**
   String get knode_app_quick_card;
 
+  /// 启用 AI 出题
+  ///
+  /// In zh, this message translates to:
+  /// **'启用 AI 出题'**
+  String get knode_app_quiz_ai_enabled;
+
+  /// 固定 AI 比例
+  ///
+  /// In zh, this message translates to:
+  /// **'固定 AI 比例'**
+  String get knode_app_quiz_ai_fixed_ratio;
+
+  /// 固定AI比例
+  ///
+  /// In zh, this message translates to:
+  /// **'固定AI比例'**
+  String get knode_app_quiz_ai_ratio_fixed;
+
+  /// AI 出题比例模式
+  ///
+  /// In zh, this message translates to:
+  /// **'AI 出题比例模式'**
+  String get knode_app_quiz_ai_ratio_mode;
+
+  /// 智能AI比例
+  ///
+  /// In zh, this message translates to:
+  /// **'智能AI比例'**
+  String get knode_app_quiz_ai_ratio_smart;
+
   /// 道待复习
   ///
   /// In zh, this message translates to:
   /// **'道待复习'**
   String get knode_app_quiz_due_review;
+
+  /// 月考题目数量
+  ///
+  /// In zh, this message translates to:
+  /// **'月考题目数量'**
+  String get knode_app_quiz_monthly_count;
+
+  /// 月度考试
+  ///
+  /// In zh, this message translates to:
+  /// **'月度考试'**
+  String get knode_app_quiz_monthly_exam_2;
+
+  /// 季考题目数量
+  ///
+  /// In zh, this message translates to:
+  /// **'季考题目数量'**
+  String get knode_app_quiz_quarterly_count;
+
+  /// 保存设置
+  ///
+  /// In zh, this message translates to:
+  /// **'保存设置'**
+  String get knode_app_quiz_save_settings;
 
   /// 测验设置
   ///
@@ -2281,11 +2413,29 @@ abstract class L10n {
   /// **'测验设置'**
   String get knode_app_quiz_settings;
 
+  /// 设置已保存
+  ///
+  /// In zh, this message translates to:
+  /// **'设置已保存'**
+  String get knode_app_quiz_settings_saved;
+
   /// 速记已开始，请切换到[测验]标签查看
   ///
   /// In zh, this message translates to:
   /// **'速记已开始，请切换到[测验]标签查看'**
   String get knode_app_quiz_started_switch_tab;
+
+  /// 启用变种出题
+  ///
+  /// In zh, this message translates to:
+  /// **'启用变种出题'**
+  String get knode_app_quiz_variant_enabled;
+
+  /// 年考题目数量
+  ///
+  /// In zh, this message translates to:
+  /// **'年考题目数量'**
+  String get knode_app_quiz_yearly_count;
 
   /// 评价应用
   ///
@@ -2322,6 +2472,24 @@ abstract class L10n {
   /// In zh, this message translates to:
   /// **'重置成功'**
   String get knode_app_reset_success;
+
+  /// 资源文件
+  ///
+  /// In zh, this message translates to:
+  /// **'资源文件'**
+  String get knode_app_resource_files;
+
+  /// 包含app运行时所需要的资源文件
+  ///
+  /// In zh, this message translates to:
+  /// **'包含app运行时所需要的资源文件'**
+  String get knode_app_resource_files_description;
+
+  /// 资源文件已清理
+  ///
+  /// In zh, this message translates to:
+  /// **'资源文件已清理'**
+  String get knode_app_resources_cleared;
 
   /// 恢复
   ///
@@ -2503,6 +2671,12 @@ abstract class L10n {
   /// **'原文件不会被删除，请手动清理'**
   String get knode_app_storage_migration_hint_3;
 
+  /// 存储空间
+  ///
+  /// In zh, this message translates to:
+  /// **'存储空间'**
+  String get knode_app_storage_overview;
+
   /// 存储路径
   ///
   /// In zh, this message translates to:
@@ -2520,6 +2694,12 @@ abstract class L10n {
   /// In zh, this message translates to:
   /// **'存储路径已更新'**
   String get knode_app_storage_path_updated;
+
+  /// 占有{percent}存储空间
+  ///
+  /// In zh, this message translates to:
+  /// **'占有{percent}存储空间'**
+  String knode_app_storage_percentage(String percent);
 
   /// 存储设置
   ///
@@ -2580,6 +2760,12 @@ abstract class L10n {
   /// In zh, this message translates to:
   /// **'主题'**
   String get knode_app_theme;
+
+  /// 本App已用
+  ///
+  /// In zh, this message translates to:
+  /// **'本App已用'**
+  String get knode_app_this_app_used;
 
   /// 未命名文档
   ///
@@ -4575,67 +4761,4 @@ L10n lookupL10n(Locale locale) {
     'on GitHub with a reproducible sample app and the gen-l10n configuration '
     'that was used.',
   );
-  /// 缓存
-  String get knode_app_cache => '';
-
-  /// 缓存是使用过程中产生的临时数据，清理缓存不影响app使用
-  String get knode_app_cache_description => '';
-
-  /// 缓存已清理
-  String get knode_app_cache_cleared => '';
-
-  /// 清理缓存失败
-  String get knode_app_clear_cache_failed => '';
-
-  /// 清理
-  String get knode_app_clean => '';
-
-  /// 资源文件
-  String get knode_app_resource_files => '';
-
-  /// 包含app运行时所需要的资源文件
-  String get knode_app_resource_files_description => '';
-
-  /// 资源文件已清理
-  String get knode_app_resources_cleared => '';
-
-  /// 清理资源文件失败
-  String get knode_app_clear_resources_failed => '';
-
-  /// 必要文件
-  String get knode_app_essential_files => '';
-
-  /// app运行的必要文件,不能清理
-  String get knode_app_essential_files_description => '';
-
-  /// 存储空间
-  String get knode_app_storage_overview => '';
-
-  /// 本App已用
-  String get knode_app_this_app_used => '';
-
-  /// 其他App已用
-  String get knode_app_other_apps_used => '';
-
-  /// 剩余空间
-  String get knode_app_free_space => '';
-
-  /// Knode已用空间
-  String get knode_app_knode_used => '';
-
-  /// 占手机{percent}%存储空间
-  String knode_app_storage_percentage({required String percent}) => '';
-
-  /// 随机速记
-  String get knode_app_random_flashcard => '';
-
-  /// 错题重练
-  String get knode_app_wrong_review => '';
-
-  /// AI出题
-  String get knode_app_ai_quiz => '';
-
-  /// 大考设置
-  String get knode_app_exam_settings => '';
-
 }

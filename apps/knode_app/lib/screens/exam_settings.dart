@@ -38,12 +38,12 @@ class _ExamSettingsPageState extends ConsumerState<ExamSettingsPage> {
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          _buildSectionTitle(_strings.quiz_monthly_exam_2),
-          _buildNumberTile(title: _strings.quiz_monthly_count, value: _monthlyCount, min: 20, max: 100, onChanged: (v) => setState(() => _monthlyCount = v)),
-          _buildNumberTile(title: _strings.quiz_quarterly_count, value: _quarterlyCount, min: 30, max: 100, onChanged: (v) => setState(() => _quarterlyCount = v)),
-          _buildNumberTile(title: _strings.quiz_yearly_count, value: _yearlyCount, min: 40, max: 100, onChanged: (v) => setState(() => _yearlyCount = v)),
+          _buildSectionTitle(_strings.knode_app_quiz_monthly_exam_2),
+          _buildNumberTile(title: _strings.knode_app_quiz_monthly_count, value: _monthlyCount, min: 20, max: 100, onChanged: (v) => setState(() => _monthlyCount = v)),
+          _buildNumberTile(title: _strings.knode_app_quiz_quarterly_count, value: _quarterlyCount, min: 30, max: 100, onChanged: (v) => setState(() => _quarterlyCount = v)),
+          _buildNumberTile(title: _strings.knode_app_quiz_yearly_count, value: _yearlyCount, min: 40, max: 100, onChanged: (v) => setState(() => _yearlyCount = v)),
           const SizedBox(height: 32),
-          FilledButton(onPressed: _save, child: Text(_strings.quiz_save_settings)),
+          FilledButton(onPressed: _save, child: Text(_strings.knode_app_quiz_save_settings)),
         ],
       ),
     );
@@ -67,7 +67,7 @@ class _ExamSettingsPageState extends ConsumerState<ExamSettingsPage> {
     await notifier.set('quiz_quarterly_count', _quarterlyCount.toString());
     await notifier.set('quiz_yearly_count', _yearlyCount.toString());
     if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(_strings.quiz_settings_saved)));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(_strings.knode_app_quiz_settings_saved)));
       Navigator.of(context).pop();
     }
   }

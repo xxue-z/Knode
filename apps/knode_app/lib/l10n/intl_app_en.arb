@@ -738,6 +738,10 @@
   "@knode_app_ai_label": {
     "description": "AI"
   },
+  "knode_app_ai_quiz": "AI Quiz",
+  "@knode_app_ai_quiz": {
+    "description": "AI出题"
+  },
   "knode_app_ai_settings": "AI Settings",
   "@knode_app_ai_settings": {
     "description": "AI 设置"
@@ -839,6 +843,18 @@
   "@knode_app_browse_history": {
     "description": "浏览历史"
   },
+  "knode_app_cache": "Cache",
+  "@knode_app_cache": {
+    "description": "缓存"
+  },
+  "knode_app_cache_cleared": "Cache cleared",
+  "@knode_app_cache_cleared": {
+    "description": "缓存已清理"
+  },
+  "knode_app_cache_description": "Temporary data generated during use, clearing cache does not affect app usage",
+  "@knode_app_cache_description": {
+    "description": "缓存是使用过程中产生的临时数据，清理缓存不影响app使用"
+  },
   "knode_app_cancel": "Cancel",
   "@knode_app_cancel": {
     "description": "取消"
@@ -851,9 +867,21 @@
   "@knode_app_checksum_failed": {
     "description": "文件校验失败，请重新下载"
   },
+  "knode_app_clean": "Clean",
+  "@knode_app_clean": {
+    "description": "清理"
+  },
   "knode_app_clear_cache": "Clear Cache",
   "@knode_app_clear_cache": {
     "description": "清除缓存"
+  },
+  "knode_app_clear_cache_failed": "Failed to clear cache",
+  "@knode_app_clear_cache_failed": {
+    "description": "清理缓存失败"
+  },
+  "knode_app_clear_resources_failed": "Failed to clear resource files",
+  "@knode_app_clear_resources_failed": {
+    "description": "清理资源文件失败"
   },
   "knode_app_cloud_api": "Cloud API",
   "@knode_app_cloud_api": {
@@ -1003,6 +1031,18 @@
   "@knode_app_error": {
     "description": "错误"
   },
+  "knode_app_essential_files": "Essential Files",
+  "@knode_app_essential_files": {
+    "description": "必要文件"
+  },
+  "knode_app_essential_files_description": "Essential files for app runtime, cannot be cleared",
+  "@knode_app_essential_files_description": {
+    "description": "app运行的必要文件，不能清理"
+  },
+  "knode_app_exam_settings": "Exam Settings",
+  "@knode_app_exam_settings": {
+    "description": "考试设置"
+  },
   "knode_app_export_data": "Export Data",
   "@knode_app_export_data": {
     "description": "导出数据"
@@ -1046,6 +1086,10 @@
   "knode_app_font_size_label": "Font Size",
   "@knode_app_font_size_label": {
     "description": "字号"
+  },
+  "knode_app_free_space": "Free Space",
+  "@knode_app_free_space": {
+    "description": "剩余空间"
   },
   "knode_app_get_backup_list_failed": "Failed to get backup list",
   "@knode_app_get_backup_list_failed": {
@@ -1112,6 +1156,10 @@
       }
     },
     "description": "自动清理时保留最近 {n} 个备份"
+  },
+  "knode_app_knode_used": "Knode Used",
+  "@knode_app_knode_used": {
+    "description": "Knode已用空间"
   },
   "knode_app_language": "Language",
   "@knode_app_language": {
@@ -1405,6 +1453,10 @@
   "@knode_app_original_template_changed": {
     "description": "原始模板已有变更"
   },
+  "knode_app_other_apps_used": "Other Apps Used",
+  "@knode_app_other_apps_used": {
+    "description": "其他App已用"
+  },
   "knode_app_packing_files": "Packing files...",
   "@knode_app_packing_files": {
     "description": "正在打包文件..."
@@ -1509,17 +1561,65 @@
   "@knode_app_quick_card": {
     "description": "快捷卡片"
   },
+  "knode_app_quiz_ai_enabled": "Enable AI Question Generation",
+  "@knode_app_quiz_ai_enabled": {
+    "description": "启用 AI 出题"
+  },
+  "knode_app_quiz_ai_fixed_ratio": "Fixed AI Ratio",
+  "@knode_app_quiz_ai_fixed_ratio": {
+    "description": "固定 AI 比例"
+  },
+  "knode_app_quiz_ai_ratio_fixed": "Fixed AI Ratio",
+  "@knode_app_quiz_ai_ratio_fixed": {
+    "description": "固定AI比例"
+  },
+  "knode_app_quiz_ai_ratio_mode": "AI Ratio Mode",
+  "@knode_app_quiz_ai_ratio_mode": {
+    "description": "AI 出题比例模式"
+  },
+  "knode_app_quiz_ai_ratio_smart": "Smart AI Ratio",
+  "@knode_app_quiz_ai_ratio_smart": {
+    "description": "智能AI比例"
+  },
   "knode_app_quiz_due_review": "due for review",
   "@knode_app_quiz_due_review": {
     "description": "道待复习"
+  },
+  "knode_app_quiz_monthly_count": "Monthly Exam Question Count",
+  "@knode_app_quiz_monthly_count": {
+    "description": "月考题目数量"
+  },
+  "knode_app_quiz_monthly_exam_2": "Monthly Exam",
+  "@knode_app_quiz_monthly_exam_2": {
+    "description": "月度考试"
+  },
+  "knode_app_quiz_quarterly_count": "Quarterly Exam Question Count",
+  "@knode_app_quiz_quarterly_count": {
+    "description": "季考题目数量"
+  },
+  "knode_app_quiz_save_settings": "Save Settings",
+  "@knode_app_quiz_save_settings": {
+    "description": "保存设置"
   },
   "knode_app_quiz_settings": "Quiz Settings",
   "@knode_app_quiz_settings": {
     "description": "测验设置"
   },
+  "knode_app_quiz_settings_saved": "Settings Saved",
+  "@knode_app_quiz_settings_saved": {
+    "description": "设置已保存"
+  },
   "knode_app_quiz_started_switch_tab": "Quiz started, switch to Quiz tab",
   "@knode_app_quiz_started_switch_tab": {
     "description": "速记已开始，请切换到[测验]标签查看"
+  },
+  "knode_app_quiz_variant_enabled": "Enable Variant Questions",
+  "@knode_app_quiz_variant_enabled": {
+    "description": "启用变种出题"
+  },
+  "knode_app_quiz_yearly_count": "Yearly Exam Question Count",
+  "@knode_app_quiz_yearly_count": {
+    "description": "年考题目数量"
   },
   "knode_app_rate_us": "Rate Us",
   "@knode_app_rate_us": {
@@ -1544,6 +1644,18 @@
   "knode_app_reset_success": "Reset successful",
   "@knode_app_reset_success": {
     "description": "重置成功"
+  },
+  "knode_app_resource_files": "Resource Files",
+  "@knode_app_resource_files": {
+    "description": "资源文件"
+  },
+  "knode_app_resource_files_description": "Runtime resource files required by the app",
+  "@knode_app_resource_files_description": {
+    "description": "包含app运行时所需要的资源文件"
+  },
+  "knode_app_resources_cleared": "Resource files cleared",
+  "@knode_app_resources_cleared": {
+    "description": "资源文件已清理"
   },
   "knode_app_restore": "Restore",
   "@knode_app_restore": {
@@ -1680,6 +1792,10 @@
   "@knode_app_storage_migration_hint_3": {
     "description": "原文件不会被删除，请手动清理"
   },
+  "knode_app_storage_overview": "Storage Space",
+  "@knode_app_storage_overview": {
+    "description": "存储空间"
+  },
   "knode_app_storage_path": "Storage Path",
   "@knode_app_storage_path": {
     "description": "存储路径"
@@ -1691,6 +1807,15 @@
   "knode_app_storage_path_updated": "Storage path updated",
   "@knode_app_storage_path_updated": {
     "description": "存储路径已更新"
+  },
+  "knode_app_storage_percentage": "Takes {percent} storage",
+  "@knode_app_storage_percentage": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    },
+    "description": "占有{percent}存储空间"
   },
   "knode_app_storage_settings": "Storage Settings",
   "@knode_app_storage_settings": {
@@ -1731,6 +1856,10 @@
   "knode_app_theme": "Theme",
   "@knode_app_theme": {
     "description": "主题"
+  },
+  "knode_app_this_app_used": "This App Used",
+  "@knode_app_this_app_used": {
+    "description": "本App已用"
   },
   "knode_app_unnamed_document": "Unnamed Document",
   "@knode_app_unnamed_document": {
@@ -3080,98 +3209,5 @@
   "wiki_zoom_out": "Zoom Out",
   "@wiki_zoom_out": {
     "description": "缩小"
-  },
-  "knode_app_cache": "Cache",
-  "@knode_app_cache": {
-    "description": "Cache"
-  },
-  "knode_app_cache_description": "Temporary data generated during use. Clearing cache won't affect app functionality",
-  "@knode_app_cache_description": {
-    "description": "Cache is temporary data generated during use"
-  },
-  "knode_app_resource_files": "Resource Files",
-  "@knode_app_resource_files": {
-    "description": "Resource Files"
-  },
-  "knode_app_resource_files_description": "Contains resource files needed for app runtime",
-  "@knode_app_resource_files_description": {
-    "description": "Contains resource files needed for app runtime"
-  },
-  "knode_app_essential_files": "Essential Files",
-  "@knode_app_essential_files": {
-    "description": "Essential Files"
-  },
-  "knode_app_essential_files_description": "Essential files for app operation, cannot be cleared",
-  "@knode_app_essential_files_description": {
-    "description": "Essential files for app operation, cannot be cleared"
-  },
-  "knode_app_storage_overview": "Storage",
-  "@knode_app_storage_overview": {
-    "description": "Storage"
-  },
-  "knode_app_this_app_used": "This App",
-  "@knode_app_this_app_used": {
-    "description": "This App"
-  },
-  "knode_app_other_apps_used": "Other Apps",
-  "@knode_app_other_apps_used": {
-    "description": "Other Apps"
-  },
-  "knode_app_free_space": "Free Space",
-  "@knode_app_free_space": {
-    "description": "Free Space"
-  },
-  "knode_app_knode_used": "Knode Used",
-  "@knode_app_knode_used": {
-    "description": "Knode Used"
-  },
-  "knode_app_storage_percentage": "Uses {percent}% of phone storage",
-  "@knode_app_storage_percentage": {
-    "description": "Uses {percent}% of phone storage",
-    "placeholders": {
-      "percent": {
-        "type": "String"
-      }
-    }
-  },
-  "knode_app_clean": "Clear",
-  "@knode_app_clean": {
-    "description": "Clear"
-  },
-  "knode_app_cache_cleared": "Cache cleared",
-  "@knode_app_cache_cleared": {
-    "description": "Cache cleared"
-  },
-  "knode_app_clear_cache_failed": "Failed to clear cache",
-  "@knode_app_clear_cache_failed": {
-    "description": "Failed to clear cache"
-  },
-  "knode_app_resources_cleared": "Resource files cleared",
-  "@knode_app_resources_cleared": {
-    "description": "Resource files cleared"
-  },
-  "knode_app_clear_resources_failed": "Failed to clear resource files",
-  "@knode_app_clear_resources_failed": {
-    "description": "Failed to clear resource files"
-  },
-  "knode_app_daily_quiz": "Daily Quiz",
-  "@knode_app_daily_quiz": {
-    "description": "Daily Quiz"
-  },
-  "knode_app_random_flashcard": "Random Flashcard",
-  "@knode_app_random_flashcard": {
-    "description": "Random Flashcard"
-  },
-  "knode_app_wrong_review": "Wrong Answer Review",
-  "@knode_app_wrong_review": {
-    "description": "Wrong Answer Review"
-  },
-  "knode_app_ai_quiz": "AI Quiz",
-  "@knode_app_ai_quiz": {
-    "description": "AI Quiz"
-  },
-  "knode_app_exam_settings": "Exam Settings",
-  "@knode_app_exam_settings": {
-    "description": "Exam Settings"
   }
 }

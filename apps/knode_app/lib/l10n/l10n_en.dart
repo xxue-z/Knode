@@ -571,6 +571,9 @@ class L10nEn extends L10n {
   String get knode_app_ai_label => 'AI';
 
   @override
+  String get knode_app_ai_quiz => 'AI Quiz';
+
+  @override
   String get knode_app_ai_settings => 'AI Settings';
 
   @override
@@ -646,6 +649,16 @@ class L10nEn extends L10n {
   String get knode_app_browse_history => 'Browse History';
 
   @override
+  String get knode_app_cache => 'Cache';
+
+  @override
+  String get knode_app_cache_cleared => 'Cache cleared';
+
+  @override
+  String get knode_app_cache_description =>
+      'Temporary data generated during use, clearing cache does not affect app usage';
+
+  @override
   String get knode_app_cancel => 'Cancel';
 
   @override
@@ -656,7 +669,17 @@ class L10nEn extends L10n {
       'File checksum failed - please re-download';
 
   @override
+  String get knode_app_clean => 'Clean';
+
+  @override
   String get knode_app_clear_cache => 'Clear Cache';
+
+  @override
+  String get knode_app_clear_cache_failed => 'Failed to clear cache';
+
+  @override
+  String get knode_app_clear_resources_failed =>
+      'Failed to clear resource files';
 
   @override
   String get knode_app_cloud_api => 'Cloud API';
@@ -769,6 +792,16 @@ class L10nEn extends L10n {
   String get knode_app_error => 'Error';
 
   @override
+  String get knode_app_essential_files => 'Essential Files';
+
+  @override
+  String get knode_app_essential_files_description =>
+      'Essential files for app runtime, cannot be cleared';
+
+  @override
+  String get knode_app_exam_settings => 'Exam Settings';
+
+  @override
   String get knode_app_export_data => 'Export Data';
 
   @override
@@ -803,6 +836,9 @@ class L10nEn extends L10n {
 
   @override
   String get knode_app_font_size_label => 'Font Size';
+
+  @override
+  String get knode_app_free_space => 'Free Space';
 
   @override
   String get knode_app_get_backup_list_failed => 'Failed to get backup list';
@@ -849,6 +885,9 @@ class L10nEn extends L10n {
   String knode_app_keep_backup_desc(String n) {
     return 'Keep latest $n backups during auto-cleanup';
   }
+
+  @override
+  String get knode_app_knode_used => 'Knode Used';
 
   @override
   String get knode_app_language => 'Language';
@@ -1068,6 +1107,9 @@ class L10nEn extends L10n {
       'Original template has changed';
 
   @override
+  String get knode_app_other_apps_used => 'Other Apps Used';
+
+  @override
   String get knode_app_packing_files => 'Packing files...';
 
   @override
@@ -1147,14 +1189,50 @@ class L10nEn extends L10n {
   String get knode_app_quick_card => 'Quick Card';
 
   @override
+  String get knode_app_quiz_ai_enabled => 'Enable AI Question Generation';
+
+  @override
+  String get knode_app_quiz_ai_fixed_ratio => 'Fixed AI Ratio';
+
+  @override
+  String get knode_app_quiz_ai_ratio_fixed => 'Fixed AI Ratio';
+
+  @override
+  String get knode_app_quiz_ai_ratio_mode => 'AI Ratio Mode';
+
+  @override
+  String get knode_app_quiz_ai_ratio_smart => 'Smart AI Ratio';
+
+  @override
   String get knode_app_quiz_due_review => 'due for review';
+
+  @override
+  String get knode_app_quiz_monthly_count => 'Monthly Exam Question Count';
+
+  @override
+  String get knode_app_quiz_monthly_exam_2 => 'Monthly Exam';
+
+  @override
+  String get knode_app_quiz_quarterly_count => 'Quarterly Exam Question Count';
+
+  @override
+  String get knode_app_quiz_save_settings => 'Save Settings';
 
   @override
   String get knode_app_quiz_settings => 'Quiz Settings';
 
   @override
+  String get knode_app_quiz_settings_saved => 'Settings Saved';
+
+  @override
   String get knode_app_quiz_started_switch_tab =>
       'Quiz started, switch to Quiz tab';
+
+  @override
+  String get knode_app_quiz_variant_enabled => 'Enable Variant Questions';
+
+  @override
+  String get knode_app_quiz_yearly_count => 'Yearly Exam Question Count';
 
   @override
   String get knode_app_rate_us => 'Rate Us';
@@ -1175,6 +1253,16 @@ class L10nEn extends L10n {
 
   @override
   String get knode_app_reset_success => 'Reset successful';
+
+  @override
+  String get knode_app_resource_files => 'Resource Files';
+
+  @override
+  String get knode_app_resource_files_description =>
+      'Runtime resource files required by the app';
+
+  @override
+  String get knode_app_resources_cleared => 'Resource files cleared';
 
   @override
   String get knode_app_restore => 'Restore';
@@ -1279,6 +1367,9 @@ class L10nEn extends L10n {
       'Original files are not deleted - clean them manually';
 
   @override
+  String get knode_app_storage_overview => 'Storage Space';
+
+  @override
   String get knode_app_storage_path => 'Storage Path';
 
   @override
@@ -1287,6 +1378,11 @@ class L10nEn extends L10n {
 
   @override
   String get knode_app_storage_path_updated => 'Storage path updated';
+
+  @override
+  String knode_app_storage_percentage(String percent) {
+    return 'Takes $percent storage';
+  }
 
   @override
   String get knode_app_storage_settings => 'Storage Settings';
@@ -1318,6 +1414,9 @@ class L10nEn extends L10n {
 
   @override
   String get knode_app_theme => 'Theme';
+
+  @override
+  String get knode_app_this_app_used => 'This App Used';
 
   @override
   String get knode_app_unnamed_document => 'Unnamed Document';
@@ -2330,67 +2429,4 @@ class L10nEn extends L10n {
 
   @override
   String get wiki_zoom_out => 'Zoom Out';
-  @override
-  String get knode_app_cache => 'Cache';
-
-  @override
-  String get knode_app_cache_description => 'Temporary data generated during use. Clearing cache won't affect app functionality';
-
-  @override
-  String get knode_app_cache_cleared => 'Cache cleared';
-
-  @override
-  String get knode_app_clear_cache_failed => 'Failed to clear cache';
-
-  @override
-  String get knode_app_clean => 'Clear';
-
-  @override
-  String get knode_app_resource_files => 'Resource Files';
-
-  @override
-  String get knode_app_resource_files_description => 'Contains resource files needed for app runtime';
-
-  @override
-  String get knode_app_resources_cleared => 'Resource files cleared';
-
-  @override
-  String get knode_app_clear_resources_failed => 'Failed to clear resource files';
-
-  @override
-  String get knode_app_essential_files => 'Essential Files';
-
-  @override
-  String get knode_app_essential_files_description => 'Essential files for app operation, cannot be cleared';
-
-  @override
-  String get knode_app_storage_overview => 'Storage';
-
-  @override
-  String get knode_app_this_app_used => 'This App';
-
-  @override
-  String get knode_app_other_apps_used => 'Other Apps';
-
-  @override
-  String get knode_app_free_space => 'Free Space';
-
-  @override
-  String get knode_app_knode_used => 'Knode Used';
-
-  @override
-  String knode_app_storage_percentage({required String percent}) =>
-      LocalizeStringDelegate.get('knode_app_storage_percentage', arguments: [percent]);
-  @override
-  String get knode_app_random_flashcard => 'Random Flashcard';
-
-  @override
-  String get knode_app_wrong_review => 'Wrong Answer Review';
-
-  @override
-  String get knode_app_ai_quiz => 'AI Quiz';
-
-  @override
-  String get knode_app_exam_settings => 'Exam Settings';
-
 }
