@@ -51,8 +51,10 @@ class _WikiPageState extends ConsumerState<WikiPage>
     }
   }
 
-  void _loadData() {
-    ref.read(documentListProvider.notifier).filterByCategory(null);
+  Future<void> _loadData() async {
+    final docNotifier = ref.read(documentListProvider.notifier);
+    docNotifier.filterByCategory(null);
+    await ref.read(documentListProvider.future);
     ref.read(graphProvider.notifier).buildGraph('all');
   }
 
