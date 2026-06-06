@@ -14,7 +14,8 @@ class SettingsNotifier extends AsyncNotifier<Map<String, String>> {
   Future<void> set(String key, String value) async {
     final dao = ref.read(settingsDaoProvider);
     await dao.set(key, value);
-    ref.invalidateSelf();
+    final current = state.valueOrNull ?? {};
+    state = AsyncData({...current, key: value});
   }
 
   String get(String key, {String defaultValue = ''}) {
