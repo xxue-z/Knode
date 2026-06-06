@@ -3080,5 +3080,78 @@
   "wiki_zoom_out": "缩小",
   "@wiki_zoom_out": {
     "description": "缩小"
+  },
+  "knode_app_cache": "缓存",
+  "@knode_app_cache": {
+    "description": "缓存"
+  },
+  "knode_app_cache_description": "缓存是使用过程中产生的临时数据，清理缓存不影响app使用",
+  "@knode_app_cache_description": {
+    "description": "缓存是使用过程中产生的临时数据，清理缓存不影响app使用"
+  },
+  "knode_app_resource_files": "资源文件",
+  "@knode_app_resource_files": {
+    "description": "资源文件"
+  },
+  "knode_app_resource_files_description": "包含app运行时所需要的资源文件",
+  "@knode_app_resource_files_description": {
+    "description": "包含app运行时所需要的资源文件"
+  },
+  "knode_app_essential_files": "必要文件",
+  "@knode_app_essential_files": {
+    "description": "必要文件"
+  },
+  "knode_app_essential_files_description": "app运行的必要文件,不能清理",
+  "@knode_app_essential_files_description": {
+    "description": "app运行的必要文件,不能清理"
+  },
+  "knode_app_storage_overview": "存储空间",
+  "@knode_app_storage_overview": {
+    "description": "存储空间"
+  },
+  "knode_app_this_app_used": "本App已用",
+  "@knode_app_this_app_used": {
+    "description": "本App已用"
+  },
+  "knode_app_other_apps_used": "其他App已用",
+  "@knode_app_other_apps_used": {
+    "description": "其他App已用"
+  },
+  "knode_app_free_space": "剩余空间",
+  "@knode_app_free_space": {
+    "description": "剩余空间"
+  },
+  "knode_app_knode_used": "Knode已用空间",
+  "@knode_app_knode_used": {
+    "description": "Knode已用空间"
+  },
+  "knode_app_storage_percentage": "占手机{percent}%存储空间",
+  "@knode_app_storage_percentage": {
+    "description": "占手机{percent}%存储空间",
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "knode_app_clean": "清理",
+  "@knode_app_clean": {
+    "description": "清理"
+  },
+  "knode_app_cache_cleared": "缓存已清理",
+  "@knode_app_cache_cleared": {
+    "description": "缓存已清理"
+  },
+  "knode_app_clear_cache_failed": "清理缓存失败",
+  "@knode_app_clear_cache_failed": {
+    "description": "清理缓存失败"
+  },
+  "knode_app_resources_cleared": "资源文件已清理",
+  "@knode_app_resources_cleared": {
+    "description": "资源文件已清理"
+  },
+  "knode_app_clear_resources_failed": "清理资源文件失败",
+  "@knode_app_clear_resources_failed": {
+    "description": "清理资源文件失败"
   }
 }

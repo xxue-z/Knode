@@ -3080,5 +3080,78 @@
   "wiki_zoom_out": "Zoom Out",
   "@wiki_zoom_out": {
     "description": "缩小"
+  },
+  "knode_app_cache": "Cache",
+  "@knode_app_cache": {
+    "description": "Cache"
+  },
+  "knode_app_cache_description": "Temporary data generated during use. Clearing cache won't affect app functionality",
+  "@knode_app_cache_description": {
+    "description": "Cache is temporary data generated during use"
+  },
+  "knode_app_resource_files": "Resource Files",
+  "@knode_app_resource_files": {
+    "description": "Resource Files"
+  },
+  "knode_app_resource_files_description": "Contains resource files needed for app runtime",
+  "@knode_app_resource_files_description": {
+    "description": "Contains resource files needed for app runtime"
+  },
+  "knode_app_essential_files": "Essential Files",
+  "@knode_app_essential_files": {
+    "description": "Essential Files"
+  },
+  "knode_app_essential_files_description": "Essential files for app operation, cannot be cleared",
+  "@knode_app_essential_files_description": {
+    "description": "Essential files for app operation, cannot be cleared"
+  },
+  "knode_app_storage_overview": "Storage",
+  "@knode_app_storage_overview": {
+    "description": "Storage"
+  },
+  "knode_app_this_app_used": "This App",
+  "@knode_app_this_app_used": {
+    "description": "This App"
+  },
+  "knode_app_other_apps_used": "Other Apps",
+  "@knode_app_other_apps_used": {
+    "description": "Other Apps"
+  },
+  "knode_app_free_space": "Free Space",
+  "@knode_app_free_space": {
+    "description": "Free Space"
+  },
+  "knode_app_knode_used": "Knode Used",
+  "@knode_app_knode_used": {
+    "description": "Knode Used"
+  },
+  "knode_app_storage_percentage": "Uses {percent}% of phone storage",
+  "@knode_app_storage_percentage": {
+    "description": "Uses {percent}% of phone storage",
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "knode_app_clean": "Clear",
+  "@knode_app_clean": {
+    "description": "Clear"
+  },
+  "knode_app_cache_cleared": "Cache cleared",
+  "@knode_app_cache_cleared": {
+    "description": "Cache cleared"
+  },
+  "knode_app_clear_cache_failed": "Failed to clear cache",
+  "@knode_app_clear_cache_failed": {
+    "description": "Failed to clear cache"
+  },
+  "knode_app_resources_cleared": "Resource files cleared",
+  "@knode_app_resources_cleared": {
+    "description": "Resource files cleared"
+  },
+  "knode_app_clear_resources_failed": "Failed to clear resource files",
+  "@knode_app_clear_resources_failed": {
+    "description": "Failed to clear resource files"
   }
 }
