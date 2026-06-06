@@ -129,6 +129,36 @@ class GraphNotifier extends AsyncNotifier<GraphState> {
     ref.invalidateSelf();
   }
 
+  /// Build graph from a pre-loaded document list (avoids stale provider reads).
+  void buildGraphFromDocs(List<Document> documents) {
+    if (documents.isEmpty) {
+      state = const AsyncData(GraphState());
+      return;
+    }
+    final result = GraphService.buildGraph(documents: documents);
+    state = AsyncData(GraphState(
+      nodes: result.nodes
+          .map((n) => GraphNode(
+                id: n.id,
+                title: n.title,
+                summary: n.summary,
+                categoryId: n.categoryId,
+                position: n.position,
+                tags: n.tags,
+              ))
+          .toList(),
+      edges: result.edges
+          .map((e) => GraphEdge(
+                sourceId: e.sourceId,
+                targetId: e.targetId,
+                type: e.type,
+                similarity: e.similarity,
+              ))
+          .toList(),
+      isClusterMode: result.isClusterMode,
+    ));
+  }
+
   /// Refresh the graph from the data source.
   Future<void> refresh() async {
     ref.invalidateSelf();

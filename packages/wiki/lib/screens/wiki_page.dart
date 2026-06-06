@@ -53,9 +53,12 @@ class _WikiPageState extends ConsumerState<WikiPage>
 
   Future<void> _loadData() async {
     final docNotifier = ref.read(documentListProvider.notifier);
-    docNotifier.filterByCategory(null);
-    await ref.read(documentListProvider.future);
-    ref.read(graphProvider.notifier).buildGraph('all');
+    await docNotifier.build();
+    final docState = ref.read(documentListProvider).value;
+    if (docState != null && docState.documents.isNotEmpty) {
+      final graphNotifier = ref.read(graphProvider.notifier);
+      graphNotifier.buildGraphFromDocs(docState.documents);
+    }
   }
 
 
