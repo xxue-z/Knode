@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:chat/gen/strings.dart';
 import 'package:chat/screens/archive_dialog.dart';
+import 'package:chat/screens/chat_drawer.dart';
 import 'package:chat/screens/message_input.dart';
 
 const _strings = L10nStringsMixin();
@@ -12,56 +13,18 @@ const _strings = L10nStringsMixin();
 /// - Message input bar at the bottom
 /// Future P2 work will populate these with conversation UI, message bubbles,
 /// and a functional text/voice input field.
-class ChatPage extends StatelessWidget {
+class ChatPage extends StatefulWidget {
   const ChatPage({super.key});
 
-  void _showConversationMenu(BuildContext context) {
-    showModalBottomSheet<void>(
-      context: context,
-      builder: (_) => SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ListTile(
-              leading: const Icon(Icons.history),
-              title: Text(_strings.chat_history_sessions),
-              onTap: () {
-                Navigator.pop(context);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(_strings.chat_history_sessions)),
-                );
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.archive_outlined),
-              title: Text(_strings.chat_archive),
-              onTap: () {
-                Navigator.pop(context);
-                showDialog<bool>(
-                  context: context,
-                  builder: (_) => ArchiveDialog(
-                    conversationId: 0,
-                    conversationTitle: _strings.chat_current_session,
-                    messages: [],
-                    categories: [],
-                  ),
-                );
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.delete_outline),
-              title: Text(_strings.chat_clear_history),
-              onTap: () {
-                Navigator.pop(context);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(_strings.chat_clear_history)),
-                );
-              },
-            ),
-          ],
-        ),
-      ),
-    );
+  @override
+  State<ChatPage> createState() => _ChatPageState();
+}
+
+class _ChatPageState extends State<ChatPage> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  void _openDrawer() {
+    _scaffoldKey.currentState?.openEndDrawer();
   }
 
   @override
@@ -72,13 +35,19 @@ class ChatPage extends StatelessWidget {
         final horizontalPadding = isWide ? constraints.maxWidth * 0.1 : 0.0;
 
         return Scaffold(
+          key: _scaffoldKey,
+          endDrawer: ChatDrawer(
+            onConversationSelected: (conv) {
+              // TODO: Load conversation into chat
+            },
+          ),
           appBar: AppBar(
             title: Text(_strings.chat_ai_assistant),
             centerTitle: true,
             actions: [
               IconButton(
-                icon: const Icon(Icons.more_vert),
-                onPressed: () => _showConversationMenu(context),
+                icon: const Icon(Icons.menu),
+                onPressed: _openDrawer,
               ),
             ],
           ),
