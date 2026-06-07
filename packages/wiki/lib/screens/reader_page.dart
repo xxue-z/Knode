@@ -291,40 +291,38 @@ class _ReaderPageState extends ConsumerState<ReaderPage> {
                 ),
               )
             else
-              SafeArea(
-                child: SingleChildScrollView(
-                  controller: _scrollController,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 24,
-                    vertical: 16,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      TextField(
-                        controller: _textController,
-                        readOnly: true,
-                        maxLines: null,
-                        decoration: const InputDecoration(
-                          border: InputBorder.none,
-                          isCollapsed: true,
-                        ),
-                        style: TextStyle(
-                          fontSize: _fontSize,
-                          height: _lineSpacing,
-                          color: textColor,
-                        ),
+              SingleChildScrollView(
+                controller: _scrollController,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24,
+                  vertical: 16,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    TextField(
+                      controller: _textController,
+                      readOnly: true,
+                      maxLines: null,
+                      decoration: const InputDecoration(
+                        border: InputBorder.none,
+                        isCollapsed: true,
                       ),
-                      const SizedBox(height: 16),
-                      // ── 标签展示区 ──
-                      if (_document != null && _document!.tags.isNotEmpty)
-                        TagChipList(
-                          tags: _document!.tags,
-                          isEditable: true,
-                          onEdit: () => _editTags(),
-                        ),
-                    ],
-                  ),
+                      style: TextStyle(
+                        fontSize: _fontSize,
+                        height: _lineSpacing,
+                        color: textColor,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    // ── 标签展示区 ──
+                    if (_document != null && _document!.tags.isNotEmpty)
+                      TagChipList(
+                        tags: _document!.tags,
+                        isEditable: true,
+                        onEdit: () => _editTags(),
+                      ),
+                  ],
                 ),
               ),
 
@@ -338,176 +336,174 @@ class _ReaderPageState extends ConsumerState<ReaderPage> {
                   onTap: _toggleToolbar,
                   child: Container(
                     color: Colors.black45,
-                    child: SafeArea(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 24),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            // 返回按钮
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: IconButton(
-                                icon: const Icon(
-                                  Icons.arrow_back,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 24),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          // 返回按钮
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: IconButton(
+                              icon: const Icon(
+                                Icons.arrow_back,
+                                color: Colors.white,
+                              ),
+                              onPressed: () => Navigator.pop(context),
+                            ),
+                          ),
+
+                          // 标题
+                          if (widget.title != null)
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 32),
+                              child: Text(
+                                widget.title!,
+                                style: const TextStyle(
                                   color: Colors.white,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600,
                                 ),
-                                onPressed: () => Navigator.pop(context),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                               ),
                             ),
 
-                            // 标题
-                            if (widget.title != null)
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: 32),
-                                child: Text(
-                                  widget.title!,
-                                  style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
+                          // ── TTS 控制 ──
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              IconButton(
+                                iconSize: 36,
+                                color: Colors.white,
+                                icon: Icon(
+                                  _isSpeaking
+                                      ? Icons.stop_circle
+                                      : Icons.play_circle_outline,
                                 ),
+                                onPressed: () {
+                                  if (_isSpeaking) {
+                                    _ttsService.stop();
+                                  } else {
+                                    _ttsService.speak(_content);
+                                  }
+                                },
                               ),
-
-                            // ── TTS 控制 ──
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
+                              if (_isSpeaking) ...[
+                                const SizedBox(width: 16),
                                 IconButton(
                                   iconSize: 36,
                                   color: Colors.white,
-                                  icon: Icon(
-                                    _isSpeaking
-                                        ? Icons.stop_circle
-                                        : Icons.play_circle_outline,
-                                  ),
-                                  onPressed: () {
-                                    if (_isSpeaking) {
-                                      _ttsService.stop();
-                                    } else {
-                                      _ttsService.speak(_content);
-                                    }
-                                  },
+                                  icon: const Icon(Icons.pause_circle_outline),
+                                  onPressed: () => _ttsService.pause(),
                                 ),
-                                if (_isSpeaking) ...[
-                                  const SizedBox(width: 16),
-                                  IconButton(
-                                    iconSize: 36,
+                              ],
+                            ],
+                          ),
+                          const SizedBox(height: 32),
+
+                          // ── 字体大小控制 ──
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              IconButton(
+                                color: Colors.white,
+                                icon: const Icon(Icons.text_decrease),
+                                onPressed: () {
+                                  setState(() {
+                                    _fontSize =
+                                        (_fontSize - 1).clamp(12.0, 28.0);
+                                  });
+                                },
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 16,
+                                ),
+                                child: Text(
+                                  '${_fontSize.round()}',
+                                  style: const TextStyle(
                                     color: Colors.white,
-                                    icon: const Icon(Icons.pause_circle_outline),
-                                    onPressed: () => _ttsService.pause(),
+                                    fontSize: 16,
                                   ),
-                                ],
-                              ],
-                            ),
-                            const SizedBox(height: 32),
+                                ),
+                              ),
+                              IconButton(
+                                color: Colors.white,
+                                icon: const Icon(Icons.text_increase),
+                                onPressed: () {
+                                  setState(() {
+                                    _fontSize =
+                                        (_fontSize + 1).clamp(12.0, 28.0);
+                                  });
+                                },
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 16),
 
-                            // ── 字体大小控制 ──
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                IconButton(
-                                  color: Colors.white,
-                                  icon: const Icon(Icons.text_decrease),
-                                  onPressed: () {
-                                    setState(() {
-                                      _fontSize =
-                                          (_fontSize - 1).clamp(12.0, 28.0);
-                                    });
-                                  },
+                          // ── 行间距控制 ──
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Icon(
+                                Icons.format_line_spacing,
+                                color: Colors.white70,
+                                size: 20,
+                              ),
+                              Expanded(
+                                child: Slider(
+                                  value: _lineSpacing,
+                                  min: 1.0,
+                                  max: 3.0,
+                                  divisions: 10,
+                                  activeColor: Colors.white,
+                                  inactiveColor: Colors.white30,
+                                  label: _lineSpacing.toStringAsFixed(1),
+                                  onChanged: (v) =>
+                                      setState(() => _lineSpacing = v),
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 16,
+                              ),
+                              SizedBox(
+                                width: 36,
+                                child: Text(
+                                  _lineSpacing.toStringAsFixed(1),
+                                  textAlign: TextAlign.end,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 13,
                                   ),
-                                  child: Text(
-                                    '${_fontSize.round()}',
-                                    style: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 16,
-                                    ),
-                                  ),
                                 ),
-                                IconButton(
-                                  color: Colors.white,
-                                  icon: const Icon(Icons.text_increase),
-                                  onPressed: () {
-                                    setState(() {
-                                      _fontSize =
-                                          (_fontSize + 1).clamp(12.0, 28.0);
-                                    });
-                                  },
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 16),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 8),
 
-                            // ── 行间距控制 ──
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const Icon(
-                                  Icons.format_line_spacing,
-                                  color: Colors.white70,
-                                  size: 20,
-                                ),
-                                Expanded(
-                                  child: Slider(
-                                    value: _lineSpacing,
-                                    min: 1.0,
-                                    max: 3.0,
-                                    divisions: 10,
-                                    activeColor: Colors.white,
-                                    inactiveColor: Colors.white30,
-                                    label: _lineSpacing.toStringAsFixed(1),
-                                    onChanged: (v) =>
-                                        setState(() => _lineSpacing = v),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 36,
-                                  child: Text(
-                                    _lineSpacing.toStringAsFixed(1),
-                                    textAlign: TextAlign.end,
-                                    style: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 13,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            const SizedBox(height: 8),
-
-                            // ── 夜间模式切换 ──
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const Icon(
-                                  Icons.light_mode,
-                                  color: Colors.white70,
-                                  size: 20,
-                                ),
-                                Switch(
-                                  value: _isDarkMode,
-                                  onChanged: (v) => setState(() {
-                                    _isDarkMode = v;
-                                    _backgroundColor =
-                                        v ? const Color(0xFF1E1E1E) : Colors.white;
-                                  }),
-                                ),
-                                const Icon(
-                                  Icons.dark_mode,
-                                  color: Colors.white70,
-                                  size: 20,
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
+                          // ── 夜间模式切换 ──
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Icon(
+                                Icons.light_mode,
+                                color: Colors.white70,
+                                size: 20,
+                              ),
+                              Switch(
+                                value: _isDarkMode,
+                                onChanged: (v) => setState(() {
+                                  _isDarkMode = v;
+                                  _backgroundColor =
+                                      v ? const Color(0xFF1E1E1E) : Colors.white;
+                                }),
+                              ),
+                              const Icon(
+                                Icons.dark_mode,
+                                color: Colors.white70,
+                                size: 20,
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
                   ),
