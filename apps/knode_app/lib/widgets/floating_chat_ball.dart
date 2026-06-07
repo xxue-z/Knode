@@ -8,10 +8,8 @@ import 'package:knode_app/widgets/chat_panel.dart';
 import 'package:knode_app/widgets/voice_panel.dart';
 import 'package:chat/screens/chat_page.dart';
 
-/// 全局悬浮球组件
 class FloatingChatBall extends ConsumerStatefulWidget {
   const FloatingChatBall({super.key});
-
   @override
   ConsumerState<FloatingChatBall> createState() => _FloatingChatBallState();
 }
@@ -24,22 +22,18 @@ class _FloatingChatBallState extends ConsumerState<FloatingChatBall>
   bool _isDragging = false;
   Timer? _doubleTapTimer;
   DateTime? _lastTapTime;
-
   final GlobalKey _ballKey = GlobalKey();
   OverlayEntry? _panelOverlay;
   AnimationController? _panelAnimController;
   Animation<double>? _panelScaleAnimation;
   Animation<double>? _panelOpacityAnimation;
-
-  // Edge shrink
   double _edgeOffset = 0;
 
   @override
   void initState() {
     super.initState();
     _pulseController = AnimationController(
-      duration: const Duration(milliseconds: 1500),
-      vsync: this,
+      duration: const Duration(milliseconds: 1500), vsync: this,
     );
     _pulseAnimation = Tween<double>(begin: 1.0, end: 1.2).animate(
       CurvedAnimation(parent: _pulseController, curve: Curves.easeInOut),
@@ -58,8 +52,7 @@ class _FloatingChatBallState extends ConsumerState<FloatingChatBall>
     super.dispose();
   }
 
-  // ------- Edge detection -------
-
+  // ---- Edge detection ----
   void _updateEdgeOffset(Offset position) {
     final size = MediaQuery.of(context).size;
     const ballRadius = 28.0;
@@ -74,8 +67,7 @@ class _FloatingChatBallState extends ConsumerState<FloatingChatBall>
     });
   }
 
-  // ------- Tap handling -------
-
+  // ---- Tap ----
   void _onTapDown(TapDownDetails details) {}
 
   void _onTapUp(TapUpDetails details) {
@@ -119,8 +111,7 @@ class _FloatingChatBallState extends ConsumerState<FloatingChatBall>
     Navigator.push(context, MaterialPageRoute(builder: (_) => const ChatPage()));
   }
 
-  // ------- Voice panel -------
-
+  // ---- Voice ----
   void _showVoicePanel() {
     showDialog(
       context: context,
@@ -131,20 +122,14 @@ class _FloatingChatBallState extends ConsumerState<FloatingChatBall>
     );
   }
 
-  // ------- Panel overlay -------
-
+  // ---- Panel overlay ----
   void _showPanelOverlay() {
-    if (_panelOverlay != null) {
-      _closePanelOverlay();
-      return;
-    }
+    if (_panelOverlay != null) { _closePanelOverlay(); return; }
     final screenSize = MediaQuery.of(context).size;
     final panelWidth = screenSize.width - 32.0;
     final panelLeft = (screenSize.width - panelWidth) / 2;
-
     _panelAnimController = AnimationController(
-      duration: const Duration(milliseconds: 250),
-      vsync: this,
+      duration: const Duration(milliseconds: 250), vsync: this,
     );
     _panelScaleAnimation = Tween<double>(begin: 0.8, end: 1.0).animate(
       CurvedAnimation(parent: _panelAnimController!, curve: Curves.easeOutBack),
@@ -152,11 +137,9 @@ class _FloatingChatBallState extends ConsumerState<FloatingChatBall>
     _panelOpacityAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(parent: _panelAnimController!, curve: Curves.easeOut),
     );
-
     _panelOverlay = OverlayEntry(
       builder: (_) => _PanelOverlayWidget(
         panelLeft: panelLeft,
-        panelTop: 0,
         panelWidth: panelWidth,
         scaleAnimation: _panelScaleAnimation!,
         opacityAnimation: _panelOpacityAnimation!,
@@ -178,20 +161,15 @@ class _FloatingChatBallState extends ConsumerState<FloatingChatBall>
     _panelAnimController = null;
   }
 
-  // ------- Drag -------
-
-  void _onPanStart(DragStartDetails details) {
-    _isDragging = true;
-  }
+  // ---- Drag ----
+  void _onPanStart(DragStartDetails details) { _isDragging = true; }
 
   void _onPanUpdate(DragUpdateDetails details) {
     final current = ref.read(chatBallNotifierProvider).position;
     final screenSize = MediaQuery.of(context).size;
     const ballSize = 56.0;
-    double newX = current.dx + details.delta.dx;
-    double newY = current.dy + details.delta.dy;
-    newX = newX.clamp(0, screenSize.width - ballSize);
-    newY = newY.clamp(0, screenSize.height - ballSize - 80);
+    double newX = (current.dx + details.delta.dx).clamp(0, screenSize.width - ballSize);
+    double newY = (current.dy + details.delta.dy).clamp(0, screenSize.height - ballSize - 80);
     final newPos = Offset(newX, newY);
     ref.read(chatBallNotifierProvider.notifier).updatePosition(newPos);
     _updateEdgeOffset(newPos);
@@ -202,22 +180,15 @@ class _FloatingChatBallState extends ConsumerState<FloatingChatBall>
     final state = ref.read(chatBallNotifierProvider);
     final screenSize = MediaQuery.of(context).size;
     const ballSize = 56.0;
-    const ballRadius = ballSize / 2;
-
-    double targetX = state.position.dx;
-    if (targetX < screenSize.width / 2) {
-      targetX = 0;
-    } else {
-      targetX = screenSize.width - ballSize;
-    }
-    final target = Offset(targetX, state.position.dy);
-    _snapToEdge(state.position, target);
+    double targetX = state.position.dx < screenSize.width / 2
+        ? 0
+        : screenSize.width - ballSize;
+    _snapToEdge(state.position, Offset(targetX, state.position.dy));
   }
 
   void _snapToEdge(Offset from, Offset to) {
     final controller = AnimationController(
-      duration: const Duration(milliseconds: 200),
-      vsync: this,
+      duration: const Duration(milliseconds: 200), vsync: this,
     );
     final animation = Tween<Offset>(begin: from, end: to).animate(
       CurvedAnimation(parent: controller, curve: Curves.easeOut),
@@ -235,7 +206,21 @@ class _FloatingChatBallState extends ConsumerState<FloatingChatBall>
     controller.forward();
   }
 
-  // ------- Build -------
+  // ---- Build ----
+  Widget _buildBall(ChatBallStyle style) {
+    return Container(
+      key: _ballKey,
+      width: style.size,
+      height: style.size,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        gradient: style.gradient,
+        color: style.gradient == null ? style.backgroundColor : null,
+        boxShadow: style.boxShadow != null ? [style.boxShadow!] : null,
+      ),
+      child: Icon(style.icon, color: style.iconColor, size: style.size * 0.5),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -249,8 +234,41 @@ class _FloatingChatBallState extends ConsumerState<FloatingChatBall>
       _pulseController.reset();
     }
 
-    // Edge shrink: clip left/right overflow
-    final clipBehavior = _edgeOffset > 0 ? Clip.hardEdge : Clip.none;
+    final ball = Stack(
+      alignment: Alignment.center,
+      children: [
+        if (chatBallState.hasUnread)
+          AnimatedBuilder(
+            animation: _pulseAnimation,
+            builder: (context, child) => Transform.scale(
+              scale: _pulseAnimation.value,
+              child: child,
+            ),
+            child: Container(
+              width: style.size,
+              height: style.size,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: style.backgroundColor.withValues(alpha: 0.3),
+              ),
+            ),
+          ),
+        _buildBall(style),
+      ],
+    );
+
+    final needsClip = _edgeOffset > 0;
+    Widget child = ball;
+    if (needsClip) {
+      child = ClipRect(
+        clipBehavior: Clip.hardEdge,
+        child: SizedBox(
+          width: style.size + _edgeOffset,
+          height: style.size,
+          child: Align(alignment: Alignment.centerRight, child: ball),
+        ),
+      );
+    }
 
     return Positioned(
       left: chatBallState.position.dx - _edgeOffset,
@@ -263,53 +281,7 @@ class _FloatingChatBallState extends ConsumerState<FloatingChatBall>
         onPanStart: _onPanStart,
         onPanUpdate: _onPanUpdate,
         onPanEnd: _onPanEnd,
-        child: ClipRect(
-          clipBehavior: clipBehavior,
-          child: SizedBox(
-            width: style.size + _edgeOffset,
-            height: style.size,
-            child: Stack(
-              children: [
-                if (chatBallState.hasUnread)
-                  AnimatedBuilder(
-                    animation: _pulseAnimation,
-                    builder: (context, child) {
-                      return Transform.scale(
-                        scale: _pulseAnimation.value,
-                        child: child,
-                      );
-                    },
-                    child: Container(
-                      width: style.size,
-                      height: style.size,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: style.gradient != null
-                            ? style.backgroundColor.withValues(alpha: 0.3)
-                            : style.backgroundColor.withValues(alpha: 0.3),
-                      ),
-                    ),
-                  ),
-                Container(
-                  key: _ballKey,
-                  width: style.size,
-                  height: style.size,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: style.gradient != null ? style.backgroundColor : style.backgroundColor,
-                    gradient: style.gradient,
-                    boxShadow: style.boxShadow != null ? [style.boxShadow!] : null,
-                  ),
-                  child: Icon(
-                    style.icon,
-                    color: style.iconColor,
-                    size: style.size * 0.5,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
+        child: child,
       ),
     );
   }
@@ -318,7 +290,6 @@ class _FloatingChatBallState extends ConsumerState<FloatingChatBall>
 class _PanelOverlayWidget extends StatelessWidget {
   const _PanelOverlayWidget({
     required this.panelLeft,
-    required this.panelTop,
     required this.panelWidth,
     required this.scaleAnimation,
     required this.opacityAnimation,
@@ -327,7 +298,6 @@ class _PanelOverlayWidget extends StatelessWidget {
   });
 
   final double panelLeft;
-  final double panelTop;
   final double panelWidth;
   final Animation<double> scaleAnimation;
   final Animation<double> opacityAnimation;
@@ -355,13 +325,11 @@ class _PanelOverlayWidget extends StatelessWidget {
           width: panelWidth,
           child: AnimatedBuilder(
             animation: Listenable.merge([scaleAnimation, opacityAnimation]),
-            builder: (context, child) {
-              return Transform.scale(
-                scale: scaleAnimation.value,
-                alignment: Alignment.center,
-                child: Opacity(opacity: opacityAnimation.value, child: child),
-              );
-            },
+            builder: (context, child) => Transform.scale(
+              scale: scaleAnimation.value,
+              alignment: Alignment.center,
+              child: Opacity(opacity: opacityAnimation.value, child: child),
+            ),
             child: ChatPanel(onFullScreen: onFullScreen, onClose: onClose),
           ),
         ),
