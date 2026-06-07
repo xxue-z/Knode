@@ -263,3 +263,46 @@ wiki_settings,Wiki Settings,Wiki 设置
 quiz_settings,Quiz Settings,测验设置
 storage_space,Storage Space,存储空间
 check_update,Check Update,检查更新
+cache,Cache,缓存
+cache_description,"Temporary data generated during use, clearing cache does not affect app usage",缓存是使用过程中产生的临时数据，清理缓存不影响app使用
+cache_cleared,Cache cleared,缓存已清理
+clear_cache_failed,Failed to clear cache,清理缓存失败
+resource_files,Resource Files,资源文件
+resource_files_description,Runtime resource files required by the app,包含app运行时所需要的资源文件
+resources_cleared,Resource files cleared,资源文件已清理
+clear_resources_failed,Failed to clear resource files,清理资源文件失败
+essential_files,Essential Files,必要文件
+essential_files_description,"Essential files for app runtime, cannot be cleared",app运行的必要文件，不能清理
+storage_overview,Storage Space,存储空间
+this_app_used,This App Used,本App已用
+other_apps_used,Other Apps Used,其他App已用
+free_space,Free Space,剩余空间
+knode_used,Knode Used,Knode已用空间
+storage_percentage,Takes {percent} storage,占有{percent}存储空间
+clean,Clean,清理
+quiz_save_settings,Save Settings,保存设置
+quiz_settings_saved,Settings Saved,设置已保存
+quiz_monthly_exam_2,Monthly Exam,月度考试
+quiz_monthly_count,Monthly Exam Question Count,月考题目数量
+quiz_quarterly_count,Quarterly Exam Question Count,季考题目数量
+quiz_yearly_count,Yearly Exam Question Count,年考题目数量
+quiz_ai_enabled,Enable AI Question Generation,启用 AI 出题
+quiz_ai_ratio_mode,AI Ratio Mode,AI 出题比例模式
+quiz_ai_fixed_ratio,Fixed AI Ratio,固定 AI 比例
+quiz_variant_enabled,Enable Variant Questions,启用变种出题
+quiz_ai_ratio_smart,Smart AI Ratio,智能AI比例
+quiz_ai_ratio_fixed,Fixed AI Ratio,固定AI比例
+exam_settings,Exam Settings,考试设置
+ai_quiz,AI Quiz,AI出题
+daily_quiz,Daily Quiz,每日速记
+random_flashcard,Random Flashcard,随机速记
+wrong_review,Wrong Card Review,错题重练
+quiz_daily_count,Daily Quiz Count,每日速记数量
+quiz_daily_scope,Daily Quiz Scope,每日速记范围
+quiz_scope_all,All Documents,全部文档
+quiz_scope_category,By Category,按分类
+quiz_scope_days,By Days,按天数
+quiz_random_count,Random Flashcard Count,随机速记数量
+quiz_random_days,Random Flashcard Days,随机速记天数
+quiz_review_count,Wrong Review Count,错题复习数量
+quiz_review_wrong_ratio,Wrong Review Ratio,错题复习比例
