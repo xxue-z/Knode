@@ -24,12 +24,6 @@ class _ChatHistoryDrawerState extends ConsumerState<ChatHistoryDrawer> {
       width: MediaQuery.of(context).size.width * 0.85,
       child: SafeArea(
         child: Column(children: [
-          Padding(padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8), child: Row(children: [
-            Text(_strings.chat_current_session, style: Theme.of(context).textTheme.titleMedium),
-            const Spacer(),
-            IconButton(icon: const Icon(Icons.close), onPressed: () => Navigator.pop(context)),
-          ])),
-          const Divider(height: 1),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
             child: Row(children: [
