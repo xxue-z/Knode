@@ -10,6 +10,7 @@ import 'package:wiki/widgets/tag_editor_dialog.dart';
 import 'package:core/models/document.dart';
 import 'package:core/services/tts_service.dart';
 import 'package:core/providers/service_providers.dart';
+import 'package:wiki/screens/editor_page.dart';
 
 final _strings = const L10nStringsMixin();
 
@@ -447,10 +448,17 @@ class _ReaderPageState extends ConsumerState<ReaderPage> {
                 icon: Icon(Icons.edit,
                     color:
                         isDark ? Colors.white70 : Colors.black87),
-                onPressed: () => ScaffoldMessenger.of(context)
-                    .showSnackBar(const SnackBar(
-                        content:
-                            Text('Edit mode coming soon'))),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => EditorPage(
+                        docId: widget.docId,
+                        title: widget.title,
+                      ),
+                    ),
+                  );
+                },
               ),
             ],
           ),
