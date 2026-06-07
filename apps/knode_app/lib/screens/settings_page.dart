@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:knode_app/gen/strings.dart';
 import 'package:knode_app/screens/ai_settings.dart';
+import 'package:knode_app/screens/chat_settings.dart';
 import 'package:knode_app/screens/backup_settings.dart';
 import 'package:knode_app/screens/log_viewer_screen.dart';
 import 'package:knode_app/screens/storage_settings.dart';
@@ -30,6 +31,12 @@ class SettingsPage extends StatelessWidget {
               title: _strings.knode_app_ai_settings,
               subtitle: '',
               onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const AiSettingsPage())),
+            ),
+            _SettingsTile(
+              icon: Icons.chat_outlined,
+              title: 'Chat 设置',
+              subtitle: '',
+              onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ChatSettingsPage())),
             ),
             _SettingsTile(
               icon: Icons.quiz_outlined,
