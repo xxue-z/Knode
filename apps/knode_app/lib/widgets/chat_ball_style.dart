@@ -40,7 +40,7 @@ class ChatBallStyle {
   factory ChatBallStyle.gradient({Gradient? gradient}) {
     return ChatBallStyle(
       size: 56.0,
-      backgroundColor: Colors.transparent,
+      backgroundColor: const Color(0xFF667eea),
       gradient: gradient ??
           const LinearGradient(
             colors: [Color(0xFF667eea), Color(0xFF764ba2)],
