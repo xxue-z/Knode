@@ -40,8 +40,10 @@ class _FloatingChatBallState extends ConsumerState<FloatingChatBall>
     );
     Future.microtask(() async {
       await ref.read(chatBallNotifierProvider.notifier).restoreState();
-      final pos = ref.read(chatBallNotifierProvider).position;
-      _updateEdgeOffset(pos);
+      if (mounted) {
+        final pos = ref.read(chatBallNotifierProvider).position;
+        _updateEdgeOffset(pos);
+      }
     });
   }
 
@@ -54,7 +56,6 @@ class _FloatingChatBallState extends ConsumerState<FloatingChatBall>
     super.dispose();
   }
 
-  // ---- Edge detection ----
   void _updateEdgeOffset(Offset position) {
     final size = MediaQuery.of(context).size;
     const ballSize = 56.0;
@@ -65,12 +66,9 @@ class _FloatingChatBallState extends ConsumerState<FloatingChatBall>
     final newOffset = minEdge < edgeThreshold
         ? (ballSize / 2 - minEdge).clamp(0.0, ballSize / 2)
         : 0.0;
-    if (newOffset != _edgeOffset) {
-      setState(() { _edgeOffset = newOffset; });
-    }
+    if (newOffset != _edgeOffset) setState(() { _edgeOffset = newOffset; });
   }
 
-  // ---- Tap ----
   void _onTapDown(TapDownDetails details) {}
 
   void _onTapUp(TapUpDetails details) {
@@ -78,9 +76,7 @@ class _FloatingChatBallState extends ConsumerState<FloatingChatBall>
     final now = DateTime.now();
     final lastTap = _lastTapTime;
     if (lastTap != null && now.difference(lastTap).inMilliseconds < 300) {
-      _doubleTapTimer?.cancel();
-      _doubleTapTimer = null;
-      _lastTapTime = null;
+      _doubleTapTimer?.cancel(); _doubleTapTimer = null; _lastTapTime = null;
       _onDoubleTap();
     } else {
       _lastTapTime = now;
@@ -114,7 +110,6 @@ class _FloatingChatBallState extends ConsumerState<FloatingChatBall>
     Navigator.push(context, MaterialPageRoute(builder: (_) => const ChatPage()));
   }
 
-  // ---- Voice ----
   void _showVoicePanel() {
     showDialog(
       context: context,
@@ -125,7 +120,6 @@ class _FloatingChatBallState extends ConsumerState<FloatingChatBall>
     );
   }
 
-  // ---- Panel overlay ----
   void _showPanelOverlay() {
     if (_panelOverlay != null) { _closePanelOverlay(); return; }
     final screenSize = MediaQuery.of(context).size;
@@ -164,7 +158,6 @@ class _FloatingChatBallState extends ConsumerState<FloatingChatBall>
     _panelAnimController = null;
   }
 
-  // ---- Drag ----
   void _onPanStart(DragStartDetails details) { _isDragging = true; }
 
   void _onPanUpdate(DragUpdateDetails details) {
@@ -184,8 +177,7 @@ class _FloatingChatBallState extends ConsumerState<FloatingChatBall>
     final screenSize = MediaQuery.of(context).size;
     const ballSize = 56.0;
     double targetX = state.position.dx < screenSize.width / 2
-        ? 0
-        : screenSize.width - ballSize;
+        ? 0 : screenSize.width - ballSize;
     _snapToEdge(state.position, Offset(targetX, state.position.dy));
   }
 
@@ -209,26 +201,6 @@ class _FloatingChatBallState extends ConsumerState<FloatingChatBall>
     controller.forward();
   }
 
-  // ---- Build ----
-  Widget _buildBall(ChatBallStyle style) {
-    // Use ClipOval + DecoratedBox for bulletproof gradient rendering
-    return ClipOval(
-      child: Container(
-        key: _ballKey,
-        width: style.size,
-        height: style.size,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          gradient: style.gradient,
-          color: style.gradient == null ? style.backgroundColor : null,
-        ),
-        child: Center(
-          child: Icon(style.icon, color: style.iconColor, size: style.size * 0.5),
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final chatBallState = ref.watch(chatBallNotifierProvider);
@@ -241,58 +213,28 @@ class _FloatingChatBallState extends ConsumerState<FloatingChatBall>
       _pulseController.reset();
     }
 
-    final ballShadow = style.boxShadow != null
-        ? [BoxShadow(
-            color: style.boxShadow!.color,
-            blurRadius: style.boxShadow!.blurRadius,
-            offset: style.boxShadow!.offset,
-          )]
-        : <BoxShadow>[];
-
-    final ball = Material(
-      color: Colors.transparent,
-      child: Container(
-        width: style.size,
-        height: style.size,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          boxShadow: ballShadow,
-        ),
-        child: _buildBall(style),
-      ),
-    );
-
     final needsClip = _edgeOffset > 0;
-    Widget content = Stack(
-      alignment: Alignment.center,
-      children: [
-        if (chatBallState.hasUnread)
-          AnimatedBuilder(
-            animation: _pulseAnimation,
-            builder: (context, child) => Transform.scale(
-              scale: _pulseAnimation.value,
-              child: child,
-            ),
-            child: Container(
-              width: style.size,
-              height: style.size,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: const Color(0xFF667eea).withValues(alpha: 0.3),
-              ),
-            ),
-          ),
-        ball,
-      ],
+
+    Widget ballWidget = Container(
+      key: _ballKey,
+      width: style.size,
+      height: style.size,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        gradient: style.gradient,
+        color: style.gradient == null ? style.backgroundColor : null,
+        boxShadow: style.boxShadow != null ? [style.boxShadow!] : null,
+      ),
+      child: Icon(style.icon, color: style.iconColor, size: style.size * 0.5),
     );
 
     if (needsClip) {
-      content = ClipRect(
+      ballWidget = ClipRect(
         clipBehavior: Clip.hardEdge,
         child: SizedBox(
           width: style.size + _edgeOffset,
           height: style.size,
-          child: Align(alignment: Alignment.centerRight, child: content),
+          child: Align(alignment: Alignment.centerRight, child: ballWidget),
         ),
       );
     }
@@ -308,7 +250,7 @@ class _FloatingChatBallState extends ConsumerState<FloatingChatBall>
         onPanStart: _onPanStart,
         onPanUpdate: _onPanUpdate,
         onPanEnd: _onPanEnd,
-        child: content,
+        child: ballWidget,
       ),
     );
   }
@@ -336,7 +278,6 @@ class _PanelOverlayWidget extends StatelessWidget {
     final screenHeight = MediaQuery.of(context).size.height;
     final panelHeight = (screenHeight * 0.5).clamp(200.0, 500.0).toDouble();
     final actualTop = (screenHeight - panelHeight) / 2;
-
     return Stack(
       children: [
         Positioned.fill(
