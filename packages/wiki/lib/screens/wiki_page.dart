@@ -961,14 +961,17 @@ class _WikiDrawerState extends State<_WikiDrawer> {
           _CategoryDocuments(categoryId: catId),
         ],
         onExpansionChanged: (expanded) {
-          setState(() {
-            if (expanded) {
-              _expandedCategories.add(catId);
-            } else {
-              _expandedCategories.remove(catId);
-            }
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (!mounted) return;
+            setState(() {
+              if (expanded) {
+                _expandedCategories.add(catId);
+              } else {
+                _expandedCategories.remove(catId);
+              }
+            });
+            if (expanded) _scrollToBottom();
           });
-          if (expanded) _scrollToBottom();
         },
       ),
     );
