@@ -370,36 +370,38 @@ class _ReaderPageState extends ConsumerState<ReaderPage> {
         ),
       );
     }
-    return SingleChildScrollView(
-      controller: _scrollController,
-      padding:
-          const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          TextField(
-            controller: _textController,
-            readOnly: true,
-            maxLines: null,
-            decoration: const InputDecoration(
-              border: InputBorder.none,
-              isCollapsed: true,
+    return SizedBox.expand(
+      child: SingleChildScrollView(
+        controller: _scrollController,
+        padding:
+            const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            TextField(
+              controller: _textController,
+              readOnly: true,
+              maxLines: null,
+              decoration: const InputDecoration(
+                border: InputBorder.none,
+                isCollapsed: true,
+              ),
+              style: TextStyle(
+                fontSize: _fontSize,
+                height: _lineSpacing,
+                color: textColor,
+                letterSpacing: _letterSpacing,
+              ),
             ),
-            style: TextStyle(
-              fontSize: _fontSize,
-              height: _lineSpacing,
-              color: textColor,
-              letterSpacing: _letterSpacing,
-            ),
-          ),
-          const SizedBox(height: 16),
-          if (_document != null && _document!.tags.isNotEmpty)
-            TagChipList(
-              tags: _document!.tags,
-              isEditable: true,
-              onEdit: () => _editTags(),
-            ),
-        ],
+            const SizedBox(height: 16),
+            if (_document != null && _document!.tags.isNotEmpty)
+              TagChipList(
+                tags: _document!.tags,
+                isEditable: true,
+                onEdit: () => _editTags(),
+              ),
+          ],
+        ),
       ),
     );
   }
