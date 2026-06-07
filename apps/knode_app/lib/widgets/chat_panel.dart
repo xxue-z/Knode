@@ -53,7 +53,7 @@ class _ChatPanelState extends ConsumerState<ChatPanel> {
         height: panelHeight,
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.surface,
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+          borderRadius: BorderRadius.circular(16),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withValues(alpha: 0.2),

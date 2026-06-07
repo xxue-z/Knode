@@ -26,8 +26,8 @@ class _ChatDrawerState extends ConsumerState<ChatDrawer> {
       width: MediaQuery.of(context).size.width * 0.85,
       child: SafeArea(
         child: Column(children: [
-          Padding(padding: const EdgeInsets.all(16), child: Row(children: [
-            Text(_strings.chat_ai_assistant, style: Theme.of(context).textTheme.titleLarge),
+          Padding(padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8), child: Row(children: [
+            Text('会话管理', style: Theme.of(context).textTheme.titleMedium),
             const Spacer(),
             IconButton(icon: const Icon(Icons.close), onPressed: () => Navigator.pop(context)),
           ])),
@@ -70,10 +70,10 @@ class _ChatDrawerState extends ConsumerState<ChatDrawer> {
     final convRepo = ref.read(conversationRepositoryProvider);
     final messages = await convRepo.getMessages(conv.id);
     final messageMaps = messages.map((m) => {'role': m.role, 'content': m.content}).toList();
-    final categories = ref.read(categoryListProvider);
+    final categoriesAsync = ref.read(categoryListProvider);
     if (!mounted) return;
     final result = await showDialog<Map<String, dynamic>>(context: context, builder: (_) => ArchiveDialog(
-      conversationId: conv.id, conversationTitle: conv.title, messages: messageMaps, categories: categories,
+      conversationId: conv.id, conversationTitle: conv.title, messages: messageMaps, categories: categoriesAsync.value?.allCategories ?? [],
     ));
     if (result != null && mounted) {
       try {

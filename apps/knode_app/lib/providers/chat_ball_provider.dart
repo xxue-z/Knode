@@ -39,7 +39,7 @@ class ChatBallState {
         isExpanded: false,
         hasUnread: false,
         inputMode: 'text',
-        style: 'icon',
+        style: 'gradient',
       );
 }
 

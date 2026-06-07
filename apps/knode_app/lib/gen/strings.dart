@@ -32,6 +32,10 @@ mixin class L10nStringsMixin {
   String get knode_app_ai_label =>
       LocalizeStringDelegate.get('knode_app_ai_label');
 
+  /// AI出题
+  String get knode_app_ai_quiz =>
+      LocalizeStringDelegate.get('knode_app_ai_quiz');
+
   /// AI 设置
   String get knode_app_ai_settings =>
       LocalizeStringDelegate.get('knode_app_ai_settings');
@@ -130,16 +134,42 @@ mixin class L10nStringsMixin {
   String get knode_app_browse_history =>
       LocalizeStringDelegate.get('knode_app_browse_history');
 
+  /// 缓存
+  String get knode_app_cache => LocalizeStringDelegate.get('knode_app_cache');
+
+  /// 缓存已清理
+  String get knode_app_cache_cleared =>
+      LocalizeStringDelegate.get('knode_app_cache_cleared');
+
+  /// 缓存是使用过程中产生的临时数据，清理缓存不影响app使用
+  String get knode_app_cache_description =>
+      LocalizeStringDelegate.get('knode_app_cache_description');
+
   /// 取消
   String get knode_app_cancel => LocalizeStringDelegate.get('knode_app_cancel');
+
+  /// 检查更新
+  String get knode_app_check_update =>
+      LocalizeStringDelegate.get('knode_app_check_update');
 
   /// 文件校验失败，请重新下载
   String get knode_app_checksum_failed =>
       LocalizeStringDelegate.get('knode_app_checksum_failed');
 
+  /// 清理
+  String get knode_app_clean => LocalizeStringDelegate.get('knode_app_clean');
+
   /// 清除缓存
   String get knode_app_clear_cache =>
       LocalizeStringDelegate.get('knode_app_clear_cache');
+
+  /// 清理缓存失败
+  String get knode_app_clear_cache_failed =>
+      LocalizeStringDelegate.get('knode_app_clear_cache_failed');
+
+  /// 清理资源文件失败
+  String get knode_app_clear_resources_failed =>
+      LocalizeStringDelegate.get('knode_app_clear_resources_failed');
 
   /// 云端 API
   String get knode_app_cloud_api =>
@@ -222,6 +252,10 @@ mixin class L10nStringsMixin {
   String get knode_app_daily_label =>
       LocalizeStringDelegate.get('knode_app_daily_label');
 
+  /// 每日速记
+  String get knode_app_daily_quiz =>
+      LocalizeStringDelegate.get('knode_app_daily_quiz');
+
   /// 每日一测已开始，请切换到[测验]标签查看
   String get knode_app_daily_quiz_started =>
       LocalizeStringDelegate.get('knode_app_daily_quiz_started');
@@ -276,6 +310,18 @@ mixin class L10nStringsMixin {
   /// 错误
   String get knode_app_error => LocalizeStringDelegate.get('knode_app_error');
 
+  /// 必要文件
+  String get knode_app_essential_files =>
+      LocalizeStringDelegate.get('knode_app_essential_files');
+
+  /// app运行的必要文件，不能清理
+  String get knode_app_essential_files_description =>
+      LocalizeStringDelegate.get('knode_app_essential_files_description');
+
+  /// 考试设置
+  String get knode_app_exam_settings =>
+      LocalizeStringDelegate.get('knode_app_exam_settings');
+
   /// 导出数据
   String get knode_app_export_data =>
       LocalizeStringDelegate.get('knode_app_export_data');
@@ -318,6 +364,10 @@ mixin class L10nStringsMixin {
   /// 字号
   String get knode_app_font_size_label =>
       LocalizeStringDelegate.get('knode_app_font_size_label');
+
+  /// 剩余空间
+  String get knode_app_free_space =>
+      LocalizeStringDelegate.get('knode_app_free_space');
 
   /// 获取备份列表失败
   String get knode_app_get_backup_list_failed =>
@@ -373,6 +423,10 @@ mixin class L10nStringsMixin {
   /// 自动清理时保留最近 {n} 个备份
   String knode_app_keep_backup_desc({required String n}) =>
       LocalizeStringDelegate.get('knode_app_keep_backup_desc', arguments: [n]);
+
+  /// Knode已用空间
+  String get knode_app_knode_used =>
+      LocalizeStringDelegate.get('knode_app_knode_used');
 
   /// 语言
   String get knode_app_language =>
@@ -573,6 +627,10 @@ mixin class L10nStringsMixin {
   String get knode_app_modify_storage_path =>
       LocalizeStringDelegate.get('knode_app_modify_storage_path');
 
+  /// 模块设置
+  String get knode_app_module_settings =>
+      LocalizeStringDelegate.get('knode_app_module_settings');
+
   /// （多选）
   String get knode_app_multiple_choice_suffix =>
       LocalizeStringDelegate.get('knode_app_multiple_choice_suffix');
@@ -648,6 +706,10 @@ mixin class L10nStringsMixin {
   /// 原始模板已有变更
   String get knode_app_original_template_changed =>
       LocalizeStringDelegate.get('knode_app_original_template_changed');
+
+  /// 其他App已用
+  String get knode_app_other_apps_used =>
+      LocalizeStringDelegate.get('knode_app_other_apps_used');
 
   /// 正在打包文件...
   String get knode_app_packing_files =>
@@ -752,13 +814,105 @@ mixin class L10nStringsMixin {
   String get knode_app_quick_card =>
       LocalizeStringDelegate.get('knode_app_quick_card');
 
+  /// 启用 AI 出题
+  String get knode_app_quiz_ai_enabled =>
+      LocalizeStringDelegate.get('knode_app_quiz_ai_enabled');
+
+  /// 固定 AI 比例
+  String get knode_app_quiz_ai_fixed_ratio =>
+      LocalizeStringDelegate.get('knode_app_quiz_ai_fixed_ratio');
+
+  /// 固定AI比例
+  String get knode_app_quiz_ai_ratio_fixed =>
+      LocalizeStringDelegate.get('knode_app_quiz_ai_ratio_fixed');
+
+  /// AI 出题比例模式
+  String get knode_app_quiz_ai_ratio_mode =>
+      LocalizeStringDelegate.get('knode_app_quiz_ai_ratio_mode');
+
+  /// 智能AI比例
+  String get knode_app_quiz_ai_ratio_smart =>
+      LocalizeStringDelegate.get('knode_app_quiz_ai_ratio_smart');
+
+  /// 每日速记数量
+  String get knode_app_quiz_daily_count =>
+      LocalizeStringDelegate.get('knode_app_quiz_daily_count');
+
+  /// 每日速记范围
+  String get knode_app_quiz_daily_scope =>
+      LocalizeStringDelegate.get('knode_app_quiz_daily_scope');
+
   /// 道待复习
   String get knode_app_quiz_due_review =>
       LocalizeStringDelegate.get('knode_app_quiz_due_review');
 
+  /// 月考题目数量
+  String get knode_app_quiz_monthly_count =>
+      LocalizeStringDelegate.get('knode_app_quiz_monthly_count');
+
+  /// 月度考试
+  String get knode_app_quiz_monthly_exam_2 =>
+      LocalizeStringDelegate.get('knode_app_quiz_monthly_exam_2');
+
+  /// 季考题目数量
+  String get knode_app_quiz_quarterly_count =>
+      LocalizeStringDelegate.get('knode_app_quiz_quarterly_count');
+
+  /// 随机速记数量
+  String get knode_app_quiz_random_count =>
+      LocalizeStringDelegate.get('knode_app_quiz_random_count');
+
+  /// 随机速记天数
+  String get knode_app_quiz_random_days =>
+      LocalizeStringDelegate.get('knode_app_quiz_random_days');
+
+  /// 错题复习数量
+  String get knode_app_quiz_review_count =>
+      LocalizeStringDelegate.get('knode_app_quiz_review_count');
+
+  /// 错题复习比例
+  String get knode_app_quiz_review_wrong_ratio =>
+      LocalizeStringDelegate.get('knode_app_quiz_review_wrong_ratio');
+
+  /// 保存设置
+  String get knode_app_quiz_save_settings =>
+      LocalizeStringDelegate.get('knode_app_quiz_save_settings');
+
+  /// 全部文档
+  String get knode_app_quiz_scope_all =>
+      LocalizeStringDelegate.get('knode_app_quiz_scope_all');
+
+  /// 按分类
+  String get knode_app_quiz_scope_category =>
+      LocalizeStringDelegate.get('knode_app_quiz_scope_category');
+
+  /// 按天数
+  String get knode_app_quiz_scope_days =>
+      LocalizeStringDelegate.get('knode_app_quiz_scope_days');
+
+  /// 测验设置
+  String get knode_app_quiz_settings =>
+      LocalizeStringDelegate.get('knode_app_quiz_settings');
+
+  /// 设置已保存
+  String get knode_app_quiz_settings_saved =>
+      LocalizeStringDelegate.get('knode_app_quiz_settings_saved');
+
   /// 速记已开始，请切换到[测验]标签查看
   String get knode_app_quiz_started_switch_tab =>
       LocalizeStringDelegate.get('knode_app_quiz_started_switch_tab');
+
+  /// 启用变种出题
+  String get knode_app_quiz_variant_enabled =>
+      LocalizeStringDelegate.get('knode_app_quiz_variant_enabled');
+
+  /// 年考题目数量
+  String get knode_app_quiz_yearly_count =>
+      LocalizeStringDelegate.get('knode_app_quiz_yearly_count');
+
+  /// 随机速记
+  String get knode_app_random_flashcard =>
+      LocalizeStringDelegate.get('knode_app_random_flashcard');
 
   /// 评价应用
   String get knode_app_rate_us =>
@@ -783,6 +937,18 @@ mixin class L10nStringsMixin {
   /// 重置成功
   String get knode_app_reset_success =>
       LocalizeStringDelegate.get('knode_app_reset_success');
+
+  /// 资源文件
+  String get knode_app_resource_files =>
+      LocalizeStringDelegate.get('knode_app_resource_files');
+
+  /// 包含app运行时所需要的资源文件
+  String get knode_app_resource_files_description =>
+      LocalizeStringDelegate.get('knode_app_resource_files_description');
+
+  /// 资源文件已清理
+  String get knode_app_resources_cleared =>
+      LocalizeStringDelegate.get('knode_app_resources_cleared');
 
   /// 恢复
   String get knode_app_restore =>
@@ -906,6 +1072,10 @@ mixin class L10nStringsMixin {
   String get knode_app_storage_migration_hint_3 =>
       LocalizeStringDelegate.get('knode_app_storage_migration_hint_3');
 
+  /// 存储空间
+  String get knode_app_storage_overview =>
+      LocalizeStringDelegate.get('knode_app_storage_overview');
+
   /// 存储路径
   String get knode_app_storage_path =>
       LocalizeStringDelegate.get('knode_app_storage_path');
@@ -918,9 +1088,20 @@ mixin class L10nStringsMixin {
   String get knode_app_storage_path_updated =>
       LocalizeStringDelegate.get('knode_app_storage_path_updated');
 
+  /// 占有{percent}存储空间
+  String knode_app_storage_percentage({required String percent}) =>
+      LocalizeStringDelegate.get(
+        'knode_app_storage_percentage',
+        arguments: [percent],
+      );
+
   /// 存储设置
   String get knode_app_storage_settings =>
       LocalizeStringDelegate.get('knode_app_storage_settings');
+
+  /// 存储空间
+  String get knode_app_storage_space =>
+      LocalizeStringDelegate.get('knode_app_storage_space');
 
   /// 存储用量
   String get knode_app_storage_usage =>
@@ -952,6 +1133,10 @@ mixin class L10nStringsMixin {
 
   /// 主题
   String get knode_app_theme => LocalizeStringDelegate.get('knode_app_theme');
+
+  /// 本App已用
+  String get knode_app_this_app_used =>
+      LocalizeStringDelegate.get('knode_app_this_app_used');
 
   /// 未命名文档
   String get knode_app_unnamed_document =>
@@ -1043,7 +1228,15 @@ mixin class L10nStringsMixin {
   String get knode_app_welcome_back =>
       LocalizeStringDelegate.get('knode_app_welcome_back');
 
+  /// Wiki 设置
+  String get knode_app_wiki_settings =>
+      LocalizeStringDelegate.get('knode_app_wiki_settings');
+
   /// 错题卡片
   String get knode_app_wrong_card =>
       LocalizeStringDelegate.get('knode_app_wrong_card');
+
+  /// 错题重练
+  String get knode_app_wrong_review =>
+      LocalizeStringDelegate.get('knode_app_wrong_review');
 }
