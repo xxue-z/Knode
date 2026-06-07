@@ -340,23 +340,33 @@ class _ReaderPageState extends ConsumerState<ReaderPage> {
 
     return Scaffold(
       backgroundColor: bgColor,
-      body: GestureDetector(
-        onTap: _toggleBars,
-        behavior: HitTestBehavior.translucent,
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
-            Positioned.fill(child: _buildContent(textColor)),
-            _buildTopBar(),
-            _buildBottomNav(),
-            if (_activeBottomPanel == 0)
-              _buildBookmarksPanel(readerState),
-            if (_activeBottomPanel == 1)
-              _buildNotesPanel(readerState),
-            if (_activeBottomPanel == 2 && _isSpeaking)
-              _buildTtsPanel(),
-            if (_activeBottomPanel == 3) _buildInterfacePanel(),
-          ],
+      body: Container(
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.red, width: 3),
+        ),
+        child: GestureDetector(
+          onTap: _toggleBars,
+          behavior: HitTestBehavior.translucent,
+          child: Container(
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.green, width: 3),
+            ),
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                Positioned.fill(child: _buildContent(textColor)),
+                _buildTopBar(),
+                _buildBottomNav(),
+                if (_activeBottomPanel == 0)
+                  _buildBookmarksPanel(readerState),
+                if (_activeBottomPanel == 1)
+                  _buildNotesPanel(readerState),
+                if (_activeBottomPanel == 2 && _isSpeaking)
+                  _buildTtsPanel(),
+                if (_activeBottomPanel == 3) _buildInterfacePanel(),
+              ],
+            ),
+          ),
         ),
       ),
     );
@@ -374,8 +384,7 @@ class _ReaderPageState extends ConsumerState<ReaderPage> {
       builder: (context, constraints) {
         return SingleChildScrollView(
           controller: _scrollController,
-          padding:
-              const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
           child: ConstrainedBox(
             constraints: BoxConstraints(minWidth: constraints.maxWidth),
             child: Column(
@@ -410,6 +419,7 @@ class _ReaderPageState extends ConsumerState<ReaderPage> {
       },
     );
   }
+
 
   Widget _buildTopBar() {
     final isDark = _isDarkMode;
