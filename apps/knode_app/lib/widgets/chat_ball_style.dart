@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-/// 悬浮球样式配置
 class ChatBallStyle {
   final double size;
   final Color backgroundColor;
@@ -20,7 +19,6 @@ class ChatBallStyle {
     this.boxShadow,
   });
 
-  /// 简约图标球样式
   factory ChatBallStyle.icon({Color? primaryColor}) {
     final color = primaryColor ?? Colors.blue;
     return ChatBallStyle(
@@ -36,28 +34,20 @@ class ChatBallStyle {
     );
   }
 
-  /// 渐变彩色球样式
   factory ChatBallStyle.gradient({Gradient? gradient}) {
-    return ChatBallStyle(
+    return const ChatBallStyle(
       size: 56.0,
-      backgroundColor: const Color(0xFF667eea),
-      gradient: gradient ??
-          const LinearGradient(
-            colors: [Color(0xFF667eea), Color(0xFF764ba2)],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+      backgroundColor: Colors.red,
       iconColor: Colors.white,
       icon: Icons.chat,
-      boxShadow: const BoxShadow(
-        color: Color(0x33667eea),
+      boxShadow: BoxShadow(
+        color: Color(0x4DFF0000),
         blurRadius: 8,
         offset: Offset(0, 2),
       ),
     );
   }
 
-  /// 头像球样式
   factory ChatBallStyle.avatar({String? avatarPath, Color? primaryColor}) {
     final color = primaryColor ?? Colors.blue;
     return ChatBallStyle(
@@ -73,7 +63,6 @@ class ChatBallStyle {
     );
   }
 
-  /// 根据样式名称获取对应的样式
   factory ChatBallStyle.fromName(String name, {String? avatarPath}) {
     switch (name) {
       case 'gradient':
