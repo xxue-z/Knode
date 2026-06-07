@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:chat/gen/strings.dart';
 import 'package:chat/providers/chat_provider.dart';
-import 'package:chat/screens/chat_drawer.dart';
+import 'package:chat/screens/chat_history_drawer.dart';
+import 'package:chat/screens/chat_archive_drawer.dart';
 import 'package:chat/screens/message_input.dart';
 import 'package:chat/screens/message_bubble.dart';
 import 'package:core/models/conversation.dart';
 import 'package:core/providers/settings_provider.dart';
 import 'package:core/extensions/riverpod_compat.dart';
-
 
 const _strings = L10nStringsMixin();
 
@@ -23,8 +23,15 @@ class _ChatPageState extends ConsumerState<ChatPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   Conversation? _currentConversation;
 
-  void _openDrawer() {
+  void _openHistoryDrawer() {
     _scaffoldKey.currentState?.openEndDrawer();
+  }
+
+  void _openArchiveDrawer() {
+    showDialog(
+      context: context,
+      builder: (_) => const ChatArchiveDrawer(),
+    );
   }
 
   void _loadConversation(Conversation conv) {
@@ -58,7 +65,6 @@ class _ChatPageState extends ConsumerState<ChatPage> {
           FilledButton(
             onPressed: () {
               Navigator.pop(ctx);
-              Navigator.push(context, MaterialPageRoute(builder: (_) => const Scaffold(body: Center(child: Text('请在设置中配置AI模型')))));
             },
             child: const Text('去配置'),
           ),
@@ -73,14 +79,15 @@ class _ChatPageState extends ConsumerState<ChatPage> {
 
     return Scaffold(
       key: _scaffoldKey,
-      endDrawer: ChatDrawer(
+      endDrawer: ChatHistoryDrawer(
         onConversationSelected: _loadConversation,
       ),
       appBar: AppBar(
         title: Text(_currentConversation?.title ?? _strings.chat_ai_assistant),
         centerTitle: true,
         actions: [
-          IconButton(icon: const Icon(Icons.menu), onPressed: _openDrawer),
+          IconButton(icon: const Icon(Icons.archive_outlined), onPressed: _openArchiveDrawer),
+          IconButton(icon: const Icon(Icons.menu), onPressed: _openHistoryDrawer),
         ],
       ),
       body: Column(children: [
