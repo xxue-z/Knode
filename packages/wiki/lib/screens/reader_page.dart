@@ -344,8 +344,9 @@ class _ReaderPageState extends ConsumerState<ReaderPage> {
         onTap: _toggleBars,
         behavior: HitTestBehavior.translucent,
         child: Stack(
+          fit: StackFit.expand,
           children: [
-            _buildContent(textColor),
+            Positioned.fill(child: _buildContent(textColor)),
             _buildTopBar(),
             _buildBottomNav(),
             if (_activeBottomPanel == 0)
