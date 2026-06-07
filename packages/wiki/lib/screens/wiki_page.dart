@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wiki/gen/strings.dart';
 import 'package:wiki/widgets/graph_canvas.dart';
@@ -8,6 +8,7 @@ import 'package:wiki/providers/document_provider.dart';
 import 'package:wiki/providers/graph_provider.dart' hide GraphNode, GraphEdge;
 import 'package:wiki/services/import_service.dart';
 import 'package:wiki/screens/editor_page.dart';
+import 'package:wiki/screens/reader_page.dart';
 import 'package:wiki/utils/graph_theme.dart';
 import 'package:core/models/document.dart';
 import 'package:core/models/category.dart';
@@ -658,6 +659,16 @@ class _WikiPageState extends ConsumerState<WikiPage>
               context,
             ).showSnackBar(SnackBar(content: Text(': ')));
           },
+          onNodeDoubleTap: (node) {
+            final docId = int.tryParse(node.id);
+            if (docId != null) {
+              Navigator.of(context).push<void>(
+                MaterialPageRoute<void>(
+                  builder: (_) => ReaderPage(docId: docId, title: node.label),
+                ),
+              );
+            }
+          },
         ),
       ),
       endDrawer: _CategoryDrawer(
@@ -1009,7 +1020,7 @@ class _WikiDrawerState extends State<_WikiDrawer> {
                     Navigator.push<void>(
                       context,
                       MaterialPageRoute<void>(
-                        builder: (_) => EditorPage(
+                        builder: (_) => ReaderPage(
                           docId: doc.id,
                           title: doc.title,
                         ),
@@ -1077,7 +1088,7 @@ class _CategoryDocuments extends ConsumerWidget {
                         Navigator.push<void>(
                           context,
                           MaterialPageRoute<void>(
-                            builder: (_) => EditorPage(
+                            builder: (_) => ReaderPage(
                               docId: doc.id,
                               title: doc.title,
                             ),
@@ -1287,5 +1298,3 @@ class _CategoryDrawer extends ConsumerWidget {
 // ---------------------------------------------------------------------------
 // Category Data Model (Page Internal)
 // ---------------------------------------------------------------------------
-
-

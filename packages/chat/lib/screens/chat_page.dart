@@ -55,19 +55,19 @@ class _ChatPageState extends ConsumerState<ChatPage> {
     showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('模型未配置'),
-        content: const Text('请先在设置中配置AI模型（云端API或本地模型），然后才能开始对话。'),
+        title: const Text('濡€崇€烽張顏堝帳缂?),
+        content: const Text('鐠囧嘲鍘涢崷銊啎缂冾喕鑵戦柊宥囩枂AI濡€崇€烽敍鍫滅隘缁旂枆PI閹存牗婀伴崷鐗埬侀崹瀣剁礆閿涘瞼鍔ч崥搴㈠閼宠棄绱戞慨瀣嚠鐠囨縿鈧?),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text('取消'),
+            child: const Text('閸欐牗绉?),
           ),
           FilledButton(
             onPressed: () {
               Navigator.pop(ctx);
-              Navigator.push(context, MaterialPageRoute(builder: (_) => const Scaffold(body: Center(child: Text('请在设置中配置AI模型')))));
+              Navigator.push(context, MaterialPageRoute(builder: (_) => const Scaffold(body: Center(child: Text('鐠囧嘲婀拋鍓х枂娑擃參鍘ょ純鐡礗濡€崇€?)))));
             },
-            child: const Text('去配置'),
+            child: const Text('閸樺鍘ょ純?),
           ),
         ],
       ),

@@ -34,12 +34,11 @@ class SettingsPage extends StatelessWidget {
             ),
             _SettingsTile(
               icon: Icons.chat_outlined,
-              title: 'Chat 设置',
+              title: 'Chat 璁剧疆',
               subtitle: '',
               onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const ChatSettingsPage())),
             ),
-            _SettingsTile(
-              icon: Icons.quiz_outlined,
+            _SettingsTile(icon: Icons.quiz_outlined,
               title: _strings.knode_app_quiz_settings,
               subtitle: '',
               onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const QuizSettingsPage())),
