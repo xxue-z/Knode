@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:knode_app/providers/chat_ball_provider.dart';
@@ -24,12 +25,14 @@ class _FloatingChatBallState extends ConsumerState<FloatingChatBall>
   Timer? _doubleTapTimer;
   DateTime? _lastTapTime;
 
-  // Panel overlay state
   final GlobalKey _ballKey = GlobalKey();
   OverlayEntry? _panelOverlay;
   AnimationController? _panelAnimController;
   Animation<double>? _panelScaleAnimation;
   Animation<double>? _panelOpacityAnimation;
+
+  // Edge shrink
+  double _edgeOffset = 0;
 
   @override
   void initState() {
@@ -38,12 +41,9 @@ class _FloatingChatBallState extends ConsumerState<FloatingChatBall>
       duration: const Duration(milliseconds: 1500),
       vsync: this,
     );
-
     _pulseAnimation = Tween<double>(begin: 1.0, end: 1.2).animate(
       CurvedAnimation(parent: _pulseController, curve: Curves.easeInOut),
     );
-
-    // 恢复状态
     Future.microtask(() {
       ref.read(chatBallNotifierProvider.notifier).restoreState();
     });
@@ -58,53 +58,47 @@ class _FloatingChatBallState extends ConsumerState<FloatingChatBall>
     super.dispose();
   }
 
-  // -----------------------------------------------------------------------
-  // Ball position helper
-  // -----------------------------------------------------------------------
+  // ------- Edge detection -------
 
-  Offset _getBallScreenPosition() {
-    final box = _ballKey.currentContext?.findRenderObject() as RenderBox?;
-    if (box == null) return Offset.zero;
-    return box.localToGlobal(Offset.zero);
+  void _updateEdgeOffset(Offset position) {
+    final size = MediaQuery.of(context).size;
+    const ballRadius = 28.0;
+    const edgeThreshold = 8.0;
+    final leftEdge = position.dx;
+    final rightEdge = size.width - position.dx - ballRadius * 2;
+    final minEdge = math.min(leftEdge, rightEdge);
+    setState(() {
+      _edgeOffset = minEdge < edgeThreshold
+          ? (ballRadius - minEdge).clamp(0.0, ballRadius)
+          : 0;
+    });
   }
 
-  // -----------------------------------------------------------------------
-  // Tap handling
-  // -----------------------------------------------------------------------
+  // ------- Tap handling -------
 
   void _onTapDown(TapDownDetails details) {}
 
   void _onTapUp(TapUpDetails details) {
     if (_isLongPressing || _isDragging) return;
-
     final now = DateTime.now();
     final lastTap = _lastTapTime;
-
     if (lastTap != null && now.difference(lastTap).inMilliseconds < 300) {
-      // 双击
       _doubleTapTimer?.cancel();
       _doubleTapTimer = null;
       _lastTapTime = null;
       _onDoubleTap();
     } else {
-      // 可能是单击，等待300ms确认不是双击
       _lastTapTime = now;
       _doubleTapTimer?.cancel();
       _doubleTapTimer = Timer(const Duration(milliseconds: 300), () {
-        if (_lastTapTime == now) {
-          _onSingleTap();
-        }
+        if (_lastTapTime == now) _onSingleTap();
       });
     }
   }
 
   void _onSingleTap() {
     if (_isLongPressing || _isDragging) return;
-
-    // 清除未读状态
     ref.read(chatBallNotifierProvider.notifier).setHasUnread(false);
-
-    // 从悬浮球位置展开气泡式窗口
     _showPanelOverlay();
   }
 
@@ -121,200 +115,133 @@ class _FloatingChatBallState extends ConsumerState<FloatingChatBall>
 
   void _onDoubleTap() {
     if (_isLongPressing || _isDragging) return;
-
-    // 关闭半屏窗口
     _closePanelOverlay();
-
-    // 导航到完整Chat页面
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (_) => const ChatPage()),
-    );
+    Navigator.push(context, MaterialPageRoute(builder: (_) => const ChatPage()));
   }
 
-  // -----------------------------------------------------------------------
-  // Voice panel
-  // -----------------------------------------------------------------------
+  // ------- Voice panel -------
 
   void _showVoicePanel() {
     showDialog(
       context: context,
       builder: (context) => VoicePanel(
-        onSend: () {
-          Navigator.pop(context);
-        },
-        onCancel: () {
-          Navigator.pop(context);
-        },
+        onSend: () => Navigator.pop(context),
+        onCancel: () => Navigator.pop(context),
       ),
     );
   }
 
-  // -----------------------------------------------------------------------
-  // Panel overlay – anchored to ball position, expands upward
-  // -----------------------------------------------------------------------
+  // ------- Panel overlay -------
 
   void _showPanelOverlay() {
-    // 如果已打开则关闭
     if (_panelOverlay != null) {
       _closePanelOverlay();
       return;
     }
-
     final screenSize = MediaQuery.of(context).size;
-
-    // 面板宽度：屏幕宽度减去两侧边距
     final panelWidth = screenSize.width - 32.0;
-    // 面板水平居中
     final panelLeft = (screenSize.width - panelWidth) / 2;
-    // 面板垂直居中
-    final panelTop = screenSize.height / 2;
 
-    // 初始化动画控制器
     _panelAnimController = AnimationController(
       duration: const Duration(milliseconds: 250),
       vsync: this,
     );
-
     _panelScaleAnimation = Tween<double>(begin: 0.8, end: 1.0).animate(
       CurvedAnimation(parent: _panelAnimController!, curve: Curves.easeOutBack),
     );
-
     _panelOpacityAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(parent: _panelAnimController!, curve: Curves.easeOut),
     );
 
     _panelOverlay = OverlayEntry(
-      builder: (context) => _PanelOverlayWidget(
+      builder: (_) => _PanelOverlayWidget(
         panelLeft: panelLeft,
-        panelTop: panelTop,
+        panelTop: 0,
         panelWidth: panelWidth,
         scaleAnimation: _panelScaleAnimation!,
         opacityAnimation: _panelOpacityAnimation!,
         onClose: _closePanelOverlay,
         onFullScreen: () {
           _closePanelOverlay();
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (_) => const ChatPage()),
-          );
+          Navigator.push(context, MaterialPageRoute(builder: (_) => const ChatPage()));
         },
       ),
     );
-
     Overlay.of(context).insert(_panelOverlay!);
     _panelAnimController!.forward();
   }
 
   void _closePanelOverlay() {
-    if (_panelAnimController != null && _panelAnimController!.isAnimating) {
-      return;
-    }
-
-    if (_panelAnimController != null) {
-      _panelAnimController!.reverse().then((_) {
-        _panelOverlay?.remove();
-        _panelOverlay = null;
-        _panelAnimController?.dispose();
-        _panelAnimController = null;
-      });
-    } else {
-      _panelOverlay?.remove();
-      _panelOverlay = null;
-    }
+    _panelOverlay?.remove();
+    _panelOverlay = null;
+    _panelAnimController?.dispose();
+    _panelAnimController = null;
   }
 
-  // -----------------------------------------------------------------------
-  // Drag handling
-  // -----------------------------------------------------------------------
+  // ------- Drag -------
 
   void _onPanStart(DragStartDetails details) {
-    setState(() => _isDragging = true);
-    _doubleTapTimer?.cancel();
-    _lastTapTime = null;
-    // 拖拽时关闭面板
-    if (_panelOverlay != null) {
-      _closePanelOverlay();
-    }
+    _isDragging = true;
   }
 
   void _onPanUpdate(DragUpdateDetails details) {
-    final newPosition =
-        ref.read(chatBallNotifierProvider).position + details.delta;
-
-    // 边界约束
+    final current = ref.read(chatBallNotifierProvider).position;
     final screenSize = MediaQuery.of(context).size;
-    final ballSize = 56.0;
-    final bottomOffset = 80.0;
-
-    final clampedX = newPosition.dx.clamp(0.0, screenSize.width - ballSize);
-    final clampedY = newPosition.dy.clamp(
-      0.0,
-      screenSize.height - ballSize - bottomOffset,
-    );
-
-    ref
-        .read(chatBallNotifierProvider.notifier)
-        .updatePosition(Offset(clampedX, clampedY));
+    const ballSize = 56.0;
+    double newX = current.dx + details.delta.dx;
+    double newY = current.dy + details.delta.dy;
+    newX = newX.clamp(0, screenSize.width - ballSize);
+    newY = newY.clamp(0, screenSize.height - ballSize - 80);
+    final newPos = Offset(newX, newY);
+    ref.read(chatBallNotifierProvider.notifier).updatePosition(newPos);
+    _updateEdgeOffset(newPos);
   }
 
   void _onPanEnd(DragEndDetails details) {
-    setState(() => _isDragging = false);
-    _snapToEdge();
+    _isDragging = false;
+    final state = ref.read(chatBallNotifierProvider);
+    final screenSize = MediaQuery.of(context).size;
+    const ballSize = 56.0;
+    const ballRadius = ballSize / 2;
+
+    double targetX = state.position.dx;
+    if (targetX < screenSize.width / 2) {
+      targetX = 0;
+    } else {
+      targetX = screenSize.width - ballSize;
+    }
+    final target = Offset(targetX, state.position.dy);
+    _snapToEdge(state.position, target);
   }
 
-  void _snapToEdge() {
-    final screenSize = MediaQuery.of(context).size;
-    final ballSize = 56.0;
-    final currentPosition = ref.read(chatBallNotifierProvider).position;
-
-    final centerX = currentPosition.dx + ballSize / 2;
-    final targetX = centerX < screenSize.width / 2
-        ? 0.0
-        : screenSize.width - ballSize;
-
-    final startOffset = currentPosition;
-    final endOffset = Offset(targetX, currentPosition.dy);
-
-    late AnimationController controller;
-    late Animation<Offset> animation;
-
-    controller = AnimationController(
+  void _snapToEdge(Offset from, Offset to) {
+    final controller = AnimationController(
       duration: const Duration(milliseconds: 200),
       vsync: this,
     );
-
-    animation = Tween<Offset>(
-      begin: startOffset,
-      end: endOffset,
-    ).animate(CurvedAnimation(parent: controller, curve: Curves.easeOut));
-
+    final animation = Tween<Offset>(begin: from, end: to).animate(
+      CurvedAnimation(parent: controller, curve: Curves.easeOut),
+    );
     animation.addListener(() {
-      ref
-          .read(chatBallNotifierProvider.notifier)
-          .updatePosition(animation.value);
+      ref.read(chatBallNotifierProvider.notifier).updatePosition(animation.value);
     });
-
     animation.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         controller.dispose();
         ref.read(chatBallNotifierProvider.notifier).savePosition();
+        _updateEdgeOffset(to);
       }
     });
-
     controller.forward();
   }
 
-  // -----------------------------------------------------------------------
-  // Build
-  // -----------------------------------------------------------------------
+  // ------- Build -------
 
   @override
   Widget build(BuildContext context) {
     final chatBallState = ref.watch(chatBallNotifierProvider);
     final style = ChatBallStyle.fromName(chatBallState.style);
 
-    // 控制脉冲动画
     if (chatBallState.hasUnread) {
       _pulseController.repeat(reverse: true);
     } else {
@@ -322,8 +249,11 @@ class _FloatingChatBallState extends ConsumerState<FloatingChatBall>
       _pulseController.reset();
     }
 
+    // Edge shrink: clip left/right overflow
+    final clipBehavior = _edgeOffset > 0 ? Clip.hardEdge : Clip.none;
+
     return Positioned(
-      left: chatBallState.position.dx,
+      left: chatBallState.position.dx - _edgeOffset,
       top: chatBallState.position.dy,
       child: GestureDetector(
         onTapDown: _onTapDown,
@@ -333,61 +263,58 @@ class _FloatingChatBallState extends ConsumerState<FloatingChatBall>
         onPanStart: _onPanStart,
         onPanUpdate: _onPanUpdate,
         onPanEnd: _onPanEnd,
-        child: Stack(
-          children: [
-            // 脉冲动画
-            if (chatBallState.hasUnread)
-              AnimatedBuilder(
-                animation: _pulseAnimation,
-                builder: (context, child) {
-                  return Transform.scale(
-                    scale: _pulseAnimation.value,
-                    child: child,
-                  );
-                },
-                child: Container(
+        child: ClipRect(
+          clipBehavior: clipBehavior,
+          child: SizedBox(
+            width: style.size + _edgeOffset,
+            height: style.size,
+            child: Stack(
+              children: [
+                if (chatBallState.hasUnread)
+                  AnimatedBuilder(
+                    animation: _pulseAnimation,
+                    builder: (context, child) {
+                      return Transform.scale(
+                        scale: _pulseAnimation.value,
+                        child: child,
+                      );
+                    },
+                    child: Container(
+                      width: style.size,
+                      height: style.size,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: style.gradient != null
+                            ? style.backgroundColor.withValues(alpha: 0.3)
+                            : style.backgroundColor.withValues(alpha: 0.3),
+                      ),
+                    ),
+                  ),
+                Container(
+                  key: _ballKey,
                   width: style.size,
                   height: style.size,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color:
-                        (style.gradient != null
-                                ? Colors.blue
-                                : style.backgroundColor)
-                            .withValues(alpha: 0.3),
+                    color: style.gradient != null ? style.backgroundColor : style.backgroundColor,
+                    gradient: style.gradient,
+                    boxShadow: style.boxShadow != null ? [style.boxShadow!] : null,
+                  ),
+                  child: Icon(
+                    style.icon,
+                    color: style.iconColor,
+                    size: style.size * 0.5,
                   ),
                 ),
-              ),
-            // 悬浮球主体
-            Container(
-              key: _ballKey,
-              width: style.size,
-              height: style.size,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: style.gradient != null ? null : style.backgroundColor,
-                gradient: style.gradient,
-                boxShadow: style.boxShadow != null ? [style.boxShadow!] : null,
-              ),
-              child: Icon(
-                style.icon,
-                color: style.iconColor,
-                size: style.size * 0.5,
-              ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
   }
 }
 
-// ---------------------------------------------------------------------------
-// Panel Overlay Widget
-// ---------------------------------------------------------------------------
-
-/// A widget that renders the chat panel as an overlay, anchored near the
-/// floating ball and expanding upward with a scale + fade animation.
 class _PanelOverlayWidget extends StatelessWidget {
   const _PanelOverlayWidget({
     required this.panelLeft,
@@ -411,13 +338,10 @@ class _PanelOverlayWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     final panelHeight = (screenHeight * 0.5).clamp(200.0, 500.0).toDouble();
-
-    // 垂直居中
     final actualTop = (screenHeight - panelHeight) / 2;
 
     return Stack(
       children: [
-        // 背景遮罩 — 点击关闭
         Positioned.fill(
           child: GestureDetector(
             onTap: onClose,
@@ -425,7 +349,6 @@ class _PanelOverlayWidget extends StatelessWidget {
             child: Container(color: Colors.black26),
           ),
         ),
-        // 气泡面板
         Positioned(
           left: panelLeft,
           top: actualTop,
@@ -446,4 +369,3 @@ class _PanelOverlayWidget extends StatelessWidget {
     );
   }
 }
-
