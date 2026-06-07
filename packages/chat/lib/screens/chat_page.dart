@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:chat/gen/strings.dart';
 import 'package:chat/providers/chat_provider.dart';
 import 'package:chat/screens/chat_history_drawer.dart';
-import 'package:chat/screens/chat_archive_drawer.dart';
 import 'package:chat/screens/message_input.dart';
 import 'package:chat/screens/message_bubble.dart';
 import 'package:core/models/conversation.dart';
@@ -23,15 +22,8 @@ class _ChatPageState extends ConsumerState<ChatPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   Conversation? _currentConversation;
 
-  void _openHistoryDrawer() {
+  void _openDrawer() {
     _scaffoldKey.currentState?.openEndDrawer();
-  }
-
-  void _openArchiveDrawer() {
-    showDialog(
-      context: context,
-      builder: (_) => const ChatArchiveDrawer(),
-    );
   }
 
   void _loadConversation(Conversation conv) {
@@ -55,18 +47,18 @@ class _ChatPageState extends ConsumerState<ChatPage> {
     showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('模型未配置'),
-        content: const Text('请先在设置中配置AI模型（云端API或本地模型），然后才能开始对话。'),
+        title: const Text('\u6a21\u578b\u672a\u914d\u7f6e'),
+        content: const Text('\u8bf7\u5148\u5728\u8bbe\u7f6e\u4e2d\u914d\u7f6eAI\u6a21\u578b\uff08\u4e91\u7aefAPI\u6216\u672c\u5730\u6a21\u578b\uff09\uff0c\u7136\u540e\u624d\u80fd\u5f00\u59cb\u5bf9\u8bdd\u3002'),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx),
-            child: const Text('取消'),
+            child: const Text('\u53d6\u6d88'),
           ),
           FilledButton(
             onPressed: () {
               Navigator.pop(ctx);
             },
-            child: const Text('去配置'),
+            child: const Text('\u53bb\u914d\u7f6e'),
           ),
         ],
       ),
@@ -86,8 +78,7 @@ class _ChatPageState extends ConsumerState<ChatPage> {
         title: Text(_currentConversation?.title ?? _strings.chat_ai_assistant),
         centerTitle: true,
         actions: [
-          IconButton(icon: const Icon(Icons.archive_outlined), onPressed: _openArchiveDrawer),
-          IconButton(icon: const Icon(Icons.menu), onPressed: _openHistoryDrawer),
+          IconButton(icon: const Icon(Icons.menu), onPressed: _openDrawer),
         ],
       ),
       body: Column(children: [
