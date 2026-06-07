@@ -38,8 +38,10 @@ class _FloatingChatBallState extends ConsumerState<FloatingChatBall>
     _pulseAnimation = Tween<double>(begin: 1.0, end: 1.2).animate(
       CurvedAnimation(parent: _pulseController, curve: Curves.easeInOut),
     );
-    Future.microtask(() {
-      ref.read(chatBallNotifierProvider.notifier).restoreState();
+    Future.microtask(() async {
+      await ref.read(chatBallNotifierProvider.notifier).restoreState();
+      final pos = ref.read(chatBallNotifierProvider).position;
+      _updateEdgeOffset(pos);
     });
   }
 
@@ -55,16 +57,17 @@ class _FloatingChatBallState extends ConsumerState<FloatingChatBall>
   // ---- Edge detection ----
   void _updateEdgeOffset(Offset position) {
     final size = MediaQuery.of(context).size;
-    const ballRadius = 28.0;
+    const ballSize = 56.0;
     const edgeThreshold = 8.0;
     final leftEdge = position.dx;
-    final rightEdge = size.width - position.dx - ballRadius * 2;
+    final rightEdge = size.width - position.dx - ballSize;
     final minEdge = math.min(leftEdge, rightEdge);
-    setState(() {
-      _edgeOffset = minEdge < edgeThreshold
-          ? (ballRadius - minEdge).clamp(0.0, ballRadius)
-          : 0;
-    });
+    final newOffset = minEdge < edgeThreshold
+        ? (ballSize / 2 - minEdge).clamp(0.0, ballSize / 2)
+        : 0.0;
+    if (newOffset != _edgeOffset) {
+      setState(() { _edgeOffset = newOffset; });
+    }
   }
 
   // ---- Tap ----
@@ -208,17 +211,21 @@ class _FloatingChatBallState extends ConsumerState<FloatingChatBall>
 
   // ---- Build ----
   Widget _buildBall(ChatBallStyle style) {
-    return Container(
-      key: _ballKey,
-      width: style.size,
-      height: style.size,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        gradient: style.gradient,
-        color: style.gradient == null ? style.backgroundColor : null,
-        boxShadow: style.boxShadow != null ? [style.boxShadow!] : null,
+    // Use ClipOval + DecoratedBox for bulletproof gradient rendering
+    return ClipOval(
+      child: Container(
+        key: _ballKey,
+        width: style.size,
+        height: style.size,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          gradient: style.gradient,
+          color: style.gradient == null ? style.backgroundColor : null,
+        ),
+        child: Center(
+          child: Icon(style.icon, color: style.iconColor, size: style.size * 0.5),
+        ),
       ),
-      child: Icon(style.icon, color: style.iconColor, size: style.size * 0.5),
     );
   }
 
@@ -234,7 +241,29 @@ class _FloatingChatBallState extends ConsumerState<FloatingChatBall>
       _pulseController.reset();
     }
 
-    final ball = Stack(
+    final ballShadow = style.boxShadow != null
+        ? [BoxShadow(
+            color: style.boxShadow!.color,
+            blurRadius: style.boxShadow!.blurRadius,
+            offset: style.boxShadow!.offset,
+          )]
+        : <BoxShadow>[];
+
+    final ball = Material(
+      color: Colors.transparent,
+      child: Container(
+        width: style.size,
+        height: style.size,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          boxShadow: ballShadow,
+        ),
+        child: _buildBall(style),
+      ),
+    );
+
+    final needsClip = _edgeOffset > 0;
+    Widget content = Stack(
       alignment: Alignment.center,
       children: [
         if (chatBallState.hasUnread)
@@ -249,23 +278,21 @@ class _FloatingChatBallState extends ConsumerState<FloatingChatBall>
               height: style.size,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: style.backgroundColor.withValues(alpha: 0.3),
+                color: const Color(0xFF667eea).withValues(alpha: 0.3),
               ),
             ),
           ),
-        _buildBall(style),
+        ball,
       ],
     );
 
-    final needsClip = _edgeOffset > 0;
-    Widget child = ball;
     if (needsClip) {
-      child = ClipRect(
+      content = ClipRect(
         clipBehavior: Clip.hardEdge,
         child: SizedBox(
           width: style.size + _edgeOffset,
           height: style.size,
-          child: Align(alignment: Alignment.centerRight, child: ball),
+          child: Align(alignment: Alignment.centerRight, child: content),
         ),
       );
     }
@@ -281,7 +308,7 @@ class _FloatingChatBallState extends ConsumerState<FloatingChatBall>
         onPanStart: _onPanStart,
         onPanUpdate: _onPanUpdate,
         onPanEnd: _onPanEnd,
-        child: child,
+        child: content,
       ),
     );
   }
