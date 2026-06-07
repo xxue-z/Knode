@@ -3,10 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:chat/gen/strings.dart';
 import 'package:chat/providers/conversation_provider.dart';
 import 'package:core/models/conversation.dart';
-import 'package:wiki/providers/category_provider.dart';
-import 'package:wiki/providers/document_provider.dart';
 import 'package:wiki/screens/reader_page.dart';
-import 'package:chat/screens/archive_dialog.dart';
 
 const _strings = L10nStringsMixin();
 
@@ -76,7 +73,6 @@ class _ChatHistoryDrawerState extends ConsumerState<ChatHistoryDrawer> {
                   searchQuery: _searchQuery,
                   onSelect: _selectConversation,
                   onRename: _renameConversation,
-                  onArchive: _archiveConversation,
                   onDelete: _deleteConversation,
                 )
               : _ArchivedDocumentList(),
@@ -112,17 +108,6 @@ class _ChatHistoryDrawerState extends ConsumerState<ChatHistoryDrawer> {
         }, child: Text(_strings.chat_confirm)),
       ],
     ));
-  }
-
-  Future<void> _archiveConversation(Conversation conv) async {
-    final controller = TextEditingController();
-    final wikiFileId = await showDialog<int>(context: context, builder: (_) => ArchiveDialog(
-      conversationTitle: conv.title ?? ''
-      controller: controller,
-    ));
-    if (wikiFileId != null) {
-      await ref.read(conversationListProvider.notifier).archive(conv.id, wikiFileId);
-    }
   }
 
   Future<void> _deleteConversation(Conversation conv) async {
@@ -171,13 +156,11 @@ class _ConversationHistoryList extends ConsumerWidget {
   final String searchQuery;
   final ValueChanged<Conversation> onSelect;
   final ValueChanged<Conversation> onRename;
-  final ValueChanged<Conversation> onArchive;
   final ValueChanged<Conversation> onDelete;
   const _ConversationHistoryList({
     required this.searchQuery,
     required this.onSelect,
     required this.onRename,
-    required this.onArchive,
     required this.onDelete,
   });
 
@@ -214,12 +197,10 @@ class _ConversationHistoryList extends ConsumerWidget {
                   trailing: PopupMenuButton<String>(
                     onSelected: (value) {
                       if (value == 'rename') onRename(conv);
-                      else if (value == 'archive') onArchive(conv);
                       else if (value == 'delete') onDelete(conv);
                     },
                     itemBuilder: (_) => [
                       PopupMenuItem(value: 'rename', child: Text(_strings.chat_rename_conversation)),
-                      PopupMenuItem(value: 'archive', child: Text(_strings.chat_archive)),
                       PopupMenuItem(value: 'delete', child: Text(_strings.chat_delete_conversation)),
                     ],
                   ),
@@ -356,7 +337,7 @@ class _ArchivedDocumentList extends ConsumerWidget {
   void _openWikiFile(BuildContext context, Conversation conv) {
     if (conv.wikiFileId != null) {
       Navigator.pop(context);
-      Navigator.push(context, MaterialPageRoute(
+      Navigator.push(context, MaterialPageRoute<void>(
         builder: (_) => ReaderPage(docId: conv.wikiFileId!, title: conv.title),
       ));
     }
