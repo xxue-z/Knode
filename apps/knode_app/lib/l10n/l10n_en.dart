@@ -748,6 +748,9 @@ class L10nEn extends L10n {
   String get knode_app_daily_label => 'Daily';
 
   @override
+  String get knode_app_daily_quiz => 'Daily Quiz';
+
+  @override
   String get knode_app_daily_quiz_started =>
       'Daily quiz started, switch to Quiz tab';
 
@@ -1204,6 +1207,12 @@ class L10nEn extends L10n {
   String get knode_app_quiz_ai_ratio_smart => 'Smart AI Ratio';
 
   @override
+  String get knode_app_quiz_daily_count => 'Daily Quiz Count';
+
+  @override
+  String get knode_app_quiz_daily_scope => 'Daily Quiz Scope';
+
+  @override
   String get knode_app_quiz_due_review => 'due for review';
 
   @override
@@ -1216,7 +1225,28 @@ class L10nEn extends L10n {
   String get knode_app_quiz_quarterly_count => 'Quarterly Exam Question Count';
 
   @override
+  String get knode_app_quiz_random_count => 'Random Flashcard Count';
+
+  @override
+  String get knode_app_quiz_random_days => 'Random Flashcard Days';
+
+  @override
+  String get knode_app_quiz_review_count => 'Wrong Review Count';
+
+  @override
+  String get knode_app_quiz_review_wrong_ratio => 'Wrong Review Ratio';
+
+  @override
   String get knode_app_quiz_save_settings => 'Save Settings';
+
+  @override
+  String get knode_app_quiz_scope_all => 'All Documents';
+
+  @override
+  String get knode_app_quiz_scope_category => 'By Category';
+
+  @override
+  String get knode_app_quiz_scope_days => 'By Days';
 
   @override
   String get knode_app_quiz_settings => 'Quiz Settings';
@@ -1233,6 +1263,9 @@ class L10nEn extends L10n {
 
   @override
   String get knode_app_quiz_yearly_count => 'Yearly Exam Question Count';
+
+  @override
+  String get knode_app_random_flashcard => 'Random Flashcard';
 
   @override
   String get knode_app_rate_us => 'Rate Us';
@@ -1492,6 +1525,9 @@ class L10nEn extends L10n {
 
   @override
   String get knode_app_wrong_card => 'Wrong Card';
+
+  @override
+  String get knode_app_wrong_review => 'Wrong Card Review';
 
   @override
   String get micro_server_answer_submission_failed =>

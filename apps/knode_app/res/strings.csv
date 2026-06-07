@@ -294,3 +294,15 @@ quiz_ai_ratio_smart,Smart AI Ratio,智能AI比例
 quiz_ai_ratio_fixed,Fixed AI Ratio,固定AI比例
 exam_settings,Exam Settings,考试设置
 ai_quiz,AI Quiz,AI出题
+daily_quiz,Daily Quiz,每日速记
+random_flashcard,Random Flashcard,随机速记
+wrong_review,Wrong Card Review,错题重练
+quiz_daily_count,Daily Quiz Count,每日速记数量
+quiz_daily_scope,Daily Quiz Scope,每日速记范围
+quiz_scope_all,All Documents,全部文档
+quiz_scope_category,By Category,按分类
+quiz_scope_days,By Days,按天数
+quiz_random_count,Random Flashcard Count,随机速记数量
+quiz_random_days,Random Flashcard Days,随机速记天数
+quiz_review_count,Wrong Review Count,错题复习数量
+quiz_review_wrong_ratio,Wrong Review Ratio,错题复习比例

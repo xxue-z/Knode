@@ -252,6 +252,10 @@ mixin class L10nStringsMixin {
   String get knode_app_daily_label =>
       LocalizeStringDelegate.get('knode_app_daily_label');
 
+  /// 每日速记
+  String get knode_app_daily_quiz =>
+      LocalizeStringDelegate.get('knode_app_daily_quiz');
+
   /// 每日一测已开始，请切换到[测验]标签查看
   String get knode_app_daily_quiz_started =>
       LocalizeStringDelegate.get('knode_app_daily_quiz_started');
@@ -830,6 +834,14 @@ mixin class L10nStringsMixin {
   String get knode_app_quiz_ai_ratio_smart =>
       LocalizeStringDelegate.get('knode_app_quiz_ai_ratio_smart');
 
+  /// 每日速记数量
+  String get knode_app_quiz_daily_count =>
+      LocalizeStringDelegate.get('knode_app_quiz_daily_count');
+
+  /// 每日速记范围
+  String get knode_app_quiz_daily_scope =>
+      LocalizeStringDelegate.get('knode_app_quiz_daily_scope');
+
   /// 道待复习
   String get knode_app_quiz_due_review =>
       LocalizeStringDelegate.get('knode_app_quiz_due_review');
@@ -846,9 +858,37 @@ mixin class L10nStringsMixin {
   String get knode_app_quiz_quarterly_count =>
       LocalizeStringDelegate.get('knode_app_quiz_quarterly_count');
 
+  /// 随机速记数量
+  String get knode_app_quiz_random_count =>
+      LocalizeStringDelegate.get('knode_app_quiz_random_count');
+
+  /// 随机速记天数
+  String get knode_app_quiz_random_days =>
+      LocalizeStringDelegate.get('knode_app_quiz_random_days');
+
+  /// 错题复习数量
+  String get knode_app_quiz_review_count =>
+      LocalizeStringDelegate.get('knode_app_quiz_review_count');
+
+  /// 错题复习比例
+  String get knode_app_quiz_review_wrong_ratio =>
+      LocalizeStringDelegate.get('knode_app_quiz_review_wrong_ratio');
+
   /// 保存设置
   String get knode_app_quiz_save_settings =>
       LocalizeStringDelegate.get('knode_app_quiz_save_settings');
+
+  /// 全部文档
+  String get knode_app_quiz_scope_all =>
+      LocalizeStringDelegate.get('knode_app_quiz_scope_all');
+
+  /// 按分类
+  String get knode_app_quiz_scope_category =>
+      LocalizeStringDelegate.get('knode_app_quiz_scope_category');
+
+  /// 按天数
+  String get knode_app_quiz_scope_days =>
+      LocalizeStringDelegate.get('knode_app_quiz_scope_days');
 
   /// 测验设置
   String get knode_app_quiz_settings =>
@@ -869,6 +909,10 @@ mixin class L10nStringsMixin {
   /// 年考题目数量
   String get knode_app_quiz_yearly_count =>
       LocalizeStringDelegate.get('knode_app_quiz_yearly_count');
+
+  /// 随机速记
+  String get knode_app_random_flashcard =>
+      LocalizeStringDelegate.get('knode_app_random_flashcard');
 
   /// 评价应用
   String get knode_app_rate_us =>
@@ -1191,4 +1235,8 @@ mixin class L10nStringsMixin {
   /// 错题卡片
   String get knode_app_wrong_card =>
       LocalizeStringDelegate.get('knode_app_wrong_card');
+
+  /// 错题重练
+  String get knode_app_wrong_review =>
+      LocalizeStringDelegate.get('knode_app_wrong_review');
 }

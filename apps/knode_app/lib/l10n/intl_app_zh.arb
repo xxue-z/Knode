@@ -975,6 +975,10 @@
   "@knode_app_daily_label": {
     "description": "每天"
   },
+  "knode_app_daily_quiz": "每日速记",
+  "@knode_app_daily_quiz": {
+    "description": "每日速记"
+  },
   "knode_app_daily_quiz_started": "每日一测已开始，请切换到[测验]标签查看",
   "@knode_app_daily_quiz_started": {
     "description": "每日一测已开始，请切换到[测验]标签查看"
@@ -1581,6 +1585,14 @@
   "@knode_app_quiz_ai_ratio_smart": {
     "description": "智能AI比例"
   },
+  "knode_app_quiz_daily_count": "每日速记数量",
+  "@knode_app_quiz_daily_count": {
+    "description": "每日速记数量"
+  },
+  "knode_app_quiz_daily_scope": "每日速记范围",
+  "@knode_app_quiz_daily_scope": {
+    "description": "每日速记范围"
+  },
   "knode_app_quiz_due_review": "道待复习",
   "@knode_app_quiz_due_review": {
     "description": "道待复习"
@@ -1597,9 +1609,37 @@
   "@knode_app_quiz_quarterly_count": {
     "description": "季考题目数量"
   },
+  "knode_app_quiz_random_count": "随机速记数量",
+  "@knode_app_quiz_random_count": {
+    "description": "随机速记数量"
+  },
+  "knode_app_quiz_random_days": "随机速记天数",
+  "@knode_app_quiz_random_days": {
+    "description": "随机速记天数"
+  },
+  "knode_app_quiz_review_count": "错题复习数量",
+  "@knode_app_quiz_review_count": {
+    "description": "错题复习数量"
+  },
+  "knode_app_quiz_review_wrong_ratio": "错题复习比例",
+  "@knode_app_quiz_review_wrong_ratio": {
+    "description": "错题复习比例"
+  },
   "knode_app_quiz_save_settings": "保存设置",
   "@knode_app_quiz_save_settings": {
     "description": "保存设置"
+  },
+  "knode_app_quiz_scope_all": "全部文档",
+  "@knode_app_quiz_scope_all": {
+    "description": "全部文档"
+  },
+  "knode_app_quiz_scope_category": "按分类",
+  "@knode_app_quiz_scope_category": {
+    "description": "按分类"
+  },
+  "knode_app_quiz_scope_days": "按天数",
+  "@knode_app_quiz_scope_days": {
+    "description": "按天数"
   },
   "knode_app_quiz_settings": "测验设置",
   "@knode_app_quiz_settings": {
@@ -1620,6 +1660,10 @@
   "knode_app_quiz_yearly_count": "年考题目数量",
   "@knode_app_quiz_yearly_count": {
     "description": "年考题目数量"
+  },
+  "knode_app_random_flashcard": "随机速记",
+  "@knode_app_random_flashcard": {
+    "description": "随机速记"
   },
   "knode_app_rate_us": "评价应用",
   "@knode_app_rate_us": {
@@ -1961,6 +2005,10 @@
   "knode_app_wrong_card": "错题卡片",
   "@knode_app_wrong_card": {
     "description": "错题卡片"
+  },
+  "knode_app_wrong_review": "错题重练",
+  "@knode_app_wrong_review": {
+    "description": "错题重练"
   },
   "micro_server_answer_submission_failed": "提交答案失败",
   "@micro_server_answer_submission_failed": {

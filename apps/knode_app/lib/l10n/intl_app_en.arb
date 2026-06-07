@@ -975,6 +975,10 @@
   "@knode_app_daily_label": {
     "description": "每天"
   },
+  "knode_app_daily_quiz": "Daily Quiz",
+  "@knode_app_daily_quiz": {
+    "description": "每日速记"
+  },
   "knode_app_daily_quiz_started": "Daily quiz started, switch to Quiz tab",
   "@knode_app_daily_quiz_started": {
     "description": "每日一测已开始，请切换到[测验]标签查看"
@@ -1581,6 +1585,14 @@
   "@knode_app_quiz_ai_ratio_smart": {
     "description": "智能AI比例"
   },
+  "knode_app_quiz_daily_count": "Daily Quiz Count",
+  "@knode_app_quiz_daily_count": {
+    "description": "每日速记数量"
+  },
+  "knode_app_quiz_daily_scope": "Daily Quiz Scope",
+  "@knode_app_quiz_daily_scope": {
+    "description": "每日速记范围"
+  },
   "knode_app_quiz_due_review": "due for review",
   "@knode_app_quiz_due_review": {
     "description": "道待复习"
@@ -1597,9 +1609,37 @@
   "@knode_app_quiz_quarterly_count": {
     "description": "季考题目数量"
   },
+  "knode_app_quiz_random_count": "Random Flashcard Count",
+  "@knode_app_quiz_random_count": {
+    "description": "随机速记数量"
+  },
+  "knode_app_quiz_random_days": "Random Flashcard Days",
+  "@knode_app_quiz_random_days": {
+    "description": "随机速记天数"
+  },
+  "knode_app_quiz_review_count": "Wrong Review Count",
+  "@knode_app_quiz_review_count": {
+    "description": "错题复习数量"
+  },
+  "knode_app_quiz_review_wrong_ratio": "Wrong Review Ratio",
+  "@knode_app_quiz_review_wrong_ratio": {
+    "description": "错题复习比例"
+  },
   "knode_app_quiz_save_settings": "Save Settings",
   "@knode_app_quiz_save_settings": {
     "description": "保存设置"
+  },
+  "knode_app_quiz_scope_all": "All Documents",
+  "@knode_app_quiz_scope_all": {
+    "description": "全部文档"
+  },
+  "knode_app_quiz_scope_category": "By Category",
+  "@knode_app_quiz_scope_category": {
+    "description": "按分类"
+  },
+  "knode_app_quiz_scope_days": "By Days",
+  "@knode_app_quiz_scope_days": {
+    "description": "按天数"
   },
   "knode_app_quiz_settings": "Quiz Settings",
   "@knode_app_quiz_settings": {
@@ -1620,6 +1660,10 @@
   "knode_app_quiz_yearly_count": "Yearly Exam Question Count",
   "@knode_app_quiz_yearly_count": {
     "description": "年考题目数量"
+  },
+  "knode_app_random_flashcard": "Random Flashcard",
+  "@knode_app_random_flashcard": {
+    "description": "随机速记"
   },
   "knode_app_rate_us": "Rate Us",
   "@knode_app_rate_us": {
@@ -1961,6 +2005,10 @@
   "knode_app_wrong_card": "Wrong Card",
   "@knode_app_wrong_card": {
     "description": "错题卡片"
+  },
+  "knode_app_wrong_review": "Wrong Card Review",
+  "@knode_app_wrong_review": {
+    "description": "错题重练"
   },
   "micro_server_answer_submission_failed": "Answer submission failed",
   "@micro_server_answer_submission_failed": {

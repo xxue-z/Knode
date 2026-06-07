@@ -36,14 +36,14 @@ class _WrongReviewSettingsPageState extends ConsumerState<WrongReviewSettingsPag
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          _buildNumberTile(title: _strings.quiz_review_count, value: _reviewCount, min: 5, max: 30, onChanged: (v) => setState(() => _reviewCount = v)),
+          _buildNumberTile(title: _strings.knode_app_quiz_review_count, value: _reviewCount, min: 5, max: 30, onChanged: (v) => setState(() => _reviewCount = v)),
           ListTile(
-            title: Text(_strings.quiz_review_wrong_ratio),
+            title: Text(_strings.knode_app_quiz_review_wrong_ratio),
             subtitle: Slider(value: _reviewWrongRatio, min: 0, max: 1, divisions: 10, label: '${(_reviewWrongRatio * 100).round()}%', onChanged: (v) => setState(() => _reviewWrongRatio = v)),
             trailing: Text('${(_reviewWrongRatio * 100).round()}%', style: const TextStyle(fontSize: 14)),
           ),
           const SizedBox(height: 32),
-          FilledButton(onPressed: _save, child: Text(_strings.quiz_save_settings)),
+          FilledButton(onPressed: _save, child: Text(_strings.knode_app_quiz_save_settings)),
         ],
       ),
     );
@@ -54,7 +54,7 @@ class _WrongReviewSettingsPageState extends ConsumerState<WrongReviewSettingsPag
     await notifier.set('quiz_review_count', _reviewCount.toString());
     await notifier.set('quiz_review_wrong_ratio', _reviewWrongRatio.toString());
     if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(_strings.quiz_settings_saved)));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(_strings.knode_app_quiz_settings_saved)));
       Navigator.of(context).pop();
     }
   }

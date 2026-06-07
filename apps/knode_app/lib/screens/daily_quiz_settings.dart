@@ -37,26 +37,26 @@ class _DailyQuizSettingsPageState extends ConsumerState<DailyQuizSettingsPage> {
         padding: const EdgeInsets.all(16),
         children: [
           _buildNumberTile(
-            title: _strings.quiz_daily_count,
+            title: _strings.knode_app_quiz_daily_count,
             value: _dailyCount,
             min: 5,
             max: 30,
             onChanged: (v) => setState(() => _dailyCount = v),
           ),
           _buildDropdownTile(
-            title: _strings.quiz_daily_scope,
+            title: _strings.knode_app_quiz_daily_scope,
             value: _dailyScope,
             items: [
-              {'value': 'all', 'label': _strings.quiz_scope_all},
-              {'value': 'category', 'label': _strings.quiz_scope_category},
-              {'value': 'days', 'label': _strings.quiz_scope_days},
+              {'value': 'all', 'label': _strings.knode_app_quiz_scope_all},
+              {'value': 'category', 'label': _strings.knode_app_quiz_scope_category},
+              {'value': 'days', 'label': _strings.knode_app_quiz_scope_days},
             ],
             onChanged: (v) => setState(() => _dailyScope = v),
           ),
           const SizedBox(height: 32),
           FilledButton(
             onPressed: _save,
-            child: Text(_strings.quiz_save_settings),
+            child: Text(_strings.knode_app_quiz_save_settings),
           ),
         ],
       ),
@@ -69,7 +69,7 @@ class _DailyQuizSettingsPageState extends ConsumerState<DailyQuizSettingsPage> {
     await notifier.set('quiz_daily_scope', _dailyScope);
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(_strings.quiz_settings_saved)),
+        SnackBar(content: Text(_strings.knode_app_quiz_settings_saved)),
       );
       Navigator.of(context).pop();
     }

@@ -1513,6 +1513,12 @@ abstract class L10n {
   /// **'每天'**
   String get knode_app_daily_label;
 
+  /// 每日速记
+  ///
+  /// In zh, this message translates to:
+  /// **'每日速记'**
+  String get knode_app_daily_quiz;
+
   /// 每日一测已开始，请切换到[测验]标签查看
   ///
   /// In zh, this message translates to:
@@ -2377,6 +2383,18 @@ abstract class L10n {
   /// **'智能AI比例'**
   String get knode_app_quiz_ai_ratio_smart;
 
+  /// 每日速记数量
+  ///
+  /// In zh, this message translates to:
+  /// **'每日速记数量'**
+  String get knode_app_quiz_daily_count;
+
+  /// 每日速记范围
+  ///
+  /// In zh, this message translates to:
+  /// **'每日速记范围'**
+  String get knode_app_quiz_daily_scope;
+
   /// 道待复习
   ///
   /// In zh, this message translates to:
@@ -2401,11 +2419,53 @@ abstract class L10n {
   /// **'季考题目数量'**
   String get knode_app_quiz_quarterly_count;
 
+  /// 随机速记数量
+  ///
+  /// In zh, this message translates to:
+  /// **'随机速记数量'**
+  String get knode_app_quiz_random_count;
+
+  /// 随机速记天数
+  ///
+  /// In zh, this message translates to:
+  /// **'随机速记天数'**
+  String get knode_app_quiz_random_days;
+
+  /// 错题复习数量
+  ///
+  /// In zh, this message translates to:
+  /// **'错题复习数量'**
+  String get knode_app_quiz_review_count;
+
+  /// 错题复习比例
+  ///
+  /// In zh, this message translates to:
+  /// **'错题复习比例'**
+  String get knode_app_quiz_review_wrong_ratio;
+
   /// 保存设置
   ///
   /// In zh, this message translates to:
   /// **'保存设置'**
   String get knode_app_quiz_save_settings;
+
+  /// 全部文档
+  ///
+  /// In zh, this message translates to:
+  /// **'全部文档'**
+  String get knode_app_quiz_scope_all;
+
+  /// 按分类
+  ///
+  /// In zh, this message translates to:
+  /// **'按分类'**
+  String get knode_app_quiz_scope_category;
+
+  /// 按天数
+  ///
+  /// In zh, this message translates to:
+  /// **'按天数'**
+  String get knode_app_quiz_scope_days;
 
   /// 测验设置
   ///
@@ -2436,6 +2496,12 @@ abstract class L10n {
   /// In zh, this message translates to:
   /// **'年考题目数量'**
   String get knode_app_quiz_yearly_count;
+
+  /// 随机速记
+  ///
+  /// In zh, this message translates to:
+  /// **'随机速记'**
+  String get knode_app_random_flashcard;
 
   /// 评价应用
   ///
@@ -2910,6 +2976,12 @@ abstract class L10n {
   /// In zh, this message translates to:
   /// **'错题卡片'**
   String get knode_app_wrong_card;
+
+  /// 错题重练
+  ///
+  /// In zh, this message translates to:
+  /// **'错题重练'**
+  String get knode_app_wrong_review;
 
   /// 提交答案失败
   ///

@@ -1008,6 +1008,10 @@ final class L10nHelper {
         // No Placeholders
         return l10n.knode_app_daily_label;
       },
+      'knode_app_daily_quiz': (source) {
+        // No Placeholders
+        return l10n.knode_app_daily_quiz;
+      },
       'knode_app_daily_quiz_started': (source) {
         // No Placeholders
         return l10n.knode_app_daily_quiz_started;
@@ -1602,6 +1606,14 @@ final class L10nHelper {
         // No Placeholders
         return l10n.knode_app_quiz_ai_ratio_smart;
       },
+      'knode_app_quiz_daily_count': (source) {
+        // No Placeholders
+        return l10n.knode_app_quiz_daily_count;
+      },
+      'knode_app_quiz_daily_scope': (source) {
+        // No Placeholders
+        return l10n.knode_app_quiz_daily_scope;
+      },
       'knode_app_quiz_due_review': (source) {
         // No Placeholders
         return l10n.knode_app_quiz_due_review;
@@ -1618,9 +1630,37 @@ final class L10nHelper {
         // No Placeholders
         return l10n.knode_app_quiz_quarterly_count;
       },
+      'knode_app_quiz_random_count': (source) {
+        // No Placeholders
+        return l10n.knode_app_quiz_random_count;
+      },
+      'knode_app_quiz_random_days': (source) {
+        // No Placeholders
+        return l10n.knode_app_quiz_random_days;
+      },
+      'knode_app_quiz_review_count': (source) {
+        // No Placeholders
+        return l10n.knode_app_quiz_review_count;
+      },
+      'knode_app_quiz_review_wrong_ratio': (source) {
+        // No Placeholders
+        return l10n.knode_app_quiz_review_wrong_ratio;
+      },
       'knode_app_quiz_save_settings': (source) {
         // No Placeholders
         return l10n.knode_app_quiz_save_settings;
+      },
+      'knode_app_quiz_scope_all': (source) {
+        // No Placeholders
+        return l10n.knode_app_quiz_scope_all;
+      },
+      'knode_app_quiz_scope_category': (source) {
+        // No Placeholders
+        return l10n.knode_app_quiz_scope_category;
+      },
+      'knode_app_quiz_scope_days': (source) {
+        // No Placeholders
+        return l10n.knode_app_quiz_scope_days;
       },
       'knode_app_quiz_settings': (source) {
         // No Placeholders
@@ -1641,6 +1681,10 @@ final class L10nHelper {
       'knode_app_quiz_yearly_count': (source) {
         // No Placeholders
         return l10n.knode_app_quiz_yearly_count;
+      },
+      'knode_app_random_flashcard': (source) {
+        // No Placeholders
+        return l10n.knode_app_random_flashcard;
       },
       'knode_app_rate_us': (source) {
         // No Placeholders
@@ -1972,6 +2016,10 @@ final class L10nHelper {
       'knode_app_wrong_card': (source) {
         // No Placeholders
         return l10n.knode_app_wrong_card;
+      },
+      'knode_app_wrong_review': (source) {
+        // No Placeholders
+        return l10n.knode_app_wrong_review;
       },
       'micro_server_answer_submission_failed': (source) {
         // No Placeholders

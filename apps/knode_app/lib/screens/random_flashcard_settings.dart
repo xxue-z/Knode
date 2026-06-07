@@ -36,10 +36,10 @@ class _RandomFlashcardSettingsPageState extends ConsumerState<RandomFlashcardSet
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          _buildNumberTile(title: _strings.quiz_random_count, value: _randomCount, min: 5, max: 30, onChanged: (v) => setState(() => _randomCount = v)),
-          _buildNumberTile(title: _strings.quiz_random_days, value: _randomDays, min: 1, max: 30, onChanged: (v) => setState(() => _randomDays = v)),
+          _buildNumberTile(title: _strings.knode_app_quiz_random_count, value: _randomCount, min: 5, max: 30, onChanged: (v) => setState(() => _randomCount = v)),
+          _buildNumberTile(title: _strings.knode_app_quiz_random_days, value: _randomDays, min: 1, max: 30, onChanged: (v) => setState(() => _randomDays = v)),
           const SizedBox(height: 32),
-          FilledButton(onPressed: _save, child: Text(_strings.quiz_save_settings)),
+          FilledButton(onPressed: _save, child: Text(_strings.knode_app_quiz_save_settings)),
         ],
       ),
     );
@@ -50,7 +50,7 @@ class _RandomFlashcardSettingsPageState extends ConsumerState<RandomFlashcardSet
     await notifier.set('quiz_random_count', _randomCount.toString());
     await notifier.set('quiz_random_days', _randomDays.toString());
     if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(_strings.quiz_settings_saved)));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(_strings.knode_app_quiz_settings_saved)));
       Navigator.of(context).pop();
     }
   }

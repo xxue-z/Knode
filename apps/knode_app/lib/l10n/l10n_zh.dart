@@ -728,6 +728,9 @@ class L10nZh extends L10n {
   String get knode_app_daily_label => '每天';
 
   @override
+  String get knode_app_daily_quiz => '每日速记';
+
+  @override
   String get knode_app_daily_quiz_started => '每日一测已开始，请切换到[测验]标签查看';
 
   @override
@@ -1172,6 +1175,12 @@ class L10nZh extends L10n {
   String get knode_app_quiz_ai_ratio_smart => '智能AI比例';
 
   @override
+  String get knode_app_quiz_daily_count => '每日速记数量';
+
+  @override
+  String get knode_app_quiz_daily_scope => '每日速记范围';
+
+  @override
   String get knode_app_quiz_due_review => '道待复习';
 
   @override
@@ -1184,7 +1193,28 @@ class L10nZh extends L10n {
   String get knode_app_quiz_quarterly_count => '季考题目数量';
 
   @override
+  String get knode_app_quiz_random_count => '随机速记数量';
+
+  @override
+  String get knode_app_quiz_random_days => '随机速记天数';
+
+  @override
+  String get knode_app_quiz_review_count => '错题复习数量';
+
+  @override
+  String get knode_app_quiz_review_wrong_ratio => '错题复习比例';
+
+  @override
   String get knode_app_quiz_save_settings => '保存设置';
+
+  @override
+  String get knode_app_quiz_scope_all => '全部文档';
+
+  @override
+  String get knode_app_quiz_scope_category => '按分类';
+
+  @override
+  String get knode_app_quiz_scope_days => '按天数';
 
   @override
   String get knode_app_quiz_settings => '测验设置';
@@ -1200,6 +1230,9 @@ class L10nZh extends L10n {
 
   @override
   String get knode_app_quiz_yearly_count => '年考题目数量';
+
+  @override
+  String get knode_app_random_flashcard => '随机速记';
 
   @override
   String get knode_app_rate_us => '评价应用';
@@ -1447,6 +1480,9 @@ class L10nZh extends L10n {
 
   @override
   String get knode_app_wrong_card => '错题卡片';
+
+  @override
+  String get knode_app_wrong_review => '错题重练';
 
   @override
   String get micro_server_answer_submission_failed => '提交答案失败';
