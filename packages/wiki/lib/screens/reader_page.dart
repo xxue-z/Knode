@@ -10,6 +10,7 @@ import 'package:wiki/widgets/tag_editor_dialog.dart';
 import 'package:core/models/document.dart';
 import 'package:core/services/tts_service.dart';
 import 'package:core/providers/service_providers.dart';
+import 'package:wiki/screens/editor_page.dart';
 
 final _strings = const L10nStringsMixin();
 
@@ -373,9 +374,8 @@ class _ReaderPageState extends ConsumerState<ReaderPage> {
       child: SingleChildScrollView(
         controller: _scrollController,
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-        child: Align(
-          alignment: Alignment.topLeft,
-          widthFactor: 1.0,
+        child: Container(
+          width: double.infinity,
           child: TextField(
             controller: _textController,
             readOnly: true,
@@ -448,10 +448,17 @@ class _ReaderPageState extends ConsumerState<ReaderPage> {
                 icon: Icon(Icons.edit,
                     color:
                         isDark ? Colors.white70 : Colors.black87),
-                onPressed: () => ScaffoldMessenger.of(context)
-                    .showSnackBar(const SnackBar(
-                        content:
-                            Text('Edit mode coming soon'))),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => EditorPage(
+                        docId: widget.docId,
+                        title: widget.title,
+                      ),
+                    ),
+                  );
+                },
               ),
             ],
           ),
