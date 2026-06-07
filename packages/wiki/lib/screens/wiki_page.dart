@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wiki/gen/strings.dart';
 import 'package:wiki/widgets/graph_canvas.dart';
@@ -53,13 +53,16 @@ class _WikiPageState extends ConsumerState<WikiPage>
   }
 
   Future<void> _loadData() async {
-    // 直接从仓库读取最新文档列表，绕过 provider 缓存
-    final repo = ref.read(documentRepositoryProvider);
-    final docs = await repo.getAll();
-    // 刷新文档列表 provider（异步，不等待）
-    ref.read(documentListProvider.notifier).filterByCategory(null);
-    // 用最新数据构建图谱
-    ref.read(graphProvider.notifier).buildGraphFromDocs(docs);
+    try {
+      final repo = ref.read(documentRepositoryProvider);
+      final docs = await repo.getAll();
+      ref.read(documentListProvider.notifier).filterByCategory(null);
+      if (docs.isNotEmpty) {
+        ref.read(graphProvider.notifier).buildGraphFromDocs(docs);
+      }
+    } catch (e) {
+      // Graph stays empty on error; safe to ignore here.
+    }
   }
 
 
