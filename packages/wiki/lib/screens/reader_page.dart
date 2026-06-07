@@ -340,33 +340,22 @@ class _ReaderPageState extends ConsumerState<ReaderPage> {
 
     return Scaffold(
       backgroundColor: bgColor,
-      body: Container(
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.red, width: 3),
-        ),
-        child: GestureDetector(
-          onTap: _toggleBars,
-          behavior: HitTestBehavior.translucent,
-          child: Container(
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.green, width: 3),
-            ),
-            child: Stack(
-              fit: StackFit.expand,
-              children: [
-                Positioned.fill(child: _buildContent(textColor)),
-                _buildTopBar(),
-                _buildBottomNav(),
-                if (_activeBottomPanel == 0)
-                  _buildBookmarksPanel(readerState),
-                if (_activeBottomPanel == 1)
-                  _buildNotesPanel(readerState),
-                if (_activeBottomPanel == 2 && _isSpeaking)
-                  _buildTtsPanel(),
-                if (_activeBottomPanel == 3) _buildInterfacePanel(),
-              ],
-            ),
-          ),
+      body: GestureDetector(
+        onTap: _toggleBars,
+        behavior: HitTestBehavior.translucent,
+        child: Stack(
+          children: [
+            Positioned.fill(child: _buildContent(textColor)),
+            _buildTopBar(),
+            _buildBottomNav(),
+            if (_activeBottomPanel == 0)
+              _buildBookmarksPanel(readerState),
+            if (_activeBottomPanel == 1)
+              _buildNotesPanel(readerState),
+            if (_activeBottomPanel == 2 && _isSpeaking)
+              _buildTtsPanel(),
+            if (_activeBottomPanel == 3) _buildInterfacePanel(),
+          ],
         ),
       ),
     );
@@ -380,45 +369,29 @@ class _ReaderPageState extends ConsumerState<ReaderPage> {
         ),
       );
     }
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        return SingleChildScrollView(
-          controller: _scrollController,
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-          child: ConstrainedBox(
-            constraints: BoxConstraints(minWidth: constraints.maxWidth),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                TextField(
-                  controller: _textController,
-                  readOnly: true,
-                  maxLines: null,
-                  decoration: const InputDecoration(
-                    border: InputBorder.none,
-                    isCollapsed: true,
-                  ),
-                  style: TextStyle(
-                    fontSize: _fontSize,
-                    height: _lineSpacing,
-                    color: textColor,
-                    letterSpacing: _letterSpacing,
-                  ),
-                ),
-                const SizedBox(height: 16),
-                if (_document != null && _document!.tags.isNotEmpty)
-                  TagChipList(
-                    tags: _document!.tags,
-                    isEditable: true,
-                    onEdit: () => _editTags(),
-                  ),
-              ],
-            ),
+    return SizedBox.expand(
+      child: SingleChildScrollView(
+        controller: _scrollController,
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+        child: TextField(
+          controller: _textController,
+          readOnly: true,
+          maxLines: null,
+          decoration: const InputDecoration(
+            border: InputBorder.none,
+            isCollapsed: true,
           ),
-        );
-      },
+          style: TextStyle(
+            fontSize: _fontSize,
+            height: _lineSpacing,
+            color: textColor,
+            letterSpacing: _letterSpacing,
+          ),
+        ),
+      ),
     );
   }
+
 
 
   Widget _buildTopBar() {
