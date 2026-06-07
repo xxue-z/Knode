@@ -373,19 +373,23 @@ class _ReaderPageState extends ConsumerState<ReaderPage> {
       child: SingleChildScrollView(
         controller: _scrollController,
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-        child: TextField(
-          controller: _textController,
-          readOnly: true,
-          maxLines: null,
-          decoration: const InputDecoration(
-            border: InputBorder.none,
-            isCollapsed: true,
-          ),
-          style: TextStyle(
-            fontSize: _fontSize,
-            height: _lineSpacing,
-            color: textColor,
-            letterSpacing: _letterSpacing,
+        child: Align(
+          alignment: Alignment.topLeft,
+          widthFactor: 1.0,
+          child: TextField(
+            controller: _textController,
+            readOnly: true,
+            maxLines: null,
+            decoration: const InputDecoration(
+              border: InputBorder.none,
+              isCollapsed: true,
+            ),
+            style: TextStyle(
+              fontSize: _fontSize,
+              height: _lineSpacing,
+              color: textColor,
+              letterSpacing: _letterSpacing,
+            ),
           ),
         ),
       ),
