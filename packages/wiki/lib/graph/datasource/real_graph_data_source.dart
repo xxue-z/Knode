@@ -11,6 +11,7 @@ import 'graph_data_source.dart';
 class RealGraphDataSource implements GraphDataSource {
   RealGraphDataSource(this._documentProvider);
 
+  // ignore: unused_field - will be used when DB integration is implemented
   final DocumentListNotifier _documentProvider;
 
   @override

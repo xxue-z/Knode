@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/graph_view_state.dart';
 import '../models/graph_node.dart';
-import '../models/graph_edge.dart';
 import '../controllers/camera_controller.dart';
 import '../services/lod_service.dart';
 import 'starfield_painter.dart';

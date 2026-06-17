@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 /// 边类型
 enum V2EdgeType { reference, similarity, cluster }
 
