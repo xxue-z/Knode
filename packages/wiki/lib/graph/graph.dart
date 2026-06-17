@@ -27,3 +27,5 @@ export 'painters/starfield_painter.dart';
 export 'painters/node_painter.dart';
 export 'painters/edge_painter.dart';
 export 'painters/galaxy_painter.dart';
+
+export 'widgets/galaxy_graph.dart';
