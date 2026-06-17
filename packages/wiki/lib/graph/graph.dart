@@ -20,3 +20,8 @@ export 'services/similarity_service.dart';
 export 'services/cluster_service.dart';
 export 'services/layout_service.dart';
 export 'services/lod_service.dart';
+
+export 'painters/starfield_painter.dart';
+export 'painters/node_painter.dart';
+export 'painters/edge_painter.dart';
+export 'painters/galaxy_painter.dart';
