@@ -21,7 +21,6 @@ class ClusterService {
     }
 
     final clusters = <V2GraphCluster>[];
-    final rng = math.Random(42);
     final count = groups.length;
     final baseRadius = math.max(200.0, count * 60.0);
 

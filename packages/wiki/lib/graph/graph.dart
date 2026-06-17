@@ -11,3 +11,8 @@ export 'datasource/graph_data_source.dart';
 export 'datasource/mock_graph_data_source.dart';
 
 export 'providers/data_source_provider.dart';
+
+export 'services/similarity_service.dart';
+export 'services/cluster_service.dart';
+export 'services/layout_service.dart';
+export 'services/lod_service.dart';
