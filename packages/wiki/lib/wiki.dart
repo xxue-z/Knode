@@ -43,12 +43,8 @@ export 'utils/heading_extractor.dart';
 export 'utils/highlight_applier.dart';
 export 'utils/offset_calculator.dart';
 
-// ── Graph Models ──
-export 'graph/models/graph_node.dart';
-export 'graph/models/graph_edge.dart';
-export 'graph/models/graph_cluster.dart';
-export 'graph/models/graph_camera.dart';
-export 'graph/models/graph_view_state.dart';
+// ── Graph V2 ──
+export 'graph/graph.dart';
 
 // ── Services ──
 export 'services/import_service.dart';

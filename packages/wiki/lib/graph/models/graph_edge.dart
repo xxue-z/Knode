@@ -18,4 +18,17 @@ class V2GraphEdge {
   final V2EdgeType type;
   final double weight;
   final double opacity;
+
+  V2GraphEdge copyWith({
+    double? weight,
+    double? opacity,
+  }) {
+    return V2GraphEdge(
+      sourceId: sourceId,
+      targetId: targetId,
+      type: type,
+      weight: weight ?? this.weight,
+      opacity: opacity ?? this.opacity,
+    );
+  }
 }

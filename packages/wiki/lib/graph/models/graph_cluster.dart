@@ -17,4 +17,19 @@ class V2GraphCluster {
   final double radius;
   final Color? color;
   final List<String> memberIds;
+
+  V2GraphCluster copyWith({
+    Offset? center,
+    double? radius,
+    List<String>? memberIds,
+  }) {
+    return V2GraphCluster(
+      id: id,
+      label: label,
+      center: center ?? this.center,
+      radius: radius ?? this.radius,
+      color: color,
+      memberIds: memberIds ?? this.memberIds,
+    );
+  }
 }

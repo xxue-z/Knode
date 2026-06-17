@@ -65,17 +65,4 @@ void main() {
     });
   });
 
-  group('LodLevel', () {
-    test('has stars value', () {
-      expect(LodLevel.values.contains(LodLevel.stars), isTrue);
-    });
-
-    test('has nodes value', () {
-      expect(LodLevel.values.contains(LodLevel.nodes), isTrue);
-    });
-
-    test('has detail value', () {
-      expect(LodLevel.values.contains(LodLevel.detail), isTrue);
-    });
-  });
 }

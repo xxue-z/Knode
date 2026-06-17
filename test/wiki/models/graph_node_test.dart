@@ -44,13 +44,4 @@ void main() {
     });
   });
 
-  group('V2NodeType', () {
-    test('has galaxy value', () {
-      expect(V2NodeType.values.contains(V2NodeType.galaxy), isTrue);
-    });
-
-    test('has article value', () {
-      expect(V2NodeType.values.contains(V2NodeType.article), isTrue);
-    });
-  });
 }

@@ -18,17 +18,4 @@ void main() {
     });
   });
 
-  group('V2EdgeType', () {
-    test('has reference value', () {
-      expect(V2EdgeType.values.contains(V2EdgeType.reference), isTrue);
-    });
-
-    test('has similarity value', () {
-      expect(V2EdgeType.values.contains(V2EdgeType.similarity), isTrue);
-    });
-
-    test('has cluster value', () {
-      expect(V2EdgeType.values.contains(V2EdgeType.cluster), isTrue);
-    });
-  });
 }

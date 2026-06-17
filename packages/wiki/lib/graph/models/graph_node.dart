@@ -66,6 +66,4 @@ class V2GraphNode {
     );
   }
 
-  /// Z 轴投影后的屏幕位置（由 CameraController 计算）
-  Offset get projectedPosition => position;
 }
