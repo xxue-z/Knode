@@ -10,6 +10,10 @@ export 'models/graph_view_state.dart';
 export 'datasource/graph_data_source.dart';
 export 'datasource/mock_graph_data_source.dart';
 
+export 'controllers/camera_controller.dart';
+export 'controllers/gesture_controller.dart';
+
+export 'providers/camera_provider.dart';
 export 'providers/data_source_provider.dart';
 
 export 'services/similarity_service.dart';
