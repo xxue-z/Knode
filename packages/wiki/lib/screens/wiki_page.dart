@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wiki/gen/strings.dart';
-import 'package:wiki/widgets/graph_canvas.dart';
-import 'package:wiki/widgets/graph_edge.dart' show EdgeType;
+import 'package:wiki/graph/providers/graph_provider_v2.dart';
+import 'package:wiki/graph/widgets/galaxy_graph.dart';
 import 'package:wiki/providers/category_provider.dart';
 import 'package:wiki/providers/document_provider.dart';
-import 'package:wiki/providers/graph_provider.dart' hide GraphNode, GraphEdge;
 import 'package:wiki/services/import_service.dart';
 import 'package:wiki/screens/editor_page.dart';
 import 'package:wiki/screens/reader_page.dart';
-import 'package:wiki/utils/graph_theme.dart';
 import 'package:core/models/document.dart';
 import 'package:core/models/category.dart';
 
@@ -55,11 +53,9 @@ class _WikiPageState extends ConsumerState<WikiPage>
   Future<void> _loadData() async {
     try {
       final repo = ref.read(documentRepositoryProvider);
-      final docs = await repo.getAll();
+      await repo.getAll();
       ref.read(documentListProvider.notifier).filterByCategory(null);
-      if (docs.isNotEmpty) {
-        ref.read(graphProvider.notifier).buildGraphFromDocs(docs);
-      }
+      ref.read(graphProviderV2.notifier).refresh();
     } catch (e) {
       // Graph stays empty on error; safe to ignore here.
     }
@@ -509,119 +505,12 @@ class _WikiPageState extends ConsumerState<WikiPage>
     });
   }
 
-  // Demo data used as fallback when the graph provider has no data.
-  List<GraphNode> _demoNodes() {
-    return [
-      GraphNode(
-        id: '1',
-        label: _strings.wiki_all_documents,
-        position: const Offset(300, 300),
-        width: 120,
-        height: 120,
-        type: NodeType.category,
-        categoryId: 0,
-        gradientColors: GraphTheme.getGradientForCategory(0),
-      ),
-      GraphNode(
-        id: '3',
-        label: _strings.wiki_study_materials,
-        position: const Offset(200, 400),
-        width: 80,
-        height: 80,
-        type: NodeType.category,
-        categoryId: 2,
-        gradientColors: GraphTheme.getGradientForCategory(2),
-      ),
-      GraphNode(
-        id: '4',
-        label: _strings.wiki_work,
-        position: const Offset(400, 400),
-        width: 80,
-        height: 80,
-        type: NodeType.category,
-        categoryId: 3,
-        gradientColors: GraphTheme.getGradientForCategory(3),
-      ),
-      GraphNode(
-        id: '5',
-        label: _strings.wiki_ideas,
-        position: const Offset(300, 200),
-        width: 80,
-        height: 80,
-        type: NodeType.category,
-        categoryId: 4,
-        gradientColors: GraphTheme.getGradientForCategory(4),
-      ),
-    ];
-  }
-
-  List<GraphEdge> _demoEdges() {
-    return [
-      GraphEdge(
-        id: 'e2',
-        sourceId: '1',
-        targetId: '3',
-        type: EdgeType.reference,
-      ),
-      GraphEdge(
-        id: 'e3',
-        sourceId: '1',
-        targetId: '4',
-        type: EdgeType.reference,
-      ),
-      GraphEdge(
-        id: 'e4',
-        sourceId: '1',
-        targetId: '5',
-        type: EdgeType.reference,
-      ),
-    ];
-  }
-
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.sizeOf(context).width;
     final drawerWidth = screenWidth >= 600
         ? screenWidth * 0.4
         : screenWidth * 0.75;
-    final graphState = ref.watch(graphProvider);
-
-    // Use provider data when available, fall back to demo data.
-    final providerNodes = graphState.value?.nodes;
-    final providerEdges = graphState.value?.edges;
-    final nodes = providerNodes != null
-        ? providerNodes
-              .map(
-                (n) => GraphNode(
-                  id: n.id,
-                  label: n.title,
-                  position: n.position,
-                  type: n.categoryId != null
-                      ? NodeType.category
-                      : NodeType.article,
-                  categoryId: n.categoryId,
-                  gradientColors: n.categoryId != null
-                      ? GraphTheme.getGradientForCategory(n.categoryId!)
-                      : null,
-                  tags: n.tags,
-                ),
-              )
-              .toList()
-        : _demoNodes();
-    final edges = providerEdges != null
-        ? providerEdges
-              .map(
-                (e) => GraphEdge(
-                  id: '${e.sourceId}-${e.targetId}',
-                  sourceId: e.sourceId,
-                  targetId: e.targetId,
-                  type: e.type,
-                  similarity: e.similarity,
-                ),
-              )
-              .toList()
-        : _demoEdges();
-
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: Colors.transparent,
@@ -653,21 +542,18 @@ class _WikiPageState extends ConsumerState<WikiPage>
       ),
       drawer: _WikiDrawer(documents: ref.watch(documentListProvider).value?.documents ?? []),
       body: SafeArea(
-        child: GraphCanvas(
-          nodes: nodes,
-          edges: edges,
-          brightness: Theme.of(context).brightness,
-          onNodeTap: (node) {
-            ScaffoldMessenger.of(
-              context,
-            ).showSnackBar(SnackBar(content: Text(': ')));
+        child: GalaxyGraph(
+          onNodeTap: (String nodeId) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('节点: $nodeId')),
+            );
           },
-          onNodeDoubleTap: (node) {
-            final docId = int.tryParse(node.id);
+          onNodeDoubleTap: (String nodeId) {
+            final docId = int.tryParse(nodeId.replaceAll(RegExp(r'[^0-9]'), ''));
             if (docId != null) {
               Navigator.of(context).push<void>(
                 MaterialPageRoute<void>(
-                  builder: (_) => ReaderPage(docId: docId, title: node.label),
+                  builder: (_) => ReaderPage(docId: docId, title: ''),
                 ),
               );
             }
