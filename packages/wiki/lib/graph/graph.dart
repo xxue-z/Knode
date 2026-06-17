@@ -15,6 +15,8 @@ export 'controllers/gesture_controller.dart';
 
 export 'providers/camera_provider.dart';
 export 'providers/data_source_provider.dart';
+export 'providers/graph_provider_v2.dart';
+export 'providers/selection_provider.dart';
 
 export 'services/similarity_service.dart';
 export 'services/cluster_service.dart';
