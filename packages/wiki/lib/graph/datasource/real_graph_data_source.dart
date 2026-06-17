@@ -1,3 +1,4 @@
+import 'package:wiki/providers/document_provider.dart';
 import '../models/graph_node.dart';
 import '../models/graph_edge.dart';
 import '../models/graph_cluster.dart';
@@ -8,7 +9,9 @@ import 'graph_data_source.dart';
 /// 连接到实际数据库，从 DocumentProvider 读取数据并转换为 V2 模型。
 /// TODO: 在 RealGraphDataSource 中实现完整的 Document→V2GraphNode 转换
 class RealGraphDataSource implements GraphDataSource {
-  RealGraphDataSource();
+  RealGraphDataSource(this._documentProvider);
+
+  final DocumentListNotifier _documentProvider;
 
   @override
   Future<List<V2GraphNode>> getNodes() async {

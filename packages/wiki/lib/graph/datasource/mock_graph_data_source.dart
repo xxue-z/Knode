@@ -9,8 +9,12 @@ import 'graph_data_source.dart';
 class MockGraphDataSource implements GraphDataSource {
   final _random = math.Random(42);
 
+  List<V2GraphNode>? _cachedNodes;
+
   @override
   Future<List<V2GraphNode>> getNodes() async {
+    if (_cachedNodes != null) return _cachedNodes!;
+
     final nodes = <V2GraphNode>[];
     final galaxyNames = ['笔记', '学习', '工作', '创意', '归档', '项目'];
 
@@ -49,6 +53,8 @@ class MockGraphDataSource implements GraphDataSource {
         ));
       }
     }
+
+    _cachedNodes = nodes;
     return nodes;
   }
 
@@ -103,11 +109,10 @@ class MockGraphDataSource implements GraphDataSource {
   @override
   Future<V2GraphNode?> getNodeById(String id) async {
     final nodes = await getNodes();
-    try {
-      return nodes.firstWhere((n) => n.id == id);
-    } catch (_) {
-      return null;
-    }
+    return nodes.cast<V2GraphNode?>().firstWhere(
+      (n) => n!.id == id,
+      orElse: () => null,
+    );
   }
 
   @override

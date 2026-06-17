@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:wiki/graph/datasource/mock_graph_data_source.dart';
 import 'package:wiki/graph/models/graph_node.dart';
+import 'package:wiki/graph/models/graph_edge.dart';
 
 void main() {
   late MockGraphDataSource dataSource;
@@ -20,9 +21,14 @@ void main() {
       expect(articleNodes.length, 30);
     });
 
-    test('getEdges returns edges', () async {
+    test('getEdges returns edges with expected types', () async {
       final edges = await dataSource.getEdges();
       expect(edges, isNotEmpty);
+
+      final similarity = edges.where((e) => e.type == V2EdgeType.similarity);
+      final reference = edges.where((e) => e.type == V2EdgeType.reference);
+      expect(similarity.isNotEmpty, true);
+      expect(reference.isNotEmpty, true);
     });
 
     test('getClusters returns 6 clusters', () async {
